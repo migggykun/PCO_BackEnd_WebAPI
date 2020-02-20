@@ -21,7 +21,7 @@ namespace PCO_BackEnd_WebAPI.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("PCO_WebAPI_DB", throwIfV1Schema: false)
         {
         }
         
