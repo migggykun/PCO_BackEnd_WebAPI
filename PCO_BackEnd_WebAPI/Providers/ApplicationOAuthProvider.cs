@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
-using PCO_BackEnd_WebAPI.Models;
+using PCO_BackEnd_WebAPI.Models.Accounts;
 
 namespace PCO_BackEnd_WebAPI.Providers
 {

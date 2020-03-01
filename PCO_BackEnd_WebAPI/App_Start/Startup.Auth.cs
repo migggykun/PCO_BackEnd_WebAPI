@@ -10,6 +10,8 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using PCO_BackEnd_WebAPI.Providers;
 using PCO_BackEnd_WebAPI.Models;
+using PCO_BackEnd_WebAPI.Models.Entities;
+using PCO_BackEnd_WebAPI.Models.Accounts;
 
 namespace PCO_BackEnd_WebAPI
 {
