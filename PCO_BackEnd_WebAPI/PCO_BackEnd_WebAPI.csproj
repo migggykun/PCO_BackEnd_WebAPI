@@ -203,6 +203,12 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Models\CustomValidations\IsStartDateWithinEndDate.cs" />
+    <Compile Include="Models\Persistence\Repositories\Conferences\ConferenceRepository.cs" />
+    <Compile Include="Models\Persistence\Repositories\IRepository.cs" />
+    <Compile Include="Models\Persistence\Repositories\Repository.cs" />
+    <Compile Include="Models\Persistence\Repositories\RepositoryHelper.cs" />
+    <Compile Include="Models\Persistence\UnitOfWork\IUnitOfWork.cs" />
+    <Compile Include="Models\Persistence\UnitOfWork\UnitOfWork.cs" />
     <Compile Include="Models\Registrations\DailyAttendanceRecord.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
