@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
     public class CustomUserRole : IdentityUserRole<int> { }
     public class CustomUserClaim : IdentityUserClaim<int> { }
     public class CustomUserLogin : IdentityUserLogin<int> { }
+
 
     public class CustomRole : IdentityRole<int, CustomUserRole>
     {
@@ -29,6 +31,14 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
     {
         public CustomRoleStore(ApplicationDbContext context):base(context)
         {
+        }
+    }
+
+    public class CustomRoleManager : RoleManager<CustomRole, int>
+    {
+        public CustomRoleManager(IRoleStore<CustomRole, int> store):base(store)
+        {
+
         }
     }
 

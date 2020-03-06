@@ -39,6 +39,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.1.0\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -166,6 +170,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\MappingProfile.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -197,14 +202,23 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\Accounts\MembershipTypeController.cs" />
+    <Compile Include="Controllers\Conference\ConferencesController.cs" />
+    <Compile Include="DTOs\Accounts\AccountsDTO.cs" />
+    <Compile Include="DTOs\Accounts\MembershipAssignmentDTO.cs" />
+    <Compile Include="DTOs\Accounts\MembershipTypeDTO.cs" />
+    <Compile Include="DTOs\Accounts\PRCDetailDTO.cs" />
+    <Compile Include="DTOs\Accounts\UserInfoDTO.cs" />
     <Compile Include="Models\Accounts\IdentityModels.cs" />
     <Compile Include="Models\Conferences\Conference.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Accounts\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Models\CustomValidations\IsStartDateWithinEndDate.cs" />
+    <Compile Include="Models\Persistence\Interfaces\Accounts\IMembershipTypeRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Conferences\ConferenceRepository.cs" />
-    <Compile Include="Models\Persistence\Repositories\IRepository.cs" />
+    <Compile Include="Models\Persistence\Interfaces\IRepository.cs" />
+    <Compile Include="Models\Persistence\Repositories\Accounts\MembershipTypeRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Repository.cs" />
     <Compile Include="Models\Persistence\Repositories\RepositoryHelper.cs" />
     <Compile Include="Models\Persistence\UnitOfWork\IUnitOfWork.cs" />
@@ -222,7 +236,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels\AddExternalLoginBindingModel.cs" />
     <Compile Include="Models\AccountBindingModels\ChangePasswordBindingModel.cs" />
-    <Compile Include="Models\AccountBindingModels\RegisterBindingModel.cs" />
+    <Compile Include="Models\AccountBindingModels\UserAccountBindingModel.cs" />
     <Compile Include="Models\AccountBindingModels\RegisterExternalBindingModel.cs" />
     <Compile Include="Models\AccountBindingModels\RemoveLoginBindingModel.cs" />
     <Compile Include="Models\AccountBindingModels\SetPasswordBindingModel.cs" />

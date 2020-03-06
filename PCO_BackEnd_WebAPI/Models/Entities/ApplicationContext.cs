@@ -41,20 +41,19 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
         {
             base.OnModelCreating(modelBuilder); //Load Identity relationships of identity classes (Ex. AspUsers, ASPRoles, etc)
 
-            modelBuilder.Entity<ApplicationUser>()
-                        .HasRequired(e => e.UserInfo)
-                        .WithRequiredDependent()
-                        .WillCascadeOnDelete(true);
+            modelBuilder.Entity<ApplicationUser>().HasKey<int>(e => e.Id);
 
             modelBuilder.Entity<ApplicationUser>()
-                        .HasRequired(e => e.PRCDetail)
-                        .WithRequiredDependent()
-                        .WillCascadeOnDelete(true);
+                        .HasRequired(e => e.UserInfo)
+                        .WithRequiredPrincipal(e=>e.applicationUser);
 
             modelBuilder.Entity<ApplicationUser>()
                         .HasRequired(e => e.MembershipAssignment)
-                        .WithRequiredDependent()
-                        .WillCascadeOnDelete(true);
+                        .WithRequiredPrincipal(e => e.applicationUser);
+
+            modelBuilder.Entity<ApplicationUser>()
+                        .HasOptional(e => e.PRCDetail)
+                        .WithRequired(e => e.applicationUser);
 
             modelBuilder.Entity<Conference>()
                         .Property(e => e.banner)

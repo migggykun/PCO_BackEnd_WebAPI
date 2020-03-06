@@ -18,8 +18,12 @@ using PCO_BackEnd_WebAPI.Models.AccountViewModels;
 using PCO_BackEnd_WebAPI.Providers;
 using PCO_BackEnd_WebAPI.Results;
 using PCO_BackEnd_WebAPI.Models.Accounts;
+using PCO_BackEnd_WebAPI.Models.Entities;
+using System.Linq;
+using AutoMapper;
+using PCO_BackEnd_WebAPI.DTOs.Accounts;
 
-namespace PCO_BackEnd_WebAPI.Controllers
+namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
     [Authorize]
     [RoutePrefix("api/Account")]
@@ -53,6 +57,7 @@ namespace PCO_BackEnd_WebAPI.Controllers
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
+        #region Default WebAPI Methods
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
@@ -324,23 +329,37 @@ namespace PCO_BackEnd_WebAPI.Controllers
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+        public async Task<IHttpActionResult> Register(UserAccountBindingModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, 
-                                               Email = model.Email,
-                                               PRCDetail = model.prcDetail
-                                             };
+            var user = new ApplicationUser()
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                PRCDetail = model.PrcDetail,
+                UserInfo = model.UserInfo,
+                MembershipAssignment = model.MembershipAssignment
+            };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
+            }
+
+            //Assign UserRole
+            if (model.isAdmin == true)
+            {
+                await UserManager.AddToRoleAsync(user.Id, "Administrator");
+            }
+            else
+            {
+                await UserManager.AddToRoleAsync(user.Id, "Member");
             }
 
             return Ok();
@@ -378,6 +397,29 @@ namespace PCO_BackEnd_WebAPI.Controllers
             }
             return Ok();
         }
+        #endregion
+
+        #region Added WebAPI Methods
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetAllUsers")]
+        public IHttpActionResult GetUsers(string email = null)
+        {
+            object result = null;
+            if (!string.IsNullOrEmpty(email))
+            {
+                result = UserManager.FindByEmail<ApplicationUser, int>(email);
+                var resultDTO = Mapper.Map<ApplicationUser, AccountsDTO>(result as ApplicationUser);
+                result = resultDTO;
+            }
+            else
+            {
+                result = UserManager.Users.ToList().Select(Mapper.Map<ApplicationUser, AccountsDTO>);
+                
+            }
+            return Ok(result);
+        }
+        #endregion
 
         protected override void Dispose(bool disposing)
         {

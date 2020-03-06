@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
 {
-    interface IRepository<TEntity> where TEntity : class
+    public interface IRepository<TEntity> where TEntity : class
     {
         //Query Data
         //GET Operation

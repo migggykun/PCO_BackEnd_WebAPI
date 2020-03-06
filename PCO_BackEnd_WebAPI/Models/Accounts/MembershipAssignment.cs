@@ -9,10 +9,12 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
     public partial class MembershipAssignment
     {
         [Key]
-        public int userId { get; set; }
+        public int Id { get; set; }
 
         public int membershipTypeId { get; set; }
 
         public virtual MembershipType MembershipType { get; set; }
+
+        public virtual ApplicationUser applicationUser { get; set; }
     }
 }

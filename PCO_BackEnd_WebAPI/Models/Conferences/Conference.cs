@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.Spatial;
 using PCO_BackEnd_WebAPI.Models.Conferences.Promos;
-using PCO_BackEnd_WebAPI.Models.Registrations;
 using PCO_BackEnd_WebAPI.Models.CustomValidations;
 
 namespace PCO_BackEnd_WebAPI.Models.Conferences

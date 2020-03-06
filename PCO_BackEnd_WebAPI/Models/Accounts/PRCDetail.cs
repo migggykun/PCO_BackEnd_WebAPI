@@ -9,7 +9,7 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
     public partial class PRCDetail
     {
         [Key]
-        public int userId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [StringLength(20)]

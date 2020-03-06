@@ -7,10 +7,11 @@ using PCO_BackEnd_WebAPI.Models.Accounts;
 
 namespace PCO_BackEnd_WebAPI.Models.AccountBindingModels
 {
-    public class RegisterBindingModel
+    public class UserAccountBindingModel
     {
         [Required]
         [Display(Name = "Email")]
+        [EmailAddress(ErrorMessage="Invalid Email Address")]
         public string Email { get; set; }
 
         [Required]
@@ -24,7 +25,18 @@ namespace PCO_BackEnd_WebAPI.Models.AccountBindingModels
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        public PRCDetail prcDetail { get; set; }
+        [Required]
+        [RegularExpression(@"^\+639?(\d[0-9]{9})", ErrorMessage = "Invalid Mobile Number.")]
+        public string PhoneNumber { get; set; }
+
+        
+        public PRCDetail PrcDetail { get; set; }
+
+        public UserInfo UserInfo { get; set; }
+
+        public MembershipAssignment MembershipAssignment { get; set; }
+
+        public bool isAdmin { get; set; }
 
 
     }

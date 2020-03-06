@@ -19,6 +19,7 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
         [StringLength(15)]
         public string membershipName { get; set; }
 
+        [Required]
         [StringLength(128)]
         public string membershipDescription { get; set; }
     }
