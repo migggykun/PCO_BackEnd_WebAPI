@@ -204,6 +204,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\Accounts\MembershipTypeController.cs" />
     <Compile Include="Controllers\Conference\ConferencesController.cs" />
+    <Compile Include="Controllers\Conference\RateController.cs" />
     <Compile Include="DTOs\Accounts\AccountsDTO.cs" />
     <Compile Include="DTOs\Accounts\MembershipAssignmentDTO.cs" />
     <Compile Include="DTOs\Accounts\MembershipTypeDTO.cs" />
