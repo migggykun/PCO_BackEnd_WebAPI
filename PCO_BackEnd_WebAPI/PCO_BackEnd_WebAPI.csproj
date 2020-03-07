@@ -207,6 +207,7 @@
     <Compile Include="Controllers\Accounts\PRCDetailController.cs" />
     <Compile Include="Controllers\Accounts\UserInfoController.cs" />
     <Compile Include="Controllers\Conference\ConferencesController.cs" />
+    <Compile Include="Controllers\Conference\RateController.cs" />
     <Compile Include="DTOs\Accounts\AccountsDTO.cs" />
     <Compile Include="DTOs\Accounts\MembershipAssignmentDTO.cs" />
     <Compile Include="DTOs\Accounts\MembershipTypeDTO.cs" />
