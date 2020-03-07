@@ -31,8 +31,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             _context.Conferences.Add(conference);
             unitOfWork.Complete();
             return Ok();
-            
-            
         }
     }
 }

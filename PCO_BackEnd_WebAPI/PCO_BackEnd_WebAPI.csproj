@@ -202,7 +202,10 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\Accounts\MembershipTypeAssignmentController.cs" />
     <Compile Include="Controllers\Accounts\MembershipTypeController.cs" />
+    <Compile Include="Controllers\Accounts\PRCDetailController.cs" />
+    <Compile Include="Controllers\Accounts\UserInfoController.cs" />
     <Compile Include="Controllers\Conference\ConferencesController.cs" />
     <Compile Include="DTOs\Accounts\AccountsDTO.cs" />
     <Compile Include="DTOs\Accounts\MembershipAssignmentDTO.cs" />
@@ -215,7 +218,13 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Models\CustomValidations\IsStartDateWithinEndDate.cs" />
+    <Compile Include="Models\Persistence\Interfaces\Accounts\IMembershipAssignmentRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IMembershipTypeRepository.cs" />
+    <Compile Include="Models\Persistence\Interfaces\Accounts\IPRCDetailRepository.cs" />
+    <Compile Include="Models\Persistence\Interfaces\Accounts\IUserInfoRepository.cs" />
+    <Compile Include="Models\Persistence\Repositories\Accounts\MembershipAssignmentRepository.cs" />
+    <Compile Include="Models\Persistence\Repositories\Accounts\UserInfoRepository.cs" />
+    <Compile Include="Models\Persistence\Repositories\Accounts\PRCDetailRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Conferences\ConferenceRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\IRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Accounts\MembershipTypeRepository.cs" />

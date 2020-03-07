@@ -12,5 +12,9 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
     {
         ConferenceRepository Conferences { get; set; }
         IMembershipTypeRepository MembershipTypes { get; set; }
+        IPRCDetailRepository PRCDetails { get; set; }
+        IUserInfoRepository UserInfos { get; set; }
+        IMembershipAssignmentRepository MembershipAssignments { get; set; }
+
     }
 }

@@ -10,6 +10,7 @@ using System.Web.Http;
 using AutoMapper;
 using PCO_BackEnd_WebAPI.DTOs.Accounts;
 using System.Threading.Tasks;
+using System.Web.Http.Description;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
@@ -23,6 +24,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         [HttpGet]
+        [ResponseType(typeof(MembershipTypeDTO))]
         public async Task<IHttpActionResult> GetAll(string membershipType = null)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -43,6 +45,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         [HttpGet]
+        [ResponseType(typeof(MembershipTypeDTO))]
         public async Task<IHttpActionResult> Get(int id)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -59,6 +62,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         [HttpPost]
+        [ResponseType(typeof(MembershipTypeDTO))]
         public async Task<IHttpActionResult> AddMembershipType(MembershipTypeDTO membershipTypeDTO)
         {
             if (!ModelState.IsValid)
@@ -83,11 +87,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         [HttpPut]
+        [ResponseType(typeof(MembershipTypeDTO))]
         public async Task<IHttpActionResult> UpdateMembershipType(MembershipTypeDTO membershipTypeDTO)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
             var membershipType = Mapper.Map<MembershipTypeDTO, MembershipType>(membershipTypeDTO);
             try
@@ -113,6 +118,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         [HttpDelete]
+        [ResponseType(typeof(MembershipTypeDTO))]
         public async Task<IHttpActionResult> DeleteMembershipType(int id)
         {
             try
