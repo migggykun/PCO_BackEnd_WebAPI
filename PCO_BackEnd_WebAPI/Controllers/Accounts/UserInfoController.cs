@@ -3,6 +3,7 @@ using PCO_BackEnd_WebAPI.DTOs.Accounts;
 using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
+using PCO_BackEnd_WebAPI.Models.Roles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ using System.Web.Http.Description;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
+    [Authorize(Roles = RoleNames.ROLE_ADMINISTRATOR)]
     public class UserInfoController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -77,7 +79,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 {
                     await Task.Run(() => unitOfWork.UserInfos.Update(userInfo));
                     await Task.Run(() => unitOfWork.Complete());
-                    return Ok();
+                    return Ok(Mapper.Map<UserInfo, UserInfoDTO>(userInfo));
                 }
             }
             catch (Exception ex)

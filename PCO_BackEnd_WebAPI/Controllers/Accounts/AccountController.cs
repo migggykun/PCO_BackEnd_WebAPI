@@ -22,10 +22,12 @@ using PCO_BackEnd_WebAPI.Models.Entities;
 using System.Linq;
 using AutoMapper;
 using PCO_BackEnd_WebAPI.DTOs.Accounts;
+using PCO_BackEnd_WebAPI.Models.Roles;
+using System.Web.Http.Description;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
-    [Authorize]
+    [Authorize(Roles = RoleNames.ROLE_ADMINISTRATOR)]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
@@ -340,6 +342,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             {
                 UserName = model.Email,
                 Email = model.Email,
+                PhoneNumber = model.PhoneNumber,
                 PRCDetail = model.PrcDetail,
                 UserInfo = model.UserInfo,
                 MembershipAssignment = model.MembershipAssignment
@@ -355,14 +358,14 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             //Assign UserRole
             if (model.isAdmin == true)
             {
-                await UserManager.AddToRoleAsync(user.Id, "Administrator");
+                await UserManager.AddToRoleAsync(user.Id, RoleNames.ROLE_ADMINISTRATOR);
             }
             else
             {
-                await UserManager.AddToRoleAsync(user.Id, "Member");
+                await UserManager.AddToRoleAsync(user.Id, RoleNames.ROLE_MEMBER);
             }
 
-            return Ok();
+            return Ok(Mapper.Map<ApplicationUser, AccountsDTO>(user));
         }
 
         // POST api/Account/RegisterExternal
@@ -400,17 +403,24 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         #endregion
 
         #region Added WebAPI Methods
-        [AllowAnonymous]
         [HttpGet]
         [Route("GetAllUsers")]
-        public IHttpActionResult GetUsers(string email = null)
+        [ResponseType(typeof(AccountsDTO))]
+        public async Task <IHttpActionResult> GetUsers(string email = null)
         {
             object result = null;
             if (!string.IsNullOrEmpty(email))
             {
-                result = UserManager.FindByEmail<ApplicationUser, int>(email);
-                var resultDTO = Mapper.Map<ApplicationUser, AccountsDTO>(result as ApplicationUser);
-                result = resultDTO;
+                result = await UserManager.FindByEmailAsync(email);
+                if(result == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    var resultDTO = Mapper.Map<ApplicationUser, AccountsDTO>(result as ApplicationUser);
+                    result = resultDTO;
+                }
             }
             else
             {
@@ -419,8 +429,60 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
             return Ok(result);
         }
-        #endregion
 
+        [HttpGet]
+        [ResponseType(typeof(AccountsDTO))]
+        public async Task<IHttpActionResult> GetUser(int id)
+        {
+            var user = await UserManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(Mapper.Map<ApplicationUser, AccountsDTO>(user));
+            }
+        }
+
+        [HttpPut]
+        [ResponseType(typeof(AccountsDTO))]
+        public async Task<IHttpActionResult> UpdateUser(AccountsDTO accountDTO)
+        {
+            var userToUpdate = await UserManager.FindByIdAsync(accountDTO.Id);
+            if (userToUpdate == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                userToUpdate.PhoneNumber = accountDTO.PhoneNumber;
+                userToUpdate.UserInfo = Mapper.Map<UserInfoDTO, UserInfo>(accountDTO.UserInfo);
+                userToUpdate.PRCDetail = Mapper.Map<PRCDetailDTO,PRCDetail>(accountDTO.PRCDetail);
+                userToUpdate.MembershipAssignment = Mapper.Map<MembershipAssignmentDTO,MembershipAssignment>(accountDTO.MembershipAssignment);
+                await UserManager.UpdateAsync(userToUpdate);
+            }
+
+            return Ok(Mapper.Map<ApplicationUser, AccountsDTO>(userToUpdate));
+        }
+
+        [HttpDelete]
+        [ResponseType(typeof(AccountsDTO))]
+        public async Task<IHttpActionResult> DeleteUser(int Id)
+        {
+            var userToDelete = await UserManager.FindByIdAsync(Id);
+            if (userToDelete == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                await UserManager.DeleteAsync(userToDelete);
+            }
+            return Ok();
+        }
+
+        #endregion
         protected override void Dispose(bool disposing)
         {
             if (disposing && _userManager != null)

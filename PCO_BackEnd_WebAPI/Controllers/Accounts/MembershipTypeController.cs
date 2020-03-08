@@ -11,9 +11,11 @@ using AutoMapper;
 using PCO_BackEnd_WebAPI.DTOs.Accounts;
 using System.Threading.Tasks;
 using System.Web.Http.Description;
+using PCO_BackEnd_WebAPI.Models.Roles;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
+    [Authorize(Roles = RoleNames.ROLE_ADMINISTRATOR)]
     public class MembershipTypeController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -77,7 +79,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 await Task.Run(() => unitOfWork.MembershipTypes.Add(membershipType));
                 await Task.Run(() => unitOfWork.Complete());
                 var resultDTO = Mapper.Map<MembershipType, MembershipTypeDTO>(membershipType);
-                return Created(new Uri(Request.RequestUri + "/" + membershipType.membershipTypeId), membershipType.membershipTypeId);
+                return Created(new Uri(Request.RequestUri + "/" + membershipType.membershipTypeId), resultDTO);
             }
             catch(Exception ex)
             {
@@ -133,7 +135,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 {
                     await Task.Run(() => unitOfWork.MembershipTypes.Remove(membershipType));
                     await Task.Run(() => unitOfWork.Complete());
-                    return Ok();
+                    return Ok(Mapper.Map<MembershipType, MembershipTypeDTO>(membershipType));
                 }
             }
             catch (Exception ex)

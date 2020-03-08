@@ -11,9 +11,11 @@ using PCO_BackEnd_WebAPI.Models.Accounts;
 using AutoMapper;
 using PCO_BackEnd_WebAPI.DTOs.Accounts;
 using System.Web.Http.Description;
+using PCO_BackEnd_WebAPI.Models.Roles;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
+    [Authorize(Roles = RoleNames.ROLE_ADMINISTRATOR)]
     public class PRCDetailController : ApiController
     {
         private readonly ApplicationDbContext _context;
