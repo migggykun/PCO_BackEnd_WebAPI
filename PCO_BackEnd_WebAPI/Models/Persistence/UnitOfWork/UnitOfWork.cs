@@ -19,6 +19,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
         public IPRCDetailRepository PRCDetails { get; set; }
         public IUserInfoRepository UserInfos { get; set; }
         public IMembershipAssignmentRepository MembershipAssignments { get; set; }
+        public RateRepository Rate { get; set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -28,6 +29,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
             PRCDetails = new PRCDetailRepository(_context);
             UserInfos = new UserInfoRepository(_context);
             MembershipAssignments = new MembershipAssignmentRepository(_context);
+            Rate = new RateRepository(_context);
         }
 
         /// <summary>
@@ -38,6 +40,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
         {
                 return _context.SaveChanges();
         }
+
+
 
         //Disconnects connection with external resources
         public void Dispose()
