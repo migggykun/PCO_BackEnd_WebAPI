@@ -12,9 +12,11 @@ using PCO_BackEnd_WebAPI.DTOs.Accounts;
 using System.Threading.Tasks;
 using System.Web.Http.Description;
 using PCO_BackEnd_WebAPI.Models.Roles;
+using System.Web.Http.Cors;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
+    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     [Authorize(Roles = RoleNames.ROLE_ADMINISTRATOR)]
     public class MembershipTypeController : ApiController
     {

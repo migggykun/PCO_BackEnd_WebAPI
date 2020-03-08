@@ -11,10 +11,12 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
+    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     [Authorize(Roles = RoleNames.ROLE_ADMINISTRATOR)]
     public class UserInfoController : ApiController
     {

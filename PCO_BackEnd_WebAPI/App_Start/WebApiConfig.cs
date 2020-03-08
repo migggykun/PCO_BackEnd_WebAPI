@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace PCO_BackEnd_WebAPI
 {
@@ -12,8 +13,15 @@ namespace PCO_BackEnd_WebAPI
     {
         public static void Register(HttpConfiguration config)
         {
+            config.EnableCors();
+
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling
-            = Newtonsoft.Json.ReferenceLoopHandling.Ignore; 
+            = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            
+            //Set camel Casing in JSON Format
+            var settings = config.Formatters.JsonFormatter.SerializerSettings;
+            settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            settings.Formatting = Formatting.Indented;
 
             // Web API configuration and services
             // Configure Web API to use only bearer token authentication.

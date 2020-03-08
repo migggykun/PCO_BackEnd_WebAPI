@@ -6,7 +6,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>C:\Users\Migeru\Desktop\PCO_Sample_Somee</_PublishTargetUrl>
+    <_PublishTargetUrl>C:\Users\Migeru\Desktop\PCO_Sample_Somee2</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/HelpPage/HelpPage.css">
@@ -130,16 +130,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/07/2020 17:59:17</publishTime>
     </File>
     <File Include="bin/PCO_BackEnd_WebAPI.dll">
-      <publishTime>03/08/2020 00:23:20</publishTime>
+      <publishTime>03/08/2020 11:02:20</publishTime>
     </File>
     <File Include="bin/System.Net.Http.Formatting.dll">
-      <publishTime>03/07/2020 17:59:15</publishTime>
+      <publishTime>03/08/2020 10:38:39</publishTime>
+    </File>
+    <File Include="bin/System.Web.Cors.dll">
+      <publishTime>03/08/2020 10:38:39</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>03/07/2020 17:59:16</publishTime>
     </File>
+    <File Include="bin/System.Web.Http.Cors.dll">
+      <publishTime>03/08/2020 10:38:39</publishTime>
+    </File>
     <File Include="bin/System.Web.Http.dll">
-      <publishTime>03/07/2020 17:59:16</publishTime>
+      <publishTime>03/08/2020 10:38:39</publishTime>
     </File>
     <File Include="bin/System.Web.Http.Owin.dll">
       <publishTime>03/07/2020 17:59:16</publishTime>
@@ -196,7 +202,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/07/2020 17:59:13</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>03/07/2020 17:59:14</publishTime>
+      <publishTime>03/08/2020 10:39:11</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>03/07/2020 17:59:13</publishTime>
@@ -253,7 +259,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/07/2020 17:59:13</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>03/07/2020 23:00:38</publishTime>
+      <publishTime>03/08/2020 10:42:16</publishTime>
     </File>
   </ItemGroup>
 </Project>
