@@ -14,7 +14,7 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                                         int, CustomUserLogin, CustomUserRole, CustomUserClaim>
     {
         public ApplicationDbContext()
-            : base("somee_sample")
+            : base("PCO_WebAPI_DB")
         {
 
         }

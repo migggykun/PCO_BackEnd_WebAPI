@@ -229,6 +229,7 @@
     <Compile Include="Models\Persistence\Repositories\Conferences\ConferenceRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\IRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Accounts\MembershipTypeRepository.cs" />
+    <Compile Include="Models\Persistence\Repositories\Conferences\RateRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Repository.cs" />
     <Compile Include="Models\Persistence\Repositories\RepositoryHelper.cs" />
     <Compile Include="Models\Persistence\UnitOfWork\IUnitOfWork.cs" />
