@@ -17,7 +17,6 @@ using System.Web.Http.Description;
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
     [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
-    [Authorize(Roles = RoleNames.ROLE_ADMINISTRATOR)]
     public class UserInfoController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -62,7 +61,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 
         [HttpPut]
         [ResponseType(typeof(UserInfoDTO))]
-        public async Task<IHttpActionResult> UpdateUserInfo(UserInfoDTO userInfoDTO)
+        public async Task<IHttpActionResult> UpdateUserInfo(int id, UserInfoDTO userInfoDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -79,9 +78,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 }
                 else
                 {
-                    await Task.Run(() => unitOfWork.UserInfos.Update(userInfo));
+                    result =  await Task.Run(() => unitOfWork.UserInfos.Update(userInfo));
                     await Task.Run(() => unitOfWork.Complete());
-                    return Ok(Mapper.Map<UserInfo, UserInfoDTO>(userInfo));
+                    return Ok(Mapper.Map<UserInfo, UserInfoDTO>(result));
                 }
             }
             catch (Exception ex)

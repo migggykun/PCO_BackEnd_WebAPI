@@ -9,16 +9,12 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
     public partial class Rate
     {
         [Key]
-        public int ratesId { get; set; }
+        public int Id { get; set; }
 
         public int conferenceId { get; set; }
 
         public int membershipTypeId { get; set; }
 
         public int regularPrice { get; set; }
-
-        public virtual Conference Conference { get; set; }
-
-        public virtual MembershipType MembershipType { get; set; }
     }
 }

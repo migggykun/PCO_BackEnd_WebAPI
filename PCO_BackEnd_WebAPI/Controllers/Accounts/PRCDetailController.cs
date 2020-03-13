@@ -17,7 +17,6 @@ using System.Web.Http.Cors;
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
     [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
-    [Authorize(Roles = RoleNames.ROLE_ADMINISTRATOR)]
     public class PRCDetailController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -91,7 +90,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 
         [HttpPut]
         [ResponseType(typeof(PRCDetailDTO))]
-        public async Task<IHttpActionResult> UpdatePRCDetail(PRCDetailDTO prcDetailDTO)
+        public async Task<IHttpActionResult> UpdatePRCDetail(int id, PRCDetailDTO prcDetailDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -101,16 +100,16 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
-                var result = await Task.Run(() => unitOfWork.PRCDetails.Get(PRCDetail.Id));
+                var result = await Task.Run(() => unitOfWork.PRCDetails.Get(id));
                 if (result == null)
                 {
                     return NotFound();
                 }
                 else
                 {
-                    await Task.Run(() => unitOfWork.PRCDetails.Update(PRCDetail));
+                    result = await Task.Run(() => unitOfWork.PRCDetails.Update(PRCDetail));
                     await Task.Run(() => unitOfWork.Complete());
-                    return Ok();
+                    return Ok(Mapper.Map<PRCDetail, PRCDetailDTO>(result));
                 }
 
             }

@@ -9,7 +9,7 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
     public partial class RegistrationPayment
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int registrationPaymentId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [StringLength(128)]

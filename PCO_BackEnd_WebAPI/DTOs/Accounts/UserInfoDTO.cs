@@ -9,14 +9,16 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
     {
         public int Id { get; set; }
 
-        public string firstName { get; set; }
+        public string FirstName { get; set; }
 
-        public string middleName { get; set; }
+        public string MiddleName { get; set; }
 
-        public string lastName { get; set; }
+        public string LastName { get; set; }
 
-        public string address { get; set; }
+        public string Address { get; set; }
 
-        public string organization { get; set; }
+        public string Organization { get; set; }
+
+        public int membershipTypeId { get; set; }
     }
 }

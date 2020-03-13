@@ -10,14 +10,14 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int dailyAttendanceId { get; set; }
+        public int Id { get; set; }
 
-        public int registrationId { get; set; }
+        public int RegistrationId { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime attendanceDate { get; set; }
+        public DateTime AttendanceDate { get; set; }
 
-        public int periodId { get; set; }
+        public int PeriodId { get; set; }
 
         public virtual Registration Registration { get; set; }
     }

@@ -8,19 +8,19 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
 {
     public partial class MembershipType
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+
         public MembershipType()
         {
         }
 
-        public int membershipTypeId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [StringLength(15)]
-        public string membershipName { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [StringLength(128)]
-        public string membershipDescription { get; set; }
+        public string Description { get; set; }
     }
 }

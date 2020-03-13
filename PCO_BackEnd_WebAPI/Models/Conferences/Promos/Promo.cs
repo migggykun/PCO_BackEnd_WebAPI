@@ -16,21 +16,19 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences.Promos
             PromoMembers = new HashSet<PromoMember>();
         }
 
-        public int promoId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [StringLength(20)]
-        public string promoName { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [StringLength(100)]
-        public string promoDescription { get; set; }
+        public string Description { get; set; }
 
-        public DateTime validity_StartDate { get; set; }
+        public DateTime Start { get; set; }
 
-        public DateTime validity_EndDate { get; set; }
-
-        public virtual Conference Conference { get; set; }
+        public DateTime End { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PromoMember> PromoMembers { get; set; }

@@ -21,8 +21,5 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
 
         //DELETE Operation
         void Remove(TEntity entity);
-
-        //UPDATE Operation
-        void Update(TEntity newEntity);
     }
 }

@@ -8,18 +8,22 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts;
+using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences;
+using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences.Promos;
+using PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences.Promos;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
 {
-    public class UnitOfWork :IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
         public ConferenceRepository Conferences { get; set; }
         public IMembershipTypeRepository MembershipTypes { get; set; }
         public IPRCDetailRepository PRCDetails { get; set; }
         public IUserInfoRepository UserInfos { get; set; }
-        public IMembershipAssignmentRepository MembershipAssignments { get; set; }
-        public RateRepository Rate { get; set; }
+        public IRateRepository Rates { get; set; }
+        public IPromoRepository Promos { get; set; }
+        public IPromoMemberRepository PromoMembers { get; set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -28,8 +32,9 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
             MembershipTypes = new MembershipTypeRepository(_context);
             PRCDetails = new PRCDetailRepository(_context);
             UserInfos = new UserInfoRepository(_context);
-            MembershipAssignments = new MembershipAssignmentRepository(_context);
-            Rate = new RateRepository(_context);
+            Rates = new RateRepository(_context);
+            Promos = new PromoRepository(_context);
+            PromoMembers = new PromoMemberRepository(_context);
         }
 
         /// <summary>

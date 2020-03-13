@@ -8,15 +8,13 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
 {
     public class MembershipTypeDTO
     {
-        public int membershipTypeId { get; set; }
+        public int Id { get; set; }
 
         [Required]
-        [StringLength(15, ErrorMessage = "The name should not be greater than 15 characters.")]
-        public string membershipName { get; set; }
+        public string Name { get; set; }
 
         [Required]
-        [StringLength(128, ErrorMessage = "The name should not be greater than 128 characters.")]
-        public string membershipDescription { get; set; }
+        public string Description { get; set; }
 
     }
 }

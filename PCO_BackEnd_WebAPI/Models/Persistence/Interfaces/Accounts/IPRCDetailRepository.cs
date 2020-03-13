@@ -11,5 +11,6 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Accounts
     public interface IPRCDetailRepository : IRepository<PRCDetail>
     {
         PRCDetail GetPRCDetailById(string prcId);
+        PRCDetail Update(PRCDetail entityToUpdate);
     }
 }

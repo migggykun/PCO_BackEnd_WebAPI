@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.Spatial;
 using PCO_BackEnd_WebAPI.Models.Conferences.Promos;
-using PCO_BackEnd_WebAPI.Models.CustomValidations;
 
 namespace PCO_BackEnd_WebAPI.Models.Conferences
 {
@@ -16,28 +15,26 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
             Rates = new HashSet<Rate>();
         }
 
-        public int conferenceId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [StringLength(20)]
         [Index("IX_Conferences_Title", IsUnique = true)]
-        public string title { get; set; }
+        public string Title { get; set; }
 
         [Required]
         [StringLength(100)]
-        public string description { get; set; }
+        public string Description { get; set; }
 
-        public int attendance_limit { get; set; }
-
-        [Required]
-        [IsStartDateWithinEndDate]
-        public DateTime start_date { get; set; }
+        public int AttendanceLimit { get; set; }
 
         [Required]
-        public DateTime end_date { get; set; }
+        public DateTime Start { get; set; }
 
-        [MaxLength(255)]
-        public byte[] banner { get; set; }
+        [Required]
+        public DateTime End { get; set; }
+
+        public string Banner { get; set; }
 
         public virtual Promo Promo { get; set; }
 

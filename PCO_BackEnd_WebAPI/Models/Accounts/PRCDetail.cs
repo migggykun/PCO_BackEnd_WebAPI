@@ -9,15 +9,14 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
     public partial class PRCDetail
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         [Required]
         [StringLength(20)]
-        public string prcId { get; set; }
+        public string IdNumber{ get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime prc_expiration_date { get; set; }
-
-        public virtual ApplicationUser applicationUser { get; set; }
+        public DateTime ExpirationDate { get; set; }
     }
 }

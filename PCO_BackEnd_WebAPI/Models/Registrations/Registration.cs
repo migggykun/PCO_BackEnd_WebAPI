@@ -16,14 +16,14 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int registrationId { get; set; }
+        public int Id { get; set; }
 
         [Required]
-        public int userId { get; set; }
+        public int UserId { get; set; }
 
-        public int conferenceId { get; set; }
+        public int ConferenceId { get; set; }
 
-        public DateTime? registrationDate { get; set; }
+        public DateTime? RegistrationDate { get; set; }
 
         public virtual Conference Conference { get; set; }
 

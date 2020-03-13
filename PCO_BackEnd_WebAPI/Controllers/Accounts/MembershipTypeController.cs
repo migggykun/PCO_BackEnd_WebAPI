@@ -17,7 +17,6 @@ using System.Web.Http.Cors;
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
     [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
-    [Authorize(Roles = RoleNames.ROLE_ADMINISTRATOR)]
     public class MembershipTypeController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -81,7 +80,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 await Task.Run(() => unitOfWork.MembershipTypes.Add(membershipType));
                 await Task.Run(() => unitOfWork.Complete());
                 var resultDTO = Mapper.Map<MembershipType, MembershipTypeDTO>(membershipType);
-                return Created(new Uri(Request.RequestUri + "/" + membershipType.membershipTypeId), resultDTO);
+                return Created(new Uri(Request.RequestUri + "/" + membershipType.Id), resultDTO);
             }
             catch(Exception ex)
             {
@@ -92,7 +91,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 
         [HttpPut]
         [ResponseType(typeof(MembershipTypeDTO))]
-        public async Task<IHttpActionResult> UpdateMembershipType(MembershipTypeDTO membershipTypeDTO)
+        public async Task<IHttpActionResult> UpdateMembershipType(int id, MembershipTypeDTO membershipTypeDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -102,16 +101,16 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
-                var result = await Task.Run(() => unitOfWork.MembershipTypes.Get(membershipType.membershipTypeId));
+                var result = await Task.Run(() => unitOfWork.MembershipTypes.Get(id));
                 if (result == null)
                 {
                     return BadRequest();
                 }
                 else
                 {
-                    await Task.Run(() => unitOfWork.MembershipTypes.Update(membershipType));
+                    result = await Task.Run(() => unitOfWork.MembershipTypes.Update(membershipType));
                     await Task.Run(() => unitOfWork.Complete());
-                    return Ok();
+                    return Ok(Mapper.Map<MembershipType, MembershipTypeDTO>(result));
                 }
                
             }

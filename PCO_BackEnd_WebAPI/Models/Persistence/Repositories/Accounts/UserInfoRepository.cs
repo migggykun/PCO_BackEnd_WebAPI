@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
+using RefactorThis.GraphDiff;
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
 {
     public class UserInfoRepository : Repository<UserInfo>, IUserInfoRepository
@@ -13,6 +13,19 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
         public UserInfoRepository(ApplicationDbContext context) : base(context)
         {
 
+        }
+
+        public UserInfo Update(UserInfo entityToUpdate)
+        {
+            return appDbContext.UpdateGraph<UserInfo>(entityToUpdate);
+        }
+
+        public ApplicationDbContext appDbContext
+        {
+            get
+            {
+                return _context as ApplicationDbContext;
+            }
         }
     }
 }

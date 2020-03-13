@@ -9,8 +9,8 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
     {
         public int Id { get; set; }
 
-        public string prcId { get; set; }
+        public string IdNumber { get; set; }
 
-        public DateTime prc_expiration_date { get; set; }
+        public DateTime ExpirationDate { get; set; }
     }
 }

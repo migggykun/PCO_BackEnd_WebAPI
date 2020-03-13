@@ -10,10 +10,10 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences.Promos
 {
     public partial class PromoMember
     {
-        public int promoMemberId { get; set; }
+        public int Id { get; set; }
 
-        public int membershipTypeId { get; set; }
+        public int MembershipTypeId { get; set; }
 
-        public int? promoId { get; set; }
+        public int PromoId { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Web;
+using RefactorThis.GraphDiff;
 
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
@@ -75,27 +76,5 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
         {
             _entity.Remove(entity);
         }
-
-        /// <summary>
-        /// Updates Object
-        /// </summary>
-        /// <param name="oldEntity">Old data</param>
-        /// <param name="newEntity">New data</param>
-        public void Update(TEntity newEntity)
-        {
-            int primaryKey = RepositoryHelper<TEntity>.GetPrimaryKey(_context, newEntity); //Acquires the primary key of generic object
-            var oldEntity = _entity.Find(primaryKey); //Acquires original object
-
-            foreach (PropertyInfo p in newEntity.GetType().GetProperties())
-            {
-                var propertyValue = p.GetValue(newEntity, null); //acquires value of iterated property
-                if (propertyValue != null)
-                {
-                    _context.Entry<TEntity>(oldEntity).Property(p.Name).CurrentValue = propertyValue;
-                }
-            }
-        }
-
-
     }
 }

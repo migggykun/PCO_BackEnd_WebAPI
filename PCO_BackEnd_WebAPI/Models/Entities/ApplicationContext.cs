@@ -21,7 +21,6 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
 
         public virtual DbSet<Conference> Conferences { get; set; }
         public virtual DbSet<DailyAttendanceRecord> DailyAttendanceRecords { get; set; }
-        public virtual DbSet<MembershipAssignment> MembershipAssignments { get; set; }
         public virtual DbSet<MembershipType> MembershipTypes { get; set; }
         public virtual DbSet<Period> Periods { get; set; }
         public virtual DbSet<PRCDetail> PRCDetails { get; set; }
@@ -45,36 +44,36 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
 
             modelBuilder.Entity<ApplicationUser>()
                         .HasRequired(e => e.UserInfo)
-                        .WithRequiredPrincipal(e=>e.applicationUser);
-
-            modelBuilder.Entity<ApplicationUser>()
-                        .HasRequired(e => e.MembershipAssignment)
-                        .WithRequiredPrincipal(e => e.applicationUser);
+                        .WithRequiredPrincipal()
+                        .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<ApplicationUser>()
                         .HasOptional(e => e.PRCDetail)
-                        .WithRequired(e => e.applicationUser);
+                        .WithRequired()
+                        .WillCascadeOnDelete(true);
+
 
             modelBuilder.Entity<Conference>()
-                        .Property(e => e.banner)
+                        .Property(e => e.Banner)
                         .IsFixedLength();
 
             modelBuilder.Entity<Conference>()
                         .HasOptional(e => e.Promo)
-                        .WithRequired(e => e.Conference);
+                        .WithRequired()
+                        .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Conference>()
                         .HasMany(e => e.Rates)
-                        .WithRequired(e => e.Conference)
-                        .WillCascadeOnDelete(false);
+                        .WithRequired()
+                        .WillCascadeOnDelete(true);
 
-            modelBuilder.Entity<MembershipAssignment>()
-                        .HasRequired(e => e.MembershipType)
-                        .WithMany()
-                        .HasForeignKey(e => e.membershipTypeId);
+            modelBuilder.Entity<Promo>()
+                        .HasMany(p => p.PromoMembers)
+                        .WithRequired()
+                        .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Period>()
-                        .Property(e => e.periodName)
+                        .Property(e => e.Name)
                         .IsFixedLength();
 
             modelBuilder.Entity<RegistrationPayment>()

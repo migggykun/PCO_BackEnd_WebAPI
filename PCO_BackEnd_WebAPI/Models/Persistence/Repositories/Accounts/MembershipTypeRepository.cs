@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Accounts;
+using RefactorThis.GraphDiff;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
 {
@@ -18,10 +19,14 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
         public MembershipType GetMembershipTypeByName(string membershipTypeName)
         {
             var membershipType = appDbContext.MembershipTypes
-                                             .FirstOrDefault(e => string.Compare(e.membershipName, membershipTypeName, true) == 0);
+                                             .FirstOrDefault(e => string.Compare(e.Name, membershipTypeName, true) == 0);
             return membershipType;
         }
 
+        public MembershipType Update(MembershipType entityToUpdate)
+        {
+            return appDbContext.UpdateGraph<MembershipType>(entityToUpdate);
+        }
         public ApplicationDbContext appDbContext
         {
             get

@@ -9,5 +9,6 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Accounts
 {
     public interface IUserInfoRepository : IRepository<UserInfo>
     {
+        UserInfo Update(UserInfo entityToUpdate);
     }
 }

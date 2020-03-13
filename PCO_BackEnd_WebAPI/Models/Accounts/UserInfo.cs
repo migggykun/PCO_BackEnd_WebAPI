@@ -9,28 +9,31 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
     [Table("UserInfos")]
     public partial class UserInfo
     {
+        
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         [Required]
         [StringLength(30)]
-        public string firstName { get; set; }
+        public string FirstName { get; set; }
 
         [Required]
         [StringLength(30)]
-        public string middleName { get; set; }
+        public string MiddleName { get; set; }
 
         [Required]
         [StringLength(30)]
-        public string lastName { get; set; }
+        public string LastName { get; set; }
 
         [Required]
         [StringLength(100)]
-        public string address { get; set; }
+        public string Address { get; set; }
 
         [StringLength(50)]
-        public string organization { get; set; }
+        public string Organization { get; set; }
 
-        public virtual ApplicationUser applicationUser { get; set; }
+        [Required]
+        public int MembershipTypeId { get; set; }
     }
 }

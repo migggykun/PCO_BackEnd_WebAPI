@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using RefactorThis.GraphDiff;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
 {
@@ -17,8 +18,13 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
 
         public PRCDetail GetPRCDetailById(string prcId)
         {
-            return appDbContext.PRCDetails.FirstOrDefault(e => string.Compare(e.prcId, prcId, false) == 0);
+            return appDbContext.PRCDetails.FirstOrDefault(e => string.Compare(e.IdNumber, prcId, false) == 0);
             
+        }
+
+        public PRCDetail Update(PRCDetail entityToUpdate)
+        {
+            return appDbContext.UpdateGraph<PRCDetail>(entityToUpdate);
         }
 
         public ApplicationDbContext appDbContext

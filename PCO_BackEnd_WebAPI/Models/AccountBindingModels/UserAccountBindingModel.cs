@@ -10,23 +10,12 @@ namespace PCO_BackEnd_WebAPI.Models.AccountBindingModels
     public class UserAccountBindingModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress(ErrorMessage="Invalid Email Address")]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
-
         [Required]
-        [RegularExpression(@"^\+639?(\d[0-9]{9})", ErrorMessage = "Invalid Mobile Number.")]
         public string PhoneNumber { get; set; }
 
         
@@ -34,9 +23,7 @@ namespace PCO_BackEnd_WebAPI.Models.AccountBindingModels
 
         public UserInfo UserInfo { get; set; }
 
-        public MembershipAssignment MembershipAssignment { get; set; }
-
-        public bool isAdmin { get; set; }
+        public bool IsAdmin { get; set; }
 
 
     }

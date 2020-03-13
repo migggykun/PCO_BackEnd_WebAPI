@@ -25,11 +25,13 @@ using PCO_BackEnd_WebAPI.DTOs.Accounts;
 using PCO_BackEnd_WebAPI.Models.Roles;
 using System.Web.Http.Description;
 using System.Web.Http.Cors;
+using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
+
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
     [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
-    [Authorize(Roles = RoleNames.ROLE_ADMINISTRATOR)]
+    [AllowAnonymous]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
@@ -65,6 +67,68 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 
         #region Use WebAPI Methods
 
+        // POST api/Account/Logout
+        [Route("Logout")]
+        public IHttpActionResult Logout()
+        {
+            Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
+            return Ok();
+        }
+
+
+        [AllowAnonymous]
+        [Route("Login")]
+        [ResponseType(typeof(LoginViewModel))]
+        public async Task<IHttpActionResult> Login(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var user = await UserManager.FindAsync(model.username, model.password);
+            if (user != null)
+            {
+                    return Ok(user.Id);
+            }
+
+            return NotFound();
+ 
+        }
+
+        [HttpPost]
+        [Route("SendEmail")]
+        public async Task<IHttpActionResult> ValidateEmail(int id)
+        {
+            var user = await UserManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                string localHost = HttpContext.Current.Request.Url.Authority;
+                string apiController = "api/Account/ConfirmEmail";
+                string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                string encodedEmailToken = HttpUtility.UrlEncode(code);
+                string callbackUrl = string.Format("http://{0}/{1}/?id={2}&code={3}", localHost, apiController, user.Id, encodedEmailToken);
+                string hyperlink = string.Format("<a href=\"{0}\">here</a>",callbackUrl);
+                await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking " + hyperlink);
+                return Ok();
+            }
+            return BadRequest();
+        }
+
+        [HttpPost]
+        [Route("ConfirmEmail")]
+        public async Task<IHttpActionResult> ConfirmEmail(int id, string code)
+        {
+            IdentityResult result = result = await UserManager.ConfirmEmailAsync(id, code);
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
@@ -81,8 +145,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 Email = model.Email,
                 PhoneNumber = model.PhoneNumber,
                 PRCDetail = model.PrcDetail,
-                UserInfo = model.UserInfo,
-                MembershipAssignment = model.MembershipAssignment
+                UserInfo = model.UserInfo
             };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
@@ -93,7 +156,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
 
             //Assign UserRole
-            if (model.isAdmin == true)
+            if (model.IsAdmin == true)
             {
                 await UserManager.AddToRoleAsync(user.Id, RoleNames.ROLE_ADMINISTRATOR);
             }
@@ -149,37 +212,40 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 
         [HttpPut]
         [ResponseType(typeof(AccountsDTO))]
-        public async Task<IHttpActionResult> UpdateUser(AccountsDTO accountDTO)
+        public async Task<IHttpActionResult> UpdateUser(int id, AccountsDTO accountDTO)
         {
-            var userToUpdate = await UserManager.FindByIdAsync(accountDTO.Id);
+            ApplicationDbContext appDbContext = new ApplicationDbContext();
+            var store = new CustomUserStore(appDbContext);
+            var manager = new UserManager<ApplicationUser, int>(store);
+            var userToUpdate = await manager.FindByIdAsync(id);
             if (userToUpdate == null)
             {
                 return NotFound();
             }
             else
             {
+                userToUpdate.Email = accountDTO.Email;
                 userToUpdate.PhoneNumber = accountDTO.PhoneNumber;
-                userToUpdate.UserInfo = Mapper.Map<UserInfoDTO, UserInfo>(accountDTO.UserInfo);
-                userToUpdate.PRCDetail = Mapper.Map<PRCDetailDTO,PRCDetail>(accountDTO.PRCDetail);
-                userToUpdate.MembershipAssignment = Mapper.Map<MembershipAssignmentDTO,MembershipAssignment>(accountDTO.MembershipAssignment);
-                await UserManager.UpdateAsync(userToUpdate);
-            }
+                appDbContext.Entry(userToUpdate.PRCDetail).CurrentValues.SetValues(accountDTO.PRCDetail);
+                appDbContext.Entry(userToUpdate.UserInfo).CurrentValues.SetValues(accountDTO.UserInfo);
 
+                await store.Context.SaveChangesAsync();
+            }
             return Ok(Mapper.Map<ApplicationUser, AccountsDTO>(userToUpdate));
         }
 
         [HttpDelete]
         [ResponseType(typeof(AccountsDTO))]
-        public async Task<IHttpActionResult> DeleteUser(int Id)
+        public async Task<IHttpActionResult> DeleteUser(int id)
         {
-            var userToDelete = await UserManager.FindByIdAsync(Id);
-            if (userToDelete == null)
+            var appuserToDelete = await UserManager.FindByIdAsync(id);
+            if (appuserToDelete == null)
             {
                 return NotFound();
             }
             else
             {
-                await UserManager.DeleteAsync(userToDelete);
+                await UserManager.DeleteAsync(appuserToDelete);
             }
             return Ok();
         }
@@ -318,15 +384,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         //        LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
         //    };
         //}
-
-        //// POST api/Account/Logout
-        //[Route("Logout")]
-        //public IHttpActionResult Logout()
-        //{
-        //    Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
-        //    return Ok();
-        //}
-
 
         //// GET api/Account/ManageInfo?returnUrl=%2F&generateState=true
         //[Route("ManageInfo")]

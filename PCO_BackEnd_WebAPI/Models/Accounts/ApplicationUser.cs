@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PCO_BackEnd_WebAPI.Models.Accounts
 {
@@ -14,11 +15,11 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
     {
         //public DateTime member_since { get; set; }
 
+        [ForeignKey("Id")]
         public virtual PRCDetail PRCDetail { get; set; }
 
+        [ForeignKey("Id")]
         public virtual UserInfo UserInfo { get; set; }
-
-        public virtual MembershipAssignment MembershipAssignment  { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser, int> manager, string authenticationType)
         {

@@ -16,7 +16,5 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
         public PRCDetailDTO PRCDetail { get; set; }
 
         public UserInfoDTO UserInfo { get; set; }
-
-        public MembershipAssignmentDTO MembershipAssignment { get; set; }
     }
 }

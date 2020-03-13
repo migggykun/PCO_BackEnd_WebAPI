@@ -1,4 +1,6 @@
 ﻿using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Accounts;
+using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences;
+using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences;
 using System;
 using System.Collections.Generic;
@@ -14,7 +16,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
         IMembershipTypeRepository MembershipTypes { get; set; }
         IPRCDetailRepository PRCDetails { get; set; }
         IUserInfoRepository UserInfos { get; set; }
-        IMembershipAssignmentRepository MembershipAssignments { get; set; }
-
+        IRateRepository Rates { get; set; }
+        IPromoRepository Promos { get; set; }
+        IPromoMemberRepository PromoMembers { get; set; }
     }
 }
