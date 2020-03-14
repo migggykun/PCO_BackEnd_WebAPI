@@ -165,12 +165,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 await UserManager.AddToRoleAsync(user.Id, RoleNames.ROLE_MEMBER);
             }
 
-            return Ok(Mapper.Map<ApplicationUser, AccountsDTO>(user));
+            return Ok(Mapper.Map<ApplicationUser, ResponseAccountDTO>(user));
         }
 
         [HttpGet]
         [Route("GetAllUsers")]
-        [ResponseType(typeof(AccountsDTO))]
+        [ResponseType(typeof(ResponseAccountDTO))]
         public async Task <IHttpActionResult> GetUsers(string email = null)
         {
             object result = null;
@@ -183,20 +183,20 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 }
                 else
                 {
-                    var resultDTO = Mapper.Map<ApplicationUser, AccountsDTO>(result as ApplicationUser);
+                    var resultDTO = Mapper.Map<ApplicationUser, ResponseAccountDTO>(result as ApplicationUser);
                     result = resultDTO;
                 }
             }
             else
             {
-                result = UserManager.Users.ToList().Select(Mapper.Map<ApplicationUser, AccountsDTO>);
+                result = UserManager.Users.ToList().Select(Mapper.Map<ApplicationUser, ResponseAccountDTO>);
                 
             }
             return Ok(result);
         }
 
         [HttpGet]
-        [ResponseType(typeof(AccountsDTO))]
+        [ResponseType(typeof(ResponseAccountDTO))]
         public async Task<IHttpActionResult> GetUser(int id)
         {
             var user = await UserManager.FindByIdAsync(id);
@@ -206,13 +206,13 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
             else
             {
-                return Ok(Mapper.Map<ApplicationUser, AccountsDTO>(user));
+                return Ok(Mapper.Map<ApplicationUser, ResponseAccountDTO>(user));
             }
         }
 
         [HttpPut]
-        [ResponseType(typeof(AccountsDTO))]
-        public async Task<IHttpActionResult> UpdateUser(int id, AccountsDTO accountDTO)
+        [ResponseType(typeof(ResponseAccountDTO))]
+        public async Task<IHttpActionResult> UpdateUser(int id, RequestAccountDTO accountDTO)
         {
             ApplicationDbContext appDbContext = new ApplicationDbContext();
             var store = new CustomUserStore(appDbContext);
@@ -231,11 +231,10 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 
                 await store.Context.SaveChangesAsync();
             }
-            return Ok(Mapper.Map<ApplicationUser, AccountsDTO>(userToUpdate));
+            return Ok(Mapper.Map<ApplicationUser, ResponseAccountDTO>(userToUpdate));
         }
 
         [HttpDelete]
-        [ResponseType(typeof(AccountsDTO))]
         public async Task<IHttpActionResult> DeleteUser(int id)
         {
             var appuserToDelete = await UserManager.FindByIdAsync(id);

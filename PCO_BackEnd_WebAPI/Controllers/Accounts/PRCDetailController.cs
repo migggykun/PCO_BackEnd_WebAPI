@@ -27,7 +27,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         [HttpGet]
-        [ResponseType(typeof(PRCDetailDTO))]
+        [ResponseType(typeof(ResponsePRCDetailDTO))]
         public async Task<IHttpActionResult> GetAll(string prcId = null)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -36,18 +36,18 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             {
                 var result = await Task.Run(() => unitOfWork.PRCDetails
                                                      .GetPRCDetailById(prcId) as PRCDetail);
-                resultDTO = Mapper.Map<PRCDetail, PRCDetailDTO>(result);
+                resultDTO = Mapper.Map<PRCDetail, ResponsePRCDetailDTO>(result);
             }
             else
             {
                 resultDTO = await Task.Run(() => unitOfWork.PRCDetails.GetAll().ToList()
-                                                   .Select(Mapper.Map<PRCDetail, PRCDetailDTO>));
+                                                   .Select(Mapper.Map<PRCDetail, ResponsePRCDetailDTO>));
             }
             return Ok(resultDTO);
         }
 
         [HttpGet]
-        [ResponseType(typeof(PRCDetailDTO))]
+        [ResponseType(typeof(ResponsePRCDetailDTO))]
         public async Task<IHttpActionResult> Get(int id)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -58,27 +58,27 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
             else
             {
-                var membershipTypeDTO = Mapper.Map<PRCDetail, PRCDetailDTO>(result);
+                var membershipTypeDTO = Mapper.Map<PRCDetail, ResponsePRCDetailDTO>(result);
                 return Ok(membershipTypeDTO);
             }
         }
 
         [HttpPost]
-        [ResponseType(typeof(PRCDetailDTO))]
-        public async Task<IHttpActionResult> AddPRCDetail(PRCDetailDTO PRCDetailDTO)
+        [ResponseType(typeof(ResponsePRCDetailDTO))]
+        public async Task<IHttpActionResult> AddPRCDetail(RequestPRCDetailDTO PRCDetailDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var prcDetail = Mapper.Map<PRCDetailDTO, PRCDetail>(PRCDetailDTO);
+            var prcDetail = Mapper.Map<RequestPRCDetailDTO, PRCDetail>(PRCDetailDTO);
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
                 await Task.Run(() => unitOfWork.PRCDetails.Add(prcDetail));
                 await Task.Run(() => unitOfWork.Complete());
-                var resultDTO = Mapper.Map<PRCDetail, PRCDetailDTO>(prcDetail);
+                var resultDTO = Mapper.Map<PRCDetail, ResponsePRCDetailDTO>(prcDetail);
                 return Created(new Uri(Request.RequestUri + "/" + prcDetail.Id), resultDTO);
             }
             catch (Exception ex)
@@ -89,14 +89,14 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         [HttpPut]
-        [ResponseType(typeof(PRCDetailDTO))]
-        public async Task<IHttpActionResult> UpdatePRCDetail(int id, PRCDetailDTO prcDetailDTO)
+        [ResponseType(typeof(ResponsePRCDetailDTO))]
+        public async Task<IHttpActionResult> UpdatePRCDetail(int id, RequestPRCDetailDTO prcDetailDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var PRCDetail = Mapper.Map<PRCDetailDTO, PRCDetail>(prcDetailDTO);
+            var PRCDetail = Mapper.Map<RequestPRCDetailDTO, PRCDetail>(prcDetailDTO);
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -109,7 +109,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 {
                     result = await Task.Run(() => unitOfWork.PRCDetails.Update(PRCDetail));
                     await Task.Run(() => unitOfWork.Complete());
-                    return Ok(Mapper.Map<PRCDetail, PRCDetailDTO>(result));
+                    return Ok(Mapper.Map<PRCDetail, ResponsePRCDetailDTO>(result));
                 }
 
             }
@@ -120,7 +120,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         [HttpDelete]
-        [ResponseType(typeof(PRCDetailDTO))]
         public async Task<IHttpActionResult> DeletePRCDetail(int id)
         {
             try

@@ -6,7 +6,7 @@ using System.Web;
 
 namespace PCO_BackEnd_WebAPI.DTOs.Accounts
 {
-    public class MembershipTypeDTO
+    public class ResponseMembershipTypeDTO
     {
         public int Id { get; set; }
 

@@ -17,14 +17,14 @@ namespace PCO_BackEnd_WebAPI.App_Start
     {
         public MappingProfile()
         {
-            Mapper.CreateMap<ApplicationUser, AccountsDTO>();
-            Mapper.CreateMap<AccountsDTO, ApplicationUser>();
-            Mapper.CreateMap<UserInfo, UserInfoDTO>();
-            Mapper.CreateMap<UserInfoDTO, UserInfo>();
-            Mapper.CreateMap<MembershipType, MembershipTypeDTO>();
-            Mapper.CreateMap<MembershipTypeDTO, MembershipType>();
-            Mapper.CreateMap<PRCDetail, PRCDetailDTO>();
-            Mapper.CreateMap<PRCDetailDTO, PRCDetail>();
+            Mapper.CreateMap<ApplicationUser, ResponseAccountDTO>();
+            Mapper.CreateMap<RequestAccountDTO, ApplicationUser>();
+            Mapper.CreateMap<UserInfo, ResponseUserInfoDTO>();
+            Mapper.CreateMap<RequestUserInfoDTO, UserInfo>();
+            Mapper.CreateMap<MembershipType, ResponseMembershipTypeDTO>();
+            Mapper.CreateMap<RequestMembershipTypeDTO, MembershipType>();
+            Mapper.CreateMap<PRCDetail, ResponsePRCDetailDTO>();
+            Mapper.CreateMap<RequestPRCDetailDTO, PRCDetail>();
             Mapper.CreateMap<Conference, ConferenceDTO>();
             Mapper.CreateMap<ConferenceDTO, Conference>();
             Mapper.CreateMap<Rate, RateDTO>();
