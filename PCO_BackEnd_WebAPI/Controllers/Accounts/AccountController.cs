@@ -147,25 +147,32 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 PRCDetail = model.PrcDetail,
                 UserInfo = model.UserInfo
             };
-
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-
-            if (!result.Succeeded)
+            try
             {
-                return GetErrorResult(result);
-            }
+                IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
-            //Assign UserRole
-            if (model.IsAdmin == true)
-            {
-                await UserManager.AddToRoleAsync(user.Id, RoleNames.ROLE_ADMINISTRATOR);
-            }
-            else
-            {
-                await UserManager.AddToRoleAsync(user.Id, RoleNames.ROLE_MEMBER);
-            }
+                if (!result.Succeeded)
+                {
+                    return GetErrorResult(result);
+                }
 
-            return Ok(Mapper.Map<ApplicationUser, AccountsDTO>(user));
+                //Assign UserRole
+                if (model.IsAdmin == true)
+                {
+                    await UserManager.AddToRoleAsync(user.Id, RoleNames.ROLE_ADMINISTRATOR);
+                }
+                else
+                {
+                    await UserManager.AddToRoleAsync(user.Id, RoleNames.ROLE_MEMBER);
+                }
+
+                return Ok(Mapper.Map<ApplicationUser, AccountsDTO>(user));
+            }
+            catch (Exception ex)
+            {
+               string message = ExceptionManager.GetAllExceptionMessages(ex);
+               return BadRequest(message);
+            }
         }
 
         [HttpGet]

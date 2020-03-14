@@ -224,6 +224,7 @@
     <Compile Include="Controllers\Conferences\Promos\PromoController.cs" />
     <Compile Include="Controllers\Conferences\Promos\PromoMemberController.cs" />
     <Compile Include="Controllers\Conferences\RateController.cs" />
+    <Compile Include="Controllers\ExceptionManager.cs" />
     <Compile Include="DTOs\Accounts\AccountsDTO.cs" />
     <Compile Include="DTOs\Accounts\MembershipTypeDTO.cs" />
     <Compile Include="DTOs\Accounts\PRCDetailDTO.cs" />
