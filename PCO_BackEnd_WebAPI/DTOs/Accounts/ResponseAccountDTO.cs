@@ -5,7 +5,7 @@ using System.Web;
 
 namespace PCO_BackEnd_WebAPI.DTOs.Accounts
 {
-    public class AccountsDTO
+    public class ResponseAccountDTO
     {
         public int Id { get; set; }
 
@@ -13,8 +13,8 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
 
         public string PhoneNumber { get; set; }
 
-        public PRCDetailDTO PRCDetail { get; set; }
+        public ResponsePRCDetailDTO PRCDetail { get; set; }
 
-        public UserInfoDTO UserInfo { get; set; }
+        public ResponseUserInfoDTO UserInfo { get; set; }
     }
 }

@@ -27,7 +27,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         [HttpGet]
-        [ResponseType(typeof(UserInfoDTO))]
+        [ResponseType(typeof(ResponseUserInfoDTO))]
         public async Task<IHttpActionResult> GetAll()
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -38,12 +38,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
             else
             {
-                return Ok(resultDTO.Select(Mapper.Map<UserInfo, UserInfoDTO>));
+                return Ok(resultDTO.Select(Mapper.Map<UserInfo, ResponseUserInfoDTO>));
             }
         }
 
         [HttpGet]
-        [ResponseType(typeof(UserInfoDTO))]
+        [ResponseType(typeof(ResponseUserInfoDTO))]
         public async Task<IHttpActionResult> Get(int id)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -54,20 +54,20 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
             else
             {
-                var userInfoDTO = Mapper.Map<UserInfo, UserInfoDTO>(result);
+                var userInfoDTO = Mapper.Map<UserInfo, ResponseUserInfoDTO>(result);
                 return Ok(userInfoDTO);
             }
         }
 
         [HttpPut]
-        [ResponseType(typeof(UserInfoDTO))]
-        public async Task<IHttpActionResult> UpdateUserInfo(int id, UserInfoDTO userInfoDTO)
+        [ResponseType(typeof(ResponseUserInfoDTO))]
+        public async Task<IHttpActionResult> UpdateUserInfo(int id, RequestUserInfoDTO userInfoDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var userInfo = Mapper.Map<UserInfoDTO, UserInfo>(userInfoDTO);
+            var userInfo = Mapper.Map<RequestUserInfoDTO, UserInfo>(userInfoDTO);
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -80,7 +80,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 {
                     result =  await Task.Run(() => unitOfWork.UserInfos.Update(userInfo));
                     await Task.Run(() => unitOfWork.Complete());
-                    return Ok(Mapper.Map<UserInfo, UserInfoDTO>(result));
+                    return Ok(Mapper.Map<UserInfo, ResponseUserInfoDTO>(result));
                 }
             }
             catch (Exception ex)

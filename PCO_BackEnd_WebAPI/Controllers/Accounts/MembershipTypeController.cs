@@ -27,7 +27,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         [HttpGet]
-        [ResponseType(typeof(MembershipTypeDTO))]
+        [ResponseType(typeof(ResponseMembershipTypeDTO))]
         public async Task<IHttpActionResult> GetAll(string membershipType = null)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -37,18 +37,18 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 var resultDTO = await Task.Run(() => unitOfWork.MembershipTypes
                                                      .GetMembershipTypeByName(membershipType) as MembershipType);
 
-                result = Mapper.Map<MembershipType, MembershipTypeDTO>(resultDTO);
+                result = Mapper.Map<MembershipType, ResponseMembershipTypeDTO>(resultDTO);
 ;           }
             else
             {
                 result = await Task.Run(() =>unitOfWork.MembershipTypes.GetAll().ToList()
-                                                   .Select(Mapper.Map<MembershipType, MembershipTypeDTO>));
+                                                   .Select(Mapper.Map<MembershipType, ResponseMembershipTypeDTO>));
             }
             return Ok(result);
         }
 
         [HttpGet]
-        [ResponseType(typeof(MembershipTypeDTO))]
+        [ResponseType(typeof(ResponseMembershipTypeDTO))]
         public async Task<IHttpActionResult> Get(int id)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -59,27 +59,27 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
             else
             {
-                var membershipTypeDTO = Mapper.Map<MembershipType, MembershipTypeDTO>(result);
+                var membershipTypeDTO = Mapper.Map<MembershipType, ResponseMembershipTypeDTO>(result);
                 return Ok(membershipTypeDTO);
             }   
         }
 
         [HttpPost]
-        [ResponseType(typeof(MembershipTypeDTO))]
-        public async Task<IHttpActionResult> AddMembershipType(MembershipTypeDTO membershipTypeDTO)
+        [ResponseType(typeof(ResponseMembershipTypeDTO))]
+        public async Task<IHttpActionResult> AddMembershipType(RequestMembershipTypeDTO membershipTypeDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var membershipType = Mapper.Map<MembershipTypeDTO, MembershipType>(membershipTypeDTO);
+            var membershipType = Mapper.Map<RequestMembershipTypeDTO, MembershipType>(membershipTypeDTO);
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
                 await Task.Run(() => unitOfWork.MembershipTypes.Add(membershipType));
                 await Task.Run(() => unitOfWork.Complete());
-                var resultDTO = Mapper.Map<MembershipType, MembershipTypeDTO>(membershipType);
+                var resultDTO = Mapper.Map<MembershipType, ResponseMembershipTypeDTO>(membershipType);
                 return Created(new Uri(Request.RequestUri + "/" + membershipType.Id), resultDTO);
             }
             catch(Exception ex)
@@ -91,14 +91,14 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         [HttpPut]
-        [ResponseType(typeof(MembershipTypeDTO))]
-        public async Task<IHttpActionResult> UpdateMembershipType(int id, MembershipTypeDTO membershipTypeDTO)
+        [ResponseType(typeof(ResponseMembershipTypeDTO))]
+        public async Task<IHttpActionResult> UpdateMembershipType(int id, RequestMembershipTypeDTO membershipTypeDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var membershipType = Mapper.Map<MembershipTypeDTO, MembershipType>(membershipTypeDTO);
+            var membershipType = Mapper.Map<RequestMembershipTypeDTO, MembershipType>(membershipTypeDTO);
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -111,7 +111,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 {
                     result = await Task.Run(() => unitOfWork.MembershipTypes.Update(membershipType));
                     await Task.Run(() => unitOfWork.Complete());
-                    return Ok(Mapper.Map<MembershipType, MembershipTypeDTO>(result));
+                    return Ok(Mapper.Map<MembershipType, ResponseMembershipTypeDTO>(result));
                 }
                
             }
@@ -123,7 +123,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         [HttpDelete]
-        [ResponseType(typeof(MembershipTypeDTO))]
         public async Task<IHttpActionResult> DeleteMembershipType(int id)
         {
             try
@@ -138,7 +137,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 {
                     await Task.Run(() => unitOfWork.MembershipTypes.Remove(membershipType));
                     await Task.Run(() => unitOfWork.Complete());
-                    return Ok(Mapper.Map<MembershipType, MembershipTypeDTO>(membershipType));
+                    return Ok(Mapper.Map<MembershipType, ResponseMembershipTypeDTO>(membershipType));
                 }
             }
             catch (Exception ex)

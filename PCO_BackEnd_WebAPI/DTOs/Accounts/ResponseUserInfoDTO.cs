@@ -5,7 +5,7 @@ using System.Web;
 
 namespace PCO_BackEnd_WebAPI.DTOs.Accounts
 {
-    public class UserInfoDTO
+    public class ResponseUserInfoDTO
     {
         public int Id { get; set; }
 
