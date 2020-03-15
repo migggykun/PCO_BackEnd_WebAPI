@@ -99,7 +99,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
             catch(Exception ex)
             {
-                return BadRequest("Error Occured, try again");
+                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                return BadRequest(message);
             }
             
         }
@@ -137,7 +138,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
             catch (Exception ex)
             {
-                return BadRequest("Error Occured, try again");
+                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                return BadRequest(message);
             }
         }
 
@@ -166,7 +168,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
             catch (Exception ex)
             {
-                return BadRequest("Error Occured, try again");
+                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                return BadRequest(message);
             }
         }
 

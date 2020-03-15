@@ -87,7 +87,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
             }
             catch (Exception ex)
             {
-                return BadRequest("Error Occured, try again");
+                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                return BadRequest(message);
             }
         }
 
@@ -123,7 +124,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
             }
             catch (Exception ex)
             {
-                return BadRequest("Error occured, please try again");
+                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                return BadRequest(message);
             }
         }
 
@@ -153,7 +155,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
             }
             catch (Exception ex)
             {
-                return BadRequest("Error Occured, try again");
+                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                return BadRequest(message);
             }
         }
 
