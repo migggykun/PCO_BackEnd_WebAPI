@@ -10,7 +10,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences.Promos
 {
     public interface IPromoMemberRepository : IRepository<PromoMember>
     {
-        PromoMember UpdatePromoMember(PromoMember memberToUpdate);
+        PromoMember UpdatePromoMember(int id, PromoMember memberToUpdate);
         List<PromoMember> AddPromoMembers(List<PromoMember> promoMembers);
     }
 }

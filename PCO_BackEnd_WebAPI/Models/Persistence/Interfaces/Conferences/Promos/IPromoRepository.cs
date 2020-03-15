@@ -10,6 +10,6 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences.Promos
 {
     public interface IPromoRepository : IRepository<Promo>
     {
-        Promo UpdatePromoDetails(Promo promo);
+        Promo UpdatePromoDetails(int id, Promo promo);
     }
 }

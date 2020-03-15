@@ -25,18 +25,27 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             _context = new ApplicationDbContext();
         }
 
+        /// <summary>
+        /// Gets list of rates
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        [ResponseType(typeof(RateDTO))]
+        [ResponseType(typeof(ResponseRateDTO))]
         public async Task<IHttpActionResult> GetAll()
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
             var result = await Task.Run(() => unitOfWork.Rates.GetAll().ToList()
-                                                   .Select(Mapper.Map<Rate,RateDTO>));
+                                                   .Select(Mapper.Map<Rate,ResponseRateDTO>));
             return Ok(result);
         }
 
+        /// <summary>
+        /// Gets the rate information based on specified id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
-        [ResponseType(typeof(RateDTO))]
+        [ResponseType(typeof(ResponseRateDTO))]
         public async Task<IHttpActionResult> Get(int id)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -47,21 +56,26 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             }
             else
             {
-                var rateDTO = Mapper.Map<Rate, RateDTO>(result);
+                var rateDTO = Mapper.Map<Rate, ResponseRateDTO>(result);
                 return Ok(rateDTO);
             }
         }
 
+        /// <summary>
+        /// Add list of Rates 
+        /// </summary>
+        /// <param name="rateDTO"></param>
+        /// <returns></returns>
         [HttpPost]
-        [ResponseType(typeof(RateDTO))]
-        public async Task<IHttpActionResult> AddRates(List<RateDTO> rateDTO)
+        [ResponseType(typeof(ResponseRateDTO))]
+        public async Task<IHttpActionResult> AddRates(List<RequestRateDTO> rateDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var rates = rateDTO.Select(Mapper.Map<RateDTO, Rate>).ToList();
+            var rates = rateDTO.Select(Mapper.Map<RequestRateDTO, Rate>).ToList();
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -75,7 +89,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
                     await Task.Run(() => unitOfWork.Rates.AddRates(rates));
                 }
                 await Task.Run(() => unitOfWork.Complete());
-                var resultDTO = rates.Select(Mapper.Map<Rate, RateDTO>);
+                var resultDTO = rates.Select(Mapper.Map<Rate, ResponseRateDTO>);
                 return Created(string.Empty, resultDTO);
             }
             catch (Exception ex)
@@ -84,15 +98,21 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             }
         }
 
+        /// <summary>
+        /// Updates a rate
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="rateDTO"></param>
+        /// <returns></returns>
         [HttpPut]
-        [ResponseType(typeof(ConferenceDTO))]
-        public async Task<IHttpActionResult> UpdateRate(int id, RateDTO rateDTO)
+        [ResponseType(typeof(ResponseConferenceDTO))]
+        public async Task<IHttpActionResult> UpdateRate(int id, RequestRateDTO rateDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var rate = Mapper.Map<RateDTO, Rate>(rateDTO);
+            var rate = Mapper.Map<RequestRateDTO, Rate>(rateDTO);
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -103,9 +123,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
                 }
                 else
                 {
-                    result = await Task.Run(() => unitOfWork.Rates.UpdateRate(rate));
+                    result = await Task.Run(() => unitOfWork.Rates.UpdateRate(id, rate));
                     await Task.Run(() => unitOfWork.Complete());
-                    return Ok(Mapper.Map<Rate, RateDTO>(result));
+                    return Ok(Mapper.Map<Rate, ResponseRateDTO>(result));
                 }
             }
             catch (Exception ex)
@@ -114,8 +134,13 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             }
         }
 
+        /// <summary>
+        /// Deletes a rate
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete]
-        [ResponseType(typeof(ConferenceDTO))]
+        [ResponseType(typeof(ResponseConferenceDTO))]
         public async Task<IHttpActionResult> DeleteRates(int id)
         {
             try

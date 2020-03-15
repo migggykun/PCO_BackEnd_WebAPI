@@ -25,14 +25,18 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
         }
 
 
-        public Conference UpdateConferenceInfo(Conference conference)
+        public Conference UpdateConferenceInfo(int id, Conference conference)
         {
-          var updatedConference = appDbContext.UpdateGraph<Conference>(conference, map => map.OwnedCollection(e => e.Rates)
-                                                                                             .OwnedEntity(c => c.Promo, with =>
-                                                                                             with.OwnedCollection(p => p.PromoMembers)));
+          conference.Id = id;
+          conference.Rates.ToList().ForEach(x => x.conferenceId = id);
+          var updatedConference = appDbContext.UpdateGraph<Conference>(conference, map => map.OwnedCollection(e => e.Rates));
           return updatedConference;
         }
 
+        public List<Conference> GetUpcomingConferences(DateTime date)
+        {
+                return appDbContext.Conferences.Where(c => c.Start >= date.Date).ToList();
+        }
         public ApplicationDbContext appDbContext
         {
             get

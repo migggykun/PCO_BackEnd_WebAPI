@@ -26,6 +26,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             _context = new ApplicationDbContext();
         }
 
+        /// <summary>
+        /// Gets list of types of membership
+        /// </summary>
+        /// <param name="membershipType"></param>
+        /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseMembershipTypeDTO))]
         public async Task<IHttpActionResult> GetAll(string membershipType = null)
@@ -47,6 +52,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             return Ok(result);
         }
 
+        /// <summary>
+        /// Gets the membership type based on specified id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseMembershipTypeDTO))]
         public async Task<IHttpActionResult> Get(int id)
@@ -64,6 +74,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }   
         }
 
+        /// <summary>
+        /// Adds a membershipType
+        /// </summary>
+        /// <param name="membershipTypeDTO"></param>
+        /// <returns></returns>
         [HttpPost]
         [ResponseType(typeof(ResponseMembershipTypeDTO))]
         public async Task<IHttpActionResult> AddMembershipType(RequestMembershipTypeDTO membershipTypeDTO)
@@ -89,6 +104,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             
         }
 
+        /// <summary>
+        /// Updates the specified membershipType
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="membershipTypeDTO"></param>
+        /// <returns></returns>
         [HttpPut]
         [ResponseType(typeof(ResponseMembershipTypeDTO))]
         public async Task<IHttpActionResult> UpdateMembershipType(int id, RequestMembershipTypeDTO membershipTypeDTO)
@@ -120,6 +141,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
         }
 
+        /// <summary>
+        /// Deletes the specified membership type
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete]
         public async Task<IHttpActionResult> DeleteMembershipType(int id)
         {

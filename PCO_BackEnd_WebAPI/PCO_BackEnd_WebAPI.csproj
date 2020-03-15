@@ -37,6 +37,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\PCO_BackEnd_WebAPI.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=4.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
@@ -44,8 +45,16 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="RefactorThis.GraphDiff, Version=3.1.0.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
       <HintPath>..\packages\RefactorThis.GraphDiff.3.1.0\lib\net40\RefactorThis.GraphDiff.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Swashbuckle.Core.5.6.0\lib\net40\Swashbuckle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -84,9 +93,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http">
     </Reference>
     <Reference Include="System.Net.Http.WebRequest">
@@ -120,6 +126,10 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -188,6 +198,7 @@
     <Compile Include="App_Start\MappingProfile.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
@@ -232,16 +243,21 @@
     <Compile Include="DTOs\Accounts\ResponseMembershipTypeDTO.cs" />
     <Compile Include="DTOs\Accounts\ResponsePRCDetailDTO.cs" />
     <Compile Include="DTOs\Accounts\ResponseUserInfoDTO.cs" />
-    <Compile Include="DTOs\Conferences\ConferenceDTO.cs" />
-    <Compile Include="DTOs\Conferences\Promos\PromoDTO.cs" />
-    <Compile Include="DTOs\Conferences\Promos\PromoMemberDTO.cs" />
-    <Compile Include="DTOs\Conferences\RateDTO.cs" />
+    <Compile Include="DTOs\Conferences\Promos\RequestPromoDTO.cs" />
+    <Compile Include="DTOs\Conferences\Promos\RequestPromoMemberDTO.cs" />
+    <Compile Include="DTOs\Conferences\AddConferenceDTO.cs" />
+    <Compile Include="DTOs\Conferences\AddRateWithConferenceDTO.cs" />
+    <Compile Include="DTOs\Conferences\RequestRateDTO.cs" />
+    <Compile Include="DTOs\Conferences\ResponseConferenceDTO.cs" />
+    <Compile Include="DTOs\Conferences\Promos\ResponsePromoDTO.cs" />
+    <Compile Include="DTOs\Conferences\Promos\ResponsePromoMemberDTO.cs" />
+    <Compile Include="DTOs\Conferences\ResponseRateDTO.cs" />
+    <Compile Include="DTOs\Conferences\UpdateConferenceDTO.cs" />
+    <Compile Include="DTOs\Conferences\UpdateRateWithConferenceDTO.cs" />
     <Compile Include="Models\AccountBindingModels\LoginViewModel.cs" />
     <Compile Include="Models\Accounts\IdentityModels.cs" />
     <Compile Include="Models\Conferences\Conference.cs" />
     <Compile Include="Controllers\Accounts\AccountController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IMembershipTypeRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IPRCDetailRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IUserInfoRepository.cs" />
@@ -249,6 +265,7 @@
     <Compile Include="Models\Persistence\Interfaces\Conferences\IRateRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Conferences\Promos\IPromoMemberRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Conferences\Promos\IPromoRepository.cs" />
+    <Compile Include="Models\Persistence\Repositories\Accounts\AccountRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Accounts\UserInfoRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Accounts\PRCDetailRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Conferences\ConferenceRepository.cs" />

@@ -23,9 +23,11 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
             return appDbContext.Rates.AddRange(rates).ToList();
         }
 
-        public Rate UpdateRate(Rate rate)
+        public Rate UpdateRate(int id, Rate rate)
         {
-            return appDbContext.UpdateGraph<Rate>(rate);
+            var rateToUpdate = appDbContext.Rates.Find(id);
+            appDbContext.Entry(rateToUpdate).CurrentValues.SetValues(rate);
+            return rateToUpdate;
         }
 
         public void RemoveRates(List<Rate> rates)

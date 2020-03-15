@@ -15,10 +15,18 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences.Promos
 
         }
 
-        public Promo UpdatePromoDetails(Promo promo)
+        public Promo UpdatePromoDetails(int id, Promo promo)
         {
-            var updatedPromo = appDbContext.UpdateGraph<Promo>(promo, map => map.OwnedCollection(p => p.PromoMembers));
-            return updatedPromo;
+            var promoToUpdate = appDbContext.Promos.Find(id);
+            var PromoMembersToUpdate = appDbContext.PromoMembers.Where(p => p.PromoId == id).ToList();
+            var newValues = promo.PromoMembers.ToList();
+            for (int x = 0; x < PromoMembersToUpdate.Count; x++)
+            {
+                PromoMembersToUpdate[x].MembershipTypeId = newValues[x].MembershipTypeId;
+            }
+
+            appDbContext.Entry(promoToUpdate).CurrentValues.SetValues(promo);
+            return promoToUpdate;
         }
 
         public ApplicationDbContext appDbContext

@@ -11,6 +11,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences
     public interface IConferenceRepository : IRepository<Conference>
     {
         Conference GetConferenceByTitle(string title);
-        Conference UpdateConferenceInfo(Conference conference);
+        Conference UpdateConferenceInfo(int id, Conference conference);
+        List<Conference> GetUpcomingConferences(DateTime date);
     }
 }

@@ -36,6 +36,7 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
 
         public string Banner { get; set; }
 
+        public int? PromoId { get; set; }
         public virtual Promo Promo { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

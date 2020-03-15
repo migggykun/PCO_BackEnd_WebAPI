@@ -26,6 +26,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             _context = new ApplicationDbContext();
         }
 
+        /// <summary>
+        /// Gets list of PRCDetails
+        /// </summary>
+        /// <param name="prcId"></param>
+        /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponsePRCDetailDTO))]
         public async Task<IHttpActionResult> GetAll(string prcId = null)
@@ -46,6 +51,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             return Ok(resultDTO);
         }
 
+        /// <summary>
+        /// Gets the PRC details based on specified id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponsePRCDetailDTO))]
         public async Task<IHttpActionResult> Get(int id)
@@ -63,6 +73,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
         }
 
+        /// <summary>
+        /// Adds PRC details
+        /// </summary>
+        /// <param name="PRCDetailDTO"></param>
+        /// <returns></returns>
         [HttpPost]
         [ResponseType(typeof(ResponsePRCDetailDTO))]
         public async Task<IHttpActionResult> AddPRCDetail(RequestPRCDetailDTO PRCDetailDTO)
@@ -88,6 +103,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 
         }
 
+        /// <summary>
+        /// Updates PRC detail based on specified id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="prcDetailDTO"></param>
+        /// <returns></returns>
         [HttpPut]
         [ResponseType(typeof(ResponsePRCDetailDTO))]
         public async Task<IHttpActionResult> UpdatePRCDetail(int id, RequestPRCDetailDTO prcDetailDTO)
@@ -119,6 +140,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
         }
 
+        /// <summary>
+        /// Deletes PRC detail based on specified id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete]
         public async Task<IHttpActionResult> DeletePRCDetail(int id)
         {

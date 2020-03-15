@@ -14,7 +14,7 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                                         int, CustomUserLogin, CustomUserRole, CustomUserClaim>
     {
         public ApplicationDbContext()
-            : base("PCO_WebAPI_DB")
+            : base("somee_sample")
         {
 
         }
@@ -56,11 +56,9 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
             modelBuilder.Entity<Conference>()
                         .Property(e => e.Banner)
                         .IsFixedLength();
-
+            
             modelBuilder.Entity<Conference>()
-                        .HasOptional(e => e.Promo)
-                        .WithRequired()
-                        .WillCascadeOnDelete(true);
+                        .HasOptional(e => e.Promo);
 
             modelBuilder.Entity<Conference>()
                         .HasMany(e => e.Rates)

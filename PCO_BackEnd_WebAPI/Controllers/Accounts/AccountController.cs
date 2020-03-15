@@ -67,15 +67,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 
         #region Use WebAPI Methods
 
-        // POST api/Account/Logout
-        [Route("Logout")]
-        public IHttpActionResult Logout()
-        {
-            Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
-            return Ok();
-        }
-
-
+        /// <summary>
+        /// Verifies username and password of user
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [Route("Login")]
         [ResponseType(typeof(LoginViewModel))]
@@ -95,6 +91,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
  
         }
 
+        /// <summary>
+        /// Sends email to user to confirm registered email address.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("SendEmail")]
         public async Task<IHttpActionResult> ValidateEmail(int id)
@@ -114,6 +115,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             return BadRequest();
         }
 
+        /// <summary>
+        /// Sets confirmation that registered email is valid.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="code"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("ConfirmEmail")]
         public async Task<IHttpActionResult> ConfirmEmail(int id, string code)
@@ -130,8 +137,14 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         // POST api/Account/Register
+        /// <summary>
+        /// Creates a user account
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [Route("Register")]
+        [ResponseType(typeof(ResponseAccountDTO))]
         public async Task<IHttpActionResult> Register(UserAccountBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -144,8 +157,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 UserName = model.Email,
                 Email = model.Email,
                 PhoneNumber = model.PhoneNumber,
-                PRCDetail = model.PrcDetail,
-                UserInfo = model.UserInfo
+                PRCDetail = Mapper.Map<RequestPRCDetailDTO, PRCDetail>(model.PrcDetail),
+                UserInfo =  Mapper.Map<RequestUserInfoDTO, UserInfo>(model.UserInfo)
             };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
@@ -168,9 +181,15 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             return Ok(Mapper.Map<ApplicationUser, ResponseAccountDTO>(user));
         }
 
+        /// <summary>
+        /// Returns a user account based on provided email.
+        /// Otherwise, all user accounts  are returned
+        /// </summary>
+        /// <param name="email">email of user to be fetched.</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("GetAllUsers")]
-        [ResponseType(typeof(ResponseAccountDTO))]
+        [ResponseType(typeof(List<ResponseAccountDTO>))]
         public async Task <IHttpActionResult> GetUsers(string email = null)
         {
             object result = null;
@@ -195,6 +214,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             return Ok(result);
         }
 
+        /// <summary>
+        /// Gets user based on specified id
+        /// </summary>
+        /// <param name="id">User Id in database</param>
+        /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseAccountDTO))]
         public async Task<IHttpActionResult> GetUser(int id)
@@ -210,30 +234,36 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
         }
 
+        /// <summary>
+        /// Updates user account
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <param name="accountDTO">Account to be updated</param>
+        /// <returns></returns>
         [HttpPut]
         [ResponseType(typeof(ResponseAccountDTO))]
         public async Task<IHttpActionResult> UpdateUser(int id, RequestAccountDTO accountDTO)
         {
-            ApplicationDbContext appDbContext = new ApplicationDbContext();
-            var store = new CustomUserStore(appDbContext);
-            var manager = new UserManager<ApplicationUser, int>(store);
-            var userToUpdate = await manager.FindByIdAsync(id);
+            UnitOfWork unitOfWork = new UnitOfWork(new ApplicationDbContext());
+
+            var userToUpdate = await unitOfWork.Accounts.UserManager.FindByIdAsync(id);
             if (userToUpdate == null)
             {
                 return NotFound();
             }
             else
             {
-                userToUpdate.Email = accountDTO.Email;
-                userToUpdate.PhoneNumber = accountDTO.PhoneNumber;
-                appDbContext.Entry(userToUpdate.PRCDetail).CurrentValues.SetValues(accountDTO.PRCDetail);
-                appDbContext.Entry(userToUpdate.UserInfo).CurrentValues.SetValues(accountDTO.UserInfo);
-
-                await store.Context.SaveChangesAsync();
+                var result = unitOfWork.Accounts.UpdateAccount(userToUpdate, accountDTO);
+                unitOfWork.Complete();
+                return Ok(Mapper.Map<ApplicationUser, ResponseAccountDTO>(result));
             }
-            return Ok(Mapper.Map<ApplicationUser, ResponseAccountDTO>(userToUpdate));
         }
 
+        /// <summary>
+        /// Deletes a user
+        /// </summary>
+        /// <param name="id">user of id to be deleted</param>
+        /// <returns></returns>
         [HttpDelete]
         public async Task<IHttpActionResult> DeleteUser(int id)
         {

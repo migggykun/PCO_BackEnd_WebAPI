@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using PCO_BackEnd_WebAPI.DTOs.Conferences;
+using PCO_BackEnd_WebAPI.DTOs.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
@@ -25,18 +26,27 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
             _context = new ApplicationDbContext();
         }
 
+        /// <summary>
+        /// Gets list of Promos
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        [ResponseType(typeof(PromoDTO))]
+        [ResponseType(typeof(List<ResponsePromoDTO>))]
         public async Task<IHttpActionResult> GetAll()
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
             var result = await Task.Run(() => unitOfWork.Promos.GetAll().ToList()
-                                                        .Select(Mapper.Map<Promo, PromoDTO>));
+                                                        .Select(Mapper.Map<Promo, ResponsePromoDTO>));
             return Ok(result);
         }
 
+        /// <summary>
+        /// Gets the promo based on specified id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
-        [ResponseType(typeof(PromoDTO))]
+        [ResponseType(typeof(ResponsePromoDTO))]
         public async Task<IHttpActionResult> Get(int id)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -47,27 +57,32 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
             }
             else
             {
-                var promoDTO = Mapper.Map<Promo, PromoDTO>(result);
+                var promoDTO = Mapper.Map<Promo, ResponsePromoDTO>(result);
                 return Ok(promoDTO);
             }
         }
 
+        /// <summary>
+        /// Adds a promo for conference
+        /// </summary>
+        /// <param name="promoDTO"></param>
+        /// <returns></returns>
         [HttpPost]
-        [ResponseType(typeof(PromoDTO))]
-        public async Task<IHttpActionResult> AddPromo(PromoDTO promoDTO)
+        [ResponseType(typeof(ResponsePromoDTO))]
+        public async Task<IHttpActionResult> AddPromo(RequestPromoDTO promoDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var promo = Mapper.Map<PromoDTO, Promo>(promoDTO);
+            var promo = Mapper.Map<RequestPromoDTO, Promo>(promoDTO);
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
                 await Task.Run(() => unitOfWork.Promos.Add(promo));
                 await Task.Run(() => unitOfWork.Complete());
-                var resultDTO = Mapper.Map<Promo, PromoDTO>(promo);
+                var resultDTO = Mapper.Map<Promo, ResponsePromoDTO>(promo);
                 return Created(string.Empty, resultDTO);
             }
             catch (Exception ex)
@@ -76,15 +91,21 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
             }
         }
 
+        /// <summary>
+        /// Updates the promo details 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="promoDTO"></param>
+        /// <returns></returns>
         [HttpPut]
-        [ResponseType(typeof(PromoDTO))]
-        public async Task<IHttpActionResult> UpdatePromo(int id, PromoDTO promoDTO)
+        [ResponseType(typeof(ResponsePromoDTO))]
+        public async Task<IHttpActionResult> UpdatePromo(int id, RequestPromoDTO promoDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var promo = Mapper.Map<PromoDTO, Promo>(promoDTO);
+            var promo = Mapper.Map<RequestPromoDTO, Promo>(promoDTO);
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -95,9 +116,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
                 }
                 else
                 {
-                    result = await Task.Run(() => unitOfWork.Promos.UpdatePromoDetails(promo));
+                    result = await Task.Run(() => unitOfWork.Promos.UpdatePromoDetails(id, promo));
                     await Task.Run(() => unitOfWork.Complete());
-                    return Ok(Mapper.Map<Promo, PromoDTO>(result));
+                    return Ok(Mapper.Map<Promo, ResponsePromoDTO>(result));
                 }
             }
             catch (Exception ex)
@@ -106,8 +127,13 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
             }
         }
 
+        /// <summary>
+        /// Deletes a promo based on specified id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete]
-        [ResponseType(typeof(ConferenceDTO))]
+        [ResponseType(typeof(ResponseConferenceDTO))]
         public async Task<IHttpActionResult> DeletePromo(int id)
         {
             try

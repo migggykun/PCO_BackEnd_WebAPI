@@ -25,14 +25,17 @@ namespace PCO_BackEnd_WebAPI.App_Start
             Mapper.CreateMap<RequestMembershipTypeDTO, MembershipType>();
             Mapper.CreateMap<PRCDetail, ResponsePRCDetailDTO>();
             Mapper.CreateMap<RequestPRCDetailDTO, PRCDetail>();
-            Mapper.CreateMap<Conference, ConferenceDTO>();
-            Mapper.CreateMap<ConferenceDTO, Conference>();
-            Mapper.CreateMap<Rate, RateDTO>();
-            Mapper.CreateMap<RateDTO, Rate>();
-            Mapper.CreateMap<Promo, PromoDTO>();
-            Mapper.CreateMap<PromoDTO, Promo>();
-            Mapper.CreateMap<PromoMember, PromoMemberDTO>();
-            Mapper.CreateMap<PromoMemberDTO, PromoMember>();
+            Mapper.CreateMap<AddConferenceDTO, Conference>();
+            Mapper.CreateMap<UpdateConferenceDTO, Conference>();
+            Mapper.CreateMap<Conference, ResponseConferenceDTO>();
+            Mapper.CreateMap<AddRateWithConferenceDTO, Rate>();
+            Mapper.CreateMap<UpdateRateWithConferenceDTO, Rate>();
+            Mapper.CreateMap<RequestRateDTO, Rate>();
+            Mapper.CreateMap<Rate, ResponseRateDTO>();
+            Mapper.CreateMap<RequestPromoDTO, Promo>().ForMember(dst => dst.PromoMembers, src => src.MapFrom(p => p.MembershipTypeIds.Select(mId => new PromoMember { MembershipTypeId = mId}).ToList())); ;
+            Mapper.CreateMap<Promo, ResponsePromoDTO>().ForMember(dst => dst.MembershipTypeIds, src => src.MapFrom(p => p.PromoMembers.Select(pm => pm.MembershipTypeId)));;
+            Mapper.CreateMap<RequestPromoMemberDTO, PromoMember>();
+            Mapper.CreateMap<PromoMember, ResponsePromoMemberDTO>();
             
 
         }

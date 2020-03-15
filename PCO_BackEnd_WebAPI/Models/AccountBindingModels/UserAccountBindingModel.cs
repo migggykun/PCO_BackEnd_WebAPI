@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using PCO_BackEnd_WebAPI.Models.Accounts;
+using PCO_BackEnd_WebAPI.DTOs.Accounts;
 
 namespace PCO_BackEnd_WebAPI.Models.AccountBindingModels
 {
@@ -19,9 +20,9 @@ namespace PCO_BackEnd_WebAPI.Models.AccountBindingModels
         public string PhoneNumber { get; set; }
 
         
-        public PRCDetail PrcDetail { get; set; }
+        public RequestPRCDetailDTO PrcDetail { get; set; }
 
-        public UserInfo UserInfo { get; set; }
+        public RequestUserInfoDTO UserInfo { get; set; }
 
         public bool IsAdmin { get; set; }
 

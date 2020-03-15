@@ -26,6 +26,10 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             _context = new ApplicationDbContext();
         }
 
+        /// <summary>
+        /// Gets list of user information
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseUserInfoDTO))]
         public async Task<IHttpActionResult> GetAll()
@@ -42,6 +46,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
         }
 
+        /// <summary>
+        /// Gets the user information based on specified id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseUserInfoDTO))]
         public async Task<IHttpActionResult> Get(int id)
@@ -59,6 +68,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
         }
 
+        /// <summary>
+        /// Updates user info based on specified id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="userInfoDTO"></param>
+        /// <returns></returns>
         [HttpPut]
         [ResponseType(typeof(ResponseUserInfoDTO))]
         public async Task<IHttpActionResult> UpdateUserInfo(int id, RequestUserInfoDTO userInfoDTO)

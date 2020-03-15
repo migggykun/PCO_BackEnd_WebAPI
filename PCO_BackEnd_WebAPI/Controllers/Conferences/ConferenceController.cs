@@ -27,9 +27,13 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             _context = new ApplicationDbContext();
         }
 
-
+        /// <summary>
+        /// Gets all conferences
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
         [HttpGet]
-        [ResponseType(typeof(ConferenceDTO))]
+        [ResponseType(typeof(ResponseConferenceDTO))]
         public async Task<IHttpActionResult> GetAll(string title = null)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -39,17 +43,49 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
                 var resultDTO = await Task.Run(() => unitOfWork.Conferences
                                                                .GetConferenceByTitle(title));
 
-                result = Mapper.Map<Conference, ConferenceDTO>(resultDTO);
+                result = Mapper.Map<Conference, ResponseConferenceDTO>(resultDTO);
 ;           }
             else
             {
                 result = await Task.Run(() =>unitOfWork.Conferences.GetAll().ToList()
-                                                   .Select(Mapper.Map<Conference, ConferenceDTO>));
+                                                   .Select(Mapper.Map<Conference, ResponseConferenceDTO>));
             }
 
             return Ok(result);
         }
 
+        /// <summary>
+        /// Gets list of upcoming conferences
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [ResponseType(typeof(List<ResponseConferenceDTO>))]
+        [Route("api/Conference/GetUpcomingConferences")]
+        public async Task<IHttpActionResult> GetUpcomingConferences(string date = null)
+        {
+            try
+            {
+                DateTime dateParam = DateTime.Now.Date;
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+                if (!string.IsNullOrEmpty(date))
+                {
+                    dateParam = DateTime.Parse(date);
+                }
+                var result = unitOfWork.Conferences.GetUpcomingConferences(dateParam);
+                return Ok(result.Select(Mapper.Map<Conference, ResponseConferenceDTO>));
+            }
+            catch(FormatException ex)
+            {
+                return BadRequest("Invalid date format");
+            }
+        }
+
+        /// <summary>
+        /// Gets conference based on specified id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IHttpActionResult> Get(int id)
         {
@@ -61,27 +97,32 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             }
             else
             {
-                var membershipTypeDTO = Mapper.Map<Conference, ConferenceDTO>(result);
+                var membershipTypeDTO = Mapper.Map<Conference, ResponseConferenceDTO>(result);
                 return Ok(membershipTypeDTO);
             }   
         }
 
+        /// <summary>
+        /// Adds a conference
+        /// </summary>
+        /// <param name="conferenceDTO"></param>
+        /// <returns></returns>
         [HttpPost]
-        [ResponseType(typeof(ConferenceDTO))]
-        public async Task<IHttpActionResult> AddConference(ConferenceDTO conferenceDTO)
+        [ResponseType(typeof(ResponseConferenceDTO))]
+        public async Task<IHttpActionResult> AddConference(AddConferenceDTO conferenceDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var conference = Mapper.Map<ConferenceDTO, Conference>(conferenceDTO);
+            var conference = Mapper.Map<AddConferenceDTO, Conference>(conferenceDTO);
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
                 await Task.Run(() => unitOfWork.Conferences.Add(conference));
                 await Task.Run(() => unitOfWork.Complete());
-                var resultDTO = Mapper.Map<Conference, ConferenceDTO>(conference);
+                var resultDTO = Mapper.Map<Conference, ResponseConferenceDTO>(conference);
                 return Created(new Uri(Request.RequestUri + "/" + conference.Id), resultDTO);
             }
             catch (Exception ex)
@@ -90,15 +131,21 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             }
         }
 
+        /// <summary>
+        /// Updates details of conference
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="conferenceDTO"></param>
+        /// <returns></returns>
         [HttpPut]
-        [ResponseType(typeof(ConferenceDTO))]
-        public async Task<IHttpActionResult> UpdateConference(int id, ConferenceDTO conferenceDTO)
+        [ResponseType(typeof(ResponseConferenceDTO))]
+        public async Task<IHttpActionResult> UpdateConference(int id, UpdateConferenceDTO conferenceDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var conference = Mapper.Map<ConferenceDTO, Conference>(conferenceDTO);
+            var conference = Mapper.Map<UpdateConferenceDTO, Conference>(conferenceDTO);
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -109,9 +156,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
                 }
                 else
                 {
-                   result =  await Task.Run(() => unitOfWork.Conferences.UpdateConferenceInfo(conference));
+                   result =  await Task.Run(() => unitOfWork.Conferences.UpdateConferenceInfo(id, conference));
                     await Task.Run(() => unitOfWork.Complete());
-                    return Ok(Mapper.Map<Conference, ConferenceDTO>(result));
+                    return Ok(Mapper.Map<Conference, ResponseConferenceDTO>(result));
                 }
             }
             catch (Exception ex)
@@ -120,8 +167,13 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             }
         }
 
+        /// <summary>
+        /// Deletes a conference based on specified id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete]
-        [ResponseType(typeof(ConferenceDTO))]
+        [ResponseType(typeof(ResponseConferenceDTO))]
         public async Task<IHttpActionResult> DeleteConference(int id)
         {
             try
@@ -136,7 +188,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
                 {
                     await Task.Run(() => unitOfWork.Conferences.Remove(conference));
                     await Task.Run(() => unitOfWork.Complete());
-                    return Ok(Mapper.Map<Conference, ConferenceDTO>(conference));
+                    return Ok(Mapper.Map<Conference, ResponseConferenceDTO>(conference));
                 }
             }
             catch (Exception ex)
