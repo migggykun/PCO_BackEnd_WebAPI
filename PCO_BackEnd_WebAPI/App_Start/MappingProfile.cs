@@ -10,6 +10,8 @@ using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.DTOs.Conferences;
 using PCO_BackEnd_WebAPI.Models.Conferences.Promos;
 using PCO_BackEnd_WebAPI.DTOs.Conferences.Promos;
+using PCO_BackEnd_WebAPI.DTOs;
+using PCO_BackEnd_WebAPI.Models.Registrations;
 
 namespace PCO_BackEnd_WebAPI.App_Start
 {
@@ -36,7 +38,8 @@ namespace PCO_BackEnd_WebAPI.App_Start
             Mapper.CreateMap<Promo, ResponsePromoDTO>().ForMember(dst => dst.MembershipTypeIds, src => src.MapFrom(p => p.PromoMembers.Select(pm => pm.MembershipTypeId)));;
             Mapper.CreateMap<RequestPromoMemberDTO, PromoMember>();
             Mapper.CreateMap<PromoMember, ResponsePromoMemberDTO>();
-            
+            Mapper.CreateMap<ConferenceRegistrationDTO, Registration>();
+            Mapper.CreateMap<Registration, ConferenceRegistrationDTO>();
 
         }
     }

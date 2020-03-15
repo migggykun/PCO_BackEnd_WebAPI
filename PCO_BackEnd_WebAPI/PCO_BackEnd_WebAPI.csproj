@@ -228,6 +228,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\Accounts\ConferenceRegistrationController.cs" />
     <Compile Include="Controllers\Accounts\MembershipTypeController.cs" />
     <Compile Include="Controllers\Accounts\PRCDetailController.cs" />
     <Compile Include="Controllers\Accounts\UserInfoController.cs" />
@@ -235,11 +236,12 @@
     <Compile Include="Controllers\Conferences\Promos\PromoController.cs" />
     <Compile Include="Controllers\Conferences\Promos\PromoMemberController.cs" />
     <Compile Include="Controllers\Conferences\RateController.cs" />
+    <Compile Include="Controllers\ExceptionManager.cs" />
     <Compile Include="DTOs\Accounts\RequestAccountDTO.cs" />
-    <Compile Include="DTOs\Accounts\ResponseAccountDTO.cs" />
     <Compile Include="DTOs\Accounts\RequestMembershipTypeDTO.cs" />
     <Compile Include="DTOs\Accounts\RequestPRCDetailDTO.cs" />
     <Compile Include="DTOs\Accounts\RequestUserInfoDTO.cs" />
+    <Compile Include="DTOs\Accounts\ResponseAccountDTO.cs" />
     <Compile Include="DTOs\Accounts\ResponseMembershipTypeDTO.cs" />
     <Compile Include="DTOs\Accounts\ResponsePRCDetailDTO.cs" />
     <Compile Include="DTOs\Accounts\ResponseUserInfoDTO.cs" />
@@ -266,8 +268,10 @@
     <Compile Include="Models\Persistence\Interfaces\Conferences\Promos\IPromoMemberRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Conferences\Promos\IPromoRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Accounts\AccountRepository.cs" />
+    <Compile Include="Models\Persistence\Interfaces\IConferenceRegistrationRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Accounts\UserInfoRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Accounts\PRCDetailRepository.cs" />
+    <Compile Include="Models\Persistence\Repositories\Conferences\ConferenceRegistrationRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Conferences\ConferenceRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\IRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Accounts\MembershipTypeRepository.cs" />
