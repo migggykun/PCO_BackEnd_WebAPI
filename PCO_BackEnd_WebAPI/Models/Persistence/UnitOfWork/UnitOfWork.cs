@@ -11,6 +11,8 @@ using PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts;
 using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences;
 using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences.Promos;
+using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces;
+using PCO_BackEnd_WebAPI.Models.Persistence.Repositories;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
 {
@@ -24,6 +26,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
         public IRateRepository Rates { get; set; }
         public IPromoRepository Promos { get; set; }
         public IPromoMemberRepository PromoMembers { get; set; }
+        public IConferenceRegistrationRepository ConferenceRegistration{ get; set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -35,6 +38,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
             Rates = new RateRepository(_context);
             Promos = new PromoRepository(_context);
             PromoMembers = new PromoMemberRepository(_context);
+            ConferenceRegistration = new ConferenceRegistrationRepository(_context);
         }
 
         /// <summary>
