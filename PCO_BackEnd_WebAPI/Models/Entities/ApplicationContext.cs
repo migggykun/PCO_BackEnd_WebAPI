@@ -86,6 +86,16 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
             modelBuilder.Entity<Registration>()
                         .HasOptional(e => e.RegistrationPayment)
                         .WithRequired(e => e.Registration);
+
+            modelBuilder.Entity<Registration>()
+                        .HasRequired(e => e.Conference)
+                        .WithMany()
+                        .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<Registration>()
+                        .HasRequired(e => e.User)
+                        .WithMany()
+                        .WillCascadeOnDelete(true);
         }
     }
 }

@@ -1,3 +1,0 @@
-C:\Users\Migeru\Documents\GitHub\PCO_BackEnd_WebAPI\PCO_BackEnd_WebAPI\obj\Release\PCO_BackEnd_WebAPI.csprojResolveAssemblyReference.cache
-C:\Users\Migeru\Documents\GitHub\PCO_BackEnd_WebAPI\PCO_BackEnd_WebAPI\obj\Release\PCO_BackEnd_WebAPI.Migrations.InitialModel.resources
-C:\Users\Migeru\Documents\GitHub\PCO_BackEnd_WebAPI\PCO_BackEnd_WebAPI\obj\Release\PCO_BackEnd_WebAPI.csproj.GenerateResource.Cache

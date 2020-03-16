@@ -26,7 +26,8 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
         [StringLength(100)]
         public string Description { get; set; }
 
-        public int AttendanceLimit { get; set; }
+        [Required]
+        public string Location { get; set; }
 
         [Required]
         public DateTime Start { get; set; }

@@ -117,6 +117,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             {
                 return BadRequest(ModelState);
             }
+
             var PRCDetail = Mapper.Map<RequestPRCDetailDTO, PRCDetail>(prcDetailDTO);
             try
             {
@@ -128,7 +129,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 }
                 else
                 {
-                    result = await Task.Run(() => unitOfWork.PRCDetails.Update(PRCDetail));
+                    result = await Task.Run(() => unitOfWork.PRCDetails.Update(id, PRCDetail));
                     await Task.Run(() => unitOfWork.Complete());
                     return Ok(Mapper.Map<PRCDetail, ResponsePRCDetailDTO>(result));
                 }

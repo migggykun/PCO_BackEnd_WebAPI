@@ -175,7 +175,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete]
-        [ResponseType(typeof(ResponseConferenceDTO))]
         public async Task<IHttpActionResult> DeleteConference(int id)
         {
             try
@@ -190,7 +189,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
                 {
                     await Task.Run(() => unitOfWork.Conferences.Remove(conference));
                     await Task.Run(() => unitOfWork.Complete());
-                    return Ok(Mapper.Map<Conference, ResponseConferenceDTO>(conference));
+                    return Ok();
                 }
             }
             catch (Exception ex)

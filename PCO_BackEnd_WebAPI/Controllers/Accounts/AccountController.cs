@@ -251,6 +251,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         [ResponseType(typeof(ResponseAccountDTO))]
         public async Task<IHttpActionResult> UpdateUser(int id, RequestAccountDTO accountDTO)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             UnitOfWork unitOfWork = new UnitOfWork(new ApplicationDbContext());
 
             var userToUpdate = await unitOfWork.Accounts.UserManager.FindByIdAsync(id);
@@ -260,7 +265,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
             else
             {
-                var result = unitOfWork.Accounts.UpdateAccount(userToUpdate, accountDTO);
+                var result = unitOfWork.Accounts.UpdateAccount(id, accountDTO);
                 unitOfWork.Complete();
                 return Ok(Mapper.Map<ApplicationUser, ResponseAccountDTO>(result));
             }

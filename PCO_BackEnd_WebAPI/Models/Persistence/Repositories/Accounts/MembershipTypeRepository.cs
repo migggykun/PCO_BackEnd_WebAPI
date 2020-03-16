@@ -23,8 +23,9 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
             return membershipType;
         }
 
-        public MembershipType Update(MembershipType entityToUpdate)
+        public MembershipType UpdateMembershipType(int id, MembershipType entityToUpdate)
         {
+            entityToUpdate.Id = id;
             return appDbContext.UpdateGraph<MembershipType>(entityToUpdate);
         }
         public ApplicationDbContext appDbContext

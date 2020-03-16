@@ -18,7 +18,6 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
         [StringLength(30)]
         public string FirstName { get; set; }
 
-        [Required]
         [StringLength(30)]
         public string MiddleName { get; set; }
 

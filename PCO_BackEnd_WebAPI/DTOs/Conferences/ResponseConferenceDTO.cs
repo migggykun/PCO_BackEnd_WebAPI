@@ -13,7 +13,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Conferences
 
         public string Description { get; set; }
 
-        public int AttendanceLimit { get; set; }
+        public string Location { get; set; }
 
         public DateTime Start { get; set; }
 
@@ -21,7 +21,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Conferences
 
         public string Banner { get; set; }
 
-        public virtual ResponsePromoDTO Promo { get; set; }
+        public string PromoId { get; set; }
 
         public virtual ICollection<ResponseRateDTO> Rates { get; set; }
     }

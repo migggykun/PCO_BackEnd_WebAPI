@@ -106,6 +106,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
             {
                 return BadRequest(ModelState);
             }
+
             var promo = Mapper.Map<RequestPromoDTO, Promo>(promoDTO);
             try
             {
@@ -135,7 +136,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete]
-        [ResponseType(typeof(ResponseConferenceDTO))]
         public async Task<IHttpActionResult> DeletePromo(int id)
         {
             try

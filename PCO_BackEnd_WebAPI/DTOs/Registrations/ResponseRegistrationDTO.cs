@@ -6,9 +6,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace PCO_BackEnd_WebAPI.DTOs
+namespace PCO_BackEnd_WebAPI.DTOs.Registrations
 {
-    public class ConferenceRegistrationDTO
+    public class ResponseRegistrationDTO
     {
         public int Id { get; set; }
 
@@ -18,7 +18,7 @@ namespace PCO_BackEnd_WebAPI.DTOs
         [Required]
         public int ConferenceId { get; set; }
 
-        public DateTime? RegistrationDate { get; set; }
+        public string RegistrationDate { get; set; }
 
     }
 }

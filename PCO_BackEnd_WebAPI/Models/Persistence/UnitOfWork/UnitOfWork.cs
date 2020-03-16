@@ -13,6 +13,7 @@ using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces;
 using PCO_BackEnd_WebAPI.Models.Persistence.Repositories;
+using System.Data.Entity.Validation;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
 {
@@ -49,9 +50,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
         /// <returns></returns>
         public int Complete()
         {
-                return _context.SaveChanges();
+            return _context.SaveChanges();
         }
-
 
 
         //Disconnects connection with external resources

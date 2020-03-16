@@ -15,8 +15,9 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
 
         }
 
-        public UserInfo Update(UserInfo entityToUpdate)
+        public UserInfo UpdateUserInfo(int id, UserInfo entityToUpdate)
         {
+            entityToUpdate.Id = id; 
             return appDbContext.UpdateGraph<UserInfo>(entityToUpdate);
         }
 

@@ -15,18 +15,27 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences.Promos
 
         }
 
-        public Promo UpdatePromoDetails(int id, Promo promo)
+        public Promo UpdatePromoDetails(int id, Promo promoUpdate)
         {
-            var promoToUpdate = appDbContext.Promos.Find(id);
-            var PromoMembersToUpdate = appDbContext.PromoMembers.Where(p => p.PromoId == id).ToList();
-            var newValues = promo.PromoMembers.ToList();
-            for (int x = 0; x < PromoMembersToUpdate.Count; x++)
+            promoUpdate.Id = id;
+            var oldPromo = appDbContext.Promos.Find(id);
+            PromoMember result;
+
+            //assign primary key if exists, otherwise 0;
+            foreach (var p in promoUpdate.PromoMembers)
             {
-                PromoMembersToUpdate[x].MembershipTypeId = newValues[x].MembershipTypeId;
+                var it = oldPromo.PromoMembers.ToList().Where(x => x.PromoId == id &&
+                                                       x.MembershipTypeId == p.MembershipTypeId).FirstOrDefault();
+                
+                p.Id = it == null ? 0 : it.Id;
             }
 
-            appDbContext.Entry(promoToUpdate).CurrentValues.SetValues(promo);
-            return promoToUpdate;
+            //Sets promo Id for each promo Members 
+            promoUpdate.PromoMembers.ToList().ForEach(x => x.PromoId = id);
+
+
+            appDbContext.UpdateGraph<Promo>(promoUpdate, p => p.OwnedCollection(pm => pm.PromoMembers));
+            return promoUpdate;
         }
 
         public ApplicationDbContext appDbContext

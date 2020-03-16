@@ -18,7 +18,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Conferences
 
         public DateTime End { get; set; }
 
-        public int Price { get; set; }
+        public int Amount { get; set; }
 
         public List<int> MembershipTypeIds { get; set; }
     }

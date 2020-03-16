@@ -722,6 +722,20 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.ExceptionManager.GetAllExceptionMessages(System.Exception)">
+            <summary>
+            Method that returns all exceptions and inner exceptions
+            </summary>
+            <param name="aException"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.ExceptionManager.GetInnerExceptionMessage(System.Exception)">
+            <summary>
+            Method that returns innest exception message 
+            </summary>
+            <param name="aException"></param>
+            <returns></returns>
+        </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.Login(PCO_BackEnd_WebAPI.Models.AccountBindingModels.LoginViewModel)">
             <summary>
             Verifies username and password of user

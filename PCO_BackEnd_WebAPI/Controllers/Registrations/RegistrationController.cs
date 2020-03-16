@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using PCO_BackEnd_WebAPI.DTOs;
+using PCO_BackEnd_WebAPI.DTOs.Registrations;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using PCO_BackEnd_WebAPI.Models.Registrations;
@@ -16,22 +17,22 @@ using System.Web.Http.Description;
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
     [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
-    public class ConferenceRegistrationController : ApiController
+    public class RegistrationController : ApiController
     {
         private readonly ApplicationDbContext _context;
 
-        public ConferenceRegistrationController()
+        public RegistrationController()
         {
             _context = new ApplicationDbContext();
         }
 
         [HttpGet]
-        [ResponseType(typeof(ConferenceRegistrationDTO))]
+        [ResponseType(typeof(List<ResponseRegistrationDTO>))]
         public async Task<IHttpActionResult> GetAll()
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
             var result = await Task.Run(() => unitOfWork.ConferenceRegistration.GetAll().ToList()
-                                                        .Select(Mapper.Map<Registration, ConferenceRegistrationDTO>));
+                                                        .Select(Mapper.Map<Registration, ResponseRegistrationDTO>));
             return Ok(result);
         }
 
@@ -46,28 +47,28 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
             else
             {
-                var registrationDTO = Mapper.Map<Registration, ConferenceRegistrationDTO>(result);
+                var registrationDTO = Mapper.Map<Registration, ResponseRegistrationDTO>(result);
                 return Ok(registrationDTO);
             }   
         }
 
         [HttpPost]
-        [ResponseType(typeof(ConferenceRegistrationDTO))]
-        public async Task<IHttpActionResult> Add(ConferenceRegistrationDTO conferenceRegistrationDTO)
+        [ResponseType(typeof(ResponseRegistrationDTO))]
+        public async Task<IHttpActionResult> Add(RequestRegistrationDTO registrationDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var conferenceRegistration = Mapper.Map<ConferenceRegistrationDTO, Registration>(conferenceRegistrationDTO);
+            var registration = Mapper.Map<RequestRegistrationDTO, Registration>(registrationDTO);
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
-                await Task.Run(() => unitOfWork.ConferenceRegistration.Add(conferenceRegistration));
+                await Task.Run(() => unitOfWork.ConferenceRegistration.Add(registration));
                 await Task.Run(() => unitOfWork.Complete());
-                var resultDTO = Mapper.Map<Registration, ConferenceRegistrationDTO>(conferenceRegistration);
-                return Created(new Uri(Request.RequestUri + "/" + conferenceRegistration.Id), resultDTO);
+                var resultDTO = Mapper.Map<Registration, ResponseRegistrationDTO>(registration);
+                return Created(new Uri(Request.RequestUri + "/" + registration.Id), resultDTO);
             }
             catch (Exception ex)
             {
@@ -77,14 +78,14 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         [HttpPut]
-        [ResponseType(typeof(ConferenceRegistrationDTO))]
-        public async Task<IHttpActionResult> Update(int id, ConferenceRegistrationDTO aConferenceRegistrationDTO)
+        [ResponseType(typeof(ResponseRegistrationDTO))]
+        public async Task<IHttpActionResult> Update(int id, ResponseRegistrationDTO registrationDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var conferenceRegistration = Mapper.Map<ConferenceRegistrationDTO, Registration>(aConferenceRegistrationDTO);
+            var conferenceRegistration = Mapper.Map<ResponseRegistrationDTO, Registration>(registrationDTO);
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -97,7 +98,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 {
                    result =  await Task.Run(() => unitOfWork.ConferenceRegistration.Update(conferenceRegistration));
                     await Task.Run(() => unitOfWork.Complete());
-                    return Ok(Mapper.Map<Registration, ConferenceRegistrationDTO>(result));
+                    return Ok(Mapper.Map<Registration, ResponseRegistrationDTO>(result));
                 }
             }
             catch (Exception ex)
@@ -108,7 +109,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         [HttpDelete]
-        [ResponseType(typeof(ConferenceRegistrationDTO))]
         public async Task<IHttpActionResult> Delete(int id)
         {
             try
@@ -123,7 +123,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 {
                     await Task.Run(() => unitOfWork.ConferenceRegistration.Remove(conferenceRegistration));
                     await Task.Run(() => unitOfWork.Complete());
-                    return Ok(Mapper.Map<Registration, ConferenceRegistrationDTO>(conferenceRegistration));
+                    return Ok();
                 }
             }
             catch (Exception ex)

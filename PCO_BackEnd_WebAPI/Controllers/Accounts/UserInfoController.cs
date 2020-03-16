@@ -82,18 +82,19 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             {
                 return BadRequest(ModelState);
             }
+
             var userInfo = Mapper.Map<RequestUserInfoDTO, UserInfo>(userInfoDTO);
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
-                var result = await Task.Run(() => unitOfWork.UserInfos.Get(userInfo.Id));
+                var result = await Task.Run(() => unitOfWork.UserInfos.Get(id));
                 if (result == null)
                 {
                     return NotFound();
                 }
                 else
                 {
-                    result =  await Task.Run(() => unitOfWork.UserInfos.Update(userInfo));
+                    result =  await Task.Run(() => unitOfWork.UserInfos.UpdateUserInfo(id, userInfo));
                     await Task.Run(() => unitOfWork.Complete());
                     return Ok(Mapper.Map<UserInfo, ResponseUserInfoDTO>(result));
                 }

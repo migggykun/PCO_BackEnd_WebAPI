@@ -106,13 +106,13 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="rateDTO"></param>
         /// <returns></returns>
         [HttpPut]
-        [ResponseType(typeof(ResponseConferenceDTO))]
         public async Task<IHttpActionResult> UpdateRate(int id, RequestRateDTO rateDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
             var rate = Mapper.Map<RequestRateDTO, Rate>(rateDTO);
             try
             {

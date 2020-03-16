@@ -10,6 +10,6 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Accounts
     public interface IMembershipTypeRepository : IRepository<MembershipType>
     {
         MembershipType GetMembershipTypeByName(string membershipTypeName);
-        MembershipType Update(MembershipType entityToUpdate);
+        MembershipType UpdateMembershipType(int id, MembershipType entityToUpdate);
     }
 }

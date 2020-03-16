@@ -22,8 +22,9 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
             
         }
 
-        public PRCDetail Update(PRCDetail entityToUpdate)
+        public PRCDetail Update(int id, PRCDetail entityToUpdate)
         {
+            entityToUpdate.Id = id;
             return appDbContext.UpdateGraph<PRCDetail>(entityToUpdate);
         }
 

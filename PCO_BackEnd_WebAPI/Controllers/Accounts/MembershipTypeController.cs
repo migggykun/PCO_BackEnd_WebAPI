@@ -119,6 +119,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             {
                 return BadRequest(ModelState);
             }
+
             var membershipType = Mapper.Map<RequestMembershipTypeDTO, MembershipType>(membershipTypeDTO);
             try
             {
@@ -130,7 +131,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 }
                 else
                 {
-                    result = await Task.Run(() => unitOfWork.MembershipTypes.Update(membershipType));
+                    result = await Task.Run(() => unitOfWork.MembershipTypes.UpdateMembershipType(id, membershipType));
                     await Task.Run(() => unitOfWork.Complete());
                     return Ok(Mapper.Map<MembershipType, ResponseMembershipTypeDTO>(result));
                 }
@@ -163,7 +164,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 {
                     await Task.Run(() => unitOfWork.MembershipTypes.Remove(membershipType));
                     await Task.Run(() => unitOfWork.Complete());
-                    return Ok(Mapper.Map<MembershipType, ResponseMembershipTypeDTO>(membershipType));
+                    return Ok();
                 }
             }
             catch (Exception ex)

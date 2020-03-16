@@ -4,14 +4,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace PCO_BackEnd_WebAPI.DTOs.Accounts
+namespace PCO_BackEnd_WebAPI.DTOs.Registrations
 {
-    public class RequestPRCDetailDTO
+    public class RequestRegistrationDTO
     {
         [Required]
-        public string IdNumber { get; set; }
+        public int UserId { get; set; }
 
         [Required]
-        public string ExpirationDate { get; set; }
+        public int ConferenceId { get; set; }
     }
 }

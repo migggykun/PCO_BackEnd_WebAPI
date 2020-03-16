@@ -7,10 +7,10 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
 {
     public class ResponsePRCDetailDTO
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public string IdNumber { get; set; }
 
-        public DateTime ExpirationDate { get; set; }
+        public string ExpirationDate { get; set; }
     }
 }

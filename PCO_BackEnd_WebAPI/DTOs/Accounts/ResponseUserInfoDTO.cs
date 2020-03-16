@@ -19,6 +19,6 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
 
         public string Organization { get; set; }
 
-        public int membershipTypeId { get; set; }
+        public int MembershipTypeId { get; set; }
     }
 }
