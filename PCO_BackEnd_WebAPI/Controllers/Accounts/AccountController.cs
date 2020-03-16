@@ -256,6 +256,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 return BadRequest(ModelState);
             }
 
+            var user = Mapper.Map<RequestAccountDTO, ApplicationUser>(accountDTO);
             UnitOfWork unitOfWork = new UnitOfWork(new ApplicationDbContext());
 
             var userToUpdate = await unitOfWork.Accounts.UserManager.FindByIdAsync(id);
@@ -265,7 +266,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
             else
             {
-                var result = unitOfWork.Accounts.UpdateAccount(id, accountDTO);
+                var result = unitOfWork.Accounts.UpdateAccount(id, user);
                 unitOfWork.Complete();
                 return Ok(Mapper.Map<ApplicationUser, ResponseAccountDTO>(result));
             }

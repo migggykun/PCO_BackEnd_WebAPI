@@ -20,7 +20,9 @@ namespace PCO_BackEnd_WebAPI.App_Start
     {
         public MappingProfile()
         {
-            Mapper.CreateMap<RequestAccountDTO, ApplicationUser>();
+            Mapper.CreateMap<RequestAccountDTO, ApplicationUser>().ForMember(dst => dst.PRCDetail, src => src.MapFrom(c => string.IsNullOrEmpty(c.PRCDetail.IdNumber) || string.IsNullOrEmpty(c.PRCDetail.ExpirationDate)
+                                                                                                   ? null : new PRCDetail(){ IdNumber = c.PRCDetail.IdNumber, ExpirationDate = DateTime.Parse(c.PRCDetail.ExpirationDate)}))
+                                                                  .ForMember(dst => dst.UserName, src => src.MapFrom (c => c.Email));
             Mapper.CreateMap<UserInfo, ResponseUserInfoDTO>();
             Mapper.CreateMap<RequestUserInfoDTO, UserInfo>();
             Mapper.CreateMap<MembershipType, ResponseMembershipTypeDTO>();

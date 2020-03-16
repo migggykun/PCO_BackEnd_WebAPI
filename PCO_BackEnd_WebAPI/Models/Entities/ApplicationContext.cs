@@ -49,7 +49,7 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
 
             modelBuilder.Entity<ApplicationUser>()
                         .HasOptional(e => e.PRCDetail)
-                        .WithRequired()
+                        .WithOptionalPrincipal()
                         .WillCascadeOnDelete(true);
 
 

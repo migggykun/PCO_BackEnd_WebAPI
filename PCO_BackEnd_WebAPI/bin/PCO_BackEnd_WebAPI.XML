@@ -795,6 +795,20 @@
             <param name="id">user of id to be deleted</param>
             <returns></returns>
         </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.AccountRepository.UpdateUserInfo(PCO_BackEnd_WebAPI.Models.Accounts.UserInfo,PCO_BackEnd_WebAPI.Models.Accounts.UserInfo)">
+            <summary>
+            Updates UserInfo
+            </summary>
+            <param name="oldInfo"></param>
+            <param name="newInfo"></param>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.AccountRepository.UpdatePRCDetail(PCO_BackEnd_WebAPI.Models.Accounts.PRCDetail,PCO_BackEnd_WebAPI.Models.Accounts.PRCDetail,System.Int32)">
+            <summary>
+            Updates PRC Details
+            </summary>
+            <param name="oldPRC"></param>
+            <param name="newPRC"></param>
+        </member>
         <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.Get(System.Int32)">
             <summary>
             Get object based on provided Id

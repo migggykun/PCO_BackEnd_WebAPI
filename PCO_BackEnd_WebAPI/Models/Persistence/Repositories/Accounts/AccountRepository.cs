@@ -24,32 +24,58 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
             UserManager = new UserManager<ApplicationUser, int>(store);
         }
 
-        public ApplicationUser UpdateAccount(int id, RequestAccountDTO newValues)
+        public ApplicationUser UpdateAccount(int id, ApplicationUser user)
         {
-            var user = UserManager.FindById(id);
-            _context.Entry(user.UserInfo).CurrentValues.SetValues(newValues.UserInfo);
-            if (user.PRCDetail == null && newValues.PRCDetail != null)
-            {
-                PRCDetail prcNew = new PRCDetail()
-                {
-                    Id = id,
-                    IdNumber = newValues.PRCDetail.IdNumber,
-                    ExpirationDate = DateTime.Parse(newValues.PRCDetail.ExpirationDate).Date
-                };
+            var oldUser = UserManager.FindById(id);
 
-                _context.Entry(prcNew).State = System.Data.Entity.EntityState.Added;
-            }
-            else if (user.PRCDetail != null && newValues.PRCDetail == null)
-            {
-                var obj = _context.PRCDetails.Find(id);
-                _context.PRCDetails.Remove(obj);
-            }
+            //Update base user Info
+            user.Id = id;
+            _context.Entry(oldUser).CurrentValues.SetValues(user);
 
-            else if(user.PRCDetail != null && newValues.PRCDetail != null)
-            {
-                _context.Entry(user.PRCDetail).CurrentValues.SetValues(newValues.PRCDetail);
-            }
+            //Update UserInfo object
+            user.UserInfo.Id = id;
+            UpdateUserInfo(oldUser.UserInfo, user.UserInfo);
+
+            //Update PRCDetail Object
+            UpdatePRCDetail(oldUser.PRCDetail, user.PRCDetail, id);
+
             return user;
+        }
+
+        /// <summary>
+        /// Updates UserInfo
+        /// </summary>
+        /// <param name="oldInfo"></param>
+        /// <param name="newInfo"></param>
+        private void UpdateUserInfo(UserInfo oldInfo, UserInfo newInfo)
+        {
+            newInfo.Id = oldInfo.Id;
+            _context.Entry(oldInfo).CurrentValues.SetValues(newInfo);
+        }
+
+        /// <summary>
+        /// Updates PRC Details
+        /// </summary>
+        /// <param name="oldPRC"></param>
+        /// <param name="newPRC"></param>
+        private void UpdatePRCDetail(PRCDetail oldPRC, PRCDetail newPRC, int id)
+        {
+            if (oldPRC == null && newPRC != null)
+            {
+                newPRC.Id = id;
+                _context.Entry(newPRC).State = System.Data.Entity.EntityState.Added;
+            }
+            else if (oldPRC != null && newPRC == null)
+            {
+                oldPRC.Id = id;
+                _context.Entry(oldPRC).State = System.Data.Entity.EntityState.Deleted;
+            }
+
+            else if (oldPRC != null && newPRC != null)
+            {
+                newPRC.Id = id;
+                _context.Entry(oldPRC).CurrentValues.SetValues(newPRC);
+            }
         }
     }
 }

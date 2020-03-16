@@ -8,10 +8,10 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
 {
     public class RequestPRCDetailDTO
     {
-        [Required]
+        [Required(AllowEmptyStrings= true)]
         public string IdNumber { get; set; }
 
-        [Required]
+        [Required(AllowEmptyStrings= true)]
         public string ExpirationDate { get; set; }
     }
 }
