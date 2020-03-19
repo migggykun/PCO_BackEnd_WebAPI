@@ -4,6 +4,14 @@
         <name>PCO_BackEnd_WebAPI</name>
     </assembly>
     <members>
+        <member name="M:PCO_BackEnd_WebAPI.App_Start.AuthToken.AddAuthorizationHeaderParameterOperationFilter.Apply(Swashbuckle.Swagger.Operation,Swashbuckle.Swagger.SchemaRegistry,System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Applies the operation filter.
+            </summary>
+            <param name="operation"></param>
+            <param name="schemaRegistry"></param>
+            <param name="apiDescription"></param>
+        </member>
         <member name="M:PCO_BackEnd_WebAPI.Areas.HelpPage.ApiDescriptionExtensions.GetFriendlyId(System.Web.Http.Description.ApiDescription)">
             <summary>
             Generates an URI-friendly ID for the <see cref="T:System.Web.Http.Description.ApiDescription"/>. E.g. "Get-Values-id_name" instead of "GetValues/{id}?name={name}"
@@ -734,28 +742,6 @@
             Method that returns innest exception message 
             </summary>
             <param name="aException"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.Login(PCO_BackEnd_WebAPI.Models.AccountBindingModels.LoginViewModel)">
-            <summary>
-            Verifies username and password of user
-            </summary>
-            <param name="model"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.ValidateEmail(System.Int32)">
-            <summary>
-            Sends email to user to confirm registered email address.
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.ConfirmEmail(System.Int32,System.String)">
-            <summary>
-            Sets confirmation that registered email is valid.
-            </summary>
-            <param name="id"></param>
-            <param name="code"></param>
             <returns></returns>
         </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.Register(PCO_BackEnd_WebAPI.Models.AccountBindingModels.UserAccountBindingModel)">

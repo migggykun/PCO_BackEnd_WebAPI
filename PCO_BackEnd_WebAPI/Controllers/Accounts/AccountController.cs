@@ -26,11 +26,11 @@ using PCO_BackEnd_WebAPI.Models.Roles;
 using System.Web.Http.Description;
 using System.Web.Http.Cors;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
+using PCO_BackEnd_WebAPI.Models.Helpers;
 
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
-    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     [AllowAnonymous]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
@@ -67,74 +67,101 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 
         #region Use WebAPI Methods
 
-        /// <summary>
-        /// Verifies username and password of user
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [AllowAnonymous]
-        [Route("Login")]
-        [ResponseType(typeof(LoginViewModel))]
-        public async Task<IHttpActionResult> Login(LoginViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var user = await UserManager.FindAsync(model.username, model.password);
-            if (user != null)
-            {
-                    return Ok(user.Id);
-            }
-
-            return NotFound();
- 
-        }
-
-        /// <summary>
-        /// Sends email to user to confirm registered email address.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        ///// <summary>
+        ///// Sends email to user to confirm registered email address.
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <returns></returns>
         [HttpPost]
-        [Route("SendEmail")]
-        public async Task<IHttpActionResult> ValidateEmail(int id)
+        [Route("SendEmailConfirmation")]
+        public async Task<IHttpActionResult> SendEmailConfirmation(int id)
         {
             var user = await UserManager.FindByIdAsync(id);
             if (user != null)
             {
-                string localHost = HttpContext.Current.Request.Url.Authority;
-                string apiController = "api/Account/ConfirmEmail";
-                string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                string encodedEmailToken = HttpUtility.UrlEncode(code);
-                string callbackUrl = string.Format("http://{0}/{1}/?id={2}&code={3}", localHost, apiController, user.Id, encodedEmailToken);
-                string hyperlink = string.Format("<a href=\"{0}\">here</a>",callbackUrl);
-                await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking " + hyperlink);
-                return Ok();
+                await Task.Run(() => SendEmail(user.Id, (int)EmailClassification.CONFIRM_EMAIL));
             }
             return BadRequest();
         }
 
-        /// <summary>
-        /// Sets confirmation that registered email is valid.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="code"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [Route("ConfirmEmail")]
-        public async Task<IHttpActionResult> ConfirmEmail(int id, string code)
+        private async Task SendEmail(int id, int emailClassification)
         {
-            IdentityResult result = result = await UserManager.ConfirmEmailAsync(id, code);
-            if (result.Succeeded)
+            if (emailClassification == (int)EmailClassification.CONFIRM_EMAIL)
             {
-                return Ok();
+                string code = await UserManager.GenerateEmailConfirmationTokenAsync(id);
+                string idToken = StringManipulationHelper.EncodeIdTokenToCode(id, code);
+                string callbackURL = StringManipulationHelper.SetConfirmEmailUrl(idToken);
+                string hyperLink = StringManipulationHelper.ConvertToHyperLink(callbackURL);
+                string emailBody = EmailTemplate.FormatConfirmEmailBody(hyperLink);
+                await UserManager.SendEmailAsync(id, EmailTemplate.CONFIRM_EMAIL_HEADER, emailBody);
             }
-            else
+
+            if (emailClassification == (int)EmailClassification.RESET_PASSWORD)
             {
-                return BadRequest();
+                string code = await UserManager.GeneratePasswordResetTokenAsync(id);
+                string idToken = StringManipulationHelper.EncodeIdTokenToCode(id, code);
+                string callbackURL = StringManipulationHelper.SetResetPasswordURL(idToken);
+                string hyperLink = StringManipulationHelper.ConvertToHyperLink(callbackURL);
+                string emailBody = EmailTemplate.FormatResetPasswordBody(hyperLink);
+                await UserManager.SendEmailAsync(id, EmailTemplate.RESET_PASSWORD_HEADER, emailBody);
             }
         }
+
+        //[HttpPost]
+        //[Route("SendResetPasswordEmail")]
+        //public async Task<IHttpActionResult> SendResetPasswordEmail(string email)
+        //{
+        //    var user = await UserManager.FindByEmailAsync(email);
+
+        //    var token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+
+        //    if (user != null && user.EmailConfirmed)
+        //    {
+        //        await Task.Run(() => SendEmail(user.Id, (int)EmailClassification.RESET_PASSWORD));
+        //    }
+        //    return Ok();
+        //}
+
+
+        //[HttpPost]
+        //[Route("ResetPassword")]
+        //public async Task<IHttpActionResult> ResetPassword(ResetPasswordViewModel model)
+        //{
+        //    var idToken = StringManipulationHelper.DecodeCodeToIdToken(model.Token);
+        //    IdentityResult result = UserManager.ResetPassword(idToken.Key, idToken.Value, model.NewPassword);
+        //    if (!result.Succeeded)
+        //    {
+        //        return GetErrorResult(result);
+        //    }
+        //    return Ok();
+        //}
+
+        ///// <summary>
+        ///// Sets confirmation that registered email is valid.
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <param name="code"></param>
+        ///// <returns></returns>
+        //[HttpPost]
+        //[Route("ConfirmEmail")]
+        //public async Task<IHttpActionResult> ConfirmEmail(ConfirmEmailViewModel model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    var idToken = StringManipulationHelper.DecodeCodeToIdToken(model.Token);
+        //    IdentityResult result = result = await UserManager.ConfirmEmailAsync(idToken.Key, idToken.Value);
+        //    if (result.Succeeded)
+        //    {
+        //        return Ok();
+        //    }
+        //    else
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
 
         // POST api/Account/Register
         /// <summary>
@@ -178,6 +205,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 {
                     await UserManager.AddToRoleAsync(user.Id, RoleNames.ROLE_MEMBER);
                 }
+                await Task.Run(() => SendEmail(user.Id, (int)EmailClassification.CONFIRM_EMAIL));
 
                 return Ok(Mapper.Map<ApplicationUser, ResponseAccountDTO>(user));
             }
@@ -186,6 +214,26 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                string message = ExceptionManager.GetAllExceptionMessages(ex);
                return BadRequest(message);
             }
+        }
+
+        // POST api/Account/ChangePassword
+        [Route("ChangePassword")]
+        public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            IdentityResult result = await UserManager.ChangePasswordAsync(model.Id, model.OldPassword,
+                model.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
         }
 
         /// <summary>
@@ -197,30 +245,43 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         [HttpGet]
         [Route("GetAllUsers")]
         [ResponseType(typeof(List<ResponseAccountDTO>))]
-        public async Task <IHttpActionResult> GetUsers(string email = null)
+        public async Task <IHttpActionResult> GetUsers(string query = null)
         {
             object result = null;
-            if (!string.IsNullOrEmpty(email))
+            if (!string.IsNullOrEmpty(query))
             {
-                result = await UserManager.FindByEmailAsync(email);
-                if(result == null)
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    var resultDTO = Mapper.Map<ApplicationUser, ResponseAccountDTO>(result as ApplicationUser);
-                    result = resultDTO;
-                }
+
+                var temp = UserManager.Users.Where(x => x.Email.Contains(query)).ToList();
+                var resultDTO = temp.Select(Mapper.Map<ApplicationUser, ResponseAccountDTO>).ToList();
+                resultDTO.ForEach(x => x.isAdmin = UserManager.IsInRole(x.Id, RoleNames.ROLE_ADMINISTRATOR) ? true : false);
+                result = resultDTO;
             }
             else
             {
-                result = UserManager.Users.ToList().Select(Mapper.Map<ApplicationUser, ResponseAccountDTO>);
-                
+                var temp = UserManager.Users.ToList();
+                var userList = temp.Select(Mapper.Map<ApplicationUser, ResponseAccountDTO>).ToList();
+                userList.ForEach(x => x.isAdmin = UserManager.IsInRole(x.Id, RoleNames.ROLE_ADMINISTRATOR) ? true : false);
+                result = userList;
             }
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("GetUserByEmail")]
+        public async Task<IHttpActionResult> GetUserByEmail(string email)
+        {
+            var user = await UserManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                var resultDTO = Mapper.Map<ApplicationUser, ResponseAccountDTO>(user);
+                resultDTO.isAdmin = UserManager.IsInRole(user.Id, RoleNames.ROLE_ADMINISTRATOR) ? true : false;
+                return Ok(resultDTO);
+            }
+        }
         /// <summary>
         /// Gets user based on specified id
         /// </summary>
@@ -267,8 +328,10 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             else
             {
                 var result = unitOfWork.Accounts.UpdateAccount(id, user);
+                var resultDTO = Mapper.Map<ApplicationUser, ResponseAccountDTO>(result);
+                resultDTO.isAdmin = UserManager.IsInRole(result.Id, RoleNames.ROLE_ADMINISTRATOR) ? true : false;
                 unitOfWork.Complete();
-                return Ok(Mapper.Map<ApplicationUser, ResponseAccountDTO>(result));
+                return Ok(resultDTO);
             }
             return Ok(Mapper.Map<ApplicationUser, ResponseAccountDTO>(userToUpdate));
         }
@@ -410,300 +473,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
         }
 
-        #endregion
-
-        #region Default WebAPI Methods
-        //// GET api/Account/UserInfo
-        //[HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
-        //[Route("UserInfo")]
-        //public UserInfoViewModel GetUserInfo()
-        //{
-        //    ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-
-        //    return new UserInfoViewModel
-        //    {
-        //        Email = User.Identity.GetUserName(),
-        //        HasRegistered = externalLogin == null,
-        //        LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
-        //    };
-        //}
-
-        //// GET api/Account/ManageInfo?returnUrl=%2F&generateState=true
-        //[Route("ManageInfo")]
-        //public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
-        //{
-        //    ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId<int>());
-
-        //    if (user == null)
-        //    {
-        //        return null;
-        //    }
-
-        //    List<UserLoginInfoViewModel> logins = new List<UserLoginInfoViewModel>();
-
-        //    foreach (CustomUserLogin linkedAccount in user.Logins)
-        //    {
-        //        logins.Add(new UserLoginInfoViewModel
-        //        {
-        //            LoginProvider = linkedAccount.LoginProvider,
-        //            ProviderKey = linkedAccount.ProviderKey
-        //        });
-        //    }
-
-        //    if (user.PasswordHash != null)
-        //    {
-        //        logins.Add(new UserLoginInfoViewModel
-        //        {
-        //            LoginProvider = LocalLoginProvider,
-        //            ProviderKey = user.UserName,
-        //        });
-        //    }
-
-        //    return new ManageInfoViewModel
-        //    {
-        //        LocalLoginProvider = LocalLoginProvider,
-        //        Email = user.UserName,
-        //        Logins = logins,
-        //        ExternalLoginProviders = GetExternalLogins(returnUrl, generateState)
-        //    };
-        //}
-
-        //// POST api/Account/ChangePassword
-        //[Route("ChangePassword")]
-        //public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId<int>(), model.OldPassword,
-        //        model.NewPassword);
-
-        //    if (!result.Succeeded)
-        //    {
-        //        return GetErrorResult(result);
-        //    }
-
-        //    return Ok();
-        //}
-
-        //// POST api/Account/SetPassword
-        //[Route("SetPassword")]
-        //public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId<int>(), model.NewPassword);
-
-        //    if (!result.Succeeded)
-        //    {
-        //        return GetErrorResult(result);
-        //    }
-
-        //    return Ok();
-        //}
-
-        //// POST api/Account/AddExternalLogin
-        //[Route("AddExternalLogin")]
-        //public async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-
-        //    AuthenticationTicket ticket = AccessTokenFormat.Unprotect(model.ExternalAccessToken);
-
-        //    if (ticket == null || ticket.Identity == null || (ticket.Properties != null
-        //        && ticket.Properties.ExpiresUtc.HasValue
-        //        && ticket.Properties.ExpiresUtc.Value < DateTimeOffset.UtcNow))
-        //    {
-        //        return BadRequest("External login failure.");
-        //    }
-
-        //    ExternalLoginData externalData = ExternalLoginData.FromIdentity(ticket.Identity);
-
-        //    if (externalData == null)
-        //    {
-        //        return BadRequest("The external login is already associated with an account.");
-        //    }
-
-        //    IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetUserId<int>(),
-        //        new UserLoginInfo(externalData.LoginProvider, externalData.ProviderKey));
-
-        //    if (!result.Succeeded)
-        //    {
-        //        return GetErrorResult(result);
-        //    }
-
-        //    return Ok();
-        //}
-
-        //// POST api/Account/RemoveLogin
-        //[Route("RemoveLogin")]
-        //public async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    IdentityResult result;
-
-        //    if (model.LoginProvider == LocalLoginProvider)
-        //    {
-        //        result = await UserManager.RemovePasswordAsync(User.Identity.GetUserId<int>());
-        //    }
-        //    else
-        //    {
-        //        result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId<int>(),
-        //            new UserLoginInfo(model.LoginProvider, model.ProviderKey));
-        //    }
-
-        //    if (!result.Succeeded)
-        //    {
-        //        return GetErrorResult(result);
-        //    }
-
-        //    return Ok();
-        //}
-
-        //// GET api/Account/ExternalLogin
-        //[OverrideAuthentication]
-        //[HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
-        //[AllowAnonymous]
-        //[Route("ExternalLogin", Name = "ExternalLogin")]
-        //public async Task<IHttpActionResult> GetExternalLogin(string provider, string error = null)
-        //{
-        //    if (error != null)
-        //    {
-        //        return Redirect(Url.Content("~/") + "#error=" + Uri.EscapeDataString(error));
-        //    }
-
-        //    if (!User.Identity.IsAuthenticated)
-        //    {
-        //        return new ChallengeResult(provider, this);
-        //    }
-
-        //    ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-
-        //    if (externalLogin == null)
-        //    {
-        //        return InternalServerError();
-        //    }
-
-        //    if (externalLogin.LoginProvider != provider)
-        //    {
-        //        Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-        //        return new ChallengeResult(provider, this);
-        //    }
-
-        //    ApplicationUser user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
-        //        externalLogin.ProviderKey));
-
-        //    bool hasRegistered = user != null;
-
-        //    if (hasRegistered)
-        //    {
-        //        Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-
-        //         ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
-        //            OAuthDefaults.AuthenticationType);
-        //        ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
-        //            CookieAuthenticationDefaults.AuthenticationType);
-
-        //        AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
-        //        Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
-        //    }
-        //    else
-        //    {
-        //        IEnumerable<Claim> claims = externalLogin.GetClaims();
-        //        ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
-        //        Authentication.SignIn(identity);
-        //    }
-
-        //    return Ok();
-        //}
-
-        //// GET api/Account/ExternalLogins?returnUrl=%2F&generateState=true
-        //[AllowAnonymous]
-        //[Route("ExternalLogins")]
-        //public IEnumerable<ExternalLoginViewModel> GetExternalLogins(string returnUrl, bool generateState = false)
-        //{
-        //    IEnumerable<AuthenticationDescription> descriptions = Authentication.GetExternalAuthenticationTypes();
-        //    List<ExternalLoginViewModel> logins = new List<ExternalLoginViewModel>();
-
-        //    string state;
-
-        //    if (generateState)
-        //    {
-        //        const int strengthInBits = 256;
-        //        state = RandomOAuthStateGenerator.Generate(strengthInBits);
-        //    }
-        //    else
-        //    {
-        //        state = null;
-        //    }
-
-        //    foreach (AuthenticationDescription description in descriptions)
-        //    {
-        //        ExternalLoginViewModel login = new ExternalLoginViewModel
-        //        {
-        //            Name = description.Caption,
-        //            Url = Url.Route("ExternalLogin", new
-        //            {
-        //                provider = description.AuthenticationType,
-        //                response_type = "token",
-        //                client_id = Startup.PublicClientId,
-        //                redirect_uri = new Uri(Request.RequestUri, returnUrl).AbsoluteUri,
-        //                state = state
-        //            }),
-        //            State = state
-        //        };
-        //        logins.Add(login);
-        //    }
-
-        //    return logins;
-        //}
-
-        // POST api/Account/RegisterExternal
-        //[OverrideAuthentication]
-        //[HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
-        //[Route("RegisterExternal")]
-        //public async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    var info = await Authentication.GetExternalLoginInfoAsync();
-        //    if (info == null)
-        //    {
-        //        return InternalServerError();
-        //    }
-
-        //    var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
-
-        //    IdentityResult result = await UserManager.CreateAsync(user);
-        //    if (!result.Succeeded)
-        //    {
-        //        return GetErrorResult(result);
-        //    }
-
-        //    result = await UserManager.AddLoginAsync(user.Id, info.Login);
-        //    if (!result.Succeeded)
-        //    {
-        //        return GetErrorResult(result);
-        //    }
-        //    return Ok();
-        //}
         #endregion
     }
 }

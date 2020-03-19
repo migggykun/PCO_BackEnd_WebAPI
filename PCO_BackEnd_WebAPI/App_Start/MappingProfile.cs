@@ -20,17 +20,19 @@ namespace PCO_BackEnd_WebAPI.App_Start
     {
         public MappingProfile()
         {
-            Mapper.CreateMap<RequestAccountDTO, ApplicationUser>().ForMember(dst => dst.PRCDetail, src => src.MapFrom(c => string.IsNullOrEmpty(c.PRCDetail.IdNumber) || string.IsNullOrEmpty(c.PRCDetail.ExpirationDate)
-                                                                                                   ? null : new PRCDetail(){ IdNumber = c.PRCDetail.IdNumber, ExpirationDate = DateTime.Parse(c.PRCDetail.ExpirationDate)}))
-                                                                  .ForMember(dst => dst.UserName, src => src.MapFrom (c => c.Email));
+            Mapper.CreateMap<RequestAccountDTO, ApplicationUser>();
             Mapper.CreateMap<UserInfo, ResponseUserInfoDTO>();
             Mapper.CreateMap<RequestUserInfoDTO, UserInfo>();
             Mapper.CreateMap<MembershipType, ResponseMembershipTypeDTO>();
             Mapper.CreateMap<RequestMembershipTypeDTO, MembershipType>();
-            Mapper.CreateMap<PRCDetail, ResponsePRCDetailDTO>().ForMember(dst => dst.ExpirationDate, src => src.MapFrom(prc => prc.ExpirationDate.ToString()))
-                                                               .ForMember(dst => dst.Id, src => src.MapFrom(prc => prc.Id.ToString()));
-                                                               
-            Mapper.CreateMap<RequestPRCDetailDTO, PRCDetail>().ForMember(dst => dst.ExpirationDate, src => src.MapFrom(prc => DateTime.Parse(prc.ExpirationDate)));
+
+            Func<PRCDetail, ResponsePRCDetailDTO> convDTO = (x) => x == null ? new ResponsePRCDetailDTO() { Id = string.Empty, IdNumber = string.Empty, ExpirationDate = string.Empty } :
+                                                                               new ResponsePRCDetailDTO() { Id = x.Id.ToString(), IdNumber = x.IdNumber, ExpirationDate = x.ExpirationDate.Date.ToShortDateString() };
+            Mapper.CreateMap<PRCDetail, ResponsePRCDetailDTO>().ConvertUsing(convDTO);
+
+            Func<RequestPRCDetailDTO, PRCDetail> conv = (x) => x.IdNumber == string.Empty ? null : new PRCDetail() { IdNumber = x.IdNumber, ExpirationDate = DateTime.Parse(x.ExpirationDate) };
+            Mapper.CreateMap<RequestPRCDetailDTO, PRCDetail>().ConvertUsing(conv);
+                                                                        
             Mapper.CreateMap<AddConferenceDTO, Conference>();
             Mapper.CreateMap<UpdateConferenceDTO, Conference>();
             Mapper.CreateMap<Conference, ResponseConferenceDTO>().ForMember(dst => dst.PromoId, src => src.MapFrom(c => (c.PromoId == null)?string.Empty : c.PromoId.Value.ToString()))
@@ -45,18 +47,7 @@ namespace PCO_BackEnd_WebAPI.App_Start
             Mapper.CreateMap<PromoMember, ResponsePromoMemberDTO>();
             Mapper.CreateMap<RequestRegistrationDTO, Registration>();
             Mapper.CreateMap<Registration, ResponseRegistrationDTO>().ForMember(dst => dst.RegistrationDate, src => src.MapFrom(r => r.RegistrationDate == null ? string.Empty : r.RegistrationDate.ToString()));
-            Mapper.CreateMap<ApplicationUser, ResponseAccountDTO>().ForMember(dst => dst.PRCDetail, src => src.MapFrom(p => p.PRCDetail == null ? new ResponsePRCDetailDTO()
-                                                                                                                                    {
-                                                                                                                                        Id = string.Empty,
-                                                                                                                                        IdNumber = string.Empty,
-                                                                                                                                        ExpirationDate = string.Empty
-                                                                                                                                    } :
-                                                                                                                                      new ResponsePRCDetailDTO()
-                                                                                                                                      {
-                                                                                                                                          Id = p.PRCDetail.Id.ToString(),
-                                                                                                                                          IdNumber = p.PRCDetail.IdNumber,
-                                                                                                                                          ExpirationDate = p.PRCDetail.ExpirationDate.ToShortDateString()
-                                                                                                                                      }));
+            Mapper.CreateMap<ApplicationUser, ResponseAccountDTO>();
 
         }
     }

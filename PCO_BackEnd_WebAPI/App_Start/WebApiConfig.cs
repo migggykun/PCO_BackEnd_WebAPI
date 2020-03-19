@@ -6,6 +6,7 @@ using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
+using System.Web.Http.Cors;
 
 namespace PCO_BackEnd_WebAPI
 {
@@ -13,7 +14,8 @@ namespace PCO_BackEnd_WebAPI
     {
         public static void Register(HttpConfiguration config)
         {
-            config.EnableCors();
+            //var corsAttr = new EnableCorsAttribute("http://localhost:4200", "*", "*");
+            //config.EnableCors(corsAttr);  
 
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling
             = Newtonsoft.Json.ReferenceLoopHandling.Ignore;

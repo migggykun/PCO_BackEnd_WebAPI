@@ -16,7 +16,6 @@ using System.Web.Http.Description;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
-    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class UserInfoController : ApiController
     {
         private readonly ApplicationDbContext _context;

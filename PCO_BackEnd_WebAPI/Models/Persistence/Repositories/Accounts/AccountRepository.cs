@@ -15,7 +15,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
     public class AccountRepository
     {
         private readonly ApplicationDbContext _context;
-        private IUserStore<ApplicationUser, int> store;
+        private CustomUserStore store;
         public UserManager<ApplicationUser, int> UserManager;
         public AccountRepository(ApplicationDbContext context)
         {
@@ -27,9 +27,10 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
         public ApplicationUser UpdateAccount(int id, ApplicationUser user)
         {
             var oldUser = UserManager.FindById(id);
-
-            //Update base user Info
+            user.UserName = user.Email;
+            user.EmailConfirmed = string.Compare(oldUser.Email, user.Email, true) != 0 ? false : true; 
             user.Id = id;
+            //Update base user Info
             _context.Entry(oldUser).CurrentValues.SetValues(user);
 
             //Update UserInfo object

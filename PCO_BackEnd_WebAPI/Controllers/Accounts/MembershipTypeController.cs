@@ -16,7 +16,6 @@ using System.Web.Http.Cors;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
-    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class MembershipTypeController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -39,10 +38,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             object result;
             if (!string.IsNullOrWhiteSpace(membershipType))
             {
-                var resultDTO = await Task.Run(() => unitOfWork.MembershipTypes
-                                                     .GetMembershipTypeByName(membershipType) as MembershipType);
-
-                result = Mapper.Map<MembershipType, ResponseMembershipTypeDTO>(resultDTO);
+               result = await Task.Run(() => unitOfWork.MembershipTypes.GetAll().Where(m => m.Name.Contains(membershipType)).ToList()
+                                                                       .Select(Mapper.Map<MembershipType, ResponseMembershipTypeDTO>));
 ;           }
             else
             {

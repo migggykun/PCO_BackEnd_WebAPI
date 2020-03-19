@@ -16,7 +16,6 @@ using System.Web.Http.Cors;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
-    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class PRCDetailController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -39,9 +38,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             object resultDTO;
             if (!string.IsNullOrWhiteSpace(prcId))
             {
-                var result = await Task.Run(() => unitOfWork.PRCDetails
-                                                     .GetPRCDetailById(prcId) as PRCDetail);
-                resultDTO = Mapper.Map<PRCDetail, ResponsePRCDetailDTO>(result);
+                resultDTO = await Task.Run(() => unitOfWork.PRCDetails.GetAll().Where(m => m.IdNumber.Contains(prcId)).ToList()
+                                                         .Select(Mapper.Map<PRCDetail,ResponsePRCDetailDTO>));
             }
             else
             {

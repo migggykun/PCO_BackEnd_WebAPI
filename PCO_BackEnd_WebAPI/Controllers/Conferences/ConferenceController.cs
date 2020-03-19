@@ -17,7 +17,6 @@ using System.Data.Entity.Validation;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences
 {
-    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class ConferenceController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -40,10 +39,10 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             object result;
             if (!string.IsNullOrWhiteSpace(title))
             {
-                var resultDTO = await Task.Run(() => unitOfWork.Conferences
-                                                               .GetConferenceByTitle(title));
+                var  resultDTO = await Task.Run(() => unitOfWork.Conferences.GetAll().Where(m => m.Title.Contains(title)).ToList()
+                                                         .Select(Mapper.Map<Conference, ResponseConferenceDTO>));
 
-                result = Mapper.Map<Conference, ResponseConferenceDTO>(resultDTO);
+                result = resultDTO;
 ;           }
             else
             {

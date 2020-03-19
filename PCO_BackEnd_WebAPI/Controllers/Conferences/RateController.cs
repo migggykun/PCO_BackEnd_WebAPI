@@ -15,7 +15,6 @@ using System.Web.Http.Description;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences
 {
-    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class RateController : ApiController
     {
         private readonly ApplicationDbContext _context;

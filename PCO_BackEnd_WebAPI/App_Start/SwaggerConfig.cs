@@ -2,6 +2,8 @@ using System.Web.Http;
 using WebActivatorEx;
 using PCO_BackEnd_WebAPI;
 using Swashbuckle.Application;
+using PCO_BackEnd_WebAPI.App_Start;
+using PCO_BackEnd_WebAPI.App_Start.AuthToken;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
@@ -156,14 +158,14 @@ namespace PCO_BackEnd_WebAPI
                         // to inspect some attribute on each action and infer which (if any) OAuth2 scopes are required
                         // to execute the operation
                         //
-                        //c.OperationFilter<AssignOAuth2SecurityRequirements>();
+                        c.OperationFilter<AddAuthorizationHeaderParameterOperationFilter>();
 
                         // Post-modify the entire Swagger document by wiring up one or more Document filters.
                         // This gives full control to modify the final SwaggerDocument. You should have a good understanding of
                         // the Swagger 2.0 spec. - https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md
                         // before using this option.
                         //
-                        //c.DocumentFilter<ApplyDocumentVendorExtensions>();
+                        c.DocumentFilter<AuthTokenOperation>();
 
                         // In contrast to WebApi, Swagger 2.0 does not include the query string component when mapping a URL
                         // to an action. As a result, Swashbuckle will raise an exception if it encounters multiple actions
