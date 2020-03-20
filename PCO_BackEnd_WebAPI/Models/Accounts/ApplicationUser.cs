@@ -21,6 +21,8 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
         [ForeignKey("Id")]
         public virtual UserInfo UserInfo { get; set; }
 
+        public bool IsAdmin { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser, int> manager, string authenticationType)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

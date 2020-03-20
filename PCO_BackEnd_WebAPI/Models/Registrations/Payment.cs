@@ -6,24 +6,23 @@ using System.Data.Entity.Spatial;
 
 namespace PCO_BackEnd_WebAPI.Models.Registrations
 {
-    public partial class RegistrationPayment
+    public class Payment
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         [Required]
         [StringLength(128)]
-        public string transactionNumber { get; set; }
+        public string TransactionNumber { get; set; }
 
-        public DateTime paymentSubmissionDate { get; set; }
-
-        public int amountPaid { get; set; }
+        public DateTime PaymentSubmissionDate { get; set; }
 
         [Required]
-        [MaxLength(255)]
-        public byte[] proofOfPayment { get; set; }
+        public string ProofOfPayment { get; set; }
 
-        public bool? isPaymentConfirmed { get; set; }
+        public int AmountPaid { get; set; }
+
+        public DateTime? ConfirmationDate { get; set; }
 
         public virtual Registration Registration { get; set; }
     }

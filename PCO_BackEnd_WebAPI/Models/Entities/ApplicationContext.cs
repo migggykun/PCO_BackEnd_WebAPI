@@ -27,8 +27,9 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
         public virtual DbSet<PromoMember> PromoMembers { get; set; }
         public virtual DbSet<Promo> Promos { get; set; }
         public virtual DbSet<Rate> Rates { get; set; }
-        public virtual DbSet<RegistrationPayment> RegistrationPayments { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
         public virtual DbSet<Registration> Registrations { get; set; }
+        public virtual DbSet<RegistrationStatus> RegistrationStatus { get; set; }
         public virtual DbSet<UserInfo> UserInfos { get; set; }
 
         public static ApplicationDbContext Create()
@@ -74,8 +75,8 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                         .Property(e => e.Name)
                         .IsFixedLength();
 
-            modelBuilder.Entity<RegistrationPayment>()
-                        .Property(e => e.proofOfPayment)
+            modelBuilder.Entity<Payment>()
+                        .Property(e => e.ProofOfPayment)
                         .IsFixedLength();
 
             modelBuilder.Entity<Registration>()
@@ -84,18 +85,18 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                         .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Registration>()
+                        .HasRequired(e => e.User)
+                        .WithMany()
+                        .WillCascadeOnDelete(true);
+
+
+            modelBuilder.Entity<Registration>()
                         .HasOptional(e => e.RegistrationPayment)
                         .WithRequired(e => e.Registration);
 
             modelBuilder.Entity<Registration>()
-                        .HasRequired(e => e.Conference)
-                        .WithMany()
-                        .WillCascadeOnDelete(true);
-
-            modelBuilder.Entity<Registration>()
                         .HasRequired(e => e.User)
-                        .WithMany()
-                        .WillCascadeOnDelete(true);
+                        .WithMany();
         }
     }
 }

@@ -54,7 +54,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
         /// 
         /// </summary>
         /// <param name="entity"></param>
-        public void Add(TEntity entity)
+        public virtual void Add(TEntity entity)
         {
             _entity.Add(entity);
         }

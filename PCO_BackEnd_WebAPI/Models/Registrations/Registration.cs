@@ -18,22 +18,19 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
         [Key]
         public int Id { get; set; }
 
-        [Required]
         public int UserId { get; set; }
 
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
         public int ConferenceId { get; set; }
 
         public virtual Conference Conference { get; set; }
 
-        public DateTime? RegistrationDate { get; set; }
-
-        
+        public int RegistrationStatusId { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DailyAttendanceRecord> DailyAttendanceRecords { get; set; }
 
-        public virtual RegistrationPayment RegistrationPayment { get; set; }
+        public virtual Payment RegistrationPayment { get; set; }
     }
 }

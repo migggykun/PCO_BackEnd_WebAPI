@@ -14,6 +14,9 @@ using PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces;
 using PCO_BackEnd_WebAPI.Models.Persistence.Repositories;
 using System.Data.Entity.Validation;
+using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Registrations;
+using PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations;
+using PCO_BackEnd_WebAPI.Models.Registrations;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
 {
@@ -29,6 +32,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
         public IPromoMemberRepository PromoMembers { get; set; }
         public AccountRepository Accounts { get; set; }
         public IConferenceRegistrationRepository ConferenceRegistration{ get; set; }
+        public IPaymentRepository Payments { get; set; }
+        public Repository<RegistrationStatus> RegStatus { get; set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -42,6 +47,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
             Promos = new PromoRepository(_context);
             PromoMembers = new PromoMemberRepository(_context);
             ConferenceRegistration = new ConferenceRegistrationRepository(_context);
+            Payments = new PaymentRepository(_context);
+            RegStatus = new Repository<RegistrationStatus>(_context);
         }
 
         /// <summary>

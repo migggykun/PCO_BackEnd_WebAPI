@@ -6,7 +6,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>C:\Users\Migeru\Desktop\somee_33</_PublishTargetUrl>
+    <_PublishTargetUrl>ftp://www.pcosample.somee.com/www.pcosample.somee.com</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="App_Start/AuthToken/AuthTokenOperation.cs">
@@ -136,10 +136,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/14/2020 16:55:25</publishTime>
     </File>
     <File Include="bin/PCO_BackEnd_WebAPI.dll">
-      <publishTime>03/19/2020 09:57:34</publishTime>
+      <publishTime>03/21/2020 01:28:19</publishTime>
     </File>
     <File Include="bin/PCO_BackEnd_WebAPI.XML">
-      <publishTime>03/19/2020 09:57:34</publishTime>
+      <publishTime>03/21/2020 01:28:19</publishTime>
     </File>
     <File Include="bin/RefactorThis.GraphDiff.dll">
       <publishTime>03/14/2020 16:55:25</publishTime>
@@ -220,7 +220,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/14/2020 16:55:23</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>03/17/2020 14:13:29</publishTime>
+      <publishTime>03/20/2020 05:15:30</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>03/14/2020 16:55:24</publishTime>
@@ -277,7 +277,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/14/2020 16:55:24</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>03/18/2020 10:18:24</publishTime>
+      <publishTime>03/20/2020 05:15:28</publishTime>
     </File>
   </ItemGroup>
 </Project>

@@ -185,7 +185,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 Email = model.Email,
                 PhoneNumber = model.PhoneNumber,
                 PRCDetail = Mapper.Map<RequestPRCDetailDTO, PRCDetail>(model.PrcDetail),
-                UserInfo =  Mapper.Map<RequestUserInfoDTO, UserInfo>(model.UserInfo)
+                UserInfo =  Mapper.Map<RequestUserInfoDTO, UserInfo>(model.UserInfo),
+                IsAdmin = model.IsAdmin
             };
             try
             {
@@ -196,15 +197,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                     return GetErrorResult(result);
                 }
 
-                //Assign UserRole
-                if (model.IsAdmin == true)
-                {
-                    await UserManager.AddToRoleAsync(user.Id, RoleNames.ROLE_ADMINISTRATOR);
-                }
-                else
-                {
-                    await UserManager.AddToRoleAsync(user.Id, RoleNames.ROLE_MEMBER);
-                }
                 await Task.Run(() => SendEmail(user.Id, (int)EmailClassification.CONFIRM_EMAIL));
 
                 return Ok(Mapper.Map<ApplicationUser, ResponseAccountDTO>(user));
@@ -253,14 +245,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 
                 var temp = UserManager.Users.Where(x => x.Email.Contains(query)).ToList();
                 var resultDTO = temp.Select(Mapper.Map<ApplicationUser, ResponseAccountDTO>).ToList();
-                resultDTO.ForEach(x => x.isAdmin = UserManager.IsInRole(x.Id, RoleNames.ROLE_ADMINISTRATOR) ? true : false);
                 result = resultDTO;
             }
             else
             {
                 var temp = UserManager.Users.ToList();
                 var userList = temp.Select(Mapper.Map<ApplicationUser, ResponseAccountDTO>).ToList();
-                userList.ForEach(x => x.isAdmin = UserManager.IsInRole(x.Id, RoleNames.ROLE_ADMINISTRATOR) ? true : false);
                 result = userList;
             }
             return Ok(result);
@@ -278,7 +268,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             else
             {
                 var resultDTO = Mapper.Map<ApplicationUser, ResponseAccountDTO>(user);
-                resultDTO.isAdmin = UserManager.IsInRole(user.Id, RoleNames.ROLE_ADMINISTRATOR) ? true : false;
                 return Ok(resultDTO);
             }
         }
@@ -329,7 +318,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             {
                 var result = unitOfWork.Accounts.UpdateAccount(id, user);
                 var resultDTO = Mapper.Map<ApplicationUser, ResponseAccountDTO>(result);
-                resultDTO.isAdmin = UserManager.IsInRole(result.Id, RoleNames.ROLE_ADMINISTRATOR) ? true : false;
                 unitOfWork.Complete();
                 return Ok(resultDTO);
             }

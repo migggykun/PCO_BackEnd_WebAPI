@@ -45,9 +45,14 @@ namespace PCO_BackEnd_WebAPI.App_Start
             Mapper.CreateMap<Promo, ResponsePromoDTO>().ForMember(dst => dst.MembershipTypeIds, src => src.MapFrom(p => p.PromoMembers.Select(pm => pm.MembershipTypeId)));;
             Mapper.CreateMap<RequestPromoMemberDTO, PromoMember>();
             Mapper.CreateMap<PromoMember, ResponsePromoMemberDTO>();
-            Mapper.CreateMap<RequestRegistrationDTO, Registration>();
-            Mapper.CreateMap<Registration, ResponseRegistrationDTO>().ForMember(dst => dst.RegistrationDate, src => src.MapFrom(r => r.RegistrationDate == null ? string.Empty : r.RegistrationDate.ToString()));
+            Mapper.CreateMap<RequestRegistrationDTO, Registration>().ForMember(dst => dst.RegistrationStatusId, x => x.MapFrom(a => 1));
+            Mapper.CreateMap<Registration, ResponseRegistrationDTO>();
+            Mapper.CreateMap<Registration, ResponseListRegistrationDTO>();
             Mapper.CreateMap<ApplicationUser, ResponseAccountDTO>();
+
+            Mapper.CreateMap<AddPaymentDTO, Payment>();
+            Mapper.CreateMap<UpdatePaymentDTO, Payment>();
+            Mapper.CreateMap<Payment, ResponsePaymentDTO>();
 
         }
     }

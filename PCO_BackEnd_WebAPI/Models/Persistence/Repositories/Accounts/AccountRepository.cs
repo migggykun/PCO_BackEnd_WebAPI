@@ -27,11 +27,10 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
         public ApplicationUser UpdateAccount(int id, ApplicationUser user)
         {
             var oldUser = UserManager.FindById(id);
-            user.UserName = user.Email;
-            user.EmailConfirmed = string.Compare(oldUser.Email, user.Email, true) != 0 ? false : true; 
-            user.Id = id;
-            //Update base user Info
-            _context.Entry(oldUser).CurrentValues.SetValues(user);
+            oldUser.UserName = user.Email;
+            oldUser.PhoneNumber = user.PhoneNumber;
+            oldUser.Email = user.Email;
+            oldUser.IsAdmin = user.IsAdmin;
 
             //Update UserInfo object
             user.UserInfo.Id = id;
@@ -40,7 +39,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
             //Update PRCDetail Object
             UpdatePRCDetail(oldUser.PRCDetail, user.PRCDetail, id);
 
-            return user;
+            return oldUser;
         }
 
         /// <summary>

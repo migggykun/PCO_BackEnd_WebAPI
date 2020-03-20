@@ -19,6 +19,6 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
 
         public ResponseUserInfoDTO UserInfo { get; set; }
 
-        public bool isAdmin { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

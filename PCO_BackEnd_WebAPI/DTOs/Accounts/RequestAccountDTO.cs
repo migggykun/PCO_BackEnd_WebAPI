@@ -14,9 +14,13 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
         [Required]
         public string PhoneNumber { get; set; }
 
+
         public RequestPRCDetailDTO PRCDetail { get; set; }
 
         [Required]
         public RequestUserInfoDTO UserInfo { get; set; }
+
+        [Required]
+        public bool IsAdmin { get; set; }
     }
 }
