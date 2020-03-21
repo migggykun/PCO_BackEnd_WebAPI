@@ -15,6 +15,16 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 
     	}
 
+        public List<Payment> GetPagedPayments(int page, int size)
+        {
+            int offset = size * (page - 1);
+            return appDbContext.Payments.OrderBy(p => p.RegistrationId)
+                                        .Skip(offset)
+                                        .Take(size)
+                                        .ToList();
+        }
+
+
         public override void Add(Payment payment)
         {
             //Set details
@@ -27,7 +37,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 
         public void UpdatePayment(int id, Payment payment)
         {
-            payment.Id = id;
+            payment.RegistrationId = id;
             payment.TransactionNumber = Guid.NewGuid().ToString();
             payment.PaymentSubmissionDate = DateTime.Now;
             appDbContext.UpdateGraph<Payment>(payment);

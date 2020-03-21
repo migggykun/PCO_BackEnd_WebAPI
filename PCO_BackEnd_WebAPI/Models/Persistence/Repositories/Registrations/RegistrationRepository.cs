@@ -9,9 +9,9 @@ using System.Web;
 using RefactorThis.GraphDiff;
 
 
-namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
+namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 {
-    public class ConferenceRegistrationRepository : Repository<Registration>, IConferenceRegistrationRepository
+    public class ConferenceRegistrationRepository : Repository<Registration>, IRegistrationRepository
     {
         public ConferenceRegistrationRepository(DbContext context)
             : base(context)
@@ -25,6 +25,17 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
             {
                 return _context as ApplicationDbContext; 
             }
+        }
+
+        public List<Registration> GetPagedRegistration(int page, int size, int? filter = null)
+        {
+            int offset = size * (page - 1);
+            return appDbContext.Registrations.Where(c => filter == null ? true : c.ConferenceId == filter)
+                                             .OrderBy(r => r.Id)
+                                             .Skip(offset)
+                                             .Take(size)
+                                             .ToList();
+
         }
 
         public List<Registration> Add(List<Registration> aRegistrationList)

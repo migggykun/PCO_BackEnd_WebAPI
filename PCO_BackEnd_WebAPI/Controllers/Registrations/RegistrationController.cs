@@ -4,6 +4,7 @@ using PCO_BackEnd_WebAPI.DTOs.Registrations;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using PCO_BackEnd_WebAPI.Models.Registrations;
+using PCO_BackEnd_WebAPI.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,30 +26,29 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             _context = new ApplicationDbContext();
         }
 
+        /// <summary>
+        /// Get list of registration
+        /// </summary>
+        /// <param name="page">nth page of the list</param>
+        /// <param name="size">number of item to return per page</param>
+        /// <param name="conferenceId">filter results by conference id</param>
+        /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(List<ResponseRegistrationDTO>))]
-        public async Task<IHttpActionResult> GetAll(int? conferenceId = null)
+        public async Task<IHttpActionResult> GetAll(int page = 1, int size = 5, int conferenceId = 0)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            object result;
-            if (conferenceId != null)
-            {
-                result = await Task.Run (() => unitOfWork.ConferenceRegistration.GetAll().Where(r => r.ConferenceId == conferenceId)
-                                                                    .Select(Mapper.Map<Registration, ResponseListRegistrationDTO>));
-            }
-            else
-            {
-                result = await Task.Run(() => unitOfWork.ConferenceRegistration.GetAll().ToList()
-                                                        .Select(Mapper.Map<Registration, ResponseListRegistrationDTO>));
-            }
-            return Ok(result);
+            var registrationList = await Task.Run( () => unitOfWork.Registrations.GetPagedRegistration(page,size,conferenceId)
+                                                         .Select(Mapper.Map<Registration, ResponseListRegistrationDTO>));
+
+            return Ok(registrationList);
         }
 
         [HttpGet]
         public async Task<IHttpActionResult> Get(int id)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = await Task.Run(() => unitOfWork.ConferenceRegistration.Get(id));
+            var result = await Task.Run(() => unitOfWork.Registrations.Get(id));
             if (result == null)
             {
                 return NotFound();
@@ -73,7 +73,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
-                await Task.Run(() => unitOfWork.ConferenceRegistration.Add(registration));
+                await Task.Run(() => unitOfWork.Registrations.Add(registration));
                 await Task.Run(() => unitOfWork.Complete());
                 var resultDTO = Mapper.Map<Registration, ResponseRegistrationDTO>(registration);
                 return Created(new Uri(Request.RequestUri + "/" + registration.Id), resultDTO);
@@ -97,14 +97,14 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
-                var result = await Task.Run(() => unitOfWork.ConferenceRegistration.Get(id));
+                var result = await Task.Run(() => unitOfWork.Registrations.Get(id));
                 if (result == null)
                 {
                     return NotFound();
                 }
                 else
                 {
-                   result =  await Task.Run(() => unitOfWork.ConferenceRegistration.Update(id, conferenceRegistration));
+                    result = await Task.Run(() => unitOfWork.Registrations.Update(id, conferenceRegistration));
                     await Task.Run(() => unitOfWork.Complete());
                     return Ok(Mapper.Map<Registration, ResponseRegistrationDTO>(result));
                 }
@@ -122,14 +122,14 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
-                var conferenceRegistration = await Task.Run(() => unitOfWork.ConferenceRegistration.Get(id));
+                var conferenceRegistration = await Task.Run(() => unitOfWork.Registrations.Get(id));
                 if (conferenceRegistration == null)
                 {
                     return NotFound();
                 }
                 else
                 {
-                    await Task.Run(() => unitOfWork.ConferenceRegistration.Remove(conferenceRegistration));
+                    await Task.Run(() => unitOfWork.Registrations.Remove(conferenceRegistration));
                     await Task.Run(() => unitOfWork.Complete());
                     return Ok();
                 }
@@ -143,12 +143,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 
         [HttpPost]
         [Route("SetRegistrationStatus")]
-        public async Task<IHttpActionResult> SetRegistrationStatus(int id, int status)
+        public async Task<IHttpActionResult> SetRegistrationStatus(SetRegistrationViewModel model)
         {
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
-                await Task.Run( () => unitOfWork.ConferenceRegistration.SetRegistrationStatus(id, status));
+                await Task.Run(() => unitOfWork.Registrations.SetRegistrationStatus(model.RegistrationId, model.Status));
                 unitOfWork.Complete();
 
                 return Ok();

@@ -26,10 +26,10 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
 
         [HttpGet]
         [ResponseType(typeof(ResponsePaymentDTO))]
-        public async Task<IHttpActionResult> GetAll()
+        public async Task<IHttpActionResult> GetAll(int page = 1, int size = 5)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = await Task.Run(() => unitOfWork.Payments.GetAll().ToList());
+            var result = await Task.Run(() => unitOfWork.Payments.GetPagedPayments(page, size));
             var resultDTO = result.Select(Mapper.Map<Payment, ResponsePaymentDTO>);
             return Ok(resultDTO);
         }
@@ -67,7 +67,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                 await Task.Run(() => unitOfWork.Payments.Add(payment));
                 await Task.Run(() => unitOfWork.Complete());
                 var resultDTO = Mapper.Map<Payment, ResponsePaymentDTO>(payment);
-                return Created(new Uri(Request.RequestUri + "/" + payment.Id), resultDTO);
+                return Created(new Uri(Request.RequestUri + "/" + payment.RegistrationId), resultDTO);
             }
             catch (Exception ex)
             {
@@ -78,7 +78,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         }
 
         [HttpPut]
-        public async Task<IHttpActionResult> UpdatePayment(int id, UpdatePaymentDTO paymentDTO)
+        public async Task<IHttpActionResult> UpdatePayment(int registrationId, UpdatePaymentDTO paymentDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -88,14 +88,14 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
-                var result = await Task.Run(() => unitOfWork.Payments.Get(id));
+                var result = await Task.Run(() => unitOfWork.Payments.Get(registrationId));
                 if (result == null)
                 {
                     return NotFound();
                 }
                 else
                 {
-                    await Task.Run(() => unitOfWork.Payments.UpdatePayment(id, payment));
+                    await Task.Run(() => unitOfWork.Payments.UpdatePayment(registrationId, payment));
                     await Task.Run(() => unitOfWork.Complete());
                     return Ok(Mapper.Map<Payment, ResponsePaymentDTO>(payment));
                 }

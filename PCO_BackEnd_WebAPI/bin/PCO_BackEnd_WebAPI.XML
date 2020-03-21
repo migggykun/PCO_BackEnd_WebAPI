@@ -489,6 +489,15 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.RegistrationController.GetAll(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Get list of registration
+            </summary>
+            <param name="page">nth page of the list</param>
+            <param name="size">number of item to return per page</param>
+            <param name="conferenceId">filter results by conference id</param>
+            <returns></returns>
+        </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.MembershipTypeController.GetAll(System.String)">
             <summary>
             Gets list of types of membership
@@ -582,11 +591,13 @@
             <param name="userInfoDTO"></param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ConferenceController.GetAll(System.String)">
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ConferenceController.GetAll(System.String,System.Int32,System.Int32)">
             <summary>
-            Gets all conferences
+            Gets all list of Reference
             </summary>
-            <param name="title"></param>
+            <param name="title">filter return by conference title</param>
+            <param name="page">nth page of list</param>
+            <param name="size">count of item to return in a page</param>
             <returns></returns>
         </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ConferenceController.GetUpcomingConferences(System.String)">
@@ -625,10 +636,12 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.Promos.PromoController.GetAll">
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.Promos.PromoController.GetAll(System.Int32,System.Int32)">
             <summary>
-            Gets list of Promos
+            Get list of promos
             </summary>
+            <param name="page">nth page of list</param>
+            <param name="size">count of item to return in a page</param>
             <returns></returns>
         </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.Promos.PromoController.Get(System.Int32)">
@@ -751,12 +764,13 @@
             <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.GetUsers(System.String)">
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.GetUsers(System.String,System.Int32,System.Int32)">
             <summary>
-            Returns a user account based on provided email.
-            Otherwise, all user accounts  are returned
+            Returns list of accounts
             </summary>
-            <param name="email">email of user to be fetched.</param>
+            <param name="page">nth page of list</param>
+            <param name="size">count of items per page</param>
+            <param name="email">filter of returned items</param>
             <returns></returns>
         </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.GetUser(System.Int32)">

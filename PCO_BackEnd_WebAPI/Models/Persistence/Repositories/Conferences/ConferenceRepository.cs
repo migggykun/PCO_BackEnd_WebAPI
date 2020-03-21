@@ -17,6 +17,16 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
               
         }
 
+        public List<Conference> GetPagedConferences(int page, int size, string filter = null)
+        {
+            int offset = size * (page - 1);
+            return appDbContext.Conferences.Where(c => string.IsNullOrEmpty(filter) ? true : c.Title.Contains(filter))
+                                           .OrderBy(c => c.Id)
+                                           .Skip(offset)
+                                           .Take(size)
+                                           .ToList();
+        }
+
         public Conference GetConferenceByTitle(string title)
         {
             var conference = appDbContext.Conferences

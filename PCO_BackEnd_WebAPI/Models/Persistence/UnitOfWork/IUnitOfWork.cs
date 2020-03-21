@@ -1,4 +1,5 @@
-﻿using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Accounts;
+﻿using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces;
+using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Accounts;
 using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences;
 using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Registrations;
@@ -25,5 +26,6 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
         IPromoRepository Promos { get; set; }
         IPromoMemberRepository PromoMembers { get; set; }
         IPaymentRepository Payments { get; set; }
+        IRegistrationRepository Registrations { get; set; }
     }
 }
