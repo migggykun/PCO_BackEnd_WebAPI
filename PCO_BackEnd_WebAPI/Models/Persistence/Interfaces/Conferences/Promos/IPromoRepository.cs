@@ -1,4 +1,5 @@
 ﻿using PCO_BackEnd_WebAPI.Models.Conferences.Promos;
+using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.Repositories;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences.Promos
 {
     public interface IPromoRepository : IRepository<Promo>
     {
-        List<Promo> GetPagedPromos(int page, int size);
+        PageResult<Promo> GetPagedPromos(int page, int size);
         Promo UpdatePromoDetails(int id, Promo promo);
     }
 }

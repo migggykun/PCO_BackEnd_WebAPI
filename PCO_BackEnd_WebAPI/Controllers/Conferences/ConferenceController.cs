@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using System.Web.Http.Cors;
 using System.Data.Entity.Validation;
-
+using PCO_BackEnd_WebAPI.Models.Pagination;
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences
 {
     public class ConferenceController : ApiController
@@ -38,9 +38,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         public async Task<IHttpActionResult> GetAll(string title = null, int page = 1 , int size = 5)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = await Task.Run(() =>unitOfWork.Conferences.GetPagedConferences(page, size,title)
-                                                   .Select(Mapper.Map<Conference, ResponseConferenceDTO>));
-            return Ok(result);
+            var result = await Task.Run(() =>unitOfWork.Conferences.GetPagedConferences(page, size,title));
+            var resultDTO = PaginationMapper<Conference, ResponseConferenceDTO>.MapResult(result);
+            return Ok(resultDTO);
         }
 
         /// <summary>

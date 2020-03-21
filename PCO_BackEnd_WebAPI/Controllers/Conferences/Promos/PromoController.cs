@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
+using PCO_BackEnd_WebAPI.Models.Pagination;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
 {
@@ -36,9 +37,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         public async Task<IHttpActionResult> GetAll(int page = 1, int size = 5)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = unitOfWork.Promos.GetPagedPromos(page, size)
-                                   .Select(Mapper.Map<Promo, ResponsePromoDTO>);
-            return Ok(result);
+            var result = unitOfWork.Promos.GetPagedPromos(page, size);
+            var resultDTO = PaginationMapper<Promo, ResponsePromoDTO>.MapResult(result);
+            return Ok(resultDTO);
         }
 
         /// <summary>

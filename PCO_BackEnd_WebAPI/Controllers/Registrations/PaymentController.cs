@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using PCO_BackEnd_WebAPI.Models.Pagination;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Registrations
 {
@@ -30,7 +31,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
             var result = await Task.Run(() => unitOfWork.Payments.GetPagedPayments(page, size));
-            var resultDTO = result.Select(Mapper.Map<Payment, ResponsePaymentDTO>);
+            var resultDTO = PaginationMapper<Payment, ResponsePaymentDTO>.MapResult(result);
             return Ok(resultDTO);
         }
 

@@ -7,6 +7,9 @@ using System.Data.Entity;
 using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using RefactorThis.GraphDiff;
+using PCO_BackEnd_WebAPI.Models.Pagination;
+using PCO_BackEnd_WebAPI.DTOs.Conferences;
+using AutoMapper;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
 {
@@ -17,14 +20,23 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
               
         }
 
-        public List<Conference> GetPagedConferences(int page, int size, string filter = null)
+        public PageResult<Conference> GetPagedConferences(int page, int size, string filter = null)
         {
+            PageResult<Conference> pageResult = new PageResult<Conference>();
+
             int offset = size * (page - 1);
-            return appDbContext.Conferences.Where(c => string.IsNullOrEmpty(filter) ? true : c.Title.Contains(filter))
-                                           .OrderBy(c => c.Id)
-                                           .Skip(offset)
-                                           .Take(size)
-                                           .ToList();
+            var recordCount = appDbContext.Conferences.Count();
+            var mod = recordCount % size;
+            var totalPageCount = (recordCount / size) + (mod == 0 ? 0 : 1);
+
+            pageResult.RecordCount = recordCount;
+            pageResult.PageCount = totalPageCount;
+            pageResult.Results = appDbContext.Conferences.Where(c => string.IsNullOrEmpty(filter) ? true : c.Title.Contains(filter))
+                                                          .OrderBy(c => c.Id)
+                                                          .Skip(offset)
+                                                          .Take(size)
+                                                          .ToList();
+            return pageResult;
         }
 
         public Conference GetConferenceByTitle(string title)

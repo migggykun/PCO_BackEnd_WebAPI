@@ -27,6 +27,7 @@ using System.Web.Http.Description;
 using System.Web.Http.Cors;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using PCO_BackEnd_WebAPI.Models.Helpers;
+using PCO_BackEnd_WebAPI.Models.Pagination;
 
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
@@ -242,9 +243,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         public async Task <IHttpActionResult> GetUsers(string email = null, int page = 1, int size = 5)
         {
             UnitOfWork unitOfWork = new UnitOfWork(new ApplicationDbContext());
-            var result = unitOfWork.Accounts.GetPagedAccounts(page, size, email)
-                                   .Select(Mapper.Map<ApplicationUser, ResponseAccountDTO>);
-            return Ok(result);
+            var result = unitOfWork.Accounts.GetPagedAccounts(page, size, email);
+            var resultDTO = PaginationMapper<ApplicationUser, ResponseAccountDTO>.MapResult(result);
+            return Ok(resultDTO);
         }
 
         [HttpGet]

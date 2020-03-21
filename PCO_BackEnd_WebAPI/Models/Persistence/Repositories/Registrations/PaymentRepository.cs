@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using RefactorThis.GraphDiff;
+using PCO_BackEnd_WebAPI.Models.Pagination;
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 {
     public class PaymentRepository : Repository<Payment> , IPaymentRepository
@@ -15,13 +16,24 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 
     	}
 
-        public List<Payment> GetPagedPayments(int page, int size)
+        public PageResult<Payment> GetPagedPayments(int page, int size)
         {
+            PageResult<Payment> pageResult = new PageResult<Payment>();
+
             int offset = size * (page - 1);
-            return appDbContext.Payments.OrderBy(p => p.RegistrationId)
-                                        .Skip(offset)
-                                        .Take(size)
-                                        .ToList();
+            var recordCount = appDbContext.Conferences.Count();
+            var mod = recordCount % size;
+            var totalPageCount = (recordCount / size) + (mod == 0 ? 0 : 1);
+
+            pageResult.RecordCount = recordCount;
+            pageResult.PageCount = totalPageCount;
+
+            pageResult.Results =  appDbContext.Payments.OrderBy(p => p.RegistrationId)
+                                              .Skip(offset)
+                                              .Take(size)
+                                              .ToList();
+
+            return pageResult;
         }
 
 

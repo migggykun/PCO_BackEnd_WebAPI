@@ -757,6 +757,21 @@
             <param name="aException"></param>
             <returns></returns>
         </member>
+        <member name="P:PCO_BackEnd_WebAPI.Models.Pagination.PageResult`1.PageCount">
+            <summary> 
+            The total number of pages available. 
+            </summary> 
+        </member>
+        <member name="P:PCO_BackEnd_WebAPI.Models.Pagination.PageResult`1.RecordCount">
+            <summary> 
+            The total number of records available. 
+            </summary> 
+        </member>
+        <member name="P:PCO_BackEnd_WebAPI.Models.Pagination.PageResult`1.Results">
+            <summary> 
+            The records this page represents. 
+            </summary> 
+        </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.Register(PCO_BackEnd_WebAPI.Models.AccountBindingModels.UserAccountBindingModel)">
             <summary>
             Creates a user account

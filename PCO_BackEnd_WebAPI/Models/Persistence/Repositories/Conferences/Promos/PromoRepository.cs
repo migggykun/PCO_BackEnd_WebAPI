@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using RefactorThis.GraphDiff;
+using PCO_BackEnd_WebAPI.Models.Pagination;
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences.Promos
 {
     public class PromoRepository : Repository<Promo> , IPromoRepository
@@ -15,13 +16,24 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences.Promos
 
         }
 
-        public List<Promo> GetPagedPromos(int page, int size)
+        public PageResult<Promo> GetPagedPromos(int page, int size)
         {
+            PageResult<Promo> pageResult = new PageResult<Promo>();
+
             int offset = size * (page - 1);
-            return appDbContext.Promos.OrderBy(p => p.Id)
-                                      .Skip(offset)
-                                      .Take(size)
-                                      .ToList();
+            var recordCount = appDbContext.Promos.Count();
+            var mod = recordCount % size;
+            var totalPageCount = (recordCount / size) + (mod == 0 ? 0 : 1);
+
+            pageResult.RecordCount = recordCount;
+            pageResult.PageCount = totalPageCount;
+
+            pageResult.Results =  appDbContext.Promos.OrderBy(p => p.Id)
+                                              .Skip(offset)
+                                              .Take(size)
+                                              .ToList();
+
+            return pageResult;
         }
 
         public Promo UpdatePromoDetails(int id, Promo promoUpdate)

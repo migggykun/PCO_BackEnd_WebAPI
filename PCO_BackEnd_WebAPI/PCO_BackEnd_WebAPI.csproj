@@ -277,6 +277,10 @@
     <Compile Include="DTOs\Registrations\UpdatePaymentDTO.cs" />
     <Compile Include="Models\AccountBindingModels\LoginViewModel.cs" />
     <Compile Include="Models\Accounts\IdentityModels.cs" />
+    <Compile Include="Models\Image\Image.cs" />
+    <Compile Include="Models\Image\Model.cs" />
+    <Compile Include="Models\Pagination\PageResult.cs" />
+    <Compile Include="Models\Pagination\PaginationMapper.cs" />
     <Compile Include="Models\ViewModels\ConfirmEmailViewModel.cs" />
     <Compile Include="Models\ViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="Models\Conferences\Conference.cs" />
@@ -285,9 +289,7 @@
     <Compile Include="Models\Helpers\EmailTemplate.cs" />
     <Compile Include="Models\Helpers\StringManipulationHelper.cs" />
     <Compile Include="Models\Helpers\String_Resources.cs" />
-    <Compile Include="Models\Image\Image.cs" />
     <Compile Include="Models\Image\ImageManager.cs" />
-    <Compile Include="Models\Image\Model.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IMembershipTypeRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IPRCDetailRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IUserInfoRepository.cs" />

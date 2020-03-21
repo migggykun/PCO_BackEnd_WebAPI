@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using RefactorThis.GraphDiff;
+using PCO_BackEnd_WebAPI.Models.Pagination;
 
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
@@ -27,14 +28,23 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
             }
         }
 
-        public List<Registration> GetPagedRegistration(int page, int size, int? filter = null)
+        public PageResult<Registration> GetPagedRegistration(int page, int size, int? filter = null)
         {
+            PageResult<Registration> pageResult = new PageResult<Registration>();
+
             int offset = size * (page - 1);
-            return appDbContext.Registrations.Where(c => filter == null ? true : c.ConferenceId == filter)
-                                             .OrderBy(r => r.Id)
-                                             .Skip(offset)
-                                             .Take(size)
-                                             .ToList();
+            var recordCount = appDbContext.Conferences.Count();
+            var mod = recordCount % size;
+            var totalPageCount = (recordCount / size) + (mod == 0 ? 0 : 1);
+
+            pageResult.RecordCount = recordCount;
+            pageResult.PageCount = totalPageCount;
+            pageResult.Results =   appDbContext.Registrations.Where(c => filter == null ? true : c.ConferenceId == filter)
+                                               .OrderBy(r => r.Id)
+                                               .Skip(offset)
+                                               .Take(size)
+                                               .ToList();
+            return pageResult;
 
         }
 

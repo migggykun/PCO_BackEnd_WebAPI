@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
+using PCO_BackEnd_WebAPI.Models.Pagination;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
@@ -38,10 +39,10 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         public async Task<IHttpActionResult> GetAll(int page = 1, int size = 5, int conferenceId = 0)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var registrationList = await Task.Run( () => unitOfWork.Registrations.GetPagedRegistration(page,size,conferenceId)
-                                                         .Select(Mapper.Map<Registration, ResponseListRegistrationDTO>));
+            var registrationList = await Task.Run( () => unitOfWork.Registrations.GetPagedRegistration(page,size,conferenceId));
+            var registrationListDTO = PaginationMapper<Registration, ResponseRegistrationDTO>.MapResult(registrationList);
 
-            return Ok(registrationList);
+            return Ok(registrationListDTO);
         }
 
         [HttpGet]

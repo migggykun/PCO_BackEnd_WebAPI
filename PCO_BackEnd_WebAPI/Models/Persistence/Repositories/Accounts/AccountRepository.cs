@@ -7,8 +7,8 @@ using Microsoft.AspNet.Identity;
 using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.DTOs.Accounts;
 using RefactorThis.GraphDiff;
-using AutoMapper;
 using System.Threading.Tasks;
+using PCO_BackEnd_WebAPI.Models.Pagination;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
 {
@@ -25,14 +25,24 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
             UserManager = new UserManager<ApplicationUser, int>(store);
         }
 
-        public List<ApplicationUser> GetPagedAccounts(int page, int size, string filter = null)
+        public PageResult<ApplicationUser> GetPagedAccounts(int page, int size, string filter = null)
         {
+            PageResult<ApplicationUser> pageResult = new PageResult<ApplicationUser>();
+
+
             int offset = size * (page - 1);
-            return UserManager.Users.Where(u => string.IsNullOrEmpty(filter) ? true : u.Email.Contains(filter))
-                                    .OrderBy(a => a.Id)
-                                    .Skip(offset)
-                                    .Take(size)
-                                    .ToList();
+            var recordCount = UserManager.Users.Count();
+            var mod = recordCount % size;
+            var totalPageCount = (recordCount / size) + (mod == 0 ? 0 : 1);
+
+            pageResult.RecordCount = recordCount;
+            pageResult.PageCount = totalPageCount;
+            pageResult.Results =  UserManager.Users.Where(u => string.IsNullOrEmpty(filter) ? true : u.Email.Contains(filter))
+                                             .OrderBy(a => a.Id)
+                                             .Skip(offset)
+                                             .Take(size)
+                                             .ToList();
+            return pageResult;
         }
 
         public ApplicationUser UpdateAccount(int id, ApplicationUser user)
