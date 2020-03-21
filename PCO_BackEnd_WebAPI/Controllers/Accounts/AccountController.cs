@@ -97,7 +97,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
 
             if (emailClassification == (int)EmailClassification.RESET_PASSWORD)
-            {
                 string code = await UserManager.GeneratePasswordResetTokenAsync(id);
                 string idToken = StringManipulationHelper.EncodeIdTokenToCode(id, code);
                 string callbackURL = StringManipulationHelper.SetResetPasswordURL(idToken);
@@ -107,61 +106,60 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
         }
 
-        //[HttpPost]
-        //[Route("SendResetPasswordEmail")]
-        //public async Task<IHttpActionResult> SendResetPasswordEmail(string email)
-        //{
-        //    var user = await UserManager.FindByEmailAsync(email);
+        [HttpPost]
+        [Route("SendResetPasswordEmail")]
+        public async Task<IHttpActionResult> SendResetPasswordEmail(string email)
+        {
+            var user = await UserManager.FindByEmailAsync(email);
 
-        //    var token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+            var token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
 
-        //    if (user != null && user.EmailConfirmed)
-        //    {
-        //        await Task.Run(() => SendEmail(user.Id, (int)EmailClassification.RESET_PASSWORD));
-        //    }
-        //    return Ok();
-        //}
+            if (user != null && user.EmailConfirmed)
+            {
+                await Task.Run(() => SendEmail(user.Id, (int)EmailClassification.RESET_PASSWORD));
+            }
+            return Ok();
+        }
 
+        [HttpPost]
+        [Route("ResetPassword")]
+        public async Task<IHttpActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            var idToken = StringManipulationHelper.DecodeCodeToIdToken(model.Token);
+            IdentityResult result = UserManager.ResetPassword(idToken.Key, idToken.Value, model.NewPassword);
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+            return Ok();
+        }
 
-        //[HttpPost]
-        //[Route("ResetPassword")]
-        //public async Task<IHttpActionResult> ResetPassword(ResetPasswordViewModel model)
-        //{
-        //    var idToken = StringManipulationHelper.DecodeCodeToIdToken(model.Token);
-        //    IdentityResult result = UserManager.ResetPassword(idToken.Key, idToken.Value, model.NewPassword);
-        //    if (!result.Succeeded)
-        //    {
-        //        return GetErrorResult(result);
-        //    }
-        //    return Ok();
-        //}
+        /// <summary>
+        /// Sets confirmation that registered email is valid.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("ConfirmEmail")]
+        public async Task<IHttpActionResult> ConfirmEmail(ConfirmEmailViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        ///// <summary>
-        ///// Sets confirmation that registered email is valid.
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <param name="code"></param>
-        ///// <returns></returns>
-        //[HttpPost]
-        //[Route("ConfirmEmail")]
-        //public async Task<IHttpActionResult> ConfirmEmail(ConfirmEmailViewModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    var idToken = StringManipulationHelper.DecodeCodeToIdToken(model.Token);
-        //    IdentityResult result = result = await UserManager.ConfirmEmailAsync(idToken.Key, idToken.Value);
-        //    if (result.Succeeded)
-        //    {
-        //        return Ok();
-        //    }
-        //    else
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
+            var idToken = StringManipulationHelper.DecodeCodeToIdToken(model.Token);
+            IdentityResult result = result = await UserManager.ConfirmEmailAsync(idToken.Key, idToken.Value);
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
 
         // POST api/Account/Register
         /// <summary>
