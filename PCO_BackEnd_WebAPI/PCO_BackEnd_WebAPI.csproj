@@ -297,10 +297,10 @@
     <Compile Include="Models\Persistence\Interfaces\Conferences\Promos\IPromoRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Registrations\IPaymentRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Accounts\AccountRepository.cs" />
-    <Compile Include="Models\Persistence\Interfaces\IConferenceRegistrationRepository.cs" />
+    <Compile Include="Models\Persistence\Interfaces\IRegistrationRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Accounts\UserInfoRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Accounts\PRCDetailRepository.cs" />
-    <Compile Include="Models\Persistence\Repositories\Conferences\RegistrationRepository.cs" />
+    <Compile Include="Models\Persistence\Repositories\Registrations\RegistrationRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Conferences\ConferenceRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\IRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Accounts\MembershipTypeRepository.cs" />

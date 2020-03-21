@@ -15,6 +15,15 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences.Promos
 
         }
 
+        public List<Promo> GetPagedPromos(int page, int size)
+        {
+            int offset = size * (page - 1);
+            return appDbContext.Promos.OrderBy(p => p.Id)
+                                      .Skip(offset)
+                                      .Take(size)
+                                      .ToList();
+        }
+
         public Promo UpdatePromoDetails(int id, Promo promoUpdate)
         {
             promoUpdate.Id = id;

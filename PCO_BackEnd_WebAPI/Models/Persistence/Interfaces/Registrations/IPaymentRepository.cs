@@ -12,5 +12,6 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Registrations
     {
         void UpdatePayment(int id, Payment payment);
         void SetPaymentConfirmationDate(int id);
+        List<Payment> GetPagedPayments(int page, int size);
     }
 }

@@ -27,29 +27,19 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         }
 
         /// <summary>
-        /// Gets all conferences
+        /// Gets all list of Reference
         /// </summary>
-        /// <param name="title"></param>
+        /// <param name="title">filter return by conference title</param>
+        /// <param name="page">nth page of list</param>
+        /// <param name="size">count of item to return in a page</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseConferenceDTO))]
-        public async Task<IHttpActionResult> GetAll(string title = null)
+        public async Task<IHttpActionResult> GetAll(string title = null, int page = 1 , int size = 5)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            object result;
-            if (!string.IsNullOrWhiteSpace(title))
-            {
-                var  resultDTO = await Task.Run(() => unitOfWork.Conferences.GetAll().Where(m => m.Title.Contains(title)).ToList()
-                                                         .Select(Mapper.Map<Conference, ResponseConferenceDTO>));
-
-                result = resultDTO;
-;           }
-            else
-            {
-                result = await Task.Run(() =>unitOfWork.Conferences.GetAll().ToList()
+            var result = await Task.Run(() =>unitOfWork.Conferences.GetPagedConferences(page, size,title)
                                                    .Select(Mapper.Map<Conference, ResponseConferenceDTO>));
-            }
-
             return Ok(result);
         }
 

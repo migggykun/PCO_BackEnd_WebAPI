@@ -8,11 +8,12 @@ using PCO_BackEnd_WebAPI.Models.Registrations;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces
 {
-    public interface IConferenceRegistrationRepository : IRepository<Registration>
+    public interface IRegistrationRepository : IRepository<Registration>
     {
         List<Registration> Add(List<Registration> aRegistrationList);
         Registration Update(int id, Registration aRegistration);
         void Remove(List<Registration> aRegistrationList);
         void SetRegistrationStatus(int id, int status);
+        List<Registration> GetPagedRegistration(int page, int size, int? filter);
     }
 }

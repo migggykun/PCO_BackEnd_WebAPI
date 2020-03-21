@@ -228,31 +228,22 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             return Ok();
         }
 
+
         /// <summary>
-        /// Returns a user account based on provided email.
-        /// Otherwise, all user accounts  are returned
+        /// Returns list of accounts
         /// </summary>
-        /// <param name="email">email of user to be fetched.</param>
+        /// <param name="page">nth page of list</param>
+        /// <param name="size">count of items per page</param>
+        /// <param name="email">filter of returned items</param>
         /// <returns></returns>
         [HttpGet]
         [Route("GetAllUsers")]
         [ResponseType(typeof(List<ResponseAccountDTO>))]
-        public async Task <IHttpActionResult> GetUsers(string query = null)
+        public async Task <IHttpActionResult> GetUsers(string email = null, int page = 1, int size = 5)
         {
-            object result = null;
-            if (!string.IsNullOrEmpty(query))
-            {
-
-                var temp = UserManager.Users.Where(x => x.Email.Contains(query)).ToList();
-                var resultDTO = temp.Select(Mapper.Map<ApplicationUser, ResponseAccountDTO>).ToList();
-                result = resultDTO;
-            }
-            else
-            {
-                var temp = UserManager.Users.ToList();
-                var userList = temp.Select(Mapper.Map<ApplicationUser, ResponseAccountDTO>).ToList();
-                result = userList;
-            }
+            UnitOfWork unitOfWork = new UnitOfWork(new ApplicationDbContext());
+            var result = unitOfWork.Accounts.GetPagedAccounts(page, size, email)
+                                   .Select(Mapper.Map<ApplicationUser, ResponseAccountDTO>);
             return Ok(result);
         }
 

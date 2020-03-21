@@ -31,7 +31,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
         public IPromoRepository Promos { get; set; }
         public IPromoMemberRepository PromoMembers { get; set; }
         public AccountRepository Accounts { get; set; }
-        public IConferenceRegistrationRepository ConferenceRegistration{ get; set; }
+        public IRegistrationRepository Registrations{ get; set; }
         public IPaymentRepository Payments { get; set; }
         public Repository<RegistrationStatus> RegStatus { get; set; }
 
@@ -46,7 +46,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
             Rates = new RateRepository(_context);
             Promos = new PromoRepository(_context);
             PromoMembers = new PromoMemberRepository(_context);
-            ConferenceRegistration = new ConferenceRegistrationRepository(_context);
+            Registrations = new ConferenceRegistrationRepository(_context);
             Payments = new PaymentRepository(_context);
             RegStatus = new Repository<RegistrationStatus>(_context);
         }

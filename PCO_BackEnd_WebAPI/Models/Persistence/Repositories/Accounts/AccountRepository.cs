@@ -17,11 +17,22 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
         private readonly ApplicationDbContext _context;
         private CustomUserStore store;
         public UserManager<ApplicationUser, int> UserManager;
+
         public AccountRepository(ApplicationDbContext context)
         {
             _context = context;
             store = new CustomUserStore(_context);
             UserManager = new UserManager<ApplicationUser, int>(store);
+        }
+
+        public List<ApplicationUser> GetPagedAccounts(int page, int size, string filter = null)
+        {
+            int offset = size * (page - 1);
+            return UserManager.Users.Where(u => string.IsNullOrEmpty(filter) ? true : u.Email.Contains(filter))
+                                    .OrderBy(a => a.Id)
+                                    .Skip(offset)
+                                    .Take(size)
+                                    .ToList();
         }
 
         public ApplicationUser UpdateAccount(int id, ApplicationUser user)

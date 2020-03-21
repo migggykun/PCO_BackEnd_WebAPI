@@ -26,16 +26,18 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         }
 
         /// <summary>
-        /// Gets list of Promos
+        /// Get list of promos
         /// </summary>
+        /// <param name="page">nth page of list</param>
+        /// <param name="size">count of item to return in a page</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(List<ResponsePromoDTO>))]
-        public async Task<IHttpActionResult> GetAll()
+        public async Task<IHttpActionResult> GetAll(int page = 1, int size = 5)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = await Task.Run(() => unitOfWork.Promos.GetAll().ToList()
-                                                        .Select(Mapper.Map<Promo, ResponsePromoDTO>));
+            var result = unitOfWork.Promos.GetPagedPromos(page, size)
+                                   .Select(Mapper.Map<Promo, ResponsePromoDTO>);
             return Ok(result);
         }
 
