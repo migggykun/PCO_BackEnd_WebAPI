@@ -97,6 +97,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
 
             if (emailClassification == (int)EmailClassification.RESET_PASSWORD)
+            {             
                 string code = await UserManager.GeneratePasswordResetTokenAsync(id);
                 string idToken = StringManipulationHelper.EncodeIdTokenToCode(id, code);
                 string callbackURL = StringManipulationHelper.SetResetPasswordURL(idToken);
