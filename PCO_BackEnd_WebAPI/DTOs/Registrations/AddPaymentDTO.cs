@@ -9,12 +9,11 @@ namespace PCO_BackEnd_WebAPI.DTOs.Registrations
     public class AddPaymentDTO
     {
         [Required]
-        public int Id { get; set; }
+        public int RegistrationId { get; set; }
 
         [Required]
         public int AmountPaid { get; set; }
 
-        [Required]
         public string ProofOfPayment { get; set; }
 
     }

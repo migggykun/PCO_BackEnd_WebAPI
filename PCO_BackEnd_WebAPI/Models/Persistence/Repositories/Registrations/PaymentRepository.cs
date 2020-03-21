@@ -27,7 +27,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 
         public void UpdatePayment(int id, Payment payment)
         {
-            payment.Id = id;
+            payment.RegistrationId = id;
             payment.TransactionNumber = Guid.NewGuid().ToString();
             payment.PaymentSubmissionDate = DateTime.Now;
             appDbContext.UpdateGraph<Payment>(payment);

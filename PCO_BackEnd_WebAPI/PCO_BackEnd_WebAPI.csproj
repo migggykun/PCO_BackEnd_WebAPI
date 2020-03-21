@@ -277,8 +277,8 @@
     <Compile Include="DTOs\Registrations\UpdatePaymentDTO.cs" />
     <Compile Include="Models\AccountBindingModels\LoginViewModel.cs" />
     <Compile Include="Models\Accounts\IdentityModels.cs" />
-    <Compile Include="Models\AccountViewModels\ConfirmEmailViewModel.cs" />
-    <Compile Include="Models\AccountViewModels\ResetPasswordViewModel.cs" />
+    <Compile Include="Models\ViewModels\ConfirmEmailViewModel.cs" />
+    <Compile Include="Models\ViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="Models\Conferences\Conference.cs" />
     <Compile Include="Controllers\Accounts\AccountController.cs" />
     <Compile Include="Models\Helpers\EmailClassification.cs" />
@@ -329,10 +329,11 @@
     <Compile Include="Models\AccountBindingModels\RemoveLoginBindingModel.cs" />
     <Compile Include="Models\AccountBindingModels\SetPasswordBindingModel.cs" />
     <Compile Include="Models\Accounts\ApplicationUser.cs" />
-    <Compile Include="Models\AccountViewModels\ExternalLoginViewModel.cs" />
-    <Compile Include="Models\AccountViewModels\ManageInfoViewModel.cs" />
-    <Compile Include="Models\AccountViewModels\UserInfoViewModel.cs" />
-    <Compile Include="Models\AccountViewModels\UserLoginInfoViewModel.cs" />
+    <Compile Include="Models\ViewModels\ExternalLoginViewModel.cs" />
+    <Compile Include="Models\ViewModels\ManageInfoViewModel.cs" />
+    <Compile Include="Models\ViewModels\SetRegistrationViewModel.cs" />
+    <Compile Include="Models\ViewModels\UserInfoViewModel.cs" />
+    <Compile Include="Models\ViewModels\UserLoginInfoViewModel.cs" />
     <Compile Include="Models\Entities\ApplicationContext.cs" />
     <Compile Include="Models\Registrations\Period.cs" />
     <Compile Include="Models\Accounts\PRCDetail.cs" />

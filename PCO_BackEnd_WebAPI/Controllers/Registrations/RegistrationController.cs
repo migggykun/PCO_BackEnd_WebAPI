@@ -4,6 +4,7 @@ using PCO_BackEnd_WebAPI.DTOs.Registrations;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using PCO_BackEnd_WebAPI.Models.Registrations;
+using PCO_BackEnd_WebAPI.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -143,12 +144,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 
         [HttpPost]
         [Route("SetRegistrationStatus")]
-        public async Task<IHttpActionResult> SetRegistrationStatus(int id, int status)
+        public async Task<IHttpActionResult> SetRegistrationStatus(SetRegistrationViewModel model)
         {
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
-                await Task.Run( () => unitOfWork.ConferenceRegistration.SetRegistrationStatus(id, status));
+                await Task.Run( () => unitOfWork.ConferenceRegistration.SetRegistrationStatus(model.RegistrationId, model.Status));
                 unitOfWork.Complete();
 
                 return Ok();

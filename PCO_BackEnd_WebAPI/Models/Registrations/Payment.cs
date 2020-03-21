@@ -8,8 +8,9 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
 {
     public class Payment
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Id { get; set; }
+        [Key]
+        [Column("id")]
+        public int RegistrationId { get; set; }
 
         [Required]
         [StringLength(128)]
@@ -17,7 +18,6 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
 
         public DateTime PaymentSubmissionDate { get; set; }
 
-        [Required]
         public string ProofOfPayment { get; set; }
 
         public int AmountPaid { get; set; }

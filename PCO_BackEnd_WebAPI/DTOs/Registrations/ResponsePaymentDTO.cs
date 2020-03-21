@@ -7,7 +7,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Registrations
 {
     public class ResponsePaymentDTO
     {
-        public int Id { get; set; }
+        public int RegistrationId { get; set; }
 
         public string TransactionNumber { get; set; }
 
