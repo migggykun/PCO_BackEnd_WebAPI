@@ -23,18 +23,32 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
         public PageResult<Conference> GetPagedConferences(int page, int size, string filter = null)
         {
             PageResult<Conference> pageResult = new PageResult<Conference>();
-
-            int offset = size * (page - 1);
-            var recordCount = appDbContext.Conferences.Count();
-            var mod = recordCount % size;
-            var totalPageCount = (recordCount / size) + (mod == 0 ? 0 : 1);
+            int recordCount = appDbContext.Conferences.Count();
+            int mod;
+            int totalPageCount;
+            int offset;
+            int recordToReturn;
+            if (size == 0)
+            {
+                mod = 0;
+                totalPageCount = 1;
+                offset = 0;
+                recordToReturn = recordCount;
+            }
+            else
+            {
+                mod = recordCount % size;
+                totalPageCount = (recordCount/size) + (mod == 0 ? 0 : 1);
+                offset = size * (page - 1);
+                recordToReturn = size;
+            }
 
             pageResult.RecordCount = recordCount;
             pageResult.PageCount = totalPageCount;
             pageResult.Results = appDbContext.Conferences.Where(c => string.IsNullOrEmpty(filter) ? true : c.Title.Contains(filter))
                                                           .OrderBy(c => c.Id)
                                                           .Skip(offset)
-                                                          .Take(size)
+                                                          .Take(recordToReturn)
                                                           .ToList();
             return pageResult;
         }

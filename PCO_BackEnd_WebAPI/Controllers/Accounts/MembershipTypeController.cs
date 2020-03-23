@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Web.Http.Description;
 using PCO_BackEnd_WebAPI.Models.Roles;
 using System.Web.Http.Cors;
+using PCO_BackEnd_WebAPI.Models.Pagination;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
@@ -32,20 +33,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseMembershipTypeDTO))]
-        public async Task<IHttpActionResult> GetAll(string membershipType = null)
+        public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0, string membershipType = null)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            object result;
-            if (!string.IsNullOrWhiteSpace(membershipType))
-            {
-               result = await Task.Run(() => unitOfWork.MembershipTypes.GetAll().Where(m => m.Name.Contains(membershipType)).ToList()
-                                                                       .Select(Mapper.Map<MembershipType, ResponseMembershipTypeDTO>));
-;           }
-            else
-            {
-                result = await Task.Run(() =>unitOfWork.MembershipTypes.GetAll().ToList()
-                                                   .Select(Mapper.Map<MembershipType, ResponseMembershipTypeDTO>));
-            }
+            var result = unitOfWork.MembershipTypes.GetPagedMembershipTypes(page, size, membershipType);
+            var resultDTO = PaginationMapper<MembershipType, ResponseMembershipTypeDTO>.MapResult(result);
             return Ok(result);
         }
 

@@ -34,7 +34,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(List<ResponsePromoDTO>))]
-        public async Task<IHttpActionResult> GetAll(int page = 1, int size = 5)
+        public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
             var result = unitOfWork.Promos.GetPagedPromos(page, size);

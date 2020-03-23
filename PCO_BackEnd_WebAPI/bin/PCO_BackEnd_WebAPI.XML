@@ -498,7 +498,7 @@
             <param name="conferenceId">filter results by conference id</param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.MembershipTypeController.GetAll(System.String)">
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.MembershipTypeController.GetAll(System.Int32,System.Int32,System.String)">
             <summary>
             Gets list of types of membership
             </summary>
@@ -534,7 +534,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.PRCDetailController.GetAll(System.String)">
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.PRCDetailController.GetAll(System.Int32,System.Int32,System.String)">
             <summary>
             Gets list of PRCDetails
             </summary>
@@ -570,7 +570,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.UserInfoController.GetAll">
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.UserInfoController.GetAll(System.Int32,System.Int32)">
             <summary>
             Gets list of user information
             </summary>
@@ -673,7 +673,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.Promos.PromoMemberController.GetAll">
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.Promos.PromoMemberController.GetAll(System.Int32,System.Int32)">
             <summary>
             Gets list of promo members
             </summary>
@@ -708,7 +708,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.RateController.GetAll">
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.RateController.GetAll(System.Int32,System.Int32)">
             <summary>
             Gets list of rates
             </summary>
@@ -772,6 +772,14 @@
             The records this page represents. 
             </summary> 
         </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.ConfirmEmail(PCO_BackEnd_WebAPI.Models.AccountViewModels.ConfirmEmailViewModel)">
+            <summary>
+            Sets confirmation that registered email is valid.
+            </summary>
+            <param name="id"></param>
+            <param name="code"></param>
+            <returns></returns>
+        </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.Register(PCO_BackEnd_WebAPI.Models.AccountBindingModels.UserAccountBindingModel)">
             <summary>
             Creates a user account
@@ -808,6 +816,51 @@
             Deletes a user
             </summary>
             <param name="id">user of id to be deleted</param>
+            <returns></returns>
+        </member>
+        <member name="F:PCO_BackEnd_WebAPI.Models.Helpers.StringManipulationHelper.ADDEND">
+            <summary>
+            Use in encryption formula. To be added in UserID
+            </summary>
+        </member>
+        <member name="F:PCO_BackEnd_WebAPI.Models.Helpers.StringManipulationHelper.CUSTOM_ALPHABET">
+            <summary>
+            Cipher - Dicipher string (RN - Renz MZ - Migz GY - Gendy MC - Michelle JS- Jonas)
+            </summary>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Helpers.StringManipulationHelper.Cipher(System.Int32)">
+            <summary>
+            Convert UserId to ciphered string.
+            </summary>
+            <param name="aID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Helpers.StringManipulationHelper.DeCipher(System.String)">
+            <summary>
+            Convert string to original userID
+            </summary>
+            <param name="aText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Helpers.StringManipulationHelper.StringReverse(System.String)">
+            <summary>
+            Reverse string
+            </summary>
+            <param name="aText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Helpers.StringManipulationHelper.GetString(System.Int32)">
+            <summary>
+            Convert number to string
+            </summary>
+            <param name="aIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Helpers.StringManipulationHelper.GetNumber(System.String)">
+            <summary>
+            Convert string to number
+            </summary>
+            <param name="aText"></param>
             <returns></returns>
         </member>
         <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.AccountRepository.UpdateUserInfo(PCO_BackEnd_WebAPI.Models.Accounts.UserInfo,PCO_BackEnd_WebAPI.Models.Accounts.UserInfo)">

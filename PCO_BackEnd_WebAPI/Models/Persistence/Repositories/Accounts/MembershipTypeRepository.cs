@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Accounts;
 using RefactorThis.GraphDiff;
+using PCO_BackEnd_WebAPI.Models.Pagination;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
 {
@@ -16,6 +17,38 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
 
         }
 
+        public PageResult<MembershipType> GetPagedMembershipTypes(int page, int size, string filter)
+        {
+            PageResult<MembershipType> pageResult = new PageResult<MembershipType>();
+            int recordCount = appDbContext.MembershipTypes.Count();
+            int mod;
+            int totalPageCount;
+            int offset;
+            int recordToReturn;
+            if (size == 0)
+            {
+                mod = 0;
+                totalPageCount = 1;
+                offset = 0;
+                recordToReturn = recordCount;
+            }
+            else
+            {
+                mod = recordCount % size;
+                totalPageCount = (recordCount / size) + (mod == 0 ? 0 : 1);
+                offset = size * (page - 1);
+                recordToReturn = size;
+            }
+
+            pageResult.RecordCount = recordCount;
+            pageResult.PageCount = totalPageCount;
+            pageResult.Results = appDbContext.MembershipTypes.Where(u => string.IsNullOrEmpty(filter) ? true : u.Name.Contains(filter))
+                                             .OrderBy(a => a.Id)
+                                             .Skip(offset)
+                                             .Take(recordToReturn)
+                                             .ToList();
+            return pageResult;
+        }
         public MembershipType GetMembershipTypeByName(string membershipTypeName)
         {
             var membershipType = appDbContext.MembershipTypes

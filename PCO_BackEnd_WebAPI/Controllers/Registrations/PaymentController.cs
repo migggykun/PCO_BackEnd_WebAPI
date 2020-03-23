@@ -27,7 +27,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
 
         [HttpGet]
         [ResponseType(typeof(ResponsePaymentDTO))]
-        public async Task<IHttpActionResult> GetAll(int page = 1, int size = 5)
+        public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
             var result = await Task.Run(() => unitOfWork.Payments.GetPagedPayments(page, size));

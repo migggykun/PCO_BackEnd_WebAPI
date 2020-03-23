@@ -2,6 +2,7 @@
 using PCO_BackEnd_WebAPI.DTOs.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Entities;
+using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using System;
 using System.Collections.Generic;
@@ -29,12 +30,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponsePromoMemberDTO))]
-        public async Task<IHttpActionResult> GetAll()
+        public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = await Task.Run(() => unitOfWork.PromoMembers.GetAll().ToList()
-                                                        .Select(Mapper.Map<PromoMember, ResponsePromoMemberDTO>));
-            return Ok(result);
+            var result = await Task.Run(() => unitOfWork.PromoMembers.GetPagedPromoMember(page, size));
+            var resultDTO = PaginationMapper<PromoMember, ResponsePromoMemberDTO>.MapResult(result);
+            return Ok(resultDTO);
         }
 
         /// <summary>

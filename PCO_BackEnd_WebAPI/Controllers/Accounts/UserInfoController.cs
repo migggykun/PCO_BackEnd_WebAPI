@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
+using PCO_BackEnd_WebAPI.Models.Pagination;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
@@ -31,18 +32,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseUserInfoDTO))]
-        public async Task<IHttpActionResult> GetAll()
+        public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var resultDTO = await Task.Run(() => unitOfWork.UserInfos.GetAll());
-            if (resultDTO == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                return Ok(resultDTO.Select(Mapper.Map<UserInfo, ResponseUserInfoDTO>));
-            }
+            var result = await Task.Run(() => unitOfWork.UserInfos.GetPagedUserInfo(page, size));
+            var resultDTO = PaginationMapper<UserInfo, ResponseUserInfoDTO>.MapResult(result);
+            return Ok(resultDTO);
         }
 
         /// <summary>

@@ -28,7 +28,7 @@ using System.Web.Http.Cors;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using PCO_BackEnd_WebAPI.Models.Helpers;
 using PCO_BackEnd_WebAPI.Models.Pagination;
-
+using PCO_BackEnd_WebAPI.Models.Helpers;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
@@ -239,10 +239,10 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         [HttpGet]
         [Route("GetAllUsers")]
         [ResponseType(typeof(List<ResponseAccountDTO>))]
-        public async Task <IHttpActionResult> GetUsers(string email = null, int page = 1, int size = 5)
+        public async Task <IHttpActionResult> GetUsers(string email = null, int page = 1, int size = 0)
         {
             UnitOfWork unitOfWork = new UnitOfWork(new ApplicationDbContext());
-            var result = unitOfWork.Accounts.GetPagedAccounts(page, size, email);
+            var result = await Task.Run(() => unitOfWork.Accounts.GetPagedAccounts(page, size, email));
             var resultDTO = PaginationMapper<ApplicationUser, ResponseAccountDTO>.MapResult(result);
             return Ok(resultDTO);
         }

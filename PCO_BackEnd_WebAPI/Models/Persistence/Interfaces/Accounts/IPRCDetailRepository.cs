@@ -1,4 +1,5 @@
 ﻿using PCO_BackEnd_WebAPI.Models.Accounts;
+using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.Repositories;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Accounts
 {
     public interface IPRCDetailRepository : IRepository<PRCDetail>
     {
+        PageResult<PRCDetail> GetPagedPRCDetail(int page, int size, string filter);
         PRCDetail GetPRCDetailById(string prcId);
         PRCDetail Update(int id, PRCDetail entityToUpdate);
     }

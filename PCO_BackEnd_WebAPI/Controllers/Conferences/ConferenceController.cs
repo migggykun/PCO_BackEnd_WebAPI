@@ -35,7 +35,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseConferenceDTO))]
-        public async Task<IHttpActionResult> GetAll(string title = null, int page = 1 , int size = 5)
+        public async Task<IHttpActionResult> GetAll(string title = null, int page = 1 , int size = 0)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
             var result = await Task.Run(() =>unitOfWork.Conferences.GetPagedConferences(page, size,title));

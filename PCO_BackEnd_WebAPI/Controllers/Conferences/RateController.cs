@@ -2,6 +2,7 @@
 using PCO_BackEnd_WebAPI.DTOs.Conferences;
 using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.Models.Entities;
+using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using System;
 using System.Collections.Generic;
@@ -30,12 +31,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseRateDTO))]
-        public async Task<IHttpActionResult> GetAll()
+        public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = await Task.Run(() => unitOfWork.Rates.GetAll().ToList()
-                                                   .Select(Mapper.Map<Rate,ResponseRateDTO>));
-            return Ok(result);
+            var result = await Task.Run(() => unitOfWork.Rates.GetPagedRates(page, size));
+            var resultDTO = PaginationMapper<Rate, ResponseRateDTO>.MapResult(result);
+            return Ok(resultDTO);
         }
 
         /// <summary>

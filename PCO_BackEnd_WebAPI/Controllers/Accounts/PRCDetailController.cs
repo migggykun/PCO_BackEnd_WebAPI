@@ -13,6 +13,7 @@ using PCO_BackEnd_WebAPI.DTOs.Accounts;
 using System.Web.Http.Description;
 using PCO_BackEnd_WebAPI.Models.Roles;
 using System.Web.Http.Cors;
+using PCO_BackEnd_WebAPI.Models.Pagination;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
@@ -32,20 +33,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponsePRCDetailDTO))]
-        public async Task<IHttpActionResult> GetAll(string prcId = null)
+        public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0, string prcId = null)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            object resultDTO;
-            if (!string.IsNullOrWhiteSpace(prcId))
-            {
-                resultDTO = await Task.Run(() => unitOfWork.PRCDetails.GetAll().Where(m => m.IdNumber.Contains(prcId)).ToList()
-                                                         .Select(Mapper.Map<PRCDetail,ResponsePRCDetailDTO>));
-            }
-            else
-            {
-                resultDTO = await Task.Run(() => unitOfWork.PRCDetails.GetAll().ToList()
-                                                   .Select(Mapper.Map<PRCDetail, ResponsePRCDetailDTO>));
-            }
+            var result = await Task.Run(() => unitOfWork.PRCDetails.GetPagedPRCDetail(page, size, prcId));
+            var resultDTO = PaginationMapper<PRCDetail, ResponsePRCDetailDTO>.MapResult(result);
             return Ok(resultDTO);
         }
 
