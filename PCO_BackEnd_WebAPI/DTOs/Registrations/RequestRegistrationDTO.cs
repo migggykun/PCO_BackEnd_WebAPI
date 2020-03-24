@@ -14,6 +14,6 @@ namespace PCO_BackEnd_WebAPI.DTOs.Registrations
         [Required]
         public int ConferenceId { get; set; }
 
-        public int PromoId { get; set; }
+        public int? PromoId { get; set; }
     }
 }

@@ -34,7 +34,7 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
 
         public virtual Payment RegistrationPayment { get; set; }
 
-        public int PromoId { get; set; }
+        public int? PromoId { get; set; }
         public virtual Promo Promo { get; set; }
     }
 }
