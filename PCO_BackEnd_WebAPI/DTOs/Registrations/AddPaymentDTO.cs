@@ -16,5 +16,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Registrations
 
         public string ProofOfPayment { get; set; }
 
+        public string  Remarks { get; set; }
+
     }
 }

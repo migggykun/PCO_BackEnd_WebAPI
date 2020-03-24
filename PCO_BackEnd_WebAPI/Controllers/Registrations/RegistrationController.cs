@@ -36,11 +36,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(List<ResponseRegistrationDTO>))]
-        public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0, int conferenceId = 0)
+        public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0, int? conferenceId = null)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
             var registrationList = await Task.Run( () => unitOfWork.Registrations.GetPagedRegistration(page,size,conferenceId));
-            var registrationListDTO = PaginationMapper<Registration, ResponseRegistrationDTO>.MapResult(registrationList);
+            var registrationListDTO = PaginationMapper<Registration, ResponseListRegistrationDTO>.MapResult(registrationList);
 
             return Ok(registrationListDTO);
         }
@@ -143,7 +143,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         [HttpPost]
-        [Route("SetRegistrationStatus")]
+        [Route("api/SetRegistrationStatus")]
         public async Task<IHttpActionResult> SetRegistrationStatus(SetRegistrationViewModel model)
         {
             try

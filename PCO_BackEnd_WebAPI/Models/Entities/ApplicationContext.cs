@@ -89,6 +89,12 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                         .WithMany()
                         .WillCascadeOnDelete(true);
 
+            modelBuilder.Entity<Registration>()
+                        .HasRequired(e => e.Promo)
+                        .WithMany()
+                        .WillCascadeOnDelete(true);
+
+
 
             modelBuilder.Entity<Registration>()
                         .HasOptional(e => e.RegistrationPayment)

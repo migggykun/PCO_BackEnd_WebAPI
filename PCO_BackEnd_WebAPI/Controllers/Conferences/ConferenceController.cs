@@ -15,6 +15,7 @@ using AutoMapper;
 using System.Web.Http.Cors;
 using System.Data.Entity.Validation;
 using PCO_BackEnd_WebAPI.Models.Pagination;
+using PCO_BackEnd_WebAPI.Models.ParameterBindingModels;
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences
 {
     public class ConferenceController : ApiController
@@ -35,10 +36,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseConferenceDTO))]
-        public async Task<IHttpActionResult> GetAll(string title = null, int page = 1 , int size = 0)
+        public async Task<IHttpActionResult> GetAll([FromUri] ConferenceParameterBindingModel model)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = await Task.Run(() =>unitOfWork.Conferences.GetPagedConferences(page, size,title));
+            var result = await Task.Run(() =>unitOfWork.Conferences.GetPagedConferences((int)model.Page, (int)model.Size, model.Title,
+                                                                                        model.Day, model.Month, model.Year,
+                                                                                        model.FromDate, model.ToDate));
             var resultDTO = PaginationMapper<Conference, ResponseConferenceDTO>.MapResult(result);
             return Ok(resultDTO);
         }

@@ -19,5 +19,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Registrations
 
         public string ConfirmationDate { get; set; }
 
+        public string Remarks { get; set; }
+
     }
 }

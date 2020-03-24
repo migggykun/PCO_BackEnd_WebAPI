@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.Spatial;
 using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.Models.Accounts;
+using PCO_BackEnd_WebAPI.Models.Conferences.Promos;
 namespace PCO_BackEnd_WebAPI.Models.Registrations
 {
     public partial class Registration
@@ -32,5 +33,8 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
         public virtual ICollection<DailyAttendanceRecord> DailyAttendanceRecords { get; set; }
 
         public virtual Payment RegistrationPayment { get; set; }
+
+        public int PromoId { get; set; }
+        public virtual Promo Promo { get; set; }
     }
 }

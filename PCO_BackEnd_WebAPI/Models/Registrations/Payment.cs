@@ -25,5 +25,7 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
         public DateTime? ConfirmationDate { get; set; }
 
         public virtual Registration Registration { get; set; }
+
+        public string Remarks { get; set; }
     }
 }

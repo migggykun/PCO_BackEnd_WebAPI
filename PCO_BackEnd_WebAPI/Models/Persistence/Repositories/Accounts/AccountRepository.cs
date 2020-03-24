@@ -28,7 +28,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
         public PageResult<ApplicationUser> GetPagedAccounts(int page, int size, string filter = null)
         {
             PageResult<ApplicationUser> pageResult = new PageResult<ApplicationUser>();
-            int recordCount = UserManager.Users.Count();
+            int recordCount = UserManager.Users.Where(u => string.IsNullOrEmpty(filter) ? true : u.Email.Contains(filter)).Count();
             int mod;
             int totalPageCount;
             int offset;
@@ -47,14 +47,13 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
                 offset = size * (page - 1);
                 recordToReturn = size;
             }
-
-            pageResult.RecordCount = recordCount;
-            pageResult.PageCount = totalPageCount;
             pageResult.Results =  UserManager.Users.Where(u => string.IsNullOrEmpty(filter) ? true : u.Email.Contains(filter))
                                              .OrderBy(a => a.Id)
                                              .Skip(offset)
                                              .Take(recordToReturn)
                                              .ToList();
+            pageResult.PageCount = totalPageCount;
+            pageResult.RecordCount = recordCount;
             return pageResult;
         }
 

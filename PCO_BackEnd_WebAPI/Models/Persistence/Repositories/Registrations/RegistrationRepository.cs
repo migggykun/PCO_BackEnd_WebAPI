@@ -32,7 +32,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
         {
             PageResult<Registration> pageResult = new PageResult<Registration>();
 
-            int recordCount = appDbContext.Registrations.Count();
+            int recordCount = appDbContext.Registrations.ToList().Where(c => filter == null ? true : c.ConferenceId == filter).Count();
             int mod;
             int totalPageCount;
             int offset;
@@ -52,14 +52,13 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
                 recordToReturn = size;
             }
 
-            pageResult.RecordCount = recordCount;
-            pageResult.PageCount = totalPageCount;
-
             pageResult.Results =   appDbContext.Registrations.Where(c => filter == null ? true : c.ConferenceId == filter)
                                                .OrderBy(r => r.Id)
                                                .Skip(offset)
                                                .Take(recordToReturn)
                                                .ToList();
+            pageResult.PageCount = totalPageCount;
+            pageResult.RecordCount = recordCount;
             return pageResult;
         }
 

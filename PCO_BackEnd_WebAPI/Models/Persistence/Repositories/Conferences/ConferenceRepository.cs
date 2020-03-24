@@ -10,6 +10,7 @@ using RefactorThis.GraphDiff;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.DTOs.Conferences;
 using AutoMapper;
+using System.Globalization;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
 {
@@ -20,10 +21,23 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
               
         }
 
-        public PageResult<Conference> GetPagedConferences(int page, int size, string filter = null)
+        public PageResult<Conference> GetPagedConferences(int page, int size, string filter = null, string day = null, string month = null, 
+                                                         string year = null, string fromDate = null, string toDate = null)
         {
+            DateTime? startDate = string.IsNullOrEmpty(fromDate) ? null : Convert.ToDateTime(fromDate, new CultureInfo("fil-PH")) as DateTime?;
+            DateTime? endDate = string.IsNullOrEmpty(toDate) ? null : Convert.ToDateTime(toDate, new CultureInfo("fil-PH")) as DateTime?;
+            IQueryable<Conference> queryResult = appDbContext.Conferences.Where(c => string.IsNullOrEmpty(filter) ? true : c.Title.Contains(filter))
+                                                         .Where(c => string.IsNullOrEmpty(day) ? true : c.Start.Day.ToString().Contains(day)
+                                                                || c.End.Day.ToString().Contains(day))
+                                                         .Where(c => string.IsNullOrEmpty(month) ? true : c.Start.Month.ToString().Contains(month)
+                                                                || c.End.Month.ToString().Contains(month))
+                                                         .Where(c => string.IsNullOrEmpty(year) ? true : c.Start.Year.ToString().Contains(year)
+                                                                || c.End.Year.ToString().Contains(year))
+                                                         .Where(c => string.IsNullOrEmpty(fromDate) ? true : c.Start >= startDate)
+                                                         .Where(c => string.IsNullOrEmpty(toDate) ? true : c.End <= endDate);
+
             PageResult<Conference> pageResult = new PageResult<Conference>();
-            int recordCount = appDbContext.Conferences.Count();
+            int recordCount = queryResult.Count();
             int mod;
             int totalPageCount;
             int offset;
@@ -42,14 +56,12 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
                 offset = size * (page - 1);
                 recordToReturn = size;
             }
-
-            pageResult.RecordCount = recordCount;
+            pageResult.Results = queryResult.OrderBy(c => c.Id)
+                                            .Skip(offset)
+                                            .Take(recordToReturn)
+                                            .ToList();
             pageResult.PageCount = totalPageCount;
-            pageResult.Results = appDbContext.Conferences.Where(c => string.IsNullOrEmpty(filter) ? true : c.Title.Contains(filter))
-                                                          .OrderBy(c => c.Id)
-                                                          .Skip(offset)
-                                                          .Take(recordToReturn)
-                                                          .ToList();
+            pageResult.RecordCount = recordCount;
             return pageResult;
         }
 
