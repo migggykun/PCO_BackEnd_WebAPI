@@ -17,6 +17,7 @@ using PCO_BackEnd_WebAPI.Models.Pagination;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
+    [RoutePrefix("api/UserInfo")]
     public class UserInfoController : ApiController
     {
         private readonly ApplicationDbContext _context;

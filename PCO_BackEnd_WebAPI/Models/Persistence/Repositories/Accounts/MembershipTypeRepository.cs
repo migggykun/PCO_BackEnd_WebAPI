@@ -39,14 +39,13 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
                 offset = size * (page - 1);
                 recordToReturn = size;
             }
-
-            pageResult.RecordCount = recordCount;
-            pageResult.PageCount = totalPageCount;
             pageResult.Results = appDbContext.MembershipTypes.Where(u => string.IsNullOrEmpty(filter) ? true : u.Name.Contains(filter))
                                              .OrderBy(a => a.Id)
                                              .Skip(offset)
                                              .Take(recordToReturn)
                                              .ToList();
+            pageResult.PageCount = totalPageCount;
+            pageResult.RecordCount = recordCount;
             return pageResult;
         }
         public MembershipType GetMembershipTypeByName(string membershipTypeName)

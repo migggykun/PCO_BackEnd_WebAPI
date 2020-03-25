@@ -38,14 +38,12 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences.Promos
                 offset = size * (page - 1);
                 recordToReturn = size;
             }
-            pageResult.RecordCount = recordCount;
-            pageResult.PageCount = totalPageCount;
-
             pageResult.Results =  appDbContext.Promos.OrderBy(p => p.Id)
                                               .Skip(offset)
                                               .Take(recordToReturn)
                                               .ToList();
-
+            pageResult.PageCount = totalPageCount;
+            pageResult.RecordCount = recordCount;
             return pageResult;
         }
 

@@ -15,8 +15,10 @@ using AutoMapper;
 using System.Web.Http.Cors;
 using System.Data.Entity.Validation;
 using PCO_BackEnd_WebAPI.Models.Pagination;
+using PCO_BackEnd_WebAPI.Models.ParameterBindingModels;
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences
 {
+    [RoutePrefix("api/Conference")]
     public class ConferenceController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -35,39 +37,14 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseConferenceDTO))]
-        public async Task<IHttpActionResult> GetAll(string title = null, int page = 1 , int size = 0)
+        public async Task<IHttpActionResult> GetAll([FromUri] ConferenceParameterBindingModel model)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = await Task.Run(() =>unitOfWork.Conferences.GetPagedConferences(page, size,title));
+            var result = await Task.Run(() =>unitOfWork.Conferences.GetPagedConferences((int)model.Page, (int)model.Size, model.Title,
+                                                                                        model.Day, model.Month, model.Year,
+                                                                                        model.FromDate, model.ToDate));
             var resultDTO = PaginationMapper<Conference, ResponseConferenceDTO>.MapResult(result);
             return Ok(resultDTO);
-        }
-
-        /// <summary>
-        /// Gets list of upcoming conferences
-        /// </summary>
-        /// <param name="date"></param>
-        /// <returns></returns>
-        [HttpGet]
-        [ResponseType(typeof(List<ResponseConferenceDTO>))]
-        [Route("api/Conference/GetUpcomingConferences")]
-        public async Task<IHttpActionResult> GetUpcomingConferences(string date = null)
-        {
-            try
-            {
-                DateTime dateParam = DateTime.Now.Date;
-                UnitOfWork unitOfWork = new UnitOfWork(_context);
-                if (!string.IsNullOrEmpty(date))
-                {
-                    dateParam = DateTime.Parse(date);
-                }
-                var result = unitOfWork.Conferences.GetUpcomingConferences(dateParam);
-                return Ok(result.Select(Mapper.Map<Conference, ResponseConferenceDTO>));
-            }
-            catch(FormatException ex)
-            {
-                return BadRequest("Invalid date format");
-            }
         }
 
         /// <summary>

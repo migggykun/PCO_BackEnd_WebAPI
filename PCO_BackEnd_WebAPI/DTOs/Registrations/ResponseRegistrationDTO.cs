@@ -18,5 +18,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Registrations
 
         public int RegistrationStatusId { get; set; }
 
+        public int? PromoId { get; set; }
+
     }
 }

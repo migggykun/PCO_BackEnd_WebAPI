@@ -17,6 +17,7 @@ using PCO_BackEnd_WebAPI.Models.Pagination;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
 {
+    [RoutePrefix("api/Promo")]
     public class PromoController : ApiController
     {
         private readonly ApplicationDbContext _context;

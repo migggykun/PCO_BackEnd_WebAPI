@@ -12,9 +12,9 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences
 {
     public interface IConferenceRepository : IRepository<Conference>
     {
-        PageResult<Conference> GetPagedConferences(int pageNumber, int pageSize, string filter = null);
+        PageResult<Conference> GetPagedConferences(int page, int size, string filter = null, string day = null, string month = null,
+                                                         string year = null, string fromDate = null, string toDate = null);
         Conference GetConferenceByTitle(string title);
         Conference UpdateConferenceInfo(int id, Conference conference);
-        List<Conference> GetUpcomingConferences(DateTime date);
     }
 }

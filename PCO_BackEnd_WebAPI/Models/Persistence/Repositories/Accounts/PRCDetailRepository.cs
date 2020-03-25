@@ -39,17 +39,16 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
                 offset = size * (page - 1);
                 recordToReturn = size;
             }
-
-            pageResult.RecordCount = recordCount;
-            pageResult.PageCount = totalPageCount;
             pageResult.Results = appDbContext.PRCDetails.Where(p => p.IdNumber.Contains(filter))
                                              .OrderBy(a => a.Id)
                                              .Skip(offset)
                                              .Take(recordToReturn)
                                              .ToList();
+            pageResult.PageCount = totalPageCount;
+            pageResult.RecordCount = recordCount;
             return pageResult;
-        
         }
+
         public PRCDetail GetPRCDetailById(string prcId)
         {
             return appDbContext.PRCDetails.FirstOrDefault(e => string.Compare(e.IdNumber, prcId, false) == 0);

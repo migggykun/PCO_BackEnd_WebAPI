@@ -489,7 +489,7 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.RegistrationController.GetAll(System.Int32,System.Int32,System.Int32)">
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.RegistrationController.GetAll(System.Int32,System.Int32,System.Nullable{System.Int32})">
             <summary>
             Get list of registration
             </summary>
@@ -591,20 +591,13 @@
             <param name="userInfoDTO"></param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ConferenceController.GetAll(System.String,System.Int32,System.Int32)">
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ConferenceController.GetAll(PCO_BackEnd_WebAPI.Models.ParameterBindingModels.ConferenceParameterBindingModel)">
             <summary>
             Gets all list of Reference
             </summary>
             <param name="title">filter return by conference title</param>
             <param name="page">nth page of list</param>
             <param name="size">count of item to return in a page</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ConferenceController.GetUpcomingConferences(System.String)">
-            <summary>
-            Gets list of upcoming conferences
-            </summary>
-            <param name="date"></param>
             <returns></returns>
         </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ConferenceController.Get(System.Int32)">

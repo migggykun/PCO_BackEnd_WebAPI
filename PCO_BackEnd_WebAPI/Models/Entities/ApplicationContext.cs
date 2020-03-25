@@ -8,6 +8,7 @@ using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.Models.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Registrations;
+using PCO_BackEnd_WebAPI.Models.Seeder;
 namespace PCO_BackEnd_WebAPI.Models.Entities
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser,CustomRole, 
@@ -16,7 +17,7 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
         public ApplicationDbContext()
             : base("somee_sample")
         {
-
+            //Database.SetInitializer(new ApplicationUserSeeder());
         }
 
         public virtual DbSet<Conference> Conferences { get; set; }
@@ -88,6 +89,12 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                         .HasRequired(e => e.User)
                         .WithMany()
                         .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<Registration>()
+                        .HasRequired(e => e.Promo)
+                        .WithMany()
+                        .WillCascadeOnDelete(true);
+
 
 
             modelBuilder.Entity<Registration>()

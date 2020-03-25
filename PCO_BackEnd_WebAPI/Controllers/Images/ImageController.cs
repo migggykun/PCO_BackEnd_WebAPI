@@ -10,6 +10,7 @@ using System.Web.Http;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Images
 {
+    [RoutePrefix("api/Image")]
     public class ImageController : ApiController
     {
         [HttpPost]

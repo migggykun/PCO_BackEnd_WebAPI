@@ -38,15 +38,15 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
                 offset = size * (page - 1);
                 recordToReturn = size;
             }
-
 			pageResult.Results =  appDbContext.Payments.OrderBy(p => p.RegistrationId)
 											  .Skip(offset)
 											  .Take(recordToReturn)
 											  .ToList();
 
+            pageResult.PageCount = totalPageCount;
+            pageResult.RecordCount = recordCount;
 			return pageResult;
 		}
-
 
 		public override void Add(Payment payment)
 		{

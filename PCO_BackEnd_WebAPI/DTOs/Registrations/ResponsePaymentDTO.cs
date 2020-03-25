@@ -1,4 +1,8 @@
-﻿using System;
+﻿using PCO_BackEnd_WebAPI.DTOs.Accounts;
+using PCO_BackEnd_WebAPI.DTOs.Conferences;
+using PCO_BackEnd_WebAPI.Models.Accounts;
+using PCO_BackEnd_WebAPI.Models.Conferences;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,6 +22,13 @@ namespace PCO_BackEnd_WebAPI.DTOs.Registrations
         public string ProofOfPayment { get; set; }
 
         public string ConfirmationDate { get; set; }
+
+        public string Remarks { get; set; }
+
+        public ResponseUserInfoDTO UserInfo { get; set; }
+
+        public ResponseConferenceDTO Conference { get; set; }
+
 
     }
 }
