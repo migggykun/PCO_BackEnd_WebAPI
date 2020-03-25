@@ -80,17 +80,19 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             var user = await UserManager.FindByIdAsync(id);
             if (user != null)
             {
-                await Task.Run(() => SendEmail(user.Id, (int)EmailClassification.CONFIRM_EMAIL));
+                await Task.Run(() => SendEmail(user.Email, (int)EmailClassification.CONFIRM_EMAIL));
             }
             return BadRequest();
         }
 
-        private async Task SendEmail(int id, int emailClassification)
+        private async Task SendEmail(string aEmail, int emailClassification)
         {
+            var user = await UserManager.FindByEmailAsync(aEmail);
+            int id = user.Id;
             if (emailClassification == (int)EmailClassification.CONFIRM_EMAIL)
             {
                 string code = await UserManager.GenerateEmailConfirmationTokenAsync(id);
-                string idToken = StringManipulationHelper.EncodeIdTokenToCode(id, code);
+                string idToken = StringManipulationHelper.EncodeEmailTokenToCode(aEmail, code);
                 string callbackURL = StringManipulationHelper.SetConfirmEmailUrl(idToken);
                 string hyperLink = StringManipulationHelper.ConvertToHyperLink(callbackURL);
                 string emailBody = EmailTemplate.FormatConfirmEmailBody(hyperLink);
@@ -100,7 +102,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             if (emailClassification == (int)EmailClassification.RESET_PASSWORD)
             {             
                 string code = await UserManager.GeneratePasswordResetTokenAsync(id);
-                string idToken = StringManipulationHelper.EncodeIdTokenToCode(id, code);
+                string idToken = StringManipulationHelper.EncodeEmailTokenToCode(aEmail, code);
                 string callbackURL = StringManipulationHelper.SetResetPasswordURL(idToken);
                 string hyperLink = StringManipulationHelper.ConvertToHyperLink(callbackURL);
                 string emailBody = EmailTemplate.FormatResetPasswordBody(hyperLink);
@@ -118,7 +120,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 
             if (user != null && user.EmailConfirmed)
             {
-                await Task.Run(() => SendEmail(user.Id, (int)EmailClassification.RESET_PASSWORD));
+                await Task.Run(() => SendEmail(email, (int)EmailClassification.RESET_PASSWORD));
             }
             return Ok();
         }
@@ -127,8 +129,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         [Route("ResetPassword")]
         public async Task<IHttpActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            var idToken = StringManipulationHelper.DecodeCodeToIdToken(model.Token);
-            IdentityResult result = UserManager.ResetPassword(idToken.Key, idToken.Value, model.NewPassword);
+            string emailToken = StringManipulationHelper.DecodeCodeToEmailToken(model.Token);
+            var user = UserManager.FindByEmailAsync(emailToken);
+            IdentityResult result = UserManager.ResetPassword(user.Id, emailToken, model.NewPassword);
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -150,9 +153,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             {
                 return BadRequest(ModelState);
             }
-
-            var idToken = StringManipulationHelper.DecodeCodeToIdToken(model.Token);
-            IdentityResult result = result = await UserManager.ConfirmEmailAsync(idToken.Key, idToken.Value);
+            var user = await UserManager.FindByEmailAsync(model.Email);
+            var emailToken = StringManipulationHelper.DecodeCodeToEmailToken(model.Token);
+            IdentityResult result = result = await UserManager.ConfirmEmailAsync(user.Id, emailToken);
             if (result.Succeeded)
             {
                 return Ok();
@@ -197,7 +200,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                     return GetErrorResult(result);
                 }
 
-                await Task.Run(() => SendEmail(user.Id, (int)EmailClassification.CONFIRM_EMAIL));
+                await Task.Run(() => SendEmail(user.Email, (int)EmailClassification.CONFIRM_EMAIL));
 
                 return Ok(Mapper.Map<ApplicationUser, ResponseAccountDTO>(user));
             }

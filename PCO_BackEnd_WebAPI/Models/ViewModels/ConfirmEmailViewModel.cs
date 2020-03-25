@@ -9,6 +9,7 @@ namespace PCO_BackEnd_WebAPI.Models.AccountViewModels
     public class ConfirmEmailViewModel
     {
         [Required]
+        public string Email { get; set; }
         public string Token { get; set; }
     }
 }

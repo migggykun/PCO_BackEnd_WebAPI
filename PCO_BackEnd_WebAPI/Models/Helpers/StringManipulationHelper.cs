@@ -19,10 +19,9 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
         /// Cipher - Dicipher string (RN - Renz MZ - Migz GY - Gendy MC - Michelle JS- Jonas)
         /// </summary>
         private const string CUSTOM_ALPHABET = "RNMZGYMCJS";
-        public static string EncodeIdTokenToCode(int id, string token)
+        public static string EncodeEmailTokenToCode(string aEmail, string token)
         {
-            string newId = Cipher(id);
-            return HttpUtility.UrlEncode(string.Format("?id={0}&token={1}", newId, token));
+            return HttpUtility.UrlEncode(string.Format("?id={0}&token={1}", aEmail, token));
         }
 
         public static string ConvertToHyperLink(string link)
@@ -35,23 +34,15 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
             return string.Format("{0}/{1}", confirmEmailBaseURL, token);
         }
 
-        public static KeyValuePair<int, string> DecodeCodeToIdToken(string code)
+        public static string DecodeCodeToEmailToken(string code)
         {
-            const string ID_KEYWORD = "id%3d";
-            const string TOKEN_KEYWORD = "%26token";
-            int idKeywordIndex = code.IndexOf(ID_KEYWORD);
-            int tokenKeywordIndex = code.IndexOf(TOKEN_KEYWORD);
-            //Extract user id using this formula
-            string cipheredId = code.Substring(idKeywordIndex + ID_KEYWORD.Length, (tokenKeywordIndex - idKeywordIndex) - ID_KEYWORD.Length);
-            string decipheredId = DeCipher(cipheredId);
-            code = code.Replace(cipheredId, decipheredId);
             string decode = HttpUtility.UrlDecode(code);
             int userIdStartIndex = decode.IndexOf("=") + 1;
             int userIdEndIndex = decode.IndexOf("&");
             int tokenStartIndex = decode.IndexOf("n=") + 2;
-            string userId = decode.Substring(userIdStartIndex, userIdEndIndex - userIdStartIndex);
+            string userEmail = decode.Substring(userIdStartIndex, userIdEndIndex - userIdStartIndex);
             string token = decode.Substring(tokenStartIndex);
-            return new KeyValuePair<int, string>(Convert.ToInt32(userId), token);
+            return token;
         }
 
         public static string SetResetPasswordURL(string token)
