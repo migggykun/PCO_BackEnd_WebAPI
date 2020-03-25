@@ -15,7 +15,7 @@ namespace PCO_BackEnd_WebAPI.Models.Pagination
             {
                 RecordCount = pg.RecordCount,
                 PageCount = pg.PageCount,
-                Results = pg.Results.Select(Mapper.Map<TSource, TDestination>)
+                Results = pg.Results.Select(Mapper.Map<TSource, TDestination>).ToList()
             };
             return result;
         }

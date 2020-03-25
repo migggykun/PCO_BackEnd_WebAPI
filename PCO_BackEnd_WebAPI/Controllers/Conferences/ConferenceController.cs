@@ -18,6 +18,7 @@ using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.ParameterBindingModels;
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences
 {
+    [RoutePrefix("api/Conference")]
     public class ConferenceController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -44,33 +45,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
                                                                                         model.FromDate, model.ToDate));
             var resultDTO = PaginationMapper<Conference, ResponseConferenceDTO>.MapResult(result);
             return Ok(resultDTO);
-        }
-
-        /// <summary>
-        /// Gets list of upcoming conferences
-        /// </summary>
-        /// <param name="date"></param>
-        /// <returns></returns>
-        [HttpGet]
-        [ResponseType(typeof(List<ResponseConferenceDTO>))]
-        [Route("api/Conference/GetUpcomingConferences")]
-        public async Task<IHttpActionResult> GetUpcomingConferences(string date = null)
-        {
-            try
-            {
-                DateTime dateParam = DateTime.Now.Date;
-                UnitOfWork unitOfWork = new UnitOfWork(_context);
-                if (!string.IsNullOrEmpty(date))
-                {
-                    dateParam = DateTime.Parse(date);
-                }
-                var result = unitOfWork.Conferences.GetUpcomingConferences(dateParam);
-                return Ok(result.Select(Mapper.Map<Conference, ResponseConferenceDTO>));
-            }
-            catch(FormatException ex)
-            {
-                return BadRequest("Invalid date format");
-            }
         }
 
         /// <summary>

@@ -18,6 +18,7 @@ using PCO_BackEnd_WebAPI.Models.Pagination;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
+    [RoutePrefix("api/Registration")]
     public class RegistrationController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -143,7 +144,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         [HttpPost]
-        [Route("api/SetRegistrationStatus")]
+        [Route("SetRegistrationStatus")]
         public async Task<IHttpActionResult> SetRegistrationStatus(SetRegistrationViewModel model)
         {
             try

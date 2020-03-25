@@ -81,10 +81,6 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
           return updatedConference;
         }
 
-        public List<Conference> GetUpcomingConferences(DateTime date)
-        {
-                return appDbContext.Conferences.Where(c => c.Start >= date.Date).ToList();
-        }
         public ApplicationDbContext appDbContext
         {
             get

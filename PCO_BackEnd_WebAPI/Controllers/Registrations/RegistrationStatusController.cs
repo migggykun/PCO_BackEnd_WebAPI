@@ -10,6 +10,7 @@ using System.Web.Http;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Registrations
 {
+    [RoutePrefix("api/RegistrationStatus")]
     public class RegistrationStatusController : ApiController
     {
         private readonly ApplicationDbContext _context;

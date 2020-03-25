@@ -48,7 +48,6 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 			return pageResult;
 		}
 
-
 		public override void Add(Payment payment)
 		{
 			//Set details

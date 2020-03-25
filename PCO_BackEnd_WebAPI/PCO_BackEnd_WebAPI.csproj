@@ -277,11 +277,13 @@
     <Compile Include="DTOs\Registrations\UpdatePaymentDTO.cs" />
     <Compile Include="Models\AccountBindingModels\LoginViewModel.cs" />
     <Compile Include="Models\Accounts\IdentityModels.cs" />
+    <Compile Include="Models\Helpers\PaymentMapper.cs" />
     <Compile Include="Models\Image\Image.cs" />
     <Compile Include="Models\Image\Model.cs" />
     <Compile Include="Models\Pagination\PageResult.cs" />
     <Compile Include="Models\Pagination\PaginationMapper.cs" />
     <Compile Include="Models\ParameterBindingModels\ConferenceParameterBindingModel.cs" />
+    <Compile Include="Models\Seeder\ApplicationUserSeeder.cs" />
     <Compile Include="Models\ViewModels\ConfirmEmailViewModel.cs" />
     <Compile Include="Models\ViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="Models\Conferences\Conference.cs" />
@@ -320,10 +322,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Accounts\MembershipType.cs" />
-    <Compile Include="Migrations\202002201917472_InitialModel.cs" />
-    <Compile Include="Migrations\202002201917472_InitialModel.Designer.cs">
-      <DependentUpon>202002201917472_InitialModel.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels\AddExternalLoginBindingModel.cs" />
     <Compile Include="Models\AccountBindingModels\ChangePasswordBindingModel.cs" />
@@ -420,11 +418,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202002201917472_InitialModel.resx">
-      <DependentUpon>202002201917472_InitialModel.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -600,13 +600,6 @@
             <param name="size">count of item to return in a page</param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ConferenceController.GetUpcomingConferences(System.String)">
-            <summary>
-            Gets list of upcoming conferences
-            </summary>
-            <param name="date"></param>
-            <returns></returns>
-        </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ConferenceController.Get(System.Int32)">
             <summary>
             Gets conference based on specified id

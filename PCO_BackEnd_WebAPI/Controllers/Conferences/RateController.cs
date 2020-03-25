@@ -16,6 +16,7 @@ using System.Web.Http.Description;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences
 {
+    [RoutePrefix("api/Rate")]
     public class RateController : ApiController
     {
         private readonly ApplicationDbContext _context;

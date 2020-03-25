@@ -12,9 +12,15 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using PCO_BackEnd_WebAPI.Models.Pagination;
+using PCO_BackEnd_WebAPI.Models.Accounts;
+using PCO_BackEnd_WebAPI.Models.Conferences;
+using PCO_BackEnd_WebAPI.DTOs.Accounts;
+using PCO_BackEnd_WebAPI.DTOs.Conferences;
+using PCO_BackEnd_WebAPI.Models.Helpers;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Registrations
 {
+    [RoutePrefix("api/Payment")]
     public class PaymentController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -32,6 +38,16 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
             UnitOfWork unitOfWork = new UnitOfWork(_context);
             var result = await Task.Run(() => unitOfWork.Payments.GetPagedPayments(page, size));
             var resultDTO = PaginationMapper<Payment, ResponsePaymentDTO>.MapResult(result);
+            var users = result.Results.Select(x => unitOfWork.UserInfos.Get(x.Registration.UserId));
+            var conferences = result.Results.Select(x => unitOfWork.Conferences.Get(x.Registration.ConferenceId));
+
+            foreach (var r in result.Results)
+            {
+                int index = resultDTO.Results.ToList().FindIndex(x => x.RegistrationId == r.RegistrationId);
+                var userInfo = users.First(x => x.Id == r.Registration.UserId);
+                var conf = conferences.First(x => x.Id ==r.Registration.ConferenceId);
+                PaymentMapper.MapToResponsePaymentDTO(resultDTO.Results[index], userInfo, conf);
+            }
             return Ok(resultDTO);
         }
 
@@ -47,8 +63,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
             }
             else
             {
-                var paymentDTO = Mapper.Map<Payment, ResponsePaymentDTO>(result);
-                return Ok(paymentDTO);
+                var resultDTO = Mapper.Map<Payment, ResponsePaymentDTO>(result);
+                var user = unitOfWork.UserInfos.Get(result.Registration.UserId);
+                var conference = unitOfWork.Conferences.Get(result.Registration.ConferenceId);
+                PaymentMapper.MapToResponsePaymentDTO(resultDTO, user, conference);
+                return Ok(resultDTO);
             }
         }
 
@@ -79,7 +98,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         }
 
         [HttpPut]
-        public async Task<IHttpActionResult> UpdatePayment(int registrationId, UpdatePaymentDTO paymentDTO)
+        public async Task<IHttpActionResult> UpdatePayment(int id, UpdatePaymentDTO paymentDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -89,16 +108,20 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
-                var result = await Task.Run(() => unitOfWork.Payments.Get(registrationId));
+                var result = await Task.Run(() => unitOfWork.Payments.Get(id));
                 if (result == null)
                 {
                     return NotFound();
                 }
                 else
                 {
-                    await Task.Run(() => unitOfWork.Payments.UpdatePayment(registrationId, payment));
+                    await Task.Run(() => unitOfWork.Payments.UpdatePayment(id, payment));
                     await Task.Run(() => unitOfWork.Complete());
-                    return Ok(Mapper.Map<Payment, ResponsePaymentDTO>(payment));
+                    var user = unitOfWork.UserInfos.Get(result.Registration.UserId);
+                    var conference = unitOfWork.Conferences.Get(result.Registration.ConferenceId);
+                    var resultDTO = Mapper.Map<Payment, ResponsePaymentDTO>(payment);
+                    PaymentMapper.MapToResponsePaymentDTO(resultDTO, user, conference);
+                    return Ok(resultDTO);
                 }
             }
             catch (Exception ex)

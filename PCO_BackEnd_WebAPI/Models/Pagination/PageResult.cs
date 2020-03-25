@@ -20,6 +20,6 @@ namespace PCO_BackEnd_WebAPI.Models.Pagination
         /// <summary> 
         /// The records this page represents. 
         /// </summary> 
-        public IEnumerable<TEntity> Results { get; set; }
+        public List<TEntity> Results { get; set; }
     }
 }
