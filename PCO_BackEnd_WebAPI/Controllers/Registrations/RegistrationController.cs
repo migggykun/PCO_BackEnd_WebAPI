@@ -31,8 +31,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <summary>
         /// Get list of registration
         /// </summary>
-        /// <param name="page">nth page of the list</param>
-        /// <param name="size">number of item to return per page</param>
+        /// <param name="page">nth page of list. Default value: 1</param>
+        /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <param name="conferenceId">filter results by conference id</param>
         /// <returns></returns>
         [HttpGet]
@@ -46,6 +46,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             return Ok(registrationListDTO);
         }
 
+        /// <summary>
+        /// Gets registration based on specified id
+        /// </summary>
+        /// <param name="id">id of the registration to be fetched</param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IHttpActionResult> Get(int id)
         {
@@ -62,6 +67,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }   
         }
 
+        /// <summary>
+        /// Add a registration
+        /// </summary>
+        /// <param name="registrationDTO">Details about the registration to be added</param>
+        /// <returns></returns>
         [HttpPost]
         [ResponseType(typeof(ResponseRegistrationDTO))]
         public async Task<IHttpActionResult> Add(RequestRegistrationDTO registrationDTO)
@@ -87,6 +97,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
         }
 
+        /// <summary>
+        /// Updates registration information
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="registrationDTO"></param>
+        /// <returns></returns>
         [HttpPut]
         [ResponseType(typeof(ResponseRegistrationDTO))]
         public async Task<IHttpActionResult> Update(int id, RequestRegistrationDTO registrationDTO)
@@ -118,6 +134,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
         }
 
+        /// <summary>
+        /// Deletes a registration
+        /// </summary>
+        /// <param name="id">id of registration to be deleted</param>
+        /// <returns></returns>
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(int id)
         {
@@ -143,6 +164,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
         }
 
+        /// <summary>
+        /// Change registration status
+        /// </summary>
+        /// <param name="model">registration id and new registration status</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("SetRegistrationStatus")]
         public async Task<IHttpActionResult> SetRegistrationStatus(SetRegistrationViewModel model)

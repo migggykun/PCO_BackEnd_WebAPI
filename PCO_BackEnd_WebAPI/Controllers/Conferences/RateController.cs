@@ -29,6 +29,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <summary>
         /// Gets list of rates
         /// </summary>
+        /// <param name="page">nth page of list. Default value: 1</param>
+        /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseRateDTO))]
@@ -43,7 +45,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <summary>
         /// Gets the rate information based on specified id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id of rate to be fetched</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseRateDTO))]
@@ -65,7 +67,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <summary>
         /// Add list of Rates 
         /// </summary>
-        /// <param name="rateDTO"></param>
+        /// <param name="rateDTO">>Details about the rate to be added.</param>
         /// <returns></returns>
         [HttpPost]
         [ResponseType(typeof(ResponseRateDTO))]
@@ -103,8 +105,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <summary>
         /// Updates a rate
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="rateDTO"></param>
+        /// <param name="id">user id</param>
+        /// <param name="rateDTO">New information about the rate to be updated</param>
         /// <returns></returns>
         [HttpPut]
         public async Task<IHttpActionResult> UpdateRate(int id, RequestRateDTO rateDTO)
@@ -140,7 +142,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <summary>
         /// Deletes a rate
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id of the rate to be deleted.</param>
         /// <returns></returns>
         [HttpDelete]
         [ResponseType(typeof(ResponseConferenceDTO))]

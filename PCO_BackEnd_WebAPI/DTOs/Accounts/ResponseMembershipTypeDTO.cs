@@ -8,6 +8,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
 {
     public class ResponseMembershipTypeDTO
     {
+        [Required]
         public int Id { get; set; }
 
         [Required]

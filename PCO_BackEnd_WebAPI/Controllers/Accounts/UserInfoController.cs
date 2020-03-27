@@ -30,6 +30,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <summary>
         /// Gets list of user information
         /// </summary>
+        /// <param name="page">nth page of list. Default value: 1</param>
+        /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseUserInfoDTO))]
@@ -44,7 +46,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <summary>
         /// Gets the user information based on specified id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id of the user information to be fetched</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseUserInfoDTO))]
@@ -66,8 +68,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <summary>
         /// Updates user info based on specified id
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="userInfoDTO"></param>
+        /// <param name="id">user id</param>
+        /// <param name="userInfoDTO">New information about the user to be updated</param>
         /// <returns></returns>
         [HttpPut]
         [ResponseType(typeof(ResponseUserInfoDTO))]

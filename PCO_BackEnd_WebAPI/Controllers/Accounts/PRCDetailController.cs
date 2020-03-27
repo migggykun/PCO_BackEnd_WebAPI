@@ -28,9 +28,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         /// <summary>
-        /// Gets list of PRCDetails
+        /// Gets list of prc details
         /// </summary>
-        /// <param name="prcId"></param>
+        /// <param name="page">nth page of list. Default value: 1</param>
+        /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
+        /// <param name="prcId">search PRC Details with the input prcId</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponsePRCDetailDTO))]
@@ -45,7 +47,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <summary>
         /// Gets the PRC details based on specified id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id of the prc detail to be fetched</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponsePRCDetailDTO))]
@@ -67,7 +69,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <summary>
         /// Adds PRC details
         /// </summary>
-        /// <param name="PRCDetailDTO"></param>
+        /// <param name="PRCDetailDTO">Details about PRC Details to be added</param>
         /// <returns></returns>
         [HttpPost]
         [ResponseType(typeof(ResponsePRCDetailDTO))]
@@ -97,8 +99,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <summary>
         /// Updates PRC detail based on specified id
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="prcDetailDTO"></param>
+        /// <param name="id">user Id</param>
+        /// <param name="prcDetailDTO">New information about the PRCDetails to be updated</param>
         /// <returns></returns>
         [HttpPut]
         [ResponseType(typeof(ResponsePRCDetailDTO))]
@@ -135,7 +137,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <summary>
         /// Deletes PRC detail based on specified id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">user id to delete</param>
         /// <returns></returns>
         [HttpDelete]
         public async Task<IHttpActionResult> DeletePRCDetail(int id)

@@ -25,9 +25,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
             _context = new ApplicationDbContext();
         }
 
+
         /// <summary>
         /// Gets list of promo members
         /// </summary>
+        /// <param name="page">nth page of list. Default value: 1</param>
+        /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponsePromoMemberDTO))]
@@ -42,7 +45,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <summary>
         /// Gets the promo member information based on id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id of the promo member to be get</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponsePromoMemberDTO))]
@@ -64,7 +67,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <summary>
         /// Adds a promo member
         /// </summary>
-        /// <param name="promoMembersDTO"></param>
+        /// <param name="promoMembersDTO">Details about the promo member to be added</param>
         /// <returns></returns>
         [HttpPost]
         [ResponseType(typeof(ResponsePromoMemberDTO))]
@@ -103,8 +106,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <summary>
         /// Updates a promo member
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="promoMemberDTO"></param>
+        /// <param name="id">id of the promo member to be updated</param>
+        /// <param name="promoMemberDTO">New information about the promo member to be updated</param>
         /// <returns></returns>
         [HttpPut]
         [ResponseType(typeof(ResponsePromoMemberDTO))]
@@ -140,7 +143,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <summary>
         /// Deletes a promo member
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id of promo member to be deleted</param>
         /// <returns></returns>
         [HttpDelete]
         public async Task<IHttpActionResult> DeletePromoMember(int id)

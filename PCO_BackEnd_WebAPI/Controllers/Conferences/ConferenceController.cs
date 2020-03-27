@@ -32,8 +32,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// Gets all list of Reference
         /// </summary>
         /// <param name="title">filter return by conference title</param>
-        /// <param name="page">nth page of list</param>
-        /// <param name="size">count of item to return in a page</param>
+        /// <param name="page">nth page of list. Default value: 1</param>
+        /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseConferenceDTO))]
@@ -50,7 +50,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <summary>
         /// Gets conference based on specified id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id of the conference to be fetched</param>
         /// <returns></returns>
         [HttpGet]
         public async Task<IHttpActionResult> Get(int id)
@@ -71,7 +71,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <summary>
         /// Adds a conference
         /// </summary>
-        /// <param name="conferenceDTO"></param>
+        /// <param name="conferenceDTO">Details about the conference to be added.</param>
         /// <returns></returns>
         [HttpPost]
         [ResponseType(typeof(ResponseConferenceDTO))]
@@ -101,8 +101,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <summary>
         /// Updates details of conference
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="conferenceDTO"></param>
+        /// <param name="id">id of the conference to be updated</param>
+        /// <param name="conferenceDTO">New information about the conference to be updated</param>
         /// <returns></returns>
         [HttpPut]
         [ResponseType(typeof(ResponseConferenceDTO))]
@@ -138,7 +138,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <summary>
         /// Deletes a conference based on specified id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id of the conference to be deleted</param>
         /// <returns></returns>
         [HttpDelete]
         public async Task<IHttpActionResult> DeleteConference(int id)

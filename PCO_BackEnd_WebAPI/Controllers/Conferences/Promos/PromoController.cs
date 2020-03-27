@@ -30,11 +30,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <summary>
         /// Get list of promos
         /// </summary>
-        /// <param name="page">nth page of list</param>
-        /// <param name="size">count of item to return in a page</param>
+        /// <param name="page">nth page of list. Default value: 1</param>
+        /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <returns></returns>
         [HttpGet]
-        [ResponseType(typeof(List<ResponsePromoDTO>))]
+        [ResponseType(typeof(PageResult<ResponsePromoDTO>))]
         public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -68,7 +68,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <summary>
         /// Adds a promo for conference
         /// </summary>
-        /// <param name="promoDTO"></param>
+        /// <param name="promoDTO">Details about the Promo to be added</param>
         /// <returns></returns>
         [HttpPost]
         [ResponseType(typeof(ResponsePromoDTO))]
@@ -98,8 +98,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <summary>
         /// Updates the promo details 
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="promoDTO"></param>
+        /// <param name="id">id of the promo to be updated</param>
+        /// <param name="promoDTO">New information about the promo to be updated</param>
         /// <returns></returns>
         [HttpPut]
         [ResponseType(typeof(ResponsePromoDTO))]
@@ -136,7 +136,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <summary>
         /// Deletes a promo based on specified id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id of the promo to be deleted.</param>
         /// <returns></returns>
         [HttpDelete]
         public async Task<IHttpActionResult> DeletePromo(int id)

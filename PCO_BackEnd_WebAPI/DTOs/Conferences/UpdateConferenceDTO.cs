@@ -27,7 +27,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Conferences
 
         public string PromoId { get; set; }
 
-
+        [Required]
         public virtual ICollection<UpdateRateWithConferenceDTO> Rates { get; set; }
     }
 }

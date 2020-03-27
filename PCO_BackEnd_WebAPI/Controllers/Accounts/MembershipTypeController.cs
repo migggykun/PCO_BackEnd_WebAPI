@@ -26,11 +26,13 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         {
             _context = new ApplicationDbContext();
         }
-
+        
         /// <summary>
-        /// Gets list of types of membership
+        /// Get list of membershiptypes
         /// </summary>
-        /// <param name="membershipType"></param>
+        /// <param name="page">nth page of list. Default value: 1</param>
+        /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
+        /// <param name="membershipType">keyword for searching</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseMembershipTypeDTO))]
@@ -45,7 +47,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <summary>
         /// Gets the membership type based on specified id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">id of the membershipType to be fetched</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseMembershipTypeDTO))]
@@ -67,7 +69,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <summary>
         /// Adds a membershipType
         /// </summary>
-        /// <param name="membershipTypeDTO"></param>
+        /// <param name="membershipTypeDTO">Details about the type of membershipType to be added</param>
         /// <returns></returns>
         [HttpPost]
         [ResponseType(typeof(ResponseMembershipTypeDTO))]
@@ -98,8 +100,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <summary>
         /// Updates the specified membershipType
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="membershipTypeDTO"></param>
+        /// <param name="id">id of membershipType</param>
+        /// <param name="membershipTypeDTO">New information about membershipType to update</param>
         /// <returns></returns>
         [HttpPut]
         [ResponseType(typeof(ResponseMembershipTypeDTO))]
@@ -137,7 +139,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <summary>
         /// Deletes the specified membership type
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">user id of membershipType to delete</param>
         /// <returns></returns>
         [HttpDelete]
         public async Task<IHttpActionResult> DeleteMembershipType(int id)

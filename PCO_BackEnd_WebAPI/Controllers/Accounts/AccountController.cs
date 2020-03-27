@@ -71,7 +71,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <summary>
         /// Sends email to user to confirm registered email address.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">User Id</param>
         /// <returns></returns>
         [HttpPost]
         [Route("SendEmailConfirmation/{id:int}")]
@@ -86,6 +86,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             return Ok();
         }
 
+        /// <summary>
+        /// Send Email to use using SMTP
+        /// </summary>
+        /// <param name="aEmail">email address</param>
+        /// <param name="emailClassification">Checker if email template for reset password or confirm email will be passed.</param>
+        /// <returns>Void</returns>
         private async Task SendEmail(string aEmail, int emailClassification)
         {
             var user = await UserManager.FindByEmailAsync(aEmail);
@@ -111,6 +117,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
         }
 
+        /// <summary>
+        /// Sends link to the specified email on how to reset password.
+        /// </summary>
+        /// <param name="email">Email of user to reset</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("SendResetPasswordEmail")]
         public async Task<IHttpActionResult> SendResetPasswordEmail(string email)
@@ -126,6 +137,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             return Ok();
         }
 
+        /// <summary>
+        /// Reset users password
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("ResetPassword")]
         public async Task<IHttpActionResult> ResetPassword(ResetPasswordViewModel model)
@@ -144,12 +160,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             return Ok();
         }
 
-        //<summary>
-        //Sets confirmation that registered email is valid.
-        //</summary>
-        //<param name="email"></param>
-        //<param name=token"></param>
-        //<returns></returns>
+        /// <summary>
+        /// Sets the user account as confirmed.
+        /// </summary>
+        /// <param name="model">userId: id of user<br/>token: Generate token to confirm email</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("ConfirmEmail")]
         public async Task<IHttpActionResult> ConfirmEmail(ConfirmEmailViewModel model)
@@ -175,7 +190,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <summary>
         /// Creates a user account
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="model">If no PRC Details to be specified, set values to empty string(""). otherwise, set its value</param>
         /// <returns></returns>
         [AllowAnonymous]
         [Route("Register")]
@@ -217,6 +232,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         // POST api/Account/ChangePassword
+        /// <summary>
+        /// Change user password
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
@@ -225,8 +245,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await UserManager.ChangePasswordAsync(model.Id, model.OldPassword,
-                model.NewPassword);
+            IdentityResult result = await UserManager.ChangePasswordAsync(model.Id, model.OldPassword, model.NewPassword);
 
             if (!result.Succeeded)
             {
@@ -240,8 +259,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <summary>
         /// Returns list of accounts
         /// </summary>
-        /// <param name="page">nth page of list</param>
-        /// <param name="size">count of items per page</param>
+        /// <param name="page">nth page of list. Default value: 1</param>
+        /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <param name="email">filter of returned items</param>
         /// <returns></returns>
         [HttpGet]
@@ -255,6 +274,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             return Ok(resultDTO);
         }
 
+        /// <summary>
+        /// Get user details by email
+        /// </summary>
+        /// <param name="email">Registered email of user</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("GetUserByEmail")]
         public async Task<IHttpActionResult> GetUserByEmail(string email)
@@ -274,7 +298,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <summary>
         /// Gets user based on specified id
         /// </summary>
-        /// <param name="id">User Id in database</param>
+        /// <param name="id">id of account to be fetched</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseAccountDTO))]
@@ -291,12 +315,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
         }
 
-         // <summary>
-         // Updates user account
-         //</summary>
-         //<param name="id">User id</param>
-         //<param name="accountDTO">Account to be updated</param>
-         //<returns></returns>
+        /// <summary>
+        /// Updates user Account
+        /// </summary>
+        /// <param name="id">user Id</param>
+        /// <param name="accountDTO">Request body of user</param>
+        /// <returns></returns>
         [HttpPut]
         [ResponseType(typeof(ResponseAccountDTO))]
         public async Task<IHttpActionResult> UpdateUser(int id, RequestAccountDTO accountDTO)

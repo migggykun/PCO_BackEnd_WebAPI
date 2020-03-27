@@ -30,7 +30,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
             _context = new ApplicationDbContext();
         }
 
-
+        /// <summary>
+        /// Gets list of Registration
+        /// </summary>
+        /// <param name="page">nth page of list. Default value: 1</param>
+        /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
+        /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponsePaymentDTO))]
         public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0)
@@ -51,6 +56,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
             return Ok(resultDTO);
         }
 
+        /// <summary>
+        /// Gets user based on specified id
+        /// </summary>
+        /// <param name="id">id of payment to be fetched</param>
+        /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponsePaymentDTO))]
         public async Task<IHttpActionResult> Get(int id)
@@ -71,8 +81,13 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
             }
         }
 
+        /// <summary>
+        /// Add a payment for registration
+        /// </summary>
+        /// <param name="paymentDTO">Details about the payment to be added</param>
+        /// <returns></returns>
         [HttpPost]
-        [ResponseType(typeof(AddPaymentDTO))]
+        [ResponseType(typeof(ResponsePaymentDTO))]
         public async Task<IHttpActionResult> AddPayment(AddPaymentDTO paymentDTO)
         {
             if (!ModelState.IsValid)
@@ -97,6 +112,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
 
         }
 
+        /// <summary>
+        /// Updates payment details
+        /// </summary>
+        /// <param name="id">id of payment to be updated</param>
+        /// <param name="paymentDTO">New information of payment to be updated</param>
+        /// <returns></returns>
         [HttpPut]
         public async Task<IHttpActionResult> UpdatePayment(int id, UpdatePaymentDTO paymentDTO)
         {
@@ -131,6 +152,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
             }
         }
 
+        /// <summary>
+        /// Deletes a payment
+        /// </summary>
+        /// <param name="id">id of payment to be deleted</param>
+        /// <returns></returns>
         [HttpDelete]
         public async Task<IHttpActionResult> DeletePayment(int id)
         {
@@ -155,7 +181,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                 return BadRequest(message);
             }
         }
-
+        
+        /// <summary>
+        /// Set the date when the payment is confirmed
+        /// </summary>
+        /// <param name="id">id of payment to be confirmed</param>
+        /// <returns></returns>
         [HttpPut]
         [Route("SetConfirmationDate/{id}")]
         public async Task<IHttpActionResult> ConfirmPaymentDate(int id)
