@@ -19,9 +19,9 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
         /// Cipher - Dicipher string (RN - Renz MZ - Migz GY - Gendy MC - Michelle JS- Jonas)
         /// </summary>
         private const string CUSTOM_ALPHABET = "RNMZGYMCJS";
-        public static string EncodeEmailTokenToCode(string aEmail, string token)
+        public static string SetParameter(string aEmail, string token)
         {
-            return HttpUtility.UrlEncode(string.Format("?id={0}&token={1}", aEmail, token));
+            return string.Format("{0}/{1}", aEmail, HttpUtility.UrlEncode(token,System.Text.Encoding.UTF8));
         }
 
         public static string ConvertToHyperLink(string link)
@@ -47,7 +47,7 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
 
         public static string SetResetPasswordURL(string token)
         {
-           return string.Format("{0}/{1}", confirmEmailBaseURL, token);
+            return string.Format("{0}/{1}", resetPasswordBaseURL, token);
         }
 
         /// <summary>

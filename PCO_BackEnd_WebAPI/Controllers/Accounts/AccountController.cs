@@ -68,13 +68,13 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 
         #region Use WebAPI Methods
 
-        ///// <summary>
-        ///// Sends email to user to confirm registered email address.
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <returns></returns>
+        /// <summary>
+        /// Sends email to user to confirm registered email address.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
-        [Route("SendEmailConfirmation")]
+        [Route("SendEmailConfirmation/{id:int}")]
         public async Task<IHttpActionResult> SendEmailConfirmation(int id)
         {
             var user = await UserManager.FindByIdAsync(id);
@@ -82,7 +82,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             {
                 await Task.Run(() => SendEmail(user.Email, (int)EmailClassification.CONFIRM_EMAIL));
             }
-            return BadRequest();
+
+            return Ok();
         }
 
         private async Task SendEmail(string aEmail, int emailClassification)
@@ -92,7 +93,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             if (emailClassification == (int)EmailClassification.CONFIRM_EMAIL)
             {
                 string code = await UserManager.GenerateEmailConfirmationTokenAsync(id);
-                string idToken = StringManipulationHelper.EncodeEmailTokenToCode(aEmail, code);
+                string idToken = StringManipulationHelper.SetParameter(aEmail, code);
                 string callbackURL = StringManipulationHelper.SetConfirmEmailUrl(idToken);
                 string hyperLink = StringManipulationHelper.ConvertToHyperLink(callbackURL);
                 string emailBody = EmailTemplate.FormatConfirmEmailBody(hyperLink);
@@ -102,7 +103,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             if (emailClassification == (int)EmailClassification.RESET_PASSWORD)
             {             
                 string code = await UserManager.GeneratePasswordResetTokenAsync(id);
-                string idToken = StringManipulationHelper.EncodeEmailTokenToCode(aEmail, code);
+                string idToken = StringManipulationHelper.SetParameter(aEmail, code);
                 string callbackURL = StringManipulationHelper.SetResetPasswordURL(idToken);
                 string hyperLink = StringManipulationHelper.ConvertToHyperLink(callbackURL);
                 string emailBody = EmailTemplate.FormatResetPasswordBody(hyperLink);
@@ -118,7 +119,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 
             var token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
 
-            if (user != null && user.EmailConfirmed)
+            //if (user != null && user.EmailConfirmed)
             {
                 await Task.Run(() => SendEmail(email, (int)EmailClassification.RESET_PASSWORD));
             }
@@ -129,9 +130,13 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         [Route("ResetPassword")]
         public async Task<IHttpActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            string emailToken = StringManipulationHelper.DecodeCodeToEmailToken(model.Token);
-            var user = UserManager.FindByEmailAsync(emailToken);
-            IdentityResult result = UserManager.ResetPassword(user.Id, emailToken, model.NewPassword);
+            var user = await UserManager.FindByEmailAsync(model.Email);
+            
+            if (user == null)
+            {
+                return NotFound();
+            }
+            IdentityResult result = await UserManager.ResetPasswordAsync(user.Id, model.Token, model.NewPassword);
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -139,12 +144,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             return Ok();
         }
 
-        /// <summary>
-        /// Sets confirmation that registered email is valid.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="code"></param>
-        /// <returns></returns>
+        //<summary>
+        //Sets confirmation that registered email is valid.
+        //</summary>
+        //<param name="email"></param>
+        //<param name=token"></param>
+        //<returns></returns>
         [HttpPost]
         [Route("ConfirmEmail")]
         public async Task<IHttpActionResult> ConfirmEmail(ConfirmEmailViewModel model)
@@ -153,16 +158,16 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             {
                 return BadRequest(ModelState);
             }
+
             var user = await UserManager.FindByEmailAsync(model.Email);
-            var emailToken = StringManipulationHelper.DecodeCodeToEmailToken(model.Token);
-            IdentityResult result = result = await UserManager.ConfirmEmailAsync(user.Id, emailToken);
+            IdentityResult result = result = await UserManager.ConfirmEmailAsync(user.Id, model.Token);
             if (result.Succeeded)
             {
                 return Ok();
             }
             else
             {
-                return BadRequest();
+                return BadRequest(result.Errors.ToList()[0].ToString());
             }
         }
 
@@ -242,7 +247,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         [HttpGet]
         [Route("GetAllUsers")]
         [ResponseType(typeof(List<ResponseAccountDTO>))]
-        public async Task <IHttpActionResult> GetUsers(string email = null, int page = 1, int size = 0)
+        public async Task<IHttpActionResult> GetUsers(string email = null, int page = 1, int size = 0)
         {
             UnitOfWork unitOfWork = new UnitOfWork(new ApplicationDbContext());
             var result = await Task.Run(() => unitOfWork.Accounts.GetPagedAccounts(page, size, email));
@@ -265,6 +270,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 return Ok(resultDTO);
             }
         }
+
         /// <summary>
         /// Gets user based on specified id
         /// </summary>
@@ -285,12 +291,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
         }
 
-        /// <summary>
-        /// Updates user account
-        /// </summary>
-        /// <param name="id">User id</param>
-        /// <param name="accountDTO">Account to be updated</param>
-        /// <returns></returns>
+         // <summary>
+         // Updates user account
+         //</summary>
+         //<param name="id">User id</param>
+         //<param name="accountDTO">Account to be updated</param>
+         //<returns></returns>
         [HttpPut]
         [ResponseType(typeof(ResponseAccountDTO))]
         public async Task<IHttpActionResult> UpdateUser(int id, RequestAccountDTO accountDTO)

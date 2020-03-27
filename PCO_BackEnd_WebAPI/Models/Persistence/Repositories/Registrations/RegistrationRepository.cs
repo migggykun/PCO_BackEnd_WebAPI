@@ -67,10 +67,11 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
             return appDbContext.Registrations.AddRange(aRegistrationList).ToList();
         }
 
-        public Registration Update(int id, Registration aRegistration)
+        public Registration Update(Registration oldRegistration, Registration newRegistration)
         {
-            aRegistration.Id = id;
-            return appDbContext.UpdateGraph<Registration>(aRegistration);
+            newRegistration.Id = oldRegistration.Id;
+            newRegistration.RegistrationStatusId = oldRegistration.RegistrationStatusId;
+            return appDbContext.UpdateGraph<Registration>(newRegistration);
         }
 
         public void Remove(List<Registration> aRegistrationList)

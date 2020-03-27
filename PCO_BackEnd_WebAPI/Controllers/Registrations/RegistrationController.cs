@@ -106,7 +106,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 }
                 else
                 {
-                    result = await Task.Run(() => unitOfWork.Registrations.Update(id, conferenceRegistration));
+                    result = await Task.Run(() => unitOfWork.Registrations.Update(result, conferenceRegistration));
                     await Task.Run(() => unitOfWork.Complete());
                     return Ok(Mapper.Map<Registration, ResponseRegistrationDTO>(result));
                 }

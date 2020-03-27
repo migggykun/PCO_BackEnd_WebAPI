@@ -765,12 +765,11 @@
             The records this page represents. 
             </summary> 
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.ConfirmEmail(PCO_BackEnd_WebAPI.Models.AccountViewModels.ConfirmEmailViewModel)">
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.SendEmailConfirmation(System.Int32)">
             <summary>
-            Sets confirmation that registered email is valid.
+            Sends email to user to confirm registered email address.
             </summary>
             <param name="id"></param>
-            <param name="code"></param>
             <returns></returns>
         </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.Register(PCO_BackEnd_WebAPI.Models.AccountBindingModels.UserAccountBindingModel)">
@@ -794,14 +793,6 @@
             Gets user based on specified id
             </summary>
             <param name="id">User Id in database</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.UpdateUser(System.Int32,PCO_BackEnd_WebAPI.DTOs.Accounts.RequestAccountDTO)">
-            <summary>
-            Updates user account
-            </summary>
-            <param name="id">User id</param>
-            <param name="accountDTO">Account to be updated</param>
             <returns></returns>
         </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.DeleteUser(System.Int32)">

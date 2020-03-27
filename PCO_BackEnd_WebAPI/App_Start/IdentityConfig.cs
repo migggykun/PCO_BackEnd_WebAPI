@@ -44,7 +44,7 @@ namespace PCO_BackEnd_WebAPI
             {
                 manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser, int>(dataProtectionProvider.Create("ASP.NET Identity"))
                 {
-                    TokenLifespan = TimeSpan.FromMinutes(30)
+                    TokenLifespan = TimeSpan.FromDays(3)
                 };
             }
             return manager;

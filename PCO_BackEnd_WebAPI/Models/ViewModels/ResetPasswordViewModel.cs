@@ -9,6 +9,8 @@ namespace PCO_BackEnd_WebAPI.Models.AccountViewModels
     public class ResetPasswordViewModel
     {
         [Required]
+        public string Email { get; set; }
+        [Required]
         public string NewPassword { get; set; }
 
         [Required]
