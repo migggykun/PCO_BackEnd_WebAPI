@@ -21,7 +21,7 @@ namespace PCO_BackEnd_WebAPI.App_Start
 
             // Configure the client:
             System.Net.Mail.SmtpClient client =
-                new System.Net.Mail.SmtpClient("smtp.gmail.com");
+                new System.Net.Mail.SmtpClient("webmail.philippineoptometry.org");
 
             client.Port = 587;
             client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
@@ -31,7 +31,7 @@ namespace PCO_BackEnd_WebAPI.App_Start
             System.Net.NetworkCredential credentials =
                 new System.Net.NetworkCredential(credentialUserName, pwd);
 
-            client.EnableSsl = true;
+            client.EnableSsl = false;
             client.Credentials = credentials;
 
             // Create the message:
