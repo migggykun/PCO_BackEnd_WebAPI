@@ -8,8 +8,9 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
 {
     public static class StringManipulationHelper
     {
-        private const string confirmEmailBaseURL = "http://localhost:4200/confirm-email"; //http://pcosample.somee.com
-        private const string resetPasswordBaseURL = "http://localhost:4200/reset-password";
+        private const string baseAddress = "https://stgadmin.philippineoptometry.org/";
+        private const string confirmEmailBaseURL = baseAddress + "confirm-email"; //http://pcosample.somee.com
+        private const string resetPasswordBaseURL = baseAddress + "reset-password";
 
         /// <summary>
         /// Use in encryption formula. To be added in UserID
