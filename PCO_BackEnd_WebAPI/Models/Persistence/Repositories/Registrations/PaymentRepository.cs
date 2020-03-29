@@ -16,35 +16,60 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 
 		}
 
-		public PageResult<Payment> GetPagedPayments(int page, int size)
+		public PageResult<Payment> GetPagedPayments(int page, 
+													int size,
+													DateTime? aPaymentSubmissionDateFrom = null,
+													DateTime? aPaymentSubmissionDateTo = null,
+													DateTime? aConfirmationDateFrom = null,
+													DateTime? aConfirmationDateTo = null)
 		{
 			PageResult<Payment> pageResult = new PageResult<Payment>();
-            int recordCount = appDbContext.Payments.Count();
-            int mod;
-            int totalPageCount;
-            int offset;
-            int recordToReturn;
-            if (size == 0)
-            {
-                mod = 0;
-                totalPageCount = 1;
-                offset = 0;
-                recordToReturn = recordCount;
-            }
-            else
-            {
-                mod = recordCount % size;
-                totalPageCount = (recordCount / size) + (mod == 0 ? 0 : 1);
-                offset = size * (page - 1);
-                recordToReturn = size;
-            }
-			pageResult.Results =  appDbContext.Payments.OrderBy(p => p.RegistrationId)
-											  .Skip(offset)
-											  .Take(recordToReturn)
-											  .ToList();
+			int recordCount = appDbContext.Payments.Count();
+			int mod;
+			int totalPageCount;
+			int offset;
+			int recordToReturn;
+			if (size == 0)
+			{
+				mod = 0;
+				totalPageCount = 1;
+				offset = 0;
+				recordToReturn = recordCount;
+			}
+			else
+			{
+				mod = recordCount % size;
+				totalPageCount = (recordCount / size) + (mod == 0 ? 0 : 1);
+				offset = size * (page - 1);
+				recordToReturn = size;
+			}
 
-            pageResult.PageCount = totalPageCount;
-            pageResult.RecordCount = recordCount;
+				pageResult.Results = appDbContext.Payments.OrderBy(p => p.RegistrationId)
+					.Where
+						  (
+							   x =>
+								   (aPaymentSubmissionDateFrom != null && aPaymentSubmissionDateTo != null) ?
+										  (x.PaymentSubmissionDate >= aPaymentSubmissionDateFrom &&
+										  x.PaymentSubmissionDate <= aPaymentSubmissionDateTo) 
+										  : 
+										  true
+						   )
+					.Where
+						  (
+							   x =>
+								   (aConfirmationDateFrom != null && aConfirmationDateTo != null) ?
+										  (x.ConfirmationDate >= aConfirmationDateFrom &&
+										  x.ConfirmationDate <= aConfirmationDateTo)
+										  :
+										  true
+						   )
+												  .Skip(offset)
+												  .Take(recordToReturn)
+												  .ToList();
+
+
+			pageResult.PageCount = totalPageCount;
+			pageResult.RecordCount = recordCount;
 			return pageResult;
 		}
 

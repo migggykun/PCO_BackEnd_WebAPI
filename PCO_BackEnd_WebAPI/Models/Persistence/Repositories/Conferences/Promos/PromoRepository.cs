@@ -16,10 +16,12 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences.Promos
 
         }
 
-        public PageResult<Promo> GetPagedPromos(int page, int size)
+        public PageResult<Promo> GetPagedPromos(int page, int size, string aTitle)
         {
             PageResult<Promo> pageResult = new PageResult<Promo>();
-            int recordCount = appDbContext.Promos.Count();
+            int recordCount = appDbContext.Promos
+                                          .Where(x => x.Name.Contains(aTitle))
+                                          .Count();
             int mod;
             int totalPageCount;
             int offset;
@@ -38,7 +40,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences.Promos
                 offset = size * (page - 1);
                 recordToReturn = size;
             }
-            pageResult.Results =  appDbContext.Promos.OrderBy(p => p.Id)
+            pageResult.Results = appDbContext.Promos.OrderBy(p => p.Id)
+                                              .Where(x => x.Name.Contains(aTitle))
                                               .Skip(offset)
                                               .Take(recordToReturn)
                                               .ToList();

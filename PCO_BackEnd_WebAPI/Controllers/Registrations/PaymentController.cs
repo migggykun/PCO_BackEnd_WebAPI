@@ -38,10 +38,21 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponsePaymentDTO))]
-        public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0)
+        public async Task<IHttpActionResult> GetAll(int page = 1, 
+                                                    int size = 0, 
+                                                    DateTime? aPaymentSubmissionDateFrom = null, 
+                                                    DateTime? aPaymentSubmissionDateTo = null,
+                                                    DateTime? aConfirmationDateFrom = null,
+                                                    DateTime? aConfirmationDateTo = null)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = await Task.Run(() => unitOfWork.Payments.GetPagedPayments(page, size));
+            var result = await Task.Run(() => unitOfWork.Payments.GetPagedPayments(page, 
+                                                                                   size,
+                                                                                   aPaymentSubmissionDateFrom,
+                                                                                   aPaymentSubmissionDateTo,
+                                                                                   aConfirmationDateFrom,
+                                                                                   aConfirmationDateTo));
+
             var resultDTO = PaginationMapper<Payment, ResponsePaymentDTO>.MapResult(result);
             var users = result.Results.Select(x => unitOfWork.UserInfos.Get(x.Registration.UserId));
             var conferences = result.Results.Select(x => unitOfWork.Conferences.Get(x.Registration.ConferenceId));

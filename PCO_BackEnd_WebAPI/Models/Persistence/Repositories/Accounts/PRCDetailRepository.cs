@@ -17,10 +17,27 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
 
         }
 
-        public PageResult<PRCDetail> GetPagedPRCDetail(int page, int size, string filter)
+        public PageResult<PRCDetail> GetPagedPRCDetail(int page, 
+                                                       int size, 
+                                                       string filter,
+                                                       DateTime? aExpirationDateFrom = null,
+                                                       DateTime? aExpirationDateTo = null)
         {
             PageResult<PRCDetail> pageResult = new PageResult<PRCDetail>();
-            int recordCount = appDbContext.PRCDetails.Count();
+            int recordCount = appDbContext.PRCDetails
+                                             .Where(p =>
+                                                        (String.IsNullOrEmpty(filter) == true) ?
+                                                             true
+                                                             :
+                                                             p.IdNumber.Contains(filter))
+                                             .Where(p =>
+                                                        (aExpirationDateFrom == null &&
+                                                         aExpirationDateTo == null) ?
+                                                             true
+                                                             :
+                                                             (p.ExpirationDate >= aExpirationDateFrom &&
+                                                              p.ExpirationDate <= aExpirationDateTo))
+                                             .Count();
             int mod;
             int totalPageCount;
             int offset;
@@ -39,7 +56,19 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
                 offset = size * (page - 1);
                 recordToReturn = size;
             }
-            pageResult.Results = appDbContext.PRCDetails.Where(p => p.IdNumber.Contains(filter))
+            pageResult.Results = appDbContext.PRCDetails
+                                             .Where(p =>
+                                                        (String.IsNullOrEmpty(filter) == true) ? 
+                                                             true 
+                                                             : 
+                                                             p.IdNumber.Contains(filter))
+                                             .Where(p =>
+                                                        (aExpirationDateFrom == null &&
+                                                         aExpirationDateTo == null) ? 
+                                                             true 
+                                                             :
+                                                             (p.ExpirationDate >= aExpirationDateFrom &&
+                                                              p.ExpirationDate <= aExpirationDateTo))
                                              .OrderBy(a => a.Id)
                                              .Skip(offset)
                                              .Take(recordToReturn)

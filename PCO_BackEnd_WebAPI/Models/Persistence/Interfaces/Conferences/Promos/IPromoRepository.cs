@@ -11,7 +11,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences.Promos
 {
     public interface IPromoRepository : IRepository<Promo>
     {
-        PageResult<Promo> GetPagedPromos(int page, int size);
+        PageResult<Promo> GetPagedPromos(int page, int size, string aTitle);
         Promo UpdatePromoDetails(int id, Promo promo);
     }
 }

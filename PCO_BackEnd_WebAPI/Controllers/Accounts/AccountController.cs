@@ -261,15 +261,19 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="page">nth page of list. Default value: 1</param>
         /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
-        /// <param name="email">filter of returned items</param>
+        /// <param name="keywordFilter">filter of returned items</param>
         /// <returns></returns>
         [HttpGet]
         [Route("GetAllUsers")]
         [ResponseType(typeof(List<ResponseAccountDTO>))]
-        public async Task<IHttpActionResult> GetUsers(string email = null, int page = 1, int size = 0)
+        public async Task<IHttpActionResult> GetUsers(string keywordFilter = null, 
+                                                      int page = 1, 
+                                                      int size = 0)
         {
             UnitOfWork unitOfWork = new UnitOfWork(new ApplicationDbContext());
-            var result = await Task.Run(() => unitOfWork.Accounts.GetPagedAccounts(page, size, email));
+            var result = await Task.Run(() => unitOfWork.Accounts.GetPagedAccounts(page, 
+                                                                                   size, 
+                                                                                   keywordFilter));
             var resultDTO = PaginationMapper<ApplicationUser, ResponseAccountDTO>.MapResult(result);
             return Ok(resultDTO);
         }

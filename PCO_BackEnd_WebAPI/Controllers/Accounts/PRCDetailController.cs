@@ -36,10 +36,18 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponsePRCDetailDTO))]
-        public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0, string prcId = null)
+        public async Task<IHttpActionResult> GetAll(int page = 1, 
+                                                    int size = 0, 
+                                                    string prcId = null,
+                                                    DateTime? aExpirationDateFrom = null,
+                                                    DateTime? aExpirationDateTo = null)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = await Task.Run(() => unitOfWork.PRCDetails.GetPagedPRCDetail(page, size, prcId));
+            var result = await Task.Run(() => unitOfWork.PRCDetails.GetPagedPRCDetail(page, 
+                                                                                      size, 
+                                                                                      prcId, 
+                                                                                      aExpirationDateFrom, 
+                                                                                      aExpirationDateTo));
             var resultDTO = PaginationMapper<PRCDetail, ResponsePRCDetailDTO>.MapResult(result);
             return Ok(resultDTO);
         }

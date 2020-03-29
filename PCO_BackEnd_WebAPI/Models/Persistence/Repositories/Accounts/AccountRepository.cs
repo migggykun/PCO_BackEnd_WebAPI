@@ -25,10 +25,21 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
             UserManager = new UserManager<ApplicationUser, int>(store);
         }
 
-        public PageResult<ApplicationUser> GetPagedAccounts(int page, int size, string filter = null)
+        public PageResult<ApplicationUser> GetPagedAccounts(int page, 
+                                                            int size,
+                                                            string filter = null)
         {
             PageResult<ApplicationUser> pageResult = new PageResult<ApplicationUser>();
-            int recordCount = UserManager.Users.Where(u => string.IsNullOrEmpty(filter) ? true : u.Email.Contains(filter)).Count();
+            int recordCount = UserManager.Users
+                                               .Where(u => (filter == null) == true ?  
+                                                              true
+                                                              :
+                                                              (u.UserInfo.FirstName.Contains(filter) ||
+                                                               u.UserInfo.MiddleName.Contains(filter) ||
+                                                               u.UserInfo.LastName.Contains(filter))  ||
+                                                               u.Email.Contains(filter)
+                                                      )
+                                                      .Count();
             int mod;
             int totalPageCount;
             int offset;
@@ -47,7 +58,15 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
                 offset = size * (page - 1);
                 recordToReturn = size;
             }
-            pageResult.Results =  UserManager.Users.Where(u => string.IsNullOrEmpty(filter) ? true : u.Email.Contains(filter))
+            pageResult.Results =  UserManager.Users
+                                             .Where(u => (filter == null) == true ?  
+                                                              true
+                                                              :
+                                                              (u.UserInfo.FirstName.Contains(filter) ||
+                                                               u.UserInfo.MiddleName.Contains(filter) ||
+                                                               u.UserInfo.LastName.Contains(filter)) ||
+                                                               u.Email.Contains(filter)
+                                                    )
                                              .OrderBy(a => a.Id)
                                              .Skip(offset)
                                              .Take(recordToReturn)

@@ -35,10 +35,10 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(PageResult<ResponsePromoDTO>))]
-        public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0)
+        public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0, string aTitle = "")
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = unitOfWork.Promos.GetPagedPromos(page, size);
+            var result = unitOfWork.Promos.GetPagedPromos(page, size, aTitle);
             var resultDTO = PaginationMapper<Promo, ResponsePromoDTO>.MapResult(result);
             return Ok(resultDTO);
         }
@@ -162,6 +162,5 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
                 return BadRequest(message);
             }
         }
-
     }
 }

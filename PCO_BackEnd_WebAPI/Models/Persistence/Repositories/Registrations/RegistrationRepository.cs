@@ -28,11 +28,26 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
             }
         }
 
-        public PageResult<Registration> GetPagedRegistration(int page, int size, int? filter = null)
+        public PageResult<Registration> GetPagedRegistration(int page, 
+                                                             int size, 
+                                                             int? filter = null,
+                                                             int? aStatusId = null,
+                                                             string akeywordFilter = null)
         {
             PageResult<Registration> pageResult = new PageResult<Registration>();
 
-            int recordCount = appDbContext.Registrations.ToList().Where(c => filter == null ? true : c.ConferenceId == filter).Count();
+            int recordCount = appDbContext.Registrations.ToList()
+                                                        .Where(c => akeywordFilter == null ? 
+                                                                true 
+                                                                :
+                                                                c.User.Email.Contains(akeywordFilter) ||
+                                                                c.User.UserInfo.LastName.Contains(akeywordFilter) ||
+                                                                c.User.UserInfo.FirstName.Contains(akeywordFilter) ||
+                                                                c.User.UserInfo.MiddleName.Contains(akeywordFilter)
+                                                               )
+                                                        .Where(c => filter == null ? true : c.ConferenceId == filter)
+                                                        .Where(c => aStatusId == null ? true : c.RegistrationStatusId == aStatusId)
+                                                        .Count();
             int mod;
             int totalPageCount;
             int offset;
@@ -52,7 +67,17 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
                 recordToReturn = size;
             }
 
-            pageResult.Results =   appDbContext.Registrations.Where(c => filter == null ? true : c.ConferenceId == filter)
+            pageResult.Results =   appDbContext.Registrations
+                                               .Where(c => akeywordFilter == null ?
+                                                                true
+                                                                :
+                                                                c.User.Email.Contains(akeywordFilter) ||
+                                                                c.User.UserInfo.LastName.Contains(akeywordFilter) ||
+                                                                c.User.UserInfo.FirstName.Contains(akeywordFilter) ||
+                                                                c.User.UserInfo.MiddleName.Contains(akeywordFilter)
+                                                               )
+                                               .Where(c => filter == null ? true : c.ConferenceId == filter)
+                                               .Where(c => aStatusId == null ? true : c.RegistrationStatusId == aStatusId)
                                                .OrderBy(r => r.Id)
                                                .Skip(offset)
                                                .Take(recordToReturn)

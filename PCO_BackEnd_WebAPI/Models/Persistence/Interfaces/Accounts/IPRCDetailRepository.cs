@@ -11,7 +11,11 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Accounts
 {
     public interface IPRCDetailRepository : IRepository<PRCDetail>
     {
-        PageResult<PRCDetail> GetPagedPRCDetail(int page, int size, string filter);
+        PageResult<PRCDetail> GetPagedPRCDetail(int page, 
+                                                int size, 
+                                                string filter,
+                                                DateTime? ExpirationDateFrom,
+                                                DateTime? ExpirationDateTo);
         PRCDetail GetPRCDetailById(string prcId);
         PRCDetail Update(int id, PRCDetail entityToUpdate);
     }
