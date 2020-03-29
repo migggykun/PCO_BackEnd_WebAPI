@@ -83,6 +83,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
             oldUser.PhoneNumber = user.PhoneNumber;
             oldUser.Email = user.Email;
             oldUser.IsAdmin = user.IsAdmin;
+            oldUser.EmailConfirmed = (string.Compare(oldUser.Email, user.Email, true) == 0 ? true : false);
 
             //Update UserInfo object
             user.UserInfo.Id = id;

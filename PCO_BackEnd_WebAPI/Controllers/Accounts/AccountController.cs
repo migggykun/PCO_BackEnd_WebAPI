@@ -153,11 +153,16 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 return NotFound();
             }
             IdentityResult result = await UserManager.ResetPasswordAsync(user.Id, model.Token, model.NewPassword);
-            if (!result.Succeeded)
+            if (result.Succeeded)
             {
-                return GetErrorResult(result);
+                await UserManager.UpdateSecurityStampAsync(user.Id);
+                return Ok();
             }
-            return Ok();
+            else
+            {
+
+                return BadRequest(result.Errors.ToList()[0].ToString());
+            }
         }
 
         /// <summary>
@@ -178,6 +183,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             IdentityResult result = result = await UserManager.ConfirmEmailAsync(user.Id, model.Token);
             if (result.Succeeded)
             {
+                await UserManager.UpdateSecurityStampAsync(user.Id);
                 return Ok();
             }
             else
