@@ -1,3 +1,6 @@
 
 PCO_BackEnd_WebAPI/Properties/PublishProfiles/Migeru.pubxml
 PCO_BackEnd_WebAPI/Properties/PublishProfiles/Migeru.pubxml.user
+*.pubxml
+PCO_BackEnd_WebAPI/Properties/PublishProfiles/Migeru.pubxml
+PCO_BackEnd_WebAPI/Properties/PublishProfiles/Migeru.pubxml.user
