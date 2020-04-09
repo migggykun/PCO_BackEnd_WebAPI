@@ -9,9 +9,11 @@ namespace PCO_BackEnd_WebAPI.DTOs.Registrations
     public class RequestRegistrationDTO
     {
         [Required]
+        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Characters are not allowed!")]
         public int UserId { get; set; }
 
         [Required]
+        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Characters are not allowed!")]
         public int ConferenceId { get; set; }
 
         public int? PromoId { get; set; }

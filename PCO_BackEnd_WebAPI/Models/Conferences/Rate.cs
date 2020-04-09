@@ -15,6 +15,6 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
 
         public int membershipTypeId { get; set; }
 
-        public int regularPrice { get; set; }
+        public double regularPrice { get; set; }
     }
 }

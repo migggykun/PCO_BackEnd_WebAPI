@@ -258,8 +258,10 @@
     <Compile Include="DTOs\Accounts\ResponseMembershipTypeDTO.cs" />
     <Compile Include="DTOs\Accounts\ResponsePRCDetailDTO.cs" />
     <Compile Include="DTOs\Accounts\ResponseUserInfoDTO.cs" />
+    <Compile Include="DTOs\Conferences\BaseConferenceDTO.cs" />
     <Compile Include="DTOs\Pictures\RequestPictureDTO.cs" />
     <Compile Include="DTOs\Registrations\AddPaymentDTO.cs" />
+    <Compile Include="DTOs\Registrations\BasePaymentDTO.cs" />
     <Compile Include="DTOs\Registrations\RequestRegistrationDTO.cs" />
     <Compile Include="DTOs\Registrations\ResponseListRegistrationDTO.cs" />
     <Compile Include="DTOs\Registrations\ResponsePaymentDTO.cs" />
