@@ -7,6 +7,8 @@ using System.Configuration;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Net;
+using System.Reflection;
+using System.IO;
 
 namespace PCO_BackEnd_WebAPI.App_Start
 {
@@ -41,10 +43,24 @@ namespace PCO_BackEnd_WebAPI.App_Start
 
             mail.IsBodyHtml = true;
             mail.Subject = message.Subject;
-            mail.Body = message.Body;
+            AlternateView emailBody = GetHTMLEmailBody(message.Body);
+            mail.AlternateViews.Add(emailBody);
 
             // Send:
             return client.SendMailAsync(mail);
+        }
+
+        private AlternateView GetHTMLEmailBody(string body)
+        {
+            string binPath = Path.GetDirectoryName((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath);
+            AlternateView message = AlternateView.CreateAlternateViewFromString(body, null, "text/html");
+            LinkedResource logo = new LinkedResource(binPath + @"\Resources\pco_logo.png", "image/png");
+            LinkedResource header = new LinkedResource(binPath + @"\Resources\header_image.jpg", "image/jpg");
+            logo.ContentId = "logo";
+            header.ContentId = "header";
+            message.LinkedResources.Add(logo);
+            message.LinkedResources.Add(header);
+            return message;
         }
     }
 }

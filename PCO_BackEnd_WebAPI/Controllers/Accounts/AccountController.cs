@@ -101,8 +101,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 string code = await UserManager.GenerateEmailConfirmationTokenAsync(id);
                 string idToken = StringManipulationHelper.SetParameter(aEmail, code);
                 string callbackURL = StringManipulationHelper.SetConfirmEmailUrl(idToken);
-                string hyperLink = StringManipulationHelper.ConvertToHyperLink(callbackURL);
-                string emailBody = EmailTemplate.FormatConfirmEmailBody(hyperLink);
+                string emailBody = EmailTemplate.FormatConfirmEmailBody(callbackURL);
                 await UserManager.SendEmailAsync(id, EmailTemplate.CONFIRM_EMAIL_HEADER, emailBody);
             }
 
@@ -111,8 +110,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 string code = await UserManager.GeneratePasswordResetTokenAsync(id);
                 string idToken = StringManipulationHelper.SetParameter(aEmail, code);
                 string callbackURL = StringManipulationHelper.SetResetPasswordURL(idToken);
-                string hyperLink = StringManipulationHelper.ConvertToHyperLink(callbackURL);
-                string emailBody = EmailTemplate.FormatResetPasswordBody(hyperLink);
+                string emailBody = EmailTemplate.FormatResetPasswordBody(callbackURL);
                 await UserManager.SendEmailAsync(id, EmailTemplate.RESET_PASSWORD_HEADER, emailBody);
             }
         }
