@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
@@ -41,10 +42,30 @@ namespace PCO_BackEnd_WebAPI.Controllers
             {
                 message = exception.GetType().ToString() + ": " + exception.Message;
                 exception = exception.InnerException;
+
+                if(exception is SqlException)
+                {
+                    message = GetSqlExceptions(exception as SqlException);
+                    break;
+                }
             }
             while (exception != null);
 
             return message;
+        }
+
+        private static string GetSqlExceptions(SqlException aException)
+        {
+            string message = "";
+            switch(aException.Number)
+            {
+                case 547:
+                    message = "Selected item does not exist!";
+                    break;
+                default:
+                    break;
+            }
+            return message;   
         }
     }
 }

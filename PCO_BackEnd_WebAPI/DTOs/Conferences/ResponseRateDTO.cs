@@ -18,6 +18,6 @@ namespace PCO_BackEnd_WebAPI.DTOs.Conferences
         public int membershipTypeId { get; set; }
 
         [Required]
-        public int regularPrice { get; set; }
+        public double regularPrice { get; set; }
     }
 }
