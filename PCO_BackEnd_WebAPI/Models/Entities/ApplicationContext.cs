@@ -76,10 +76,6 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                         .Property(e => e.Name)
                         .IsFixedLength();
 
-            modelBuilder.Entity<Payment>()
-                        .Property(e => e.ProofOfPayment)
-                        .IsFixedLength();
-
             modelBuilder.Entity<Registration>()
                         .HasMany(e => e.DailyAttendanceRecords)
                         .WithRequired(e => e.Registration)

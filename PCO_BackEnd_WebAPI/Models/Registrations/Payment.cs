@@ -18,7 +18,7 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
 
         public DateTime PaymentSubmissionDate { get; set; }
 
-        public string ProofOfPayment { get; set; }
+        public byte[] ProofOfPayment { get; set; }
 
         public int AmountPaid { get; set; }
 
