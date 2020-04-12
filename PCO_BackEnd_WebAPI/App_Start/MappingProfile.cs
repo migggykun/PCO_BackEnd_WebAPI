@@ -13,6 +13,8 @@ using PCO_BackEnd_WebAPI.DTOs.Conferences.Promos;
 using PCO_BackEnd_WebAPI.DTOs;
 using PCO_BackEnd_WebAPI.Models.Registrations;
 using PCO_BackEnd_WebAPI.DTOs.Registrations;
+using PCO_BackEnd_WebAPI.DTOs.Bank;
+using PCO_BackEnd_WebAPI.Models.Bank;
 
 namespace PCO_BackEnd_WebAPI.App_Start
 {
@@ -75,6 +77,8 @@ namespace PCO_BackEnd_WebAPI.App_Start
             Mapper.CreateMap<AddPaymentDTO, Payment>().ForMember(dst => dst.ProofOfPayment, src => src.MapFrom(x => new byte[]{}));
             Mapper.CreateMap<UpdatePaymentDTO, Payment>().ForMember(dst => dst.ProofOfPayment, src => src.MapFrom(x => new byte[]{}));
             Mapper.CreateMap<Payment, ResponsePaymentDTO>();
+            Mapper.CreateMap<RequestBankDetailDTO, BankDetail>();
+            Mapper.CreateMap<BankDetail, ResponseBankDetailDTO>();
 
         }
     }

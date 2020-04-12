@@ -9,6 +9,7 @@ using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.Models.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Registrations;
 using PCO_BackEnd_WebAPI.Models.Seeder;
+using PCO_BackEnd_WebAPI.Models.Bank;
 namespace PCO_BackEnd_WebAPI.Models.Entities
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser,CustomRole, 
@@ -32,6 +33,7 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
         public virtual DbSet<Registration> Registrations { get; set; }
         public virtual DbSet<RegistrationStatus> RegistrationStatus { get; set; }
         public virtual DbSet<UserInfo> UserInfos { get; set; }
+        public virtual DbSet<BankDetail> BankDetails { get; set; }
 
         public static ApplicationDbContext Create()
         {
