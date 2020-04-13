@@ -76,7 +76,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
+                return BadRequest(errorMessages);
             }
 
             var promo = Mapper.Map<RequestPromoDTO, Promo>(promoDTO);
@@ -90,7 +91,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
             }
             catch (Exception ex)
             {
-                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                string message = ErrorManager.GetInnerExceptionMessage(ex);
                 return BadRequest(message);
             }
         }
@@ -107,7 +108,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
+                return BadRequest(errorMessages);
             }
 
             var promo = Mapper.Map<RequestPromoDTO, Promo>(promoDTO);
@@ -128,7 +130,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
             }
             catch (Exception ex)
             {
-                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                string message = ErrorManager.GetInnerExceptionMessage(ex);
                 return BadRequest(message);
             }
         }
@@ -158,7 +160,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
             }
             catch (Exception ex)
             {
-                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                string message = ErrorManager.GetInnerExceptionMessage(ex);
                 return BadRequest(message);
             }
         }

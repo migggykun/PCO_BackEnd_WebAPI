@@ -77,7 +77,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
+                return BadRequest(errorMessages);
             }
 
             var userInfo = Mapper.Map<RequestUserInfoDTO, UserInfo>(userInfoDTO);

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Http.ModelBinding;
 
 namespace PCO_BackEnd_WebAPI.Controllers
 {
-    public static class ExceptionManager
+    public static class ErrorManager
     {
         /// <summary>
         /// Method that returns all exceptions and inner exceptions
@@ -66,6 +67,14 @@ namespace PCO_BackEnd_WebAPI.Controllers
                     break;
             }
             return message;   
+        }
+
+        public static string GetModelStateErrors(ModelStateDictionary modelState)
+        {
+            string errorMessages = string.Join("\n", modelState.Values
+                                                       .SelectMany(v => v.Errors)
+                                                       .Select(e => e.ErrorMessage));
+            return errorMessages;
         }
     }
 }

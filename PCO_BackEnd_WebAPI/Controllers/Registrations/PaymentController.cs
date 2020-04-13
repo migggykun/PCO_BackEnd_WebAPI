@@ -104,7 +104,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
+                return BadRequest(errorMessages);
             }
 
             var payment = Mapper.Map<AddPaymentDTO, Payment>(paymentDTO);
@@ -124,7 +125,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
             }
             catch (Exception ex)
             {
-                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                string message = ErrorManager.GetInnerExceptionMessage(ex);
                 return BadRequest(message);
             }
 
@@ -141,7 +142,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
+                return BadRequest(errorMessages);
             }
             var payment = Mapper.Map<UpdatePaymentDTO, Payment>(paymentDTO);
             try
@@ -168,7 +170,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
             }
             catch (Exception ex)
             {
-                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                string message = ErrorManager.GetInnerExceptionMessage(ex);
                 return BadRequest(message);
             }
         }
@@ -198,7 +200,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
             }
             catch (Exception ex)
             {
-                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                string message = ErrorManager.GetInnerExceptionMessage(ex);
                 return BadRequest(message);
             }
         }

@@ -75,7 +75,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
+                return BadRequest(errorMessages);
             }
 
             var promoMembers = promoMembersDTO.Select(Mapper.Map<ResponsePromoMemberDTO, PromoMember>).ToList();
@@ -98,7 +99,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
             }
             catch (Exception ex)
             {
-                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                string message = ErrorManager.GetInnerExceptionMessage(ex);
                 return BadRequest(message);
             }
         }
@@ -115,7 +116,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
+                return BadRequest(errorMessages);
             }
 
             var promoMembers = Mapper.Map<ResponsePromoMemberDTO, PromoMember>(promoMemberDTO);
@@ -165,7 +167,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
             }
             catch (Exception ex)
             {
-                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                string message = ErrorManager.GetInnerExceptionMessage(ex);
                 return BadRequest(message);
             }
         }

@@ -861,14 +861,14 @@
             <param name="id">id of the rate to be deleted.</param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.ExceptionManager.GetAllExceptionMessages(System.Exception)">
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.ErrorManager.GetAllExceptionMessages(System.Exception)">
             <summary>
             Method that returns all exceptions and inner exceptions
             </summary>
             <param name="aException"></param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.ExceptionManager.GetInnerExceptionMessage(System.Exception)">
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.ErrorManager.GetInnerExceptionMessage(System.Exception)">
             <summary>
             Method that returns innest exception message 
             </summary>

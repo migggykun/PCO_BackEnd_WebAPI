@@ -10,24 +10,24 @@ namespace PCO_BackEnd_WebAPI.DTOs.Conferences.Promos
     {
         [Required]
         [Display(Name = "Promo name")]
-        [StringLength(100, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 6)]
+        [StringLength(128, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 1)]
         public string Name { get; set; }
 
         [Required]
         [Display(Name = "Promo description")]
-        [StringLength(512, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 2)]
+        [StringLength(512, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 1)]
         public string Description { get; set; }
 
         [Required]
-        [DataType(DataType.DateTime, ErrorMessage = "Invalid date.")]
+        [DataType(DataType.DateTime, ErrorMessage = "Start date is invalid!")]
         public DateTime Start { get; set; }
 
         [Required]
-        [DataType(DataType.DateTime, ErrorMessage = "Invalid date.")]
+        [DataType(DataType.DateTime, ErrorMessage = "End date is invalid!")]
         public DateTime End { get; set; }
 
         [Required]
-        [RegularExpression(@"^[0-9]*(?:\.[0-9]+)?$", ErrorMessage = "{0} is an invalid amount!")]
+        [RegularExpression(@"^[0-9]*(?:\.[0-9]+)?$", ErrorMessage = "Invalid amount!")]
         public double Amount { get; set; }
 
         [Required]
