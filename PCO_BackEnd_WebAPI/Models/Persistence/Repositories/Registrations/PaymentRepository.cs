@@ -76,18 +76,15 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 		public override void Add(Payment payment)
 		{
 			//Set details
-			string transactionNumber = Guid.NewGuid().ToString();
-			DateTime submissionDate = DateTime.Now;
-			payment.PaymentSubmissionDate = submissionDate;
-			payment.TransactionNumber = transactionNumber;
+            SetPaymentDetails(payment);
 			appDbContext.Payments.Add(payment);
 		}
 
-		public void UpdatePayment(int id, Payment payment)
+		public void UpdatePayment(int id, Payment payment, byte[] imageSize)
 		{
 			payment.RegistrationId = id;
-			payment.TransactionNumber = Guid.NewGuid().ToString();
-			payment.PaymentSubmissionDate = DateTime.Now;
+            payment.ProofOfPayment = imageSize;
+            SetPaymentDetails(payment);
 			appDbContext.UpdateGraph<Payment>(payment);
 		}
 
@@ -98,6 +95,11 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 			string x = obj.ToString();
 		}
 
+        private void SetPaymentDetails(Payment payment)
+        {
+            payment.PaymentSubmissionDate = DateTime.Now;
+            payment.TransactionNumber = Guid.NewGuid().ToString(); ;
+        }
 		private ApplicationDbContext appDbContext
 		{
 			get

@@ -15,6 +15,7 @@ using PCO_BackEnd_WebAPI.Models.Registrations;
 using PCO_BackEnd_WebAPI.DTOs.Registrations;
 using PCO_BackEnd_WebAPI.DTOs.Bank;
 using PCO_BackEnd_WebAPI.Models.Bank;
+using PCO_BackEnd_WebAPI.Models.Images;
 
 namespace PCO_BackEnd_WebAPI.App_Start
 {
@@ -73,8 +74,8 @@ namespace PCO_BackEnd_WebAPI.App_Start
             Mapper.CreateMap<Registration, ResponseRegistrationDTO>();
             Mapper.CreateMap<Registration, ResponseListRegistrationDTO>();
             Mapper.CreateMap<ApplicationUser, ResponseAccountDTO>();
-            Mapper.CreateMap<AddPaymentDTO, Payment>().ForMember(dst => dst.ProofOfPayment, src => src.MapFrom(x => new byte[]{}));
-            Mapper.CreateMap<UpdatePaymentDTO, Payment>().ForMember(dst => dst.ProofOfPayment, src => src.MapFrom(x => new byte[]{}));
+            Mapper.CreateMap<AddPaymentDTO, Payment>().ForMember(dst => dst.ProofOfPayment, src => src.MapFrom(x => Enumerable.Empty<byte>().ToArray()));
+            Mapper.CreateMap<UpdatePaymentDTO, Payment>().ForMember(dst => dst.ProofOfPayment, src => src.MapFrom(x => Enumerable.Empty<byte>().ToArray()));
             Mapper.CreateMap<Payment, ResponsePaymentDTO>();
             Mapper.CreateMap<RequestBankDetailDTO, BankDetail>();
             Mapper.CreateMap<BankDetail, ResponseBankDetailDTO>();

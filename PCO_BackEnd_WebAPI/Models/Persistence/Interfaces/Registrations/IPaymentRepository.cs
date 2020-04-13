@@ -11,7 +11,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Registrations
 {
     public interface IPaymentRepository : IRepository<Payment>
     {
-        void UpdatePayment(int id, Payment payment);
+        void UpdatePayment(int id, Payment payment, byte[] imageSize);
         void SetPaymentConfirmationDate(int id);
         PageResult<Payment> GetPagedPayments(int page,
                                              int size,

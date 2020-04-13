@@ -12,7 +12,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Registrations
         [RegularExpression(@"^[0-9]*(?:\.[0-9]+)?$", ErrorMessage = "Invalid amount!")]
         public double AmountPaid { get; set; }
 
-        [StringLength(512, ErrorMessage = "{0} length must be less than {1}.")]
+        [Required]
         public string ProofOfPayment { get; set; }
 
         [StringLength(512, ErrorMessage = "{0} length must be less than {1}.")]
