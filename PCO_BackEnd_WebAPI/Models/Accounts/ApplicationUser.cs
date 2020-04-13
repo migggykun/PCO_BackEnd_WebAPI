@@ -13,7 +13,7 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser<int, CustomUserLogin, CustomUserRole, CustomUserClaim>
     {
-        //public DateTime member_since { get; set; }
+        public DateTime MemberSince { get; set; }
 
         [ForeignKey("Id")]
         public virtual PRCDetail PRCDetail { get; set; }
