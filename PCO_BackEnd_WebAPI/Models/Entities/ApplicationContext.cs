@@ -55,11 +55,6 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                         .HasOptional(e => e.PRCDetail)
                         .WithOptionalPrincipal()
                         .WillCascadeOnDelete(true);
-
-
-            modelBuilder.Entity<Conference>()
-                        .Property(e => e.Banner)
-                        .IsFixedLength();
             
             modelBuilder.Entity<Conference>()
                         .HasOptional(e => e.Promo);
