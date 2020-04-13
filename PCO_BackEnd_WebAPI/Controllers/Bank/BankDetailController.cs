@@ -82,7 +82,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
             }
             catch (Exception ex)
             {
-                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                string message = ErrorManager.GetInnerExceptionMessage(ex);
                 return BadRequest(message);
             }
         }
@@ -119,7 +119,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
             }
             catch (Exception ex)
             {
-                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                string message = ErrorManager.GetInnerExceptionMessage(ex);
                 return BadRequest(message);
             }
         }
@@ -149,7 +149,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
             }
             catch (Exception ex)
             {
-                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                string message = ErrorManager.GetInnerExceptionMessage(ex);
                 return BadRequest(message);
             }
         }

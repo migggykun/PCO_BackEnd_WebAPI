@@ -82,8 +82,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         {
             if (!ModelState.IsValid)
             {
-                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
-                return BadRequest(errorMessages);
+                return BadRequest(ModelState);
             }
 
             var conference = Mapper.Map<AddConferenceDTO, Conference>(conferenceDTO);
@@ -94,8 +93,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
                 await Task.Run(() => unitOfWork.Conferences.Add(conference));
                 await Task.Run(() => unitOfWork.Complete());
-                var resultDTO = Mapper.Map<Conference, ResponseConferenceDTO>(conference);
-                resultDTO.Banner = imageManager.base64Value;
+                var resultDTO = ConferenceMapper.MapToResponseConferenceDTO(conference);
                 return Created(new Uri(Request.RequestUri + "/" + conference.Id), resultDTO);
             }
             catch (Exception ex)
@@ -117,8 +115,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         {
             if (!ModelState.IsValid)
             {
-                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
-                return BadRequest(errorMessages);
+                return BadRequest(ModelState);
             }
             var conference = Mapper.Map<UpdateConferenceDTO, Conference>(conferenceDTO);
             try
@@ -134,8 +131,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
                 else
                 {
                    result =  await Task.Run(() => unitOfWork.Conferences.UpdateConferenceInfo(id, conference));
-                   var resultDTO = Mapper.Map<Conference, ResponseConferenceDTO>(result);
-                   resultDTO.Banner = imageManager.base64Value;
+                   var resultDTO = ConferenceMapper.MapToResponseConferenceDTO(result);
                    return Ok(resultDTO);
                 }
             }
