@@ -568,7 +568,7 @@
             <param name="id">id of payment to be confirmed</param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.RegistrationController.GetAll(System.Int32,System.Int32,System.Nullable{System.Int32},System.Nullable{System.Int32},System.String)">
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.RegistrationController.GetAll(System.Int32,System.Int32,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.String)">
             <summary>
             Get list of registration
             </summary>

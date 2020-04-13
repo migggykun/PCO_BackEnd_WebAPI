@@ -15,6 +15,6 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces
         Registration Update(Registration oldRegistration, Registration aRegistration);
         void Remove(List<Registration> aRegistrationList);
         void SetRegistrationStatus(int id, int status);
-        PageResult<Registration> GetPagedRegistration(int page, int size, int? filter, int? aStatusId, string akeywordFilter);
+        PageResult<Registration> GetPagedRegistration(int page, int size, int? filter, int? aStatusId, int? userId, string akeywordFilter);
     }
 }
