@@ -39,7 +39,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
                                                                u.UserInfo.LastName.Contains(filter))  ||
                                                                u.Email.Contains(filter)
                                                       )
-                                                      .Count();
+                                                     .Count();
             int mod;
             int totalPageCount;
             int offset;

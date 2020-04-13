@@ -248,7 +248,7 @@
     <Compile Include="Controllers\Conferences\Promos\PromoController.cs" />
     <Compile Include="Controllers\Conferences\Promos\PromoMemberController.cs" />
     <Compile Include="Controllers\Conferences\RateController.cs" />
-    <Compile Include="Controllers\ExceptionManager.cs" />
+    <Compile Include="Controllers\ErrorManager.cs" />
     <Compile Include="Controllers\Registrations\RegistrationStatusController.cs" />
     <Compile Include="DTOs\Accounts\RequestAccountDTO.cs" />
     <Compile Include="DTOs\Accounts\RequestMembershipTypeDTO.cs" />

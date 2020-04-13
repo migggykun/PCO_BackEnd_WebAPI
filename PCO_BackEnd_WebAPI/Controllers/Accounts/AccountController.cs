@@ -174,7 +174,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
+                return BadRequest(errorMessages);
             }
 
             var user = await UserManager.FindByEmailAsync(model.Email);
@@ -203,7 +204,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
+                return BadRequest(errorMessages);
             }
 
             var user = new ApplicationUser()
@@ -230,7 +232,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
             catch (Exception ex)
             {
-               string message = ExceptionManager.GetAllExceptionMessages(ex);
+               string message = ErrorManager.GetAllExceptionMessages(ex);
                return BadRequest(message);
             }
         }
@@ -246,7 +248,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
+                return BadRequest(errorMessages);
             }
 
             IdentityResult result = await UserManager.ChangePasswordAsync(model.Id, model.OldPassword, model.NewPassword);
@@ -335,7 +338,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
+                return BadRequest(errorMessages);
             }
 
             var user = Mapper.Map<RequestAccountDTO, ApplicationUser>(accountDTO);
@@ -418,7 +422,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                     return BadRequest();
                 }
 
-                return BadRequest(ModelState);
+                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
+                return BadRequest(errorMessages);
             }
 
             return null;

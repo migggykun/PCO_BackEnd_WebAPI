@@ -18,7 +18,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Images
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
+                return BadRequest(errorMessages);
             }
 
             ImageManager manager = new ImageManager();

@@ -82,7 +82,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
+                return BadRequest(errorMessages);
             }
 
             var registration = Mapper.Map<RequestRegistrationDTO, Registration>(registrationDTO);
@@ -96,7 +97,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
             catch (Exception ex)
             {
-                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                string message = ErrorManager.GetInnerExceptionMessage(ex);
                 return BadRequest(message);
             }
         }
@@ -113,7 +114,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
+                return BadRequest(errorMessages);
             }
             var conferenceRegistration = Mapper.Map<RequestRegistrationDTO, Registration>(registrationDTO);
             try
@@ -133,7 +135,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
             catch (Exception ex)
             {
-                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                string message = ErrorManager.GetInnerExceptionMessage(ex);
                 return BadRequest(message);
             }
         }
@@ -163,7 +165,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
             catch (Exception ex)
             {
-                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                string message = ErrorManager.GetInnerExceptionMessage(ex);
                 return BadRequest(message);
             }
         }

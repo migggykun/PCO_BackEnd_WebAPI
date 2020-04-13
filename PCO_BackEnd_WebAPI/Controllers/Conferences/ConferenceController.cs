@@ -79,7 +79,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
+                return BadRequest(errorMessages);
             }
 
             var conference = Mapper.Map<AddConferenceDTO, Conference>(conferenceDTO);
@@ -93,7 +94,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             }
             catch (Exception ex)
             {
-                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                string message = ErrorManager.GetInnerExceptionMessage(ex);
                 return BadRequest(message);
             }
         }
@@ -110,7 +111,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
+                return BadRequest(errorMessages);
             }
             var conference = Mapper.Map<UpdateConferenceDTO, Conference>(conferenceDTO);
             try
@@ -130,7 +132,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             }
             catch (Exception ex)
             {
-                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                string message = ErrorManager.GetInnerExceptionMessage(ex);
                 return BadRequest(message);
             }
         }
@@ -160,7 +162,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             }
             catch (Exception ex)
             {
-                string message = ExceptionManager.GetInnerExceptionMessage(ex);
+                string message = ErrorManager.GetInnerExceptionMessage(ex);
                 return BadRequest(message);
             }
         }
