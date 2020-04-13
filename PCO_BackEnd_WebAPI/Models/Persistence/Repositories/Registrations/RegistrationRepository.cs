@@ -32,6 +32,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
                                                              int size, 
                                                              int? filter = null,
                                                              int? aStatusId = null,
+                                                             int? userId = null,
                                                              string akeywordFilter = null)
         {
             PageResult<Registration> pageResult = new PageResult<Registration>();
@@ -47,6 +48,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
                                                                )
                                                         .Where(c => filter == null ? true : c.ConferenceId == filter)
                                                         .Where(c => aStatusId == null ? true : c.RegistrationStatusId == aStatusId)
+                                                        .Where(c => userId == null ? true : c.UserId == userId)
                                                         .Count();
             int mod;
             int totalPageCount;

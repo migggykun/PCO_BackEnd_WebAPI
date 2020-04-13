@@ -15,12 +15,14 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
 {
     public static class PaymentMapper
     {
-        public static void MapToResponsePaymentDTO(ResponsePaymentDTO payment, UserInfo userInfo, Conference conference)
+        public static void MapToResponsePaymentDTO(ResponsePaymentDTO payment, UserInfo userInfo, Conference conference, byte[] proofOfPayment)
         {
                 var userInfoDTO = Mapper.Map<UserInfo, ResponseUserInfoDTO>(userInfo);
                 var conferenceDTO = Mapper.Map<Conference, ResponseConferenceDTO>(conference);
                 payment.UserInfo = userInfoDTO;
                 payment.Conference = conferenceDTO;
+                payment.ProofOfPayment = Convert.ToBase64String(proofOfPayment);
+                
         }
     }
 }

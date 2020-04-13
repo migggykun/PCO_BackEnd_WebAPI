@@ -489,6 +489,41 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Bank.BankDetailController.GetAll">
+            <summary>
+            Returns all bank details
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Bank.BankDetailController.Get(System.Int32)">
+            <summary>
+            Gets bank detail based on specified id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Bank.BankDetailController.AddConference(PCO_BackEnd_WebAPI.DTOs.Bank.RequestBankDetailDTO)">
+            <summary>
+            Adds a Bank Detail
+            </summary>
+            <param name="bankDetailDTO">Bank details to be added.</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Bank.BankDetailController.UpdateBankDetail(System.Int32,PCO_BackEnd_WebAPI.DTOs.Bank.RequestBankDetailDTO)">
+            <summary>
+            Updates BankDetails
+            </summary>
+            <param name="id">id of the bank detail to be updated</param>
+            <param name="conferenceDTO">New information about the bank to be updated</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Bank.BankDetailController.DeleteBankDetails(System.Int32)">
+            <summary>
+            Deletes a bank details based on specified id
+            </summary>
+            <param name="id">id of the bank details to be deleted</param>
+            <returns></returns>
+        </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Registrations.PaymentController.GetAll(System.Int32,System.Int32,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
             <summary>
             Gets list of Registration
@@ -533,7 +568,7 @@
             <param name="id">id of payment to be confirmed</param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.RegistrationController.GetAll(System.Int32,System.Int32,System.Nullable{System.Int32},System.Nullable{System.Int32},System.String)">
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.RegistrationController.GetAll(System.Int32,System.Int32,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.String)">
             <summary>
             Get list of registration
             </summary>
@@ -855,6 +890,44 @@
             The records this page represents. 
             </summary> 
         </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.Get(System.Int32)">
+            <summary>
+            Get object based on provided Id
+            </summary>
+            <param name="id">Primary Key</param>
+            <returns> Singl object</returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.GetAll">
+            <summary>
+            Get entity data.
+            </summary>
+            <returns>All data of table</returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.Find(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Queries list of object based on given lambda expression.
+            </summary>
+            <param name="predicate">Lambda expression</param>
+            <returns>Returns list of queried objects</returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.Add(`0)">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Add list of data in database.
+            </summary>
+            <param name="entities">Objects to be added in database</param>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.Remove(`0)">
+            <summary>
+            Remove the object in database
+            </summary>
+            <param name="entity">Object to be removed</param>
+        </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.SendEmailConfirmation(System.Int32)">
             <summary>
             Sends email to user to confirm registered email address.
@@ -988,6 +1061,12 @@
             <param name="aText"></param>
             <returns></returns>
         </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Images.ReferenceImage.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="base64String">base64string format of image</param>
+        </member>
         <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.AccountRepository.UpdateUserInfo(PCO_BackEnd_WebAPI.Models.Accounts.UserInfo,PCO_BackEnd_WebAPI.Models.Accounts.UserInfo)">
             <summary>
             Updates UserInfo
@@ -1001,44 +1080,6 @@
             </summary>
             <param name="oldPRC"></param>
             <param name="newPRC"></param>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.Get(System.Int32)">
-            <summary>
-            Get object based on provided Id
-            </summary>
-            <param name="id">Primary Key</param>
-            <returns> Singl object</returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.GetAll">
-            <summary>
-            Get entity data.
-            </summary>
-            <returns>All data of table</returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.Find(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
-            <summary>
-            Queries list of object based on given lambda expression.
-            </summary>
-            <param name="predicate">Lambda expression</param>
-            <returns>Returns list of queried objects</returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.Add(`0)">
-            <summary>
-            
-            </summary>
-            <param name="entity"></param>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
-            <summary>
-            Add list of data in database.
-            </summary>
-            <param name="entities">Objects to be added in database</param>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.Remove(`0)">
-            <summary>
-            Remove the object in database
-            </summary>
-            <param name="entity">Object to be removed</param>
         </member>
         <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.RepositoryHelper`1.GetPrimaryKey(System.Data.Entity.DbContext,`0)">
             <summary>

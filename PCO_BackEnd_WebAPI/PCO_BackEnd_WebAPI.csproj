@@ -237,8 +237,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\Bank\BankDetailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\Images\ImageController.cs" />
     <Compile Include="Controllers\Registrations\PaymentController.cs" />
     <Compile Include="Controllers\Registrations\RegistrationController.cs" />
     <Compile Include="Controllers\Accounts\MembershipTypeController.cs" />
@@ -258,6 +258,8 @@
     <Compile Include="DTOs\Accounts\ResponseMembershipTypeDTO.cs" />
     <Compile Include="DTOs\Accounts\ResponsePRCDetailDTO.cs" />
     <Compile Include="DTOs\Accounts\ResponseUserInfoDTO.cs" />
+    <Compile Include="DTOs\Bank\RequestBankDetailDTO.cs" />
+    <Compile Include="DTOs\Bank\ResponseBankDetailDTO.cs" />
     <Compile Include="DTOs\Conferences\BaseConferenceDTO.cs" />
     <Compile Include="DTOs\Pictures\RequestPictureDTO.cs" />
     <Compile Include="DTOs\Registrations\AddPaymentDTO.cs" />
@@ -280,12 +282,16 @@
     <Compile Include="DTOs\Registrations\UpdatePaymentDTO.cs" />
     <Compile Include="Models\AccountBindingModels\LoginViewModel.cs" />
     <Compile Include="Models\Accounts\IdentityModels.cs" />
+    <Compile Include="Models\Bank\BankDetail.cs" />
     <Compile Include="Models\Helpers\PaymentMapper.cs" />
-    <Compile Include="Models\Image\Image.cs" />
-    <Compile Include="Models\Image\Model.cs" />
+    <Compile Include="Models\Image\ImageBase.cs" />
+    <Compile Include="Models\Image\ImageManager.cs" />
+    <Compile Include="Models\Image\ReceiptManager.cs" />
     <Compile Include="Models\Pagination\PageResult.cs" />
     <Compile Include="Models\Pagination\PaginationMapper.cs" />
     <Compile Include="Models\ParameterBindingModels\ConferenceParameterBindingModel.cs" />
+    <Compile Include="Models\Persistence\Repositories\Bank\BankDetailRepository.cs" />
+    <Compile Include="Models\Persistence\Interfaces\Bank\IBankDetailRepository.cs" />
     <Compile Include="Models\Seeder\ApplicationUserSeeder.cs" />
     <Compile Include="Models\ViewModels\ConfirmEmailViewModel.cs" />
     <Compile Include="Models\ViewModels\ResetPasswordViewModel.cs" />
@@ -295,7 +301,7 @@
     <Compile Include="Models\Helpers\EmailTemplate.cs" />
     <Compile Include="Models\Helpers\StringManipulationHelper.cs" />
     <Compile Include="Models\Helpers\String_Resources.cs" />
-    <Compile Include="Models\Image\ImageManager.cs" />
+    <Compile Include="Models\Image\ReferenceImage.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IMembershipTypeRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IPRCDetailRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IUserInfoRepository.cs" />
@@ -413,6 +419,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\BankDetail\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

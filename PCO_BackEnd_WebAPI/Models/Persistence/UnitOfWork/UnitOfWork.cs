@@ -17,6 +17,7 @@ using System.Data.Entity.Validation;
 using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Registrations;
 using PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations;
 using PCO_BackEnd_WebAPI.Models.Registrations;
+using PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Bank;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
 {
@@ -34,6 +35,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
         public IRegistrationRepository Registrations{ get; set; }
         public IPaymentRepository Payments { get; set; }
         public Repository<RegistrationStatus> RegStatus { get; set; }
+        public BankDetailRepository BankDetails { get; set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -49,6 +51,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
             Registrations = new ConferenceRegistrationRepository(_context);
             Payments = new PaymentRepository(_context);
             RegStatus = new Repository<RegistrationStatus>(_context);
+            BankDetails = new BankDetailRepository(_context);
         }
 
         /// <summary>

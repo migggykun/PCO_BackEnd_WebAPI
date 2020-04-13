@@ -215,7 +215,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 PhoneNumber = model.PhoneNumber,
                 PRCDetail = Mapper.Map<RequestPRCDetailDTO, PRCDetail>(model.PrcDetail),
                 UserInfo =  Mapper.Map<RequestUserInfoDTO, UserInfo>(model.UserInfo),
-                IsAdmin = model.IsAdmin
+                IsAdmin = model.IsAdmin,
+                MemberSince = DateTime.Now.Date
             };
             try
             {

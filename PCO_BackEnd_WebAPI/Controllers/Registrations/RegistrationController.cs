@@ -41,10 +41,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                                                     int size = 0, 
                                                     int? conferenceId = null,
                                                     int? aStatusId = null,
+                                                    int? userId = null,
                                                     string akeywordFilter = null)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var registrationList = await Task.Run(() => unitOfWork.Registrations.GetPagedRegistration(page, size, conferenceId, aStatusId, akeywordFilter));
+            var registrationList = await Task.Run(() => unitOfWork.Registrations.GetPagedRegistration(page, size, conferenceId, aStatusId, userId, akeywordFilter));
             var registrationListDTO = PaginationMapper<Registration, ResponseListRegistrationDTO>.MapResult(registrationList);
 
             return Ok(registrationListDTO);

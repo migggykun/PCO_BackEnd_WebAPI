@@ -17,6 +17,7 @@ using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.DTOs.Accounts;
 using PCO_BackEnd_WebAPI.DTOs.Conferences;
 using PCO_BackEnd_WebAPI.Models.Helpers;
+using PCO_BackEnd_WebAPI.Models.Images;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Registrations
 {
@@ -62,7 +63,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                 int index = resultDTO.Results.ToList().FindIndex(x => x.RegistrationId == r.RegistrationId);
                 var userInfo = users.First(x => x.Id == r.Registration.UserId);
                 var conf = conferences.First(x => x.Id ==r.Registration.ConferenceId);
-                PaymentMapper.MapToResponsePaymentDTO(resultDTO.Results[index], userInfo, conf);
+                PaymentMapper.MapToResponsePaymentDTO(resultDTO.Results[index], userInfo, conf, r.ProofOfPayment);
             }
             return Ok(resultDTO);
         }
@@ -87,7 +88,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                 var resultDTO = Mapper.Map<Payment, ResponsePaymentDTO>(result);
                 var user = unitOfWork.UserInfos.Get(result.Registration.UserId);
                 var conference = unitOfWork.Conferences.Get(result.Registration.ConferenceId);
-                PaymentMapper.MapToResponsePaymentDTO(resultDTO, user, conference);
+                PaymentMapper.MapToResponsePaymentDTO(resultDTO, user, conference,result.ProofOfPayment);
                 return Ok(resultDTO);
             }
         }
@@ -110,10 +111,16 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
             var payment = Mapper.Map<AddPaymentDTO, Payment>(paymentDTO);
             try
             {
+                //Convert receipt image to bytes
+                ReceiptManager receiptManager = new ReceiptManager(paymentDTO.ProofOfPayment);
+                payment.ProofOfPayment = receiptManager.GetAdjustedSizeInBytes();
+
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
                 await Task.Run(() => unitOfWork.Payments.Add(payment));
                 await Task.Run(() => unitOfWork.Complete());
                 var resultDTO = Mapper.Map<Payment, ResponsePaymentDTO>(payment);
+
+                resultDTO.ProofOfPayment = receiptManager.base64Value;
                 return Created(new Uri(Request.RequestUri + "/" + payment.RegistrationId), resultDTO);
             }
             catch (Exception ex)
@@ -149,12 +156,15 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                 }
                 else
                 {
+                    ReceiptManager receiptManager = new ReceiptManager(paymentDTO.ProofOfPayment);
+                    payment.ProofOfPayment = receiptManager.GetAdjustedSizeInBytes();
+
                     await Task.Run(() => unitOfWork.Payments.UpdatePayment(id, payment));
                     await Task.Run(() => unitOfWork.Complete());
                     var user = unitOfWork.UserInfos.Get(result.Registration.UserId);
                     var conference = unitOfWork.Conferences.Get(result.Registration.ConferenceId);
                     var resultDTO = Mapper.Map<Payment, ResponsePaymentDTO>(payment);
-                    PaymentMapper.MapToResponsePaymentDTO(resultDTO, user, conference);
+                    PaymentMapper.MapToResponsePaymentDTO(resultDTO, user, conference, receiptManager.Bytes);
                     return Ok(resultDTO);
                 }
             }
