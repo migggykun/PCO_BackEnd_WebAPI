@@ -283,10 +283,10 @@
     <Compile Include="Models\AccountBindingModels\LoginViewModel.cs" />
     <Compile Include="Models\Accounts\IdentityModels.cs" />
     <Compile Include="Models\Bank\BankDetail.cs" />
+    <Compile Include="Models\Helpers\ConferenceMapper.cs" />
     <Compile Include="Models\Helpers\PaymentMapper.cs" />
     <Compile Include="Models\Image\ImageBase.cs" />
     <Compile Include="Models\Image\ImageManager.cs" />
-    <Compile Include="Models\Image\ReceiptManager.cs" />
     <Compile Include="Models\Pagination\PageResult.cs" />
     <Compile Include="Models\Pagination\PaginationMapper.cs" />
     <Compile Include="Models\ParameterBindingModels\ConferenceParameterBindingModel.cs" />

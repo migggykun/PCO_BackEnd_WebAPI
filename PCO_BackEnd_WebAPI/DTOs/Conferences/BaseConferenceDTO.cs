@@ -28,7 +28,6 @@ namespace PCO_BackEnd_WebAPI.DTOs.Conferences
         [DataType(DataType.DateTime, ErrorMessage = "Invalid date.")]
         public DateTime End { get; set; }
 
-        [StringLength(512, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 2)]
         public string Banner { get; set; }
 
         [RegularExpression(@"^[0-9]+$", ErrorMessage = "Characters are not allowed.")]

@@ -16,6 +16,8 @@ using System.Web.Http.Cors;
 using System.Data.Entity.Validation;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.ParameterBindingModels;
+using PCO_BackEnd_WebAPI.Models.Images;
+using PCO_BackEnd_WebAPI.Models.Helpers;
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences
 {
     [RoutePrefix("api/Conference")]
@@ -43,7 +45,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             var result = await Task.Run(() =>unitOfWork.Conferences.GetPagedConferences((int)model.Page, (int)model.Size, model.Title,
                                                                                         model.Day, model.Month, model.Year,
                                                                                         model.FromDate, model.ToDate));
-            var resultDTO = PaginationMapper<Conference, ResponseConferenceDTO>.MapResult(result);
+            //Convert to DTO
+            var resultDTO = ConferenceMapper.MapToPagedResponseConferenceDTO(result);
             return Ok(resultDTO);
         }
 
@@ -63,8 +66,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             }
             else
             {
-                var membershipTypeDTO = Mapper.Map<Conference, ResponseConferenceDTO>(result);
-                return Ok(membershipTypeDTO);
+                var conferenceDTO = ConferenceMapper.MapToResponseConferenceDTO(result);
+                return Ok(conferenceDTO);
             }   
         }
 
@@ -85,10 +88,13 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             var conference = Mapper.Map<AddConferenceDTO, Conference>(conferenceDTO);
             try
             {
+                ImageManager imageManager = new ImageManager(conferenceDTO.Banner);
+                conference.Banner = imageManager.GetAdjustedSizeInBytes();
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
                 await Task.Run(() => unitOfWork.Conferences.Add(conference));
                 await Task.Run(() => unitOfWork.Complete());
                 var resultDTO = Mapper.Map<Conference, ResponseConferenceDTO>(conference);
+                resultDTO.Banner = imageManager.base64Value;
                 return Created(new Uri(Request.RequestUri + "/" + conference.Id), resultDTO);
             }
             catch (Exception ex)
@@ -115,6 +121,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             var conference = Mapper.Map<UpdateConferenceDTO, Conference>(conferenceDTO);
             try
             {
+                ImageManager imageManager = new ImageManager(conferenceDTO.Banner);
+                conference.Banner = imageManager.GetAdjustedSizeInBytes();
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
                 var result = await Task.Run(() => unitOfWork.Conferences.Get(id));
                 if (result == null)
@@ -124,8 +132,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
                 else
                 {
                    result =  await Task.Run(() => unitOfWork.Conferences.UpdateConferenceInfo(id, conference));
-                    await Task.Run(() => unitOfWork.Complete());
-                    return Ok(Mapper.Map<Conference, ResponseConferenceDTO>(result));
+                   var resultDTO = Mapper.Map<Conference, ResponseConferenceDTO>(result);
+                   resultDTO.Banner = imageManager.base64Value;
+                   return Ok(resultDTO);
                 }
             }
             catch (Exception ex)

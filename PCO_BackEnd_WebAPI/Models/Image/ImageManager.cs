@@ -2,33 +2,62 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Drawing;
+
 namespace PCO_BackEnd_WebAPI.Models.Images
 {
     public class ImageManager
     {
         private ReferenceImage referenceImage = null;
-
-        public ImageManager(string base64String)
+        public string base64Value
         {
-            referenceImage = new ReferenceImage(base64String);
+            get
+            {
+                return GetBase64();
+            }
+        }
+        public byte[] Bytes
+        { 
+            get
+            {
+                return GetBytes();
+            }
         }
 
-        public byte[] GetByteEquivalent()
+        public ImageManager(string base64Value)
         {
-            return referenceImage.Byte;
+            referenceImage = new ReferenceImage(base64Value);
         }
 
-        public void ReduceImageSize()
+        private void ReduceImageSize()
         {
             referenceImage.ReduceImageSize();
         }
 
-        public string Getbase64Value()
+        private byte[] GetBytes()
+        {
+            return referenceImage.Byte;
+        }
+
+        private string GetBase64()
         {
             return referenceImage.Base64Value;
         }
-
-
+        
+        /// <summary>
+        /// Resizes image if size is greater than 100kb
+        /// </summary>
+        /// <returns></returns>
+        public byte[] GetAdjustedSizeInBytes()
+        {
+            if (referenceImage.FileSize > 100000)
+            {
+                ReduceImageSize();
+                return this.Bytes;
+            }
+            else
+            {
+                return this.Bytes;
+            }
+        }
     }
 }

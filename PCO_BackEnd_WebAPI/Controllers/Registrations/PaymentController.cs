@@ -111,7 +111,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
             try
             {
                 //Convert receipt image to bytes
-                ReceiptManager receiptManager = new ReceiptManager(paymentDTO.ProofOfPayment);
+                ImageManager receiptManager = new ImageManager(paymentDTO.ProofOfPayment);
                 payment.ProofOfPayment = receiptManager.GetAdjustedSizeInBytes();
 
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -154,7 +154,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                 }
                 else
                 {
-                    ReceiptManager receiptManager = new ReceiptManager(paymentDTO.ProofOfPayment);
+                    ImageManager receiptManager = new ImageManager(paymentDTO.ProofOfPayment);
                     payment.ProofOfPayment = receiptManager.GetAdjustedSizeInBytes();
 
                     await Task.Run(() => unitOfWork.Payments.UpdatePayment(id, payment));

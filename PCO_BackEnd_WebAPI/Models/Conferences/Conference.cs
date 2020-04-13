@@ -35,7 +35,7 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
         [Required]
         public DateTime End { get; set; }
 
-        public string Banner { get; set; }
+        public byte[] Banner { get; set; }
 
         public int? PromoId { get; set; }
         public virtual Promo Promo { get; set; }
