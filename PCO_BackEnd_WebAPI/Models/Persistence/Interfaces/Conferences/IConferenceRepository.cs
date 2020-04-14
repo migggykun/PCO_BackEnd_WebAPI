@@ -15,6 +15,6 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences
         PageResult<Conference> GetPagedConferences(int page, int size, string filter = null, string day = null, string month = null,
                                                          string year = null, string fromDate = null, string toDate = null);
         Conference GetConferenceByTitle(string title);
-        Conference UpdateConferenceInfo(int id, Conference conference);
+        Conference UpdateConferenceInfo(int id, Conference conference, string base64Image);
     }
 }
