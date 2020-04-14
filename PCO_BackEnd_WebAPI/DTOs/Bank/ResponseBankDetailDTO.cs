@@ -11,7 +11,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Bank
 
         public string Name { get; set; }
 
-        public string AccountNo { get; set; }
+        public string AccountNumber { get; set; }
 
         public string Branch { get; set; }
     }
