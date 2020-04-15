@@ -64,7 +64,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
         /// <returns></returns>
         [HttpPost]
         [ResponseType(typeof(ResponseBankDetailDTO))]
-        public async Task<IHttpActionResult> AddConference(RequestBankDetailDTO bankDetailDTO)
+        public async Task<IHttpActionResult> AddBankDetails(RequestBankDetailDTO bankDetailDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -95,7 +95,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
         /// <returns></returns>
         [HttpPut]
         [ResponseType(typeof(ResponseBankDetailDTO))]
-        public async Task<IHttpActionResult> UpdateBankDetail(int id, RequestBankDetailDTO bankDetailDTO)
+        public async Task<IHttpActionResult> UpdateBankDetails(int id, RequestBankDetailDTO bankDetailDTO)
         {
             if (!ModelState.IsValid)
             {

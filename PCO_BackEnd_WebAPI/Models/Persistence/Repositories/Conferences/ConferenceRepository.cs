@@ -11,6 +11,7 @@ using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.DTOs.Conferences;
 using AutoMapper;
 using System.Globalization;
+using PCO_BackEnd_WebAPI.Models.Images;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
 {
@@ -73,10 +74,11 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
         }
 
 
-        public Conference UpdateConferenceInfo(int id, Conference conference)
+        public Conference UpdateConferenceInfo(int id, Conference conference, string base64Image)
         {
           conference.Id = id;
           conference.Rates.ToList().ForEach(x => x.conferenceId = id);
+          conference.Banner = string.IsNullOrEmpty(base64Image) ? null : new ImageManager(base64Image).Bytes;
           var updatedConference = appDbContext.UpdateGraph<Conference>(conference, map => map.OwnedCollection(e => e.Rates));
           return updatedConference;
         }

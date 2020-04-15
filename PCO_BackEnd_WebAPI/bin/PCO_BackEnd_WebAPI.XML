@@ -525,14 +525,14 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Bank.BankDetailController.AddConference(PCO_BackEnd_WebAPI.DTOs.Bank.RequestBankDetailDTO)">
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Bank.BankDetailController.AddBankDetails(PCO_BackEnd_WebAPI.DTOs.Bank.RequestBankDetailDTO)">
             <summary>
             Adds a Bank Detail
             </summary>
             <param name="bankDetailDTO">Bank details to be added.</param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Bank.BankDetailController.UpdateBankDetail(System.Int32,PCO_BackEnd_WebAPI.DTOs.Bank.RequestBankDetailDTO)">
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Bank.BankDetailController.UpdateBankDetails(System.Int32,PCO_BackEnd_WebAPI.DTOs.Bank.RequestBankDetailDTO)">
             <summary>
             Updates BankDetails
             </summary>

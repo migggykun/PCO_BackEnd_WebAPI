@@ -62,8 +62,8 @@ namespace PCO_BackEnd_WebAPI.App_Start
             Mapper.CreateMap<Conference, ResponseConferenceDTO>().ForMember(dst => dst.PromoId, src => src.MapFrom(c => (c.PromoId == null) ? string.Empty : c.PromoId.Value.ToString()));
             Mapper.CreateMap<RequestPromoDTO, Promo>().ForMember(dst => dst.PromoMembers, src => src.MapFrom(p => p.MembershipTypeIds.Select(mId => new PromoMember { MembershipTypeId = mId }).ToList())); ;
             Mapper.CreateMap<Promo, ResponsePromoDTO>().ForMember(dst => dst.MembershipTypeIds, src => src.MapFrom(p => p.PromoMembers.Select(pm => pm.MembershipTypeId))); ;
-            Mapper.CreateMap<AddConferenceDTO, Conference>().ForMember(dst => dst.Banner, src => src.MapFrom(c => (c.Banner == null) ? Enumerable.Empty<byte>().ToArray() : new byte[]{}));
-            Mapper.CreateMap<UpdateConferenceDTO, Conference>().ForMember(dst => dst.Banner, src => src.MapFrom(c => (c.Banner == null) ? Enumerable.Empty<byte>().ToArray() : new byte[] {})); ;
+            Mapper.CreateMap<AddConferenceDTO, Conference>().ForMember(dst => dst.Banner, src => src.Ignore());
+            Mapper.CreateMap<UpdateConferenceDTO, Conference>().ForMember(dst => dst.Banner, src => src.Ignore());
             Mapper.CreateMap<AddRateWithConferenceDTO, Rate>();
             Mapper.CreateMap<UpdateRateWithConferenceDTO, Rate>();
             Mapper.CreateMap<RequestRateDTO, Rate>();
@@ -76,8 +76,8 @@ namespace PCO_BackEnd_WebAPI.App_Start
             Mapper.CreateMap<Registration, ResponseRegistrationDTO>();
             Mapper.CreateMap<Registration, ResponseListRegistrationDTO>();
             Mapper.CreateMap<ApplicationUser, ResponseAccountDTO>();
-            Mapper.CreateMap<AddPaymentDTO, Payment>().ForMember(dst => dst.ProofOfPayment, src => src.MapFrom(x => Enumerable.Empty<byte>().ToArray()));
-            Mapper.CreateMap<UpdatePaymentDTO, Payment>().ForMember(dst => dst.ProofOfPayment, src => src.MapFrom(x => Enumerable.Empty<byte>().ToArray()));
+            Mapper.CreateMap<AddPaymentDTO, Payment>().ForMember(dst => dst.ProofOfPayment, src => src.Ignore());
+            Mapper.CreateMap<UpdatePaymentDTO, Payment>().ForMember(dst => dst.ProofOfPayment, src => src.Ignore());
             Mapper.CreateMap<Payment, ResponsePaymentDTO>();
             Mapper.CreateMap<RequestBankDetailDTO, BankDetail>();
             Mapper.CreateMap<BankDetail, ResponseBankDetailDTO>();
