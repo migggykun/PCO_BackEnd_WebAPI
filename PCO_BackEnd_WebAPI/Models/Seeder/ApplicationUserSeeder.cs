@@ -20,7 +20,7 @@ namespace PCO_BackEnd_WebAPI.Models.Seeder
                 LastName = "admin",
                 Organization = "PCO",
                 MembershipTypeId = 1,
-                Address = "Manila"
+                //Address = "Manila"
             };
 
             ApplicationUser user = new ApplicationUser()
