@@ -19,15 +19,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
         public PageResult<UserInfo> GetPagedUserInfo(int page, int size)
         {
             PageResult<UserInfo> pageResult = new PageResult<UserInfo>();
-            int recordCount;
-            if(appDbContext.UserInfos.ToList() !=null)
-            {
-                recordCount = appDbContext.UserInfos.Count();
-            }
-            else
-            {
-                recordCount = 0;
-            }
+            int recordCount = appDbContext.UserInfos.Count();
             int mod;
             int totalPageCount;
             int offset;

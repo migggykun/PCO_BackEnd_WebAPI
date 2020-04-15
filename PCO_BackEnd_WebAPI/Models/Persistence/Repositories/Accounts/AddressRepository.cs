@@ -21,15 +21,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
         public PageResult<Address> GetPagedAddress(int page, int size)
         {
             PageResult<Address> pageResult = new PageResult<Address>();
-            int recordCount;
-            if (appDbContext.Addresses.ToList() != null)
-            {
-                recordCount = appDbContext.Addresses.Count();
-            }
-            else
-            {
-                recordCount = 0;
-            }
+            int recordCount = appDbContext.Addresses.Count();
             
             int mod;
             int totalPageCount;
