@@ -8,7 +8,6 @@ using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.Models.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Registrations;
-using PCO_BackEnd_WebAPI.Models.Seeder;
 using PCO_BackEnd_WebAPI.Models.Bank;
 namespace PCO_BackEnd_WebAPI.Models.Entities
 {

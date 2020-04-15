@@ -298,7 +298,6 @@
     <Compile Include="Models\Persistence\Repositories\Accounts\AddressRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Bank\BankDetailRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Bank\IBankDetailRepository.cs" />
-    <Compile Include="Models\Seeder\ApplicationUserSeeder.cs" />
     <Compile Include="Models\ViewModels\ConfirmEmailViewModel.cs" />
     <Compile Include="Models\ViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="Models\Conferences\Conference.cs" />

@@ -9,7 +9,6 @@ using System.Web.Routing;
 using AutoMapper;
 using PCO_BackEnd_WebAPI.App_Start;
 using System.Data.Entity;
-using PCO_BackEnd_WebAPI.Models.Seeder;
 
 namespace PCO_BackEnd_WebAPI
 {
