@@ -237,6 +237,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\Accounts\AddressController.cs" />
     <Compile Include="Controllers\Bank\BankDetailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Registrations\PaymentController.cs" />
@@ -251,10 +252,12 @@
     <Compile Include="Controllers\ErrorManager.cs" />
     <Compile Include="Controllers\Registrations\RegistrationStatusController.cs" />
     <Compile Include="DTOs\Accounts\RequestAccountDTO.cs" />
+    <Compile Include="DTOs\Accounts\RequestAddressDTO.cs" />
     <Compile Include="DTOs\Accounts\RequestMembershipTypeDTO.cs" />
     <Compile Include="DTOs\Accounts\RequestPRCDetailDTO.cs" />
     <Compile Include="DTOs\Accounts\RequestUserInfoDTO.cs" />
     <Compile Include="DTOs\Accounts\ResponseAccountDTO.cs" />
+    <Compile Include="DTOs\Accounts\ResponseAddressDTO.cs" />
     <Compile Include="DTOs\Accounts\ResponseMembershipTypeDTO.cs" />
     <Compile Include="DTOs\Accounts\ResponsePRCDetailDTO.cs" />
     <Compile Include="DTOs\Accounts\ResponseUserInfoDTO.cs" />
@@ -281,6 +284,7 @@
     <Compile Include="DTOs\Conferences\UpdateRateWithConferenceDTO.cs" />
     <Compile Include="DTOs\Registrations\UpdatePaymentDTO.cs" />
     <Compile Include="Models\AccountBindingModels\LoginViewModel.cs" />
+    <Compile Include="Models\Accounts\Address.cs" />
     <Compile Include="Models\Accounts\IdentityModels.cs" />
     <Compile Include="Models\Bank\BankDetail.cs" />
     <Compile Include="Models\Helpers\ConferenceMapper.cs" />
@@ -290,6 +294,8 @@
     <Compile Include="Models\Pagination\PageResult.cs" />
     <Compile Include="Models\Pagination\PaginationMapper.cs" />
     <Compile Include="Models\ParameterBindingModels\ConferenceParameterBindingModel.cs" />
+    <Compile Include="Models\Persistence\Interfaces\Accounts\IAddressRepository.cs" />
+    <Compile Include="Models\Persistence\Repositories\Accounts\AddressRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Bank\BankDetailRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Bank\IBankDetailRepository.cs" />
     <Compile Include="Models\Seeder\ApplicationUserSeeder.cs" />

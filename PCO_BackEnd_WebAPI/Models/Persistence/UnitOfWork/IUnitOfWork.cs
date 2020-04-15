@@ -24,6 +24,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
         IMembershipTypeRepository MembershipTypes { get; set; }
         IPRCDetailRepository PRCDetails { get; set; }
         IUserInfoRepository UserInfos { get; set; }
+        IAddressRepository Addresses { get; set; }
         IRateRepository Rates { get; set; }
         IPromoRepository Promos { get; set; }
         IPromoMemberRepository PromoMembers { get; set; }

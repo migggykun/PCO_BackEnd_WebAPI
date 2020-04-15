@@ -14,13 +14,21 @@ namespace PCO_BackEnd_WebAPI.Models.Seeder
             string email = "admin@admin.com";
             string password = "Admin12345^";
             string phoneNumber = "1234";
+            Address address = new Address(){
+                    StreetAddress = "184 Maginhawa",
+                    Barangay = "Sikatuna",
+                    City = "Quezon City",
+                    Province = "Metro Manila",
+                    Zipcode = "1010"
+            };
+
             UserInfo userInfo = new UserInfo()
             {
                 FirstName = "admin",
                 LastName = "admin",
                 Organization = "PCO",
                 MembershipTypeId = 1,
-                Address = "Manila"
+                Address = address
             };
 
             ApplicationUser user = new ApplicationUser()

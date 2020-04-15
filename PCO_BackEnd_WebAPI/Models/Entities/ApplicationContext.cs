@@ -33,6 +33,7 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
         public virtual DbSet<Registration> Registrations { get; set; }
         public virtual DbSet<RegistrationStatus> RegistrationStatus { get; set; }
         public virtual DbSet<UserInfo> UserInfos { get; set; }
+        public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<BankDetail> BankDetails { get; set; }
 
         public static ApplicationDbContext Create()
@@ -48,6 +49,11 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
 
             modelBuilder.Entity<ApplicationUser>()
                         .HasRequired(e => e.UserInfo)
+                        .WithRequiredPrincipal()
+                        .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<UserInfo>()
+                        .HasRequired(e => e.Address)
                         .WithRequiredPrincipal()
                         .WillCascadeOnDelete(true);
 

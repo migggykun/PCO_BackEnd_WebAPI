@@ -51,6 +51,8 @@ namespace PCO_BackEnd_WebAPI.App_Start
             Mapper.CreateMap<RequestAccountDTO, ApplicationUser>();
             Mapper.CreateMap<UserInfo, ResponseUserInfoDTO>();
             Mapper.CreateMap<RequestUserInfoDTO, UserInfo>();
+            Mapper.CreateMap<Address, ResponseAddressDTO>();
+            Mapper.CreateMap<RequestAddressDTO, Address>();
             Mapper.CreateMap<MembershipType, ResponseMembershipTypeDTO>();
             Mapper.CreateMap<RequestMembershipTypeDTO, MembershipType>();
             Mapper.CreateMap<RequestPRCDetailDTO, PRCDetail>().ConvertUsing(conv);

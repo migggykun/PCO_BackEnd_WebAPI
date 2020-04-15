@@ -36,6 +36,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
         public IPaymentRepository Payments { get; set; }
         public Repository<RegistrationStatus> RegStatus { get; set; }
         public BankDetailRepository BankDetails { get; set; }
+        public IAddressRepository Addresses { get; set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -52,6 +53,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
             Payments = new PaymentRepository(_context);
             RegStatus = new Repository<RegistrationStatus>(_context);
             BankDetails = new BankDetailRepository(_context);
+            Addresses = new AddressRepository(_context);
         }
 
         /// <summary>

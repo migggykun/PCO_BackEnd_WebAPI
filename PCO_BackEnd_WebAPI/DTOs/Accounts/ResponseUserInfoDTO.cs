@@ -20,7 +20,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
         public string LastName { get; set; }
 
         [Required]
-        public string Address { get; set; }
+        public ResponseAddressDTO Address { get; set; }
 
         [Required]
         public string Organization { get; set; }

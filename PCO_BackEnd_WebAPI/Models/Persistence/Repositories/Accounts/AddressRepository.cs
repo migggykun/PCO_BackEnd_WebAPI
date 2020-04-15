@@ -7,27 +7,30 @@ using System.Linq;
 using System.Web;
 using RefactorThis.GraphDiff;
 using PCO_BackEnd_WebAPI.Models.Pagination;
+
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
 {
-    public class UserInfoRepository : Repository<UserInfo>, IUserInfoRepository
+    public class AddressRepository : Repository<Address>, IAddressRepository
     {
-        public UserInfoRepository(ApplicationDbContext context) : base(context)
+        public AddressRepository(ApplicationDbContext context)
+            : base(context)
         {
 
         }
 
-        public PageResult<UserInfo> GetPagedUserInfo(int page, int size)
+        public PageResult<Address> GetPagedAddress(int page, int size)
         {
-            PageResult<UserInfo> pageResult = new PageResult<UserInfo>();
+            PageResult<Address> pageResult = new PageResult<Address>();
             int recordCount;
-            if(appDbContext.UserInfos.ToList() !=null)
+            if (appDbContext.Addresses.ToList() != null)
             {
-                recordCount = appDbContext.UserInfos.Count();
+                recordCount = appDbContext.Addresses.Count();
             }
             else
             {
                 recordCount = 0;
             }
+            
             int mod;
             int totalPageCount;
             int offset;
@@ -46,7 +49,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
                 offset = size * (page - 1);
                 recordToReturn = size;
             }
-            pageResult.Results = appDbContext.UserInfos
+            pageResult.Results = appDbContext.Addresses
                                              .OrderBy(a => a.Id)
                                              .Skip(offset)
                                              .Take(recordToReturn)
@@ -56,10 +59,10 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
             return pageResult;
         }
 
-        public UserInfo UpdateUserInfo(int id, UserInfo entityToUpdate)
+        public Address UpdateAddress(int id, Address entityToUpdate)
         {
-            entityToUpdate.Id = id; 
-            return appDbContext.UpdateGraph<UserInfo>(entityToUpdate);
+            entityToUpdate.Id = id;
+            return appDbContext.UpdateGraph<Address>(entityToUpdate);
         }
 
         public ApplicationDbContext appDbContext

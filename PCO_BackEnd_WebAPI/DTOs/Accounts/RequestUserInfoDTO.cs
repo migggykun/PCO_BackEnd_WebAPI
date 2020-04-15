@@ -19,10 +19,9 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
         [StringLength(256, ErrorMessage = "{0} length must be lesser than {1}.")]
         [Required]
         public string LastName { get; set; }
-
-        [StringLength(512, ErrorMessage = "{0} length must be lesser than {1}.")]
+    
         [Required]
-        public string Address { get; set; }
+        public RequestAddressDTO Address { get; set; }
 
         [StringLength(512, ErrorMessage = "{0} length must be lesser than {1}.")]
         [Required]
