@@ -78,7 +78,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
         {
           conference.Id = id;
           conference.Rates.ToList().ForEach(x => x.conferenceId = id);
-          conference.Banner = string.IsNullOrEmpty(base64Image) ? Enumerable.Empty<byte>().ToArray() : new ImageManager(base64Image).Bytes;
+          conference.Banner = string.IsNullOrEmpty(base64Image) ? null : new ImageManager(base64Image).Bytes;
           var updatedConference = appDbContext.UpdateGraph<Conference>(conference, map => map.OwnedCollection(e => e.Rates));
           return updatedConference;
         }

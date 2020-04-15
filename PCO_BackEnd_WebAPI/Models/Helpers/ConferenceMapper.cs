@@ -19,8 +19,7 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
             foreach (var r in conferences.Results)
             {
                 int index = resultDTO.Results.ToList().FindIndex(x => x.Id == r.Id);
-                var conferenceDTO = resultDTO.Results.First(c => c.Id == index);
-                conferenceDTO.Banner = Convert.ToBase64String(r.Banner);
+                resultDTO.Results[index].Banner = r.Banner == null ? string.Empty : Convert.ToBase64String(r.Banner);
             }
             return resultDTO;
         }
@@ -28,7 +27,7 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
         public static ResponseConferenceDTO MapToResponseConferenceDTO(Conference conference)
         {
             var resultDTO = Mapper.Map<Conference, ResponseConferenceDTO>(conference);
-            resultDTO.Banner = Convert.ToBase64String(conference.Banner);
+            resultDTO.Banner = conference.Banner == null ? string.Empty : Convert.ToBase64String(conference.Banner);
             return resultDTO;
         }
     }
