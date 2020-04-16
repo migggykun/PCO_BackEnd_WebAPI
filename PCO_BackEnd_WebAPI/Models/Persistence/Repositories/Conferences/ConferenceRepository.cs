@@ -27,11 +27,6 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
         {
             DateTime? startDate = string.IsNullOrEmpty(fromDate) ? null : Convert.ToDateTime(fromDate, new CultureInfo("fil-PH")) as DateTime?;
             DateTime? endDate = string.IsNullOrEmpty(toDate) ? null : Convert.ToDateTime(toDate, new CultureInfo("fil-PH")) as DateTime?;
-            var x = appDbContext.Conferences.Where(p => DbFunctions.TruncateTime(p.End) <= (DbFunctions.TruncateTime(endDate)))
-                                            .Where(p => DbFunctions.TruncateTime(p.Start) >= (DbFunctions.TruncateTime(startDate))).ToList();
-            x.ToString();
-
-
 
             IQueryable<Conference> queryResult = appDbContext.Conferences.Where(c => string.IsNullOrEmpty(filter) ? true : c.Title.Contains(filter) ||
                                                                                                                            c.Description.Contains(filter) ||
@@ -42,8 +37,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
                                                                 || c.End.Month.ToString().Contains(month))
                                                          .Where(c => string.IsNullOrEmpty(year) ? true : c.Start.Year.ToString().Contains(year)
                                                                 || c.End.Year.ToString().Contains(year))
-                                                         .Where(p => DbFunctions.TruncateTime(p.End) <= (DbFunctions.TruncateTime(endDate)))
-                                                         .Where(p => DbFunctions.TruncateTime(p.Start) >= (DbFunctions.TruncateTime(startDate)));
+                                                         .Where(p => string.IsNullOrEmpty(toDate) ? true : DbFunctions.TruncateTime(p.End) <= (DbFunctions.TruncateTime(endDate)))
+                                                         .Where(p => string.IsNullOrEmpty(fromDate) ? true : DbFunctions.TruncateTime(p.Start) >= (DbFunctions.TruncateTime(startDate)));
 
             PageResult<Conference> pageResult = new PageResult<Conference>();
             int recordCount = queryResult.Count();
