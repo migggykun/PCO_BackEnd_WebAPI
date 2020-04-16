@@ -8,7 +8,7 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
 {
     public static class StringManipulationHelper
     {
-        private const string baseAddress = "https://stgadmin.philippineoptometry.org/";
+        private const string baseAddress = "https://stgadmin.philippineoptometry.org/#/";
         private const string confirmEmailBaseURL = baseAddress + "confirm-email"; //http://pcosample.somee.com
         private const string resetPasswordBaseURL = baseAddress + "reset-password";
 
