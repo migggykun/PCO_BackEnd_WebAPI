@@ -39,7 +39,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
                 offset = size * (page - 1);
                 recordToReturn = size;
             }
-            pageResult.Results = appDbContext.MembershipTypes.Where(u => string.IsNullOrEmpty(filter) ? true : u.Name.Contains(filter))
+            pageResult.Results = appDbContext.MembershipTypes.Where(u => string.IsNullOrEmpty(filter) ? true : u.Name.Contains(filter) || 
+                                                                                                               u.Description.Contains(filter))
                                              .OrderBy(a => a.Id)
                                              .Skip(offset)
                                              .Take(recordToReturn)

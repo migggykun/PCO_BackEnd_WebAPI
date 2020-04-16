@@ -35,10 +35,10 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(PageResult<ResponsePromoDTO>))]
-        public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0, string aTitle = "")
+        public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0, string filter = null)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = unitOfWork.Promos.GetPagedPromos(page, size, aTitle);
+            var result = unitOfWork.Promos.GetPagedPromos(page, size, filter);
             var resultDTO = PaginationMapper<Promo, ResponsePromoDTO>.MapResult(result);
             return Ok(resultDTO);
         }

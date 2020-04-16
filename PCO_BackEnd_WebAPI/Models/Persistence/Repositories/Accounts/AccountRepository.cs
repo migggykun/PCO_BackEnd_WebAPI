@@ -9,6 +9,7 @@ using PCO_BackEnd_WebAPI.DTOs.Accounts;
 using RefactorThis.GraphDiff;
 using System.Threading.Tasks;
 using PCO_BackEnd_WebAPI.Models.Pagination;
+using System.Globalization;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
 {
@@ -30,6 +31,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
                                                             string filter = null)
         {
             PageResult<ApplicationUser> pageResult = new PageResult<ApplicationUser>();
+            DateTime PRCDate = string.IsNullOrEmpty(filter) ? new DateTime(): Convert.ToDateTime(filter, new CultureInfo("fil-PH"));
             int recordCount = UserManager.Users
                                                .Where(u => (filter == null) == true ?  
                                                               true
@@ -37,7 +39,12 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
                                                               (u.UserInfo.FirstName.Contains(filter) ||
                                                                u.UserInfo.MiddleName.Contains(filter) ||
                                                                u.UserInfo.LastName.Contains(filter))  ||
-                                                               u.Email.Contains(filter)
+                                                               u.UserInfo.Organization.Contains(filter)  ||
+                                                               u.UserInfo.MembershipType.Name.Contains(filter) ||
+                                                               u.PRCDetail.ExpirationDate.Equals(PRCDate)||
+                                                               u.PRCDetail.IdNumber.Contains(filter) ||
+                                                               u.Email.Contains(filter) ||
+                                                               u.PhoneNumber.Contains(filter)
                                                       )
                                                      .Count();
             int mod;
@@ -65,8 +72,13 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
                                                               (u.UserInfo.FirstName.Contains(filter) ||
                                                                u.UserInfo.MiddleName.Contains(filter) ||
                                                                u.UserInfo.LastName.Contains(filter)) ||
-                                                               u.Email.Contains(filter)
-                                                    )
+                                                               u.UserInfo.Organization.Contains(filter) ||
+                                                               u.UserInfo.MembershipType.Name.Contains(filter) ||
+                                                               u.PRCDetail.ExpirationDate.Equals(PRCDate) ||
+                                                               u.PRCDetail.IdNumber.Contains(filter) ||
+                                                               u.Email.Contains(filter) ||
+                                                               u.PhoneNumber.Contains(filter)
+                                                      )
                                              .OrderBy(a => a.Id)
                                              .Skip(offset)
                                              .Take(recordToReturn)

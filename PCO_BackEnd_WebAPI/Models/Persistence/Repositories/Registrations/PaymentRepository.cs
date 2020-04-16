@@ -16,7 +16,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 
 		}
 
-		public PageResult<Payment> GetPagedPayments(int page, 
+		public PageResult<Payment> GetPagedPayments(string filter,
+                                                    int page, 
 													int size,
 													DateTime? aPaymentSubmissionDateFrom = null,
 													DateTime? aPaymentSubmissionDateTo = null,
@@ -29,6 +30,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 			int totalPageCount;
 			int offset;
 			int recordToReturn;
+            int amount;
 			if (size == 0)
 			{
 				mod = 0;
@@ -43,8 +45,10 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 				offset = size * (page - 1);
 				recordToReturn = size;
 			}
-
+               Int32.TryParse(filter, out amount);
 				pageResult.Results = appDbContext.Payments.OrderBy(p => p.RegistrationId)
+                    .Where(p => !string.IsNullOrEmpty(filter) ? true : p.Registration.Conference.Title.Contains(filter) ||
+                                                                       p.AmountPaid == amount)  
 					.Where
 						  (
 							   x =>

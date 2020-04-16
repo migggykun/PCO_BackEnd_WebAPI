@@ -547,7 +547,7 @@
             <param name="id">id of the bank details to be deleted</param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Registrations.PaymentController.GetAll(System.Int32,System.Int32,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Registrations.PaymentController.GetAll(System.String,System.Int32,System.Int32,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
             <summary>
             Gets list of Registration
             </summary>

@@ -39,7 +39,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponsePaymentDTO))]
-        public async Task<IHttpActionResult> GetAll(int page = 1, 
+        public async Task<IHttpActionResult> GetAll(string filter = null,
+                                                    int page = 1, 
                                                     int size = 0, 
                                                     DateTime? aPaymentSubmissionDateFrom = null, 
                                                     DateTime? aPaymentSubmissionDateTo = null,
@@ -47,7 +48,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                                                     DateTime? aConfirmationDateTo = null)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = await Task.Run(() => unitOfWork.Payments.GetPagedPayments(page, 
+            var result = await Task.Run(() => unitOfWork.Payments.GetPagedPayments(filter,
+                                                                                   page, 
                                                                                    size,
                                                                                    aPaymentSubmissionDateFrom,
                                                                                    aPaymentSubmissionDateTo,

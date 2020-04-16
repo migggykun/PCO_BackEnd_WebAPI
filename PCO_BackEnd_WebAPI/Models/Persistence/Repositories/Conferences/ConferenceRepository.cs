@@ -27,15 +27,23 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
         {
             DateTime? startDate = string.IsNullOrEmpty(fromDate) ? null : Convert.ToDateTime(fromDate, new CultureInfo("fil-PH")) as DateTime?;
             DateTime? endDate = string.IsNullOrEmpty(toDate) ? null : Convert.ToDateTime(toDate, new CultureInfo("fil-PH")) as DateTime?;
-            IQueryable<Conference> queryResult = appDbContext.Conferences.Where(c => string.IsNullOrEmpty(filter) ? true : c.Title.Contains(filter))
+            var x = appDbContext.Conferences.Where(p => DbFunctions.TruncateTime(p.End) <= (DbFunctions.TruncateTime(endDate)))
+                                            .Where(p => DbFunctions.TruncateTime(p.Start) >= (DbFunctions.TruncateTime(startDate))).ToList();
+            x.ToString();
+
+
+
+            IQueryable<Conference> queryResult = appDbContext.Conferences.Where(c => string.IsNullOrEmpty(filter) ? true : c.Title.Contains(filter) ||
+                                                                                                                           c.Description.Contains(filter) ||
+                                                                                                                           c.Location.Contains(filter))
                                                          .Where(c => string.IsNullOrEmpty(day) ? true : c.Start.Day.ToString().Contains(day)
                                                                 || c.End.Day.ToString().Contains(day))
                                                          .Where(c => string.IsNullOrEmpty(month) ? true : c.Start.Month.ToString().Contains(month)
                                                                 || c.End.Month.ToString().Contains(month))
                                                          .Where(c => string.IsNullOrEmpty(year) ? true : c.Start.Year.ToString().Contains(year)
                                                                 || c.End.Year.ToString().Contains(year))
-                                                         .Where(c => string.IsNullOrEmpty(fromDate) ? true : c.Start >= startDate)
-                                                         .Where(c => string.IsNullOrEmpty(toDate) ? true : c.End <= endDate);
+                                                         .Where(p => DbFunctions.TruncateTime(p.End) <= (DbFunctions.TruncateTime(endDate)))
+                                                         .Where(p => DbFunctions.TruncateTime(p.Start) >= (DbFunctions.TruncateTime(startDate)));
 
             PageResult<Conference> pageResult = new PageResult<Conference>();
             int recordCount = queryResult.Count();

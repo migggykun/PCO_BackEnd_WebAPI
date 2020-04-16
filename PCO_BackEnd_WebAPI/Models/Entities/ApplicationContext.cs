@@ -60,7 +60,11 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                         .HasOptional(e => e.PRCDetail)
                         .WithOptionalPrincipal()
                         .WillCascadeOnDelete(true);
-            
+
+            modelBuilder.Entity<UserInfo>()
+                        .HasRequired(u => u.MembershipType)
+                        .WithMany();
+                        
             modelBuilder.Entity<Conference>()
                         .HasOptional(e => e.Promo);
 
@@ -73,6 +77,10 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                         .HasMany(p => p.PromoMembers)
                         .WithRequired()
                         .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<PromoMember>()
+                        .HasRequired(u => u.MembershipType)
+                        .WithMany();
 
             modelBuilder.Entity<Period>()
                         .Property(e => e.Name)

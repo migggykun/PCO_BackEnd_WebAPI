@@ -13,6 +13,7 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences.Promos
         public int Id { get; set; }
 
         public int MembershipTypeId { get; set; }
+        public virtual MembershipType MembershipType { get; set; }
 
         public int PromoId { get; set; }
     }

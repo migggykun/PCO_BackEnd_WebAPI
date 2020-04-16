@@ -305,7 +305,6 @@
     <Compile Include="Models\Helpers\EmailClassification.cs" />
     <Compile Include="Models\Helpers\EmailTemplate.cs" />
     <Compile Include="Models\Helpers\StringManipulationHelper.cs" />
-    <Compile Include="Models\Helpers\String_Resources.cs" />
     <Compile Include="Models\Image\ReferenceImage.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IMembershipTypeRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IPRCDetailRepository.cs" />

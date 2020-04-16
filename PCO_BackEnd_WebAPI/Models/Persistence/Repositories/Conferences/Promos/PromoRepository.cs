@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using RefactorThis.GraphDiff;
 using PCO_BackEnd_WebAPI.Models.Pagination;
+using PCO_BackEnd_WebAPI.Models.Helpers;
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences.Promos
 {
     public class PromoRepository : Repository<Promo> , IPromoRepository
@@ -16,12 +17,11 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences.Promos
 
         }
 
-        public PageResult<Promo> GetPagedPromos(int page, int size, string aTitle)
+        public PageResult<Promo> GetPagedPromos(int page, int size, string filter)
         {
             PageResult<Promo> pageResult = new PageResult<Promo>();
-            int recordCount = appDbContext.Promos
-                                          .Where(x => x.Name.Contains(aTitle))
-                                          .Count();
+            int recordCount = appDbContext.Promos.Count();
+            int amount;
             int mod;
             int totalPageCount;
             int offset;
@@ -40,8 +40,12 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences.Promos
                 offset = size * (page - 1);
                 recordToReturn = size;
             }
+            Int32.TryParse(filter, out amount);
             pageResult.Results = appDbContext.Promos.OrderBy(p => p.Id)
-                                              .Where(x => x.Name.Contains(aTitle))
+                                              .Where(x => string.IsNullOrEmpty(filter) ? true : x.Name.Contains(filter) || 
+                                                                                                x.Description.Contains(filter) ||
+                                                                                                x.PromoMembers.Any(p => p.MembershipType.Name.Contains(filter)) ||
+                                                                                                x.Amount == amount)
                                               .Skip(offset)
                                               .Take(recordToReturn)
                                               .ToList();

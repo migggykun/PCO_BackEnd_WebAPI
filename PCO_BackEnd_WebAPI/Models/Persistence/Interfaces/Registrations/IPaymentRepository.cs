@@ -13,7 +13,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Registrations
     {
         void UpdatePayment(int id, Payment payment, byte[] imageSize);
         void SetPaymentConfirmationDate(int id);
-        PageResult<Payment> GetPagedPayments(int page,
+        PageResult<Payment> GetPagedPayments(string filter,
+                                             int page,
                                              int size,
                                              DateTime? aPaymentSubmissionDateFrom,
                                              DateTime? aPaymentSubmissionDateTo,
