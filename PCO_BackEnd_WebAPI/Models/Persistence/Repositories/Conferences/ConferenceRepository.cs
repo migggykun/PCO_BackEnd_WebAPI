@@ -12,6 +12,7 @@ using PCO_BackEnd_WebAPI.DTOs.Conferences;
 using AutoMapper;
 using System.Globalization;
 using PCO_BackEnd_WebAPI.Models.Images;
+using PCO_BackEnd_WebAPI.Models.Helpers;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
 {
@@ -25,8 +26,10 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
         public PageResult<Conference> GetPagedConferences(int page, int size, string filter = null, string day = null, string month = null, 
                                                          string year = null, string fromDate = null, string toDate = null)
         {
-            DateTime? startDate = string.IsNullOrEmpty(fromDate) ? null : Convert.ToDateTime(fromDate, new CultureInfo("fil-PH")) as DateTime?;
-            DateTime? endDate = string.IsNullOrEmpty(toDate) ? null : Convert.ToDateTime(toDate, new CultureInfo("fil-PH")) as DateTime?;
+            DateTime startDate;
+            DateTime endDate;
+            bool isStartDateValid = DataConverter.ConvertToDateTime(fromDate, out startDate);
+            bool isEndDateValid = DataConverter.ConvertToDateTime(toDate, out endDate);
 
             IQueryable<Conference> queryResult = appDbContext.Conferences.Where(c => string.IsNullOrEmpty(filter) ? true : c.Title.Contains(filter) ||
                                                                                                                            c.Description.Contains(filter) ||
@@ -37,8 +40,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
                                                                 || c.End.Month.ToString().Contains(month))
                                                          .Where(c => string.IsNullOrEmpty(year) ? true : c.Start.Year.ToString().Contains(year)
                                                                 || c.End.Year.ToString().Contains(year))
-                                                         .Where(p => string.IsNullOrEmpty(toDate) ? true : DbFunctions.TruncateTime(p.End) <= (DbFunctions.TruncateTime(endDate)))
-                                                         .Where(p => string.IsNullOrEmpty(fromDate) ? true : DbFunctions.TruncateTime(p.Start) >= (DbFunctions.TruncateTime(startDate)));
+                                                         .Where(p => (string.IsNullOrEmpty(toDate) || !isEndDateValid)  ? true : DbFunctions.TruncateTime(p.End) <= (DbFunctions.TruncateTime(endDate)))
+                                                         .Where(p => (string.IsNullOrEmpty(fromDate) || !isStartDateValid) ? true : DbFunctions.TruncateTime(p.Start) >= (DbFunctions.TruncateTime(startDate)));
 
             PageResult<Conference> pageResult = new PageResult<Conference>();
             int recordCount = queryResult.Count();

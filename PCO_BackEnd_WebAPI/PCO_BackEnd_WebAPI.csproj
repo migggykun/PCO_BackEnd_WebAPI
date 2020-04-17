@@ -288,6 +288,7 @@
     <Compile Include="Models\Accounts\IdentityModels.cs" />
     <Compile Include="Models\Bank\BankDetail.cs" />
     <Compile Include="Models\Helpers\ConferenceMapper.cs" />
+    <Compile Include="Models\Helpers\DataConverter.cs" />
     <Compile Include="Models\Helpers\PaymentMapper.cs" />
     <Compile Include="Models\Image\ImageBase.cs" />
     <Compile Include="Models\Image\ImageManager.cs" />
