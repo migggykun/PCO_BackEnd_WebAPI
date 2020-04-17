@@ -20,12 +20,20 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences.Promos
         public PageResult<Promo> GetPagedPromos(int page, int size, string filter)
         {
             PageResult<Promo> pageResult = new PageResult<Promo>();
-            int recordCount = appDbContext.Promos.Count();
-            int amount;
+
+            int recordCount;
             int mod;
             int totalPageCount;
             int offset;
             int recordToReturn;
+            int amount;
+            bool IsAmountValid = DataConverter.ConvertToInt(filter, out amount);
+
+            IQueryable<Promo> queryResult = appDbContext.Promos.Where(x => string.IsNullOrEmpty(filter) ? true : x.Name.Contains(filter) ||
+                                                                                              x.Description.Contains(filter) ||
+                                                                                              x.PromoMembers.Any(p => p.MembershipType.Name.Contains(filter)) ||
+                                                                                              !IsAmountValid ? true : x.Amount == amount);
+            recordCount = queryResult.Count();
             if (size == 0)
             {
                 mod = 0;
@@ -41,14 +49,11 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences.Promos
                 recordToReturn = size;
             }
             Int32.TryParse(filter, out amount);
-            pageResult.Results = appDbContext.Promos.OrderBy(p => p.Id)
-                                              .Where(x => string.IsNullOrEmpty(filter) ? true : x.Name.Contains(filter) || 
-                                                                                                x.Description.Contains(filter) ||
-                                                                                                x.PromoMembers.Any(p => p.MembershipType.Name.Contains(filter)) ||
-                                                                                                x.Amount == amount)
+            pageResult.Results = queryResult.OrderBy(p => p.Id)
                                               .Skip(offset)
                                               .Take(recordToReturn)
                                               .ToList();
+
             pageResult.PageCount = totalPageCount;
             pageResult.RecordCount = recordCount;
             return pageResult;

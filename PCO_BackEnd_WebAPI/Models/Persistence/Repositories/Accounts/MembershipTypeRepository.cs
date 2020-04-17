@@ -20,7 +20,10 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
         public PageResult<MembershipType> GetPagedMembershipTypes(int page, int size, string filter)
         {
             PageResult<MembershipType> pageResult = new PageResult<MembershipType>();
-            int recordCount = appDbContext.MembershipTypes.Count();
+            IQueryable<MembershipType> queryResult = appDbContext.MembershipTypes.Where(u => string.IsNullOrEmpty(filter) ? true :
+                                                                                                                          u.Name.Contains(filter) ||
+                                                                                                                          u.Description.Contains(filter));
+            int recordCount = queryResult.Count();
             int mod;
             int totalPageCount;
             int offset;
@@ -39,9 +42,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
                 offset = size * (page - 1);
                 recordToReturn = size;
             }
-            pageResult.Results = appDbContext.MembershipTypes.Where(u => string.IsNullOrEmpty(filter) ? true : u.Name.Contains(filter) || 
-                                                                                                               u.Description.Contains(filter))
-                                             .OrderBy(a => a.Id)
+            pageResult.Results =  queryResult.OrderBy(a => a.Id)
                                              .Skip(offset)
                                              .Take(recordToReturn)
                                              .ToList();

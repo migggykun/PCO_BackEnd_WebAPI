@@ -35,8 +35,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
             PageResult<ApplicationUser> pageResult = new PageResult<ApplicationUser>();
             DateTime PRCDate;
             bool IsDateValid = DataConverter.ConvertToDateTime(filter, out PRCDate);
-            int recordCount = UserManager.Users
-                                               .Where(u => (filter == null) == true ?  
+            IQueryable<ApplicationUser> queryResult = UserManager.Users.Where(u => (filter == null) == true ?  
                                                               true
                                                               :
                                                               (u.UserInfo.FirstName.Contains(filter) ||
@@ -48,8 +47,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
                                                                u.PRCDetail.IdNumber.Contains(filter) ||
                                                                u.Email.Contains(filter) ||
                                                                u.PhoneNumber.Contains(filter)
-                                                      )
-                                                     .Count();
+                                                      );
+            int recordCount = queryResult.Count();
             int mod;
             int totalPageCount;
             int offset;
@@ -68,21 +67,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
                 offset = size * (page - 1);
                 recordToReturn = size;
             }
-            pageResult.Results =  UserManager.Users
-                                             .Where(u => (filter == null) == true ?  
-                                                              true
-                                                              :
-                                                              (u.UserInfo.FirstName.Contains(filter) ||
-                                                               u.UserInfo.MiddleName.Contains(filter) ||
-                                                               u.UserInfo.LastName.Contains(filter)) ||
-                                                               u.UserInfo.Organization.Contains(filter) ||
-                                                               u.UserInfo.MembershipType.Name.Contains(filter) ||
-                                                               !IsDateValid ? true : DbFunctions.TruncateTime(u.PRCDetail.ExpirationDate) == (DbFunctions.TruncateTime(PRCDate)) ||
-                                                               u.PRCDetail.IdNumber.Contains(filter) ||
-                                                               u.Email.Contains(filter) ||
-                                                               u.PhoneNumber.Contains(filter)
-                                                      )
-                                             .OrderBy(a => a.Id)
+            pageResult.Results =  queryResult.OrderBy(a => a.Id)
                                              .Skip(offset)
                                              .Take(recordToReturn)
                                              .ToList();

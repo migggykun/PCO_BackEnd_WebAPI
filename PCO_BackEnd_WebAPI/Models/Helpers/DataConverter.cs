@@ -19,5 +19,17 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
                 return false;
             }
         }
+
+        public static bool ConvertToInt(string value, out int result)
+        {
+            if (Int32.TryParse(value, out result))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
