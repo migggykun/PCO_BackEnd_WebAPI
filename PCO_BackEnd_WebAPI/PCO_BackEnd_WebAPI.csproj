@@ -363,6 +363,8 @@
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Models\Accounts\UserInfo.cs" />
+    <Compile Include="ValidationsAttributes\IsDateValid.cs" />
+    <Compile Include="ValidationsAttributes\IsPRCIdValid.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

@@ -16,6 +16,7 @@ using PCO_BackEnd_WebAPI.DTOs.Registrations;
 using PCO_BackEnd_WebAPI.DTOs.Bank;
 using PCO_BackEnd_WebAPI.Models.Bank;
 using PCO_BackEnd_WebAPI.Models.Images;
+using System.Globalization;
 
 namespace PCO_BackEnd_WebAPI.App_Start
 {
@@ -24,28 +25,28 @@ namespace PCO_BackEnd_WebAPI.App_Start
         public MappingProfile()
         {
             //Accounts
-            Func<PRCDetail, ResponsePRCDetailDTO> convDTO = (x) => x == null ? new ResponsePRCDetailDTO() { Id = string.Empty, IdNumber = string.Empty, ExpirationDate = string.Empty } :
+            Func<PRCDetail, ResponsePRCDetailDTO> convertToPRCDTO = (x) => x == null ? new ResponsePRCDetailDTO() { Id = string.Empty, IdNumber = string.Empty, ExpirationDate = string.Empty } :
                                                                              new ResponsePRCDetailDTO() { Id = x.Id.ToString(), IdNumber = x.IdNumber, ExpirationDate = x.ExpirationDate.Date.ToShortDateString() };
-            Func<RequestPRCDetailDTO, PRCDetail> conv = (x) =>
-                                                            {
-                                                                if (x != null && (string.IsNullOrEmpty(x.IdNumber) || string.IsNullOrEmpty(x.ExpirationDate)))
-                                                                {
-                                                                    return null;
-                                                                }
-                                                                else if (x != null && (!string.IsNullOrEmpty(x.IdNumber) || !string.IsNullOrEmpty(x.ExpirationDate)))
-                                                                {
-                                                                    return new PRCDetail()
-                                                                    {
-                                                                        IdNumber = x.IdNumber,
-                                                                        ExpirationDate = DateTime.Parse(x.ExpirationDate)
+            Func<RequestPRCDetailDTO, PRCDetail> convertToPRCEntity = (x) =>
+                                                                            {
+                                                                                if (x != null && (string.IsNullOrEmpty(x.IdNumber) || string.IsNullOrEmpty(x.ExpirationDate)))
+                                                                                {
+                                                                                    return null;
+                                                                                }
+                                                                                else if (x != null && (!string.IsNullOrEmpty(x.IdNumber) || !string.IsNullOrEmpty(x.ExpirationDate)))
+                                                                                {
+                                                                                    return new PRCDetail()
+                                                                                    {
+                                                                                        IdNumber = x.IdNumber,
+                                                                                        ExpirationDate = DateTime.Parse(x.ExpirationDate)
 
-                                                                    };
-                                                                }
-                                                                else //RequestPRCDetailDTO is null
-                                                                {
-                                                                    return null;
-                                                                }
-                                                            };
+                                                                                    };
+                                                                                }
+                                                                                else //RequestPRCDetailDTO is null
+                                                                                {
+                                                                                    return null;
+                                                                                }
+                                                                            };
 
 
             Mapper.CreateMap<RequestAccountDTO, ApplicationUser>();
@@ -55,8 +56,8 @@ namespace PCO_BackEnd_WebAPI.App_Start
             Mapper.CreateMap<RequestAddressDTO, Address>();
             Mapper.CreateMap<MembershipType, ResponseMembershipTypeDTO>();
             Mapper.CreateMap<RequestMembershipTypeDTO, MembershipType>();
-            Mapper.CreateMap<RequestPRCDetailDTO, PRCDetail>().ConvertUsing(conv);
-            Mapper.CreateMap<PRCDetail, ResponsePRCDetailDTO>().ConvertUsing(convDTO);
+            Mapper.CreateMap<RequestPRCDetailDTO, PRCDetail>().ConvertUsing(convertToPRCEntity);
+            Mapper.CreateMap<PRCDetail, ResponsePRCDetailDTO>().ConvertUsing(convertToPRCDTO);
                                                         
             //Conference    
             Mapper.CreateMap<Conference, ResponseConferenceDTO>().ForMember(dst => dst.PromoId, src => src.MapFrom(c => (c.PromoId == null) ? string.Empty : c.PromoId.Value.ToString()));

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PCO_BackEnd_WebAPI.ValidationsAttributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,12 +9,10 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
 {
     public class RequestPRCDetailDTO
     {
-        [Required(AllowEmptyStrings= true)]
-        [StringLength(64, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 4)]
+        [IsPRCIdValid]
         public string IdNumber { get; set; }
 
-        [Required(AllowEmptyStrings= true)]
-        [DataType(DataType.DateTime, ErrorMessage = "Invalid date.")]
+        [IsDateValid]
         public string ExpirationDate { get; set; }
     }
 }
