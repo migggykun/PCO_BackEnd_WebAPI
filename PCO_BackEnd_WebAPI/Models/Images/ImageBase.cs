@@ -12,18 +12,16 @@ namespace PCO_BackEnd_WebAPI.Models.Images
 {
     public abstract class ImageBase
     {
-        private MemoryStream ms;
-
         private Image _image;
         public Image Image
         {
             get
             {
-                return this._image;
+                return _image;
             }
             set
             {
-                this._image = SetImage(value);
+                _image = SetImage(value);
             }
         }
 
@@ -57,33 +55,26 @@ namespace PCO_BackEnd_WebAPI.Models.Images
         }
 
         private string _base64Value;
-        public string Base64Value 
+        public string Base64Value
         {
-            get 
+            get
             {
                 return ConvertToBase64(Byte);
             }
-            set 
+            set
             {
                 _base64Value = value;
             }
         }
 
-        public ImageBase()
-        {
-            ms = new MemoryStream();
-        }
-
-        ~ImageBase()
-        {
-            ms.Dispose();
-        }
-
         private Image SetImage(Image image)
         {
             Image imageWithFormat;
-            CreateNewImage(image).Save(ms, ImageTypeManager.GetImageFormat(_mimeType));
-            imageWithFormat = Image.FromStream(ms);
+            using (MemoryStream ms = new MemoryStream())
+            {
+                CreateNewImage(image).Save(ms, ImageTypeManager.GetImageFormat(_mimeType));
+                imageWithFormat = Image.FromStream(ms);
+            }
             return imageWithFormat;
         }
 
@@ -94,15 +85,22 @@ namespace PCO_BackEnd_WebAPI.Models.Images
         }
         private byte[] GetByte()
         {
-            ImageConverter imageConverter = new ImageConverter();
-            byte[] result = (byte[])imageConverter.ConvertTo(_image, typeof(byte[]));
+            byte[] result;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                CreateNewImage(_image).Save(ms, ImageTypeManager.GetImageFormat(_mimeType));
+                result = ms.ToArray();
+            }
             return result;
         }
 
         private double GetFileSize()
         {
-           ms.Write(Byte, 0, Byte.Length);
-           return ms.Length;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                ms.Write(Byte, 0, Byte.Length);
+                return ms.Length;
+            }
         }
 
         private string GetMIMEType()
