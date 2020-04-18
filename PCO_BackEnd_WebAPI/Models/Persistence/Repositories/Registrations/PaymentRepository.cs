@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using RefactorThis.GraphDiff;
 using PCO_BackEnd_WebAPI.Models.Pagination;
+using PCO_BackEnd_WebAPI.Models.Helpers;
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 {
 	public class PaymentRepository : Repository<Payment> , IPaymentRepository
@@ -45,10 +46,10 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 				offset = size * (page - 1);
 				recordToReturn = size;
 			}
-               Int32.TryParse(filter, out amount);
-				pageResult.Results = appDbContext.Payments.OrderBy(p => p.RegistrationId)
-                    .Where(p => !string.IsNullOrEmpty(filter) ? true : p.Registration.Conference.Title.Contains(filter) ||
-                                                                       p.AmountPaid == amount)  
+            bool IsAmountValid = DataConverter.ConvertToInt(filter, out amount);
+	        pageResult.Results = appDbContext.Payments.OrderBy(p => p.RegistrationId)
+                    .Where(p => string.IsNullOrEmpty(filter) ? true : p.Registration.Conference.Title.Contains(filter) ||
+                                                                       !IsAmountValid ? true : p.AmountPaid == amount)  
 					.Where
 						  (
 							   x =>
