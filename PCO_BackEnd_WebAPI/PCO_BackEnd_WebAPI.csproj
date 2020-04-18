@@ -290,8 +290,11 @@
     <Compile Include="Models\Helpers\ConferenceMapper.cs" />
     <Compile Include="Models\Helpers\DataConverter.cs" />
     <Compile Include="Models\Helpers\PaymentMapper.cs" />
-    <Compile Include="Models\Image\ImageBase.cs" />
-    <Compile Include="Models\Image\ImageManager.cs" />
+    <Compile Include="Models\Images\Helpers\ImageFormatter.cs" />
+    <Compile Include="Models\Images\Helpers\ImageInfo.cs" />
+    <Compile Include="Models\Images\Helpers\ImageTypeManager.cs" />
+    <Compile Include="Models\Images\ImageBase.cs" />
+    <Compile Include="Models\Images\ImageManager.cs" />
     <Compile Include="Models\Pagination\PageResult.cs" />
     <Compile Include="Models\Pagination\PaginationMapper.cs" />
     <Compile Include="Models\ParameterBindingModels\ConferenceParameterBindingModel.cs" />
@@ -306,7 +309,7 @@
     <Compile Include="Models\Helpers\EmailClassification.cs" />
     <Compile Include="Models\Helpers\EmailTemplate.cs" />
     <Compile Include="Models\Helpers\StringManipulationHelper.cs" />
-    <Compile Include="Models\Image\ReferenceImage.cs" />
+    <Compile Include="Models\Images\ReferenceImage.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IMembershipTypeRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IPRCDetailRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IUserInfoRepository.cs" />

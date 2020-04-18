@@ -4,6 +4,7 @@ using PCO_BackEnd_WebAPI.DTOs.Conferences;
 using PCO_BackEnd_WebAPI.DTOs.Registrations;
 using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.Models.Conferences;
+using PCO_BackEnd_WebAPI.Models.Images.Helpers;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Registrations;
 using System;
@@ -34,7 +35,7 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
             var resultDTO = Mapper.Map<Payment, ResponsePaymentDTO>(payment);
             resultDTO.Conference = ConferenceMapper.MapToResponseConferenceDTO(conference);
             resultDTO.UserInfo = Mapper.Map<UserInfo, ResponseUserInfoDTO>(userInfo);
-            resultDTO.ProofOfPayment = Convert.ToBase64String(payment.ProofOfPayment);
+            resultDTO.ProofOfPayment = payment.ProofOfPayment == null ? string.Empty : ImageFormatter.GetImageStringFormat(payment.ProofOfPayment);
             return resultDTO;
         }
     }
