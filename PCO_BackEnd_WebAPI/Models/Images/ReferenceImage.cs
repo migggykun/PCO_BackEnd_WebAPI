@@ -6,6 +6,7 @@ using System.Net;
 using System.Web;
 using Newtonsoft.Json;
 using System.Drawing;
+using PCO_BackEnd_WebAPI.Models.Images.Helpers;
 
 namespace PCO_BackEnd_WebAPI.Models.Images
 {
@@ -15,32 +16,38 @@ namespace PCO_BackEnd_WebAPI.Models.Images
         /// 
         /// </summary>
         /// <param name="base64String">base64string format of image</param>
-        public ReferenceImage(string base64String)
+        public ReferenceImage(string imageString) : base()
         {
-            Base64Value = base64String;
-            byte[] imgArray = Convert.FromBase64String(base64String);
+            ImageInfo imageInfo = new ImageInfo(imageString);
+            MimeType = imageInfo.MimeType;
+            byte[] imgArray = Convert.FromBase64String(imageInfo.Base64String);
+
             using (var ms = new MemoryStream(imgArray, 0, imgArray.Length))
             {
-                var img = Image.FromStream(ms, true);
-                Image = CreateNewImage(img);
+                Image = Image.FromStream(ms, true);
             }
         }
 
-        public ReferenceImage(Image img)
+        public ReferenceImage(byte[] imageInArray) : base()
         {
-            Image = CreateNewImage(img);
+            using (MemoryStream ms = new MemoryStream(imageInArray, 0, imageInArray.Length))
+            {
+                var img = Image.FromStream(ms, true);
+                MimeType = img.RawFormat.GetImageMIMEType();
+                Image = img;
+            }
         }
-
         public void ReduceImageSize()
         {
             double scaleFactor = .9;
+            Image _image;
             do
             {
                 //Resize Image
                 var newWidth = (int)(Image.Width * scaleFactor);
                 var newHeight = (int)(Image.Height * scaleFactor);
                 Bitmap newBitMap = new Bitmap(newWidth, newHeight);
-                Image = CreateNewImage(newBitMap);
+                Image = newBitMap;
                 scaleFactor -= .01;
             }
             while (FileSize > 100000);

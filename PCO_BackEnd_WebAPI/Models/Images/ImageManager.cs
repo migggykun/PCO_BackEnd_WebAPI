@@ -28,6 +28,12 @@ namespace PCO_BackEnd_WebAPI.Models.Images
             referenceImage = new ReferenceImage(base64Value);
         }
 
+        public ImageManager(byte[] array)
+        {
+            referenceImage = new ReferenceImage(array);
+        }
+
+
         private void ReduceImageSize()
         {
             referenceImage.ReduceImageSize();
@@ -59,5 +65,12 @@ namespace PCO_BackEnd_WebAPI.Models.Images
                 return this.Bytes;
             }
         }
+
+        public string GetImageFormat()
+        {
+            return string.Format("data:{0};base64,{1}", referenceImage.MimeType, referenceImage.Base64Value);
+        }
+
+
     }
 }

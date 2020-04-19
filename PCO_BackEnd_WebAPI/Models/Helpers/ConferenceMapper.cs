@@ -2,6 +2,7 @@
 using PCO_BackEnd_WebAPI.DTOs.Conferences;
 using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.Models.Images;
+using PCO_BackEnd_WebAPI.Models.Images.Helpers;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
             foreach (var r in conferences.Results)
             {
                 int index = resultDTO.Results.ToList().FindIndex(x => x.Id == r.Id);
-                resultDTO.Results[index].Banner = r.Banner == null ? string.Empty : Convert.ToBase64String(r.Banner);
+                resultDTO.Results[index].Banner = r.Banner == null ? string.Empty : ImageFormatter.GetImageStringFormat(r.Banner);
             }
             return resultDTO;
         }
@@ -27,7 +28,7 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
         public static ResponseConferenceDTO MapToResponseConferenceDTO(Conference conference)
         {
             var resultDTO = Mapper.Map<Conference, ResponseConferenceDTO>(conference);
-            resultDTO.Banner = conference.Banner == null ? string.Empty : Convert.ToBase64String(conference.Banner);
+            resultDTO.Banner = conference.Banner == null ? string.Empty : ImageFormatter.GetImageStringFormat(conference.Banner);
             return resultDTO;
         }
     }

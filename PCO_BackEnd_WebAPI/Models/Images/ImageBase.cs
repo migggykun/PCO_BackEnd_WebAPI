@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Web;
+using PCO_BackEnd_WebAPI.Models.Images.Helpers;
 
 namespace PCO_BackEnd_WebAPI.Models.Images
 {
@@ -15,11 +17,11 @@ namespace PCO_BackEnd_WebAPI.Models.Images
         {
             get
             {
-                return this._image;
+                return _image;
             }
             set
             {
-                this._image = value;
+                _image = SetImage(value);
             }
         }
 
@@ -39,43 +41,74 @@ namespace PCO_BackEnd_WebAPI.Models.Images
             }
         }
 
-        private string _base64Value;
-        public string Base64Value 
+        private string _mimeType;
+        public string MimeType
         {
-            get 
+            get
             {
-                return ConvertToBase64(this.Byte);
+                return GetMIMEType();
             }
-            set 
+            set
+            {
+                _mimeType = value;
+            }
+        }
+
+        private string _base64Value;
+        public string Base64Value
+        {
+            get
+            {
+                return ConvertToBase64(Byte);
+            }
+            set
             {
                 _base64Value = value;
             }
         }
 
+        private Image SetImage(Image image)
+        {
+            Image imageWithFormat;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                CreateNewImage(image).Save(ms, ImageTypeManager.GetImageFormat(_mimeType));
+                imageWithFormat = Image.FromStream(ms);
+            }
+            return imageWithFormat;
+        }
+
         private string ConvertToBase64(byte[] arrayValue)
         {
-            this._base64Value = Convert.ToBase64String(arrayValue);
-            return this._base64Value;
+            _base64Value = Convert.ToBase64String(arrayValue);
+            return _base64Value;
         }
         private byte[] GetByte()
         {
-            using (var ms = new MemoryStream())
+            byte[] result;
+            using (MemoryStream ms = new MemoryStream())
             {
-                this._image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                return ms.ToArray();
+                CreateNewImage(_image).Save(ms, ImageTypeManager.GetImageFormat(_mimeType));
+                result = ms.ToArray();
             }
+            return result;
         }
 
         private double GetFileSize()
         {
-            using (MemoryStream mStream = new MemoryStream())
+            using (MemoryStream ms = new MemoryStream())
             {
-                mStream.Write(this.Byte, 0, this.Byte.Length);
-                return mStream.Length;
+                ms.Write(Byte, 0, Byte.Length);
+                return ms.Length;
             }
         }
 
-        protected Image CreateNewImage(Image image)
+        private string GetMIMEType()
+        {
+            return _image.RawFormat.GetImageMIMEType();
+        }
+
+        private Image CreateNewImage(Image image)
         {
             var oldImg = this._image == null ? image : this._image;
             Bitmap bitmapNew = new Bitmap(image.Width, image.Height);

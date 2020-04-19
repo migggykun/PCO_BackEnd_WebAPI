@@ -135,6 +135,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
                 else
                 {
                    result =  await Task.Run(() => unitOfWork.Conferences.UpdateConferenceInfo(id, conference, conferenceDTO.Banner));
+                   await Task.Run(() => unitOfWork.Complete());
                    var resultDTO = ConferenceMapper.MapToResponseConferenceDTO(result);
                    return Ok(resultDTO);
                 }
