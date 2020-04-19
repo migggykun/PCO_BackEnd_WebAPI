@@ -11,21 +11,32 @@ namespace PCO_BackEnd_WebAPI.ValidationsAttributes
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            string date = (string)value;
+            DateTime minDate =  Convert.ToDateTime("2000-01-01T00:00:00");
+            DateTime maxDate = Convert.ToDateTime("3000-01-01T00:00:00");
+            DateTime date;
+            DateTime.TryParse(value.ToString(), out date);
             DateTime result;
-            if (string.IsNullOrEmpty(date))
+
+            if (date == null)
             {
-                return ValidationResult.Success;
+                return new ValidationResult("Invalid Date Format.");
             }
             else
             {
-                if(DateTime.TryParse(date, new CultureInfo("fil-PH"), DateTimeStyles.None, out result))
+                if(DateTime.TryParse(date.ToString(), new CultureInfo("fil-PH"), DateTimeStyles.None, out result))
                 {
-                    return ValidationResult.Success;
+                    if (date >= minDate && date <= maxDate)
+                    {
+                        return ValidationResult.Success;
+                    }
+                    else
+                    {
+                        return new ValidationResult("Invalid Date. Must be within " + minDate + " and " + maxDate);
+                    }
                 }
                 else
                 {
-                    return new ValidationResult("Invalid Date Format");
+                    return new ValidationResult("Invalid Date Format.");
                 }
             }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PCO_BackEnd_WebAPI.ValidationsAttributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -20,14 +21,16 @@ namespace PCO_BackEnd_WebAPI.DTOs.Conferences.Promos
 
         [Required]
         [DataType(DataType.DateTime, ErrorMessage = "Start date is invalid!")]
+        [IsDateValid]
         public DateTime Start { get; set; }
 
         [Required]
         [DataType(DataType.DateTime, ErrorMessage = "End date is invalid!")]
+        [IsDateValid]
         public DateTime End { get; set; }
 
         [Required]
-        [RegularExpression(@"^[0-9]*(?:\.[0-9]+)?$", ErrorMessage = "Invalid amount!")]
+        [RegularExpression(@"[0-9]{1,9}(?:\.[0-9]{1,2})?$", ErrorMessage = "Invalid amount!")]
         public double Amount { get; set; }
 
         [Required]
