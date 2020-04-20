@@ -282,6 +282,7 @@
     <Compile Include="DTOs\Conferences\ResponseRateDTO.cs" />
     <Compile Include="DTOs\Conferences\UpdateConferenceDTO.cs" />
     <Compile Include="DTOs\Conferences\UpdateRateWithConferenceDTO.cs" />
+    <Compile Include="DTOs\Registrations\ResponseRegistrationStatusDTO.cs" />
     <Compile Include="DTOs\Registrations\UpdatePaymentDTO.cs" />
     <Compile Include="Models\AccountBindingModels\LoginViewModel.cs" />
     <Compile Include="Models\Accounts\Address.cs" />

@@ -636,6 +636,13 @@
             <param name="model">registration id and new registration status</param>
             <returns></returns>
         </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.RegistrationController.SetRegistrationStatus(System.Int32,System.Int32)">
+            <summary>
+            Get registration status
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.MembershipTypeController.GetAll(System.Int32,System.Int32,System.String)">
             <summary>
             Get list of membershiptypes

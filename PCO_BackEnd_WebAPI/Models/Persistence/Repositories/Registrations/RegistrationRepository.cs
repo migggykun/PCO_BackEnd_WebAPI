@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using RefactorThis.GraphDiff;
 using PCO_BackEnd_WebAPI.Models.Pagination;
+using System.Linq.Expressions;
 
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
@@ -111,6 +112,22 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
             var reg = appDbContext.Registrations.Find(id);
             reg.RegistrationStatusId = status;
 
+        }
+
+        public int GetRegistrationStatus(int conferenceId, int userId)
+        {
+            Expression<Func<Registration, bool>> predicate;
+            predicate = (x) => x.ConferenceId == conferenceId && x.UserId == userId;
+            IQueryable<Registration> query = appDbContext.Registrations;
+
+            if (query.Any(x => x.ConferenceId == conferenceId && x.UserId == userId))
+            {
+                return query.First(predicate).RegistrationStatusId;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }
