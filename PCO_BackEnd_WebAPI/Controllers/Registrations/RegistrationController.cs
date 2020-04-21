@@ -193,6 +193,34 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 return BadRequest("Error occured. Try Again.");
             }
         }
+
+
+        /// <summary>
+        /// Get registration status
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Authorize]
+        [Route("GetRegistrationStatus")]
+        public async Task<IHttpActionResult> SetRegistrationStatus(int conferenceId, int userId)
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+                int registrationStatus = unitOfWork.Registrations.GetRegistrationStatus(conferenceId, userId);
+                
+                ResponseRegistrationStatusDTO result = new ResponseRegistrationStatusDTO()
+                {
+                    registrationStatusId = registrationStatus
+                };
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Error occured. Try Again.");
+            }
         }
     }
 }

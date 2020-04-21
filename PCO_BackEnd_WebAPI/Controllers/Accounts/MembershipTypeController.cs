@@ -14,6 +14,7 @@ using System.Web.Http.Description;
 using PCO_BackEnd_WebAPI.Models.Roles;
 using System.Web.Http.Cors;
 using PCO_BackEnd_WebAPI.Models.Pagination;
+using PCO_BackEnd_WebAPI.Security.Authorization;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
