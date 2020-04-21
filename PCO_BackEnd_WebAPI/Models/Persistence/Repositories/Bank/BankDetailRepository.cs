@@ -21,8 +21,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Bank
             PageResult<BankDetail> pageResult;
 
             IQueryable<BankDetail> queryResult = appDbContext.BankDetails.Where(b => string.IsNullOrEmpty(filter) ? true :
-                                                                                b.Name.Contains(filter) ||
-                                                                                b.Branch.Contains(filter) ||
+                                                                                b.AccountName.Contains(filter) ||
+                                                                                b.BankName.Contains(filter) ||
                                                                                 b.AccountNumber.Contains(filter));
 
             pageResult = PaginationManager<BankDetail>.GetPagedResult(queryResult, page, size, appDbContext.BankDetails.Count());
