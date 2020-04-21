@@ -105,7 +105,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id">id of membershipType</param>
         /// <param name="membershipTypeDTO">New information about membershipType to update</param>
         /// <returns></returns>
-        [HttpPut]
+        [HttpPost]
+        [Route("UpdateMembershipType")]
         [ResponseType(typeof(ResponseMembershipTypeDTO))]
         public async Task<IHttpActionResult> UpdateMembershipType(int id, RequestMembershipTypeDTO membershipTypeDTO)
         {
@@ -144,7 +145,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="id">user id of membershipType to delete</param>
         /// <returns></returns>
-        [HttpDelete]
+        [HttpPost]
+        [Route("DeleteMembershipType")]
         public async Task<IHttpActionResult> DeleteMembershipType(int id)
         {
             try

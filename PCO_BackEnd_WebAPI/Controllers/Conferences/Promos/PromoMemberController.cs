@@ -110,7 +110,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <param name="id">id of the promo member to be updated</param>
         /// <param name="promoMemberDTO">New information about the promo member to be updated</param>
         /// <returns></returns>
-        [HttpPut]
+        [HttpPost]
+        [Route("UpdatePromoMember")]
         [ResponseType(typeof(ResponsePromoMemberDTO))]
         public async Task<IHttpActionResult> UpdatePromoMembers(int id, ResponsePromoMemberDTO promoMemberDTO)
         {
@@ -147,7 +148,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// </summary>
         /// <param name="id">id of promo member to be deleted</param>
         /// <returns></returns>
-        [HttpDelete]
+        [HttpPost]
+        [Route("DeletePromoMember")]
         public async Task<IHttpActionResult> DeletePromoMember(int id)
         {
             try

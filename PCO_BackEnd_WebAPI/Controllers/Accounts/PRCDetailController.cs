@@ -111,7 +111,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id">user Id</param>
         /// <param name="prcDetailDTO">New information about the PRCDetails to be updated</param>
         /// <returns></returns>
-        [HttpPut]
+        [HttpPost]
+        [Route("UpdatePRCDetail")]
         [ResponseType(typeof(ResponsePRCDetailDTO))]
         public async Task<IHttpActionResult> UpdatePRCDetail(int id, RequestPRCDetailDTO prcDetailDTO)
         {

@@ -92,7 +92,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
         /// <param name="id">id of the bank detail to be updated</param>
         /// <param name="conferenceDTO">New information about the bank to be updated</param>
         /// <returns></returns>
-        [HttpPut]
+        [HttpPost]
+        [Route("UpdateBankDetail")]
         [ResponseType(typeof(ResponseBankDetailDTO))]
         public async Task<IHttpActionResult> UpdateBankDetails(int id, RequestUpdateBankDetailDTO bankDetailDTO)
         {
@@ -128,7 +129,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
         /// </summary>
         /// <param name="id">id of the bank details to be deleted</param>
         /// <returns></returns>
-        [HttpDelete]
+        [HttpPost]
+        [Route("DeleteBankDetail")]
         public async Task<IHttpActionResult> DeleteBankDetails(int id)
         {
             try

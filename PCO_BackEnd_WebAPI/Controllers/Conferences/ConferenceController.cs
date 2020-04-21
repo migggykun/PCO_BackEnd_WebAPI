@@ -114,7 +114,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="id">id of the conference to be updated</param>
         /// <param name="conferenceDTO">New information about the conference to be updated</param>
         /// <returns></returns>
-        [HttpPut]
+        [HttpPost]
+        [Route("UpdateConference")]
         [ResponseType(typeof(ResponseConferenceDTO))]
         public async Task<IHttpActionResult> UpdateConference(int id, UpdateConferenceDTO conferenceDTO)
         {
@@ -152,7 +153,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// </summary>
         /// <param name="id">id of the conference to be deleted</param>
         /// <returns></returns>
-        [HttpDelete]
+        [HttpPost]
+        [Route("DeleteConference")]
         public async Task<IHttpActionResult> DeleteConference(int id)
         {
             try

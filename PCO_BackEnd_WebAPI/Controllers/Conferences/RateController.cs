@@ -109,7 +109,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="id">user id</param>
         /// <param name="rateDTO">New information about the rate to be updated</param>
         /// <returns></returns>
-        [HttpPut]
+        [HttpPost]
+        [Route("UpdateRate")]
         public async Task<IHttpActionResult> UpdateRate(int id, RequestRateDTO rateDTO)
         {
             if (!ModelState.IsValid)
@@ -146,7 +147,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// </summary>
         /// <param name="id">id of the rate to be deleted.</param>
         /// <returns></returns>
-        [HttpDelete]
+        [HttpPost]
+        [Route("DeleteRate")]
         [ResponseType(typeof(ResponseConferenceDTO))]
         public async Task<IHttpActionResult> DeleteRates(int id)
         {

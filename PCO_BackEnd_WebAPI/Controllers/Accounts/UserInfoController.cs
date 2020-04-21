@@ -71,7 +71,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id">user id</param>
         /// <param name="userInfoDTO">New information about the user to be updated</param>
         /// <returns></returns>
-        [HttpPut]
+        [HttpPost]
+        [Route("UpdateUserInfo")]
         [ResponseType(typeof(ResponseUserInfoDTO))]
         public async Task<IHttpActionResult> UpdateUserInfo(int id, RequestUserInfoDTO userInfoDTO)
         {
