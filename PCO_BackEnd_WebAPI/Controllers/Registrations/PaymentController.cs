@@ -136,7 +136,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// <param name="paymentDTO">New information of payment to be updated</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("UpdatePayment")]
+        [Route("UpdatePayment/{id:int}")]
         public async Task<IHttpActionResult> UpdatePayment(int id, UpdatePaymentDTO paymentDTO)
         {
             if (!ModelState.IsValid)
@@ -177,7 +177,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// <param name="id">id of payment to be deleted</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("DeletePayment")]
+        [Route("DeletePayment/{id:int}")]
         public async Task<IHttpActionResult> DeletePayment(int id)
         {
             try

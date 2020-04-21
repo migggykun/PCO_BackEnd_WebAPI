@@ -72,7 +72,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="addressDTO">New information about the user to be updated</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("UpdateAddress")]
+        [Route("UpdateAddress/{id:int}")]
         [ResponseType(typeof(ResponseAddressDTO))]
         public async Task<IHttpActionResult> UpdateAddress(int id, RequestAddressDTO addressDTO)
         {

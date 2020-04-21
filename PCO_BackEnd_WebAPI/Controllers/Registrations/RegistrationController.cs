@@ -110,7 +110,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="registrationDTO"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("UpdateRegistration")]
+        [Route("UpdateRegistration/{id:int}")]
         [ResponseType(typeof(ResponseRegistrationDTO))]
         public async Task<IHttpActionResult> Update(int id, RequestRegistrationDTO registrationDTO)
         {
@@ -148,7 +148,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id">id of registration to be deleted</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("DeleteRegistration")]
+        [Route("DeleteRegistration/{id:int}")]
         public async Task<IHttpActionResult> Delete(int id)
         {
             try

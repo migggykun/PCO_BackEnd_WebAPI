@@ -334,7 +334,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="accountDTO">Request body of user</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("UpdateUser")]
+        [Route("UpdateUser/{id:int}")]
         [ResponseType(typeof(ResponseAccountDTO))]
         public async Task<IHttpActionResult> UpdateUser(int id, RequestAccountDTO accountDTO)
         {
@@ -368,7 +368,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id">user of id to be deleted</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("DeleteUser")]
+        [Route("DeleteUser/{id:int}")]
         public async Task<IHttpActionResult> DeleteUser(int id)
         {
             var appuserToDelete = await UserManager.FindByIdAsync(id);

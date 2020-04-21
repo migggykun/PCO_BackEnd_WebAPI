@@ -13,6 +13,7 @@ using System.Web.Http.Description;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Bank
 {
+    [RoutePrefix("api/BankDetail")]
     public class BankDetailController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -93,7 +94,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
         /// <param name="conferenceDTO">New information about the bank to be updated</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("UpdateBankDetail")]
+        [Route("UpdateBankDetail/{id:int}")]
         [ResponseType(typeof(ResponseBankDetailDTO))]
         public async Task<IHttpActionResult> UpdateBankDetails(int id, RequestUpdateBankDetailDTO bankDetailDTO)
         {
@@ -130,7 +131,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
         /// <param name="id">id of the bank details to be deleted</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("DeleteBankDetail")]
+        [Route("DeleteBankDetail/{id:int}")]
         public async Task<IHttpActionResult> DeleteBankDetails(int id)
         {
             try

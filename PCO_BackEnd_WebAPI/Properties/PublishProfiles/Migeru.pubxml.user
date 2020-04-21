@@ -6,7 +6,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>C:\Users\Migeru\Desktop\plesk_80</_PublishTargetUrl>
+    <_PublishTargetUrl>C:\Users\Migeru\Desktop\plesk_83</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="App_Start/AuthToken/AuthTokenOperation.cs">
@@ -96,6 +96,15 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/Microsoft.AspNet.Identity.Owin.dll">
       <publishTime>03/14/2020 16:55:25</publishTime>
     </File>
+    <File Include="bin/Microsoft.IdentityModel.JsonWebTokens.dll">
+      <publishTime>04/20/2020 15:49:31</publishTime>
+    </File>
+    <File Include="bin/Microsoft.IdentityModel.Logging.dll">
+      <publishTime>04/20/2020 15:49:29</publishTime>
+    </File>
+    <File Include="bin/Microsoft.IdentityModel.Tokens.dll">
+      <publishTime>04/20/2020 15:49:30</publishTime>
+    </File>
     <File Include="bin/Microsoft.Owin.Cors.dll">
       <publishTime>03/17/2020 14:13:25</publishTime>
     </File>
@@ -136,16 +145,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/14/2020 16:55:25</publishTime>
     </File>
     <File Include="bin/PCO_BackEnd_WebAPI.dll">
-      <publishTime>04/18/2020 12:10:36</publishTime>
+      <publishTime>04/21/2020 15:37:24</publishTime>
     </File>
     <File Include="bin/PCO_BackEnd_WebAPI.XML">
-      <publishTime>04/18/2020 12:10:36</publishTime>
+      <publishTime>04/21/2020 15:37:24</publishTime>
     </File>
     <File Include="bin/RefactorThis.GraphDiff.dll">
       <publishTime>03/14/2020 16:55:25</publishTime>
     </File>
     <File Include="bin/Swashbuckle.Core.dll">
       <publishTime>03/14/2020 21:22:51</publishTime>
+    </File>
+    <File Include="bin/System.IdentityModel.Tokens.Jwt.dll">
+      <publishTime>04/20/2020 15:49:31</publishTime>
     </File>
     <File Include="bin/System.Net.Http.Formatting.dll">
       <publishTime>03/14/2020 16:55:25</publishTime>
@@ -220,7 +232,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/14/2020 16:55:23</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>03/20/2020 05:15:30</publishTime>
+      <publishTime>04/20/2020 15:49:35</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>03/14/2020 16:55:24</publishTime>
@@ -277,7 +289,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/14/2020 16:55:24</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>04/12/2020 18:58:08</publishTime>
+      <publishTime>04/20/2020 15:49:35</publishTime>
     </File>
   </ItemGroup>
 </Project>
