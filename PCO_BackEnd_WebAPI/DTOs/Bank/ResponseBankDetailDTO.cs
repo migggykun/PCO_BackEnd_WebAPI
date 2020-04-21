@@ -14,5 +14,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Bank
         public string AccountNumber { get; set; }
 
         public string BankName { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

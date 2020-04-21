@@ -6,7 +6,7 @@ using System.Web;
 
 namespace PCO_BackEnd_WebAPI.DTOs.Bank
 {
-    public class RequestBankDetailDTO
+    public class RequestAddBankDetailDTO
     {
         [Required]
         public string AccountName { get; set; }

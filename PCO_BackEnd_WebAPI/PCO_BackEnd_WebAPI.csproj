@@ -278,6 +278,7 @@
     <Compile Include="DTOs\Accounts\ResponsePRCDetailDTO.cs" />
     <Compile Include="DTOs\Accounts\ResponseUserInfoDTO.cs" />
     <Compile Include="DTOs\Bank\RequestBankDetailDTO.cs" />
+    <Compile Include="DTOs\Bank\RequestUpdateBankDetailDTO.cs" />
     <Compile Include="DTOs\Bank\ResponseBankDetailDTO.cs" />
     <Compile Include="DTOs\Conferences\BaseConferenceDTO.cs" />
     <Compile Include="DTOs\Pictures\RequestPictureDTO.cs" />

@@ -80,7 +80,10 @@ namespace PCO_BackEnd_WebAPI.App_Start
             Mapper.CreateMap<AddPaymentDTO, Payment>().ForMember(dst => dst.ProofOfPayment, src => src.Ignore());
             Mapper.CreateMap<UpdatePaymentDTO, Payment>().ForMember(dst => dst.ProofOfPayment, src => src.Ignore());
             Mapper.CreateMap<Payment, ResponsePaymentDTO>();
-            Mapper.CreateMap<RequestBankDetailDTO, BankDetail>();
+
+            //BankDetail
+            Mapper.CreateMap<RequestAddBankDetailDTO, BankDetail>().ForMember(dst => dst.IsActive, src => src.MapFrom(p => true));
+            Mapper.CreateMap<RequestUpdateBankDetailDTO, BankDetail>();
             Mapper.CreateMap<BankDetail, ResponseBankDetailDTO>();
 
         }

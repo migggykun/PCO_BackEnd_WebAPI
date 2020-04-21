@@ -63,14 +63,14 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
         /// <returns></returns>
         [HttpPost]
         [ResponseType(typeof(ResponseBankDetailDTO))]
-        public async Task<IHttpActionResult> AddBankDetails(RequestBankDetailDTO bankDetailDTO)
+        public async Task<IHttpActionResult> AddBankDetails(RequestAddBankDetailDTO bankDetailDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var bankDetail = Mapper.Map<RequestBankDetailDTO, BankDetail>(bankDetailDTO);
+            var bankDetail = Mapper.Map<RequestAddBankDetailDTO, BankDetail>(bankDetailDTO);
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -94,13 +94,13 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
         /// <returns></returns>
         [HttpPut]
         [ResponseType(typeof(ResponseBankDetailDTO))]
-        public async Task<IHttpActionResult> UpdateBankDetails(int id, RequestBankDetailDTO bankDetailDTO)
+        public async Task<IHttpActionResult> UpdateBankDetails(int id, RequestUpdateBankDetailDTO bankDetailDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var bankDetail = Mapper.Map<RequestBankDetailDTO, BankDetail>(bankDetailDTO);
+            var bankDetail = Mapper.Map<RequestUpdateBankDetailDTO, BankDetail>(bankDetailDTO);
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
