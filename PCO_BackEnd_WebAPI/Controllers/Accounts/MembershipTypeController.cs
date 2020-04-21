@@ -18,7 +18,6 @@ using PCO_BackEnd_WebAPI.Security.Authorization;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
-    [RoutePrefix("api/MembershipType")]
     public class MembershipTypeController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -106,7 +105,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="membershipTypeDTO">New information about membershipType to update</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("UpdateMembershipType/{id:int}")]
+        [Route("api/UpdateMembershipType/{id:int}")]
         [ResponseType(typeof(ResponseMembershipTypeDTO))]
         public async Task<IHttpActionResult> UpdateMembershipType(int id, RequestMembershipTypeDTO membershipTypeDTO)
         {
@@ -146,7 +145,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id">user id of membershipType to delete</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("DeleteMembershipType/{id:int}")]
+        [Route("api/DeleteMembershipType/{id:int}")]
         public async Task<IHttpActionResult> DeleteMembershipType(int id)
         {
             try

@@ -17,7 +17,6 @@ using PCO_BackEnd_WebAPI.Models.Pagination;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
-    [RoutePrefix("api/Address")]
     public class AddressController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -72,7 +71,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="addressDTO">New information about the user to be updated</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("UpdateAddress/{id:int}")]
+        [Route("api/UpdateAddress/{id:int}")]
         [ResponseType(typeof(ResponseAddressDTO))]
         public async Task<IHttpActionResult> UpdateAddress(int id, RequestAddressDTO addressDTO)
         {

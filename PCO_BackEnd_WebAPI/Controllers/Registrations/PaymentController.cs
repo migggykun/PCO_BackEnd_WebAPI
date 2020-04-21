@@ -21,7 +21,6 @@ using PCO_BackEnd_WebAPI.Models.Images;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Registrations
 {
-    [RoutePrefix("api/Payment")]
     public class PaymentController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -136,7 +135,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// <param name="paymentDTO">New information of payment to be updated</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("UpdatePayment/{id:int}")]
+        [Route("api/UpdatePayment/{id:int}")]
         public async Task<IHttpActionResult> UpdatePayment(int id, UpdatePaymentDTO paymentDTO)
         {
             if (!ModelState.IsValid)
@@ -177,7 +176,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// <param name="id">id of payment to be deleted</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("DeletePayment/{id:int}")]
+        [Route("api/DeletePayment/{id:int}")]
         public async Task<IHttpActionResult> DeletePayment(int id)
         {
             try
@@ -207,8 +206,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// </summary>
         /// <param name="id">id of payment to be confirmed</param>
         /// <returns></returns>
-        [HttpPut]
-        [Route("SetConfirmationDate/{id}")]
+        [HttpPost]
+        [Route("api/SetConfirmationDate/{id}")]
         public async Task<IHttpActionResult> ConfirmPaymentDate(int id)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);

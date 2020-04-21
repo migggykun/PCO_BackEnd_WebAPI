@@ -16,7 +16,6 @@ using System.Web.Http.Description;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
 {
-    [RoutePrefix("api/PromoMember")]
     public class PromoMemberController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -111,7 +110,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <param name="promoMemberDTO">New information about the promo member to be updated</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("UpdatePromoMember/{id:int}")]
+        [Route("api/UpdatePromoMember/{id:int}")]
         [ResponseType(typeof(ResponsePromoMemberDTO))]
         public async Task<IHttpActionResult> UpdatePromoMembers(int id, ResponsePromoMemberDTO promoMemberDTO)
         {
@@ -149,7 +148,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <param name="id">id of promo member to be deleted</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("DeletePromoMember/{id:int}")]
+        [Route("api/DeletePromoMember/{id:int}")]
         public async Task<IHttpActionResult> DeletePromoMember(int id)
         {
             try

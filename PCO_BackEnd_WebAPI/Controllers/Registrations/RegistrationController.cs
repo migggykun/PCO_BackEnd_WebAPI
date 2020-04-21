@@ -18,7 +18,6 @@ using PCO_BackEnd_WebAPI.Models.Pagination;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
-    [RoutePrefix("api/Registration")]
     public class RegistrationController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -110,7 +109,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="registrationDTO"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("UpdateRegistration/{id:int}")]
+        [Route("api/UpdateRegistration/{id:int}")]
         [ResponseType(typeof(ResponseRegistrationDTO))]
         public async Task<IHttpActionResult> Update(int id, RequestRegistrationDTO registrationDTO)
         {
@@ -148,7 +147,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id">id of registration to be deleted</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("DeleteRegistration/{id:int}")]
+        [Route("api/DeleteRegistration/{id:int}")]
         public async Task<IHttpActionResult> Delete(int id)
         {
             try
@@ -179,7 +178,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="model">registration id and new registration status</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("SetRegistrationStatus")]
+        [Route("api/SetRegistrationStatus")]
         public async Task<IHttpActionResult> SetRegistrationStatus(SetRegistrationViewModel model)
         {
             try
@@ -204,7 +203,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <returns></returns>
         [HttpGet]
         [Authorize]
-        [Route("GetRegistrationStatus")]
+        [Route("api/GetRegistrationStatus")]
         public async Task<IHttpActionResult> SetRegistrationStatus(int conferenceId, int userId)
         {
             try

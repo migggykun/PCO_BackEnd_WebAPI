@@ -150,7 +150,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="id">user id to delete</param>
         /// <returns></returns>
-        [HttpDelete]
+        [HttpPost]
+        [Route("api/DeletePRCDetail/{id:int}")]
         public async Task<IHttpActionResult> DeletePRCDetail(int id)
         {
             try

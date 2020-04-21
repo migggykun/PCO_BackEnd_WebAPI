@@ -16,7 +16,6 @@ using System.Web.Http.Description;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences
 {
-    [RoutePrefix("api/Rate")]
     public class RateController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -110,7 +109,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="rateDTO">New information about the rate to be updated</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("UpdateRate/{id:int}")]
+        [Route("api/UpdateRate/{id:int}")]
         public async Task<IHttpActionResult> UpdateRate(int id, RequestRateDTO rateDTO)
         {
             if (!ModelState.IsValid)
@@ -148,7 +147,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="id">id of the rate to be deleted.</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("DeleteRate/{id:int}")]
+        [Route("api/DeleteRate/{id:int}")]
         [ResponseType(typeof(ResponseConferenceDTO))]
         public async Task<IHttpActionResult> DeleteRates(int id)
         {

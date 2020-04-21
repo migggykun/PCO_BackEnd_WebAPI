@@ -20,7 +20,6 @@ using PCO_BackEnd_WebAPI.Models.Images;
 using PCO_BackEnd_WebAPI.Models.Helpers;
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences
 {
-    [RoutePrefix("api/Conference")]
     public class ConferenceController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -115,7 +114,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="conferenceDTO">New information about the conference to be updated</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("UpdateConference/{id:int}")]
+        [Route("api/UpdateConference/{id:int}")]
         [ResponseType(typeof(ResponseConferenceDTO))]
         public async Task<IHttpActionResult> UpdateConference(int id, UpdateConferenceDTO conferenceDTO)
         {
@@ -154,7 +153,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="id">id of the conference to be deleted</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("DeleteConference/{id:int}")]
+        [Route("api/DeleteConference/{id:int}")]
         public async Task<IHttpActionResult> DeleteConference(int id)
         {
             try
