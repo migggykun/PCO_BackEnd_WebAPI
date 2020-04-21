@@ -25,57 +25,34 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 													DateTime? aConfirmationDateFrom = null,
 													DateTime? aConfirmationDateTo = null)
 		{
-			PageResult<Payment> pageResult = new PageResult<Payment>();
-			int recordCount = appDbContext.Payments.Count();
-			int mod;
-			int totalPageCount;
-			int offset;
-			int recordToReturn;
+            PageResult<Payment> pageResult;
             int amount;
-			if (size == 0)
-			{
-				mod = 0;
-				totalPageCount = 1;
-				offset = 0;
-				recordToReturn = recordCount;
-			}
-			else
-			{
-				mod = recordCount % size;
-				totalPageCount = (recordCount / size) + (mod == 0 ? 0 : 1);
-				offset = size * (page - 1);
-				recordToReturn = size;
-			}
             bool IsAmountValid = DataConverter.ConvertToInt(filter, out amount);
-	        pageResult.Results = appDbContext.Payments.OrderBy(p => p.RegistrationId)
-                    .Where(p => string.IsNullOrEmpty(filter) ? true : p.Registration.Conference.Title.Contains(filter) ||
-                                                                       !IsAmountValid ? true : p.AmountPaid == amount)  
-					.Where
-						  (
-							   x =>
-								   (aPaymentSubmissionDateFrom != null && aPaymentSubmissionDateTo != null) ?
-										  (x.PaymentSubmissionDate >= aPaymentSubmissionDateFrom &&
-										  x.PaymentSubmissionDate <= aPaymentSubmissionDateTo) 
-										  : 
-										  true
-						   )
-					.Where
-						  (
-							   x =>
-								   (aConfirmationDateFrom != null && aConfirmationDateTo != null) ?
-										  (x.ConfirmationDate >= aConfirmationDateFrom &&
-										  x.ConfirmationDate <= aConfirmationDateTo)
-										  :
-										  true
-						   )
-												  .Skip(offset)
-												  .Take(recordToReturn)
-												  .ToList();
+	        IQueryable<Payment> queryResult = appDbContext.Payments.OrderBy(p => p.RegistrationId)
+                                                                   .Where(p => string.IsNullOrEmpty(filter) ? true : p.Registration.Conference.Title.Contains(filter) ||
+                                                                   !IsAmountValid ? true : p.AmountPaid == amount)  
+					                                               .Where(
+							                                              x =>
+								                                           (aPaymentSubmissionDateFrom != null && aPaymentSubmissionDateTo != null) ?
+										                                          (x.PaymentSubmissionDate >= aPaymentSubmissionDateFrom &&
+										                                          x.PaymentSubmissionDate <= aPaymentSubmissionDateTo) 
+										                                          : 
+										                                          true
+						                                           )
+					                                               .Where
+						                                            (
+							                                           x =>
+								                                           (aConfirmationDateFrom != null && aConfirmationDateTo != null) ?
+										                                          (x.ConfirmationDate >= aConfirmationDateFrom &&
+										                                          x.ConfirmationDate <= aConfirmationDateTo)
+										                                          :
+										                                          true
+						                                            );
 
 
-			pageResult.PageCount = totalPageCount;
-			pageResult.RecordCount = recordCount;
-			return pageResult;
+
+            pageResult = PaginationManager<Payment>.GetPagedResult(queryResult, page, size, appDbContext.Payments.Count());
+            return pageResult;
 		}
 
 		public override void Add(Payment payment)

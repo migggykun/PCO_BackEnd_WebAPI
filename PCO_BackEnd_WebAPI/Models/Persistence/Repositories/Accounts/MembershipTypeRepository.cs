@@ -19,35 +19,11 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
 
         public PageResult<MembershipType> GetPagedMembershipTypes(int page, int size, string filter)
         {
-            PageResult<MembershipType> pageResult = new PageResult<MembershipType>();
+            PageResult<MembershipType> pageResult;
             IQueryable<MembershipType> queryResult = appDbContext.MembershipTypes.Where(u => string.IsNullOrEmpty(filter) ? true :
                                                                                                                           u.Name.Contains(filter) ||
                                                                                                                           u.Description.Contains(filter));
-            int recordCount = queryResult.Count();
-            int mod;
-            int totalPageCount;
-            int offset;
-            int recordToReturn;
-            if (size == 0)
-            {
-                mod = 0;
-                totalPageCount = 1;
-                offset = 0;
-                recordToReturn = recordCount;
-            }
-            else
-            {
-                mod = recordCount % size;
-                totalPageCount = (recordCount / size) + (mod == 0 ? 0 : 1);
-                offset = size * (page - 1);
-                recordToReturn = size;
-            }
-            pageResult.Results =  queryResult.OrderBy(a => a.Id)
-                                             .Skip(offset)
-                                             .Take(recordToReturn)
-                                             .ToList();
-            pageResult.PageCount = totalPageCount;
-            pageResult.RecordCount = recordCount;
+            pageResult = PaginationManager<MembershipType>.GetPagedResult(queryResult, page, size, appDbContext.MembershipTypes.Count());
             return pageResult;
         }
         public MembershipType GetMembershipTypeByName(string membershipTypeName)
@@ -62,7 +38,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
             entityToUpdate.Id = id;
             return appDbContext.UpdateGraph<MembershipType>(entityToUpdate);
         }
-        public ApplicationDbContext appDbContext
+        private ApplicationDbContext appDbContext
         {
             get
             {

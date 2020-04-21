@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using RefactorThis.GraphDiff;
+using PCO_BackEnd_WebAPI.Models.Pagination;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Bank
 {
@@ -15,12 +16,25 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Bank
 
         }
 
+        public PageResult<BankDetail> GetPagedBankDetails(int page, int size, string filter = null)
+        {
+            PageResult<BankDetail> pageResult;
+
+            IQueryable<BankDetail> queryResult = appDbContext.BankDetails.Where(b => string.IsNullOrEmpty(filter) ? true :
+                                                                                b.Name.Contains(filter) ||
+                                                                                b.Branch.Contains(filter) ||
+                                                                                b.AccountNumber.Contains(filter));
+
+            pageResult = PaginationManager<BankDetail>.GetPagedResult(queryResult, page, size, appDbContext.BankDetails.Count());
+            return pageResult;
+        }
+
         public BankDetail UpdateBankDetails(int id, BankDetail bankDetail)
         {
             bankDetail.Id = id;
             return appDbContext.UpdateGraph<BankDetail>(bankDetail);
         }
-        public ApplicationDbContext appDbContext
+        private ApplicationDbContext appDbContext
         {
             get
             {

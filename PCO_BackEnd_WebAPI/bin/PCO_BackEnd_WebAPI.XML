@@ -512,7 +512,7 @@
             <param name="addressDTO">New information about the user to be updated</param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Bank.BankDetailController.GetAll">
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Bank.BankDetailController.GetAll(System.Int32,System.Int32,System.String)">
             <summary>
             Returns all bank details
             </summary>

@@ -32,7 +32,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
                                                             int size,
                                                             string filter = null)
         {
-            PageResult<ApplicationUser> pageResult = new PageResult<ApplicationUser>();
+            PageResult<ApplicationUser> pageResult;
             DateTime PRCDate;
             DataConverter.ConvertToDateTime(filter, out PRCDate);
             IQueryable<ApplicationUser> queryResult = UserManager.Users.Where(u => (filter == null) ?
@@ -47,31 +47,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
                                                                u.PRCDetail.IdNumber.Contains(filter) ||
                                                                u.Email.Contains(filter) ||
                                                                u.PhoneNumber.Contains(filter));
-            int recordCount = queryResult.Count();
-            int mod;
-            int totalPageCount;
-            int offset;
-            int recordToReturn;
-            if (size == 0)
-            {
-                mod = 0;
-                totalPageCount = 1;
-                offset = 0;
-                recordToReturn = recordCount;
-            }
-            else
-            {
-                mod = recordCount % size;
-                totalPageCount = (recordCount / size) + (mod == 0 ? 0 : 1);
-                offset = size * (page - 1);
-                recordToReturn = size;
-            }
-            pageResult.Results =  queryResult.OrderBy(a => a.Id)
-                                             .Skip(offset)
-                                             .Take(recordToReturn)
-                                             .ToList();
-            pageResult.PageCount = totalPageCount;
-            pageResult.RecordCount = recordCount;
+
+            pageResult = PaginationManager<ApplicationUser>.GetPagedResult(queryResult, page, size, UserManager.Users.Count());
             return pageResult;
         }
 

@@ -13,6 +13,7 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
         {
         }
 
+        [Key]
         public int Id { get; set; }
 
         [Required]

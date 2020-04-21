@@ -28,12 +28,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(List<ResponseBankDetailDTO>))]
-        public async Task <IHttpActionResult> GetAll()
+        public async Task <IHttpActionResult> GetAll(int page = 0, int size = 0, string filter = null)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = await Task.Run(() => unitOfWork.BankDetails.GetAll());
-            var resultDTO = result.Select(Mapper.Map<BankDetail, ResponseBankDetailDTO>).ToList();
-            return Ok(resultDTO);
+            var result = await Task.Run(() => unitOfWork.BankDetails.GetPagedBankDetails(page, size, filter));
+            return Ok(result);
         }
 
         /// <summary>

@@ -16,6 +16,7 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences.Promos
             PromoMembers = new HashSet<PromoMember>();
         }
 
+        [Key]
         public int Id { get; set; }
 
         [Required]

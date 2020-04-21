@@ -20,34 +20,10 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
 
         public PageResult<Address> GetPagedAddress(int page, int size)
         {
-            PageResult<Address> pageResult = new PageResult<Address>();
-            int recordCount = appDbContext.Addresses.Count();
-            
-            int mod;
-            int totalPageCount;
-            int offset;
-            int recordToReturn;
-            if (size == 0)
-            {
-                mod = 0;
-                totalPageCount = 1;
-                offset = 0;
-                recordToReturn = recordCount;
-            }
-            else
-            {
-                mod = recordCount % size;
-                totalPageCount = (recordCount / size) + (mod == 0 ? 0 : 1);
-                offset = size * (page - 1);
-                recordToReturn = size;
-            }
-            pageResult.Results = appDbContext.Addresses
-                                             .OrderBy(a => a.Id)
-                                             .Skip(offset)
-                                             .Take(recordToReturn)
-                                             .ToList();
-            pageResult.PageCount = totalPageCount;
-            pageResult.RecordCount = recordCount;
+            PageResult<Address> pageResult;
+            IQueryable<Address> queryResult = appDbContext.Addresses;
+
+            pageResult = PaginationManager<Address>.GetPagedResult(queryResult, page, size, appDbContext.Addresses.Count());
             return pageResult;
         }
 
@@ -57,7 +33,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
             return appDbContext.UpdateGraph<Address>(entityToUpdate);
         }
 
-        public ApplicationDbContext appDbContext
+        private ApplicationDbContext appDbContext
         {
             get
             {

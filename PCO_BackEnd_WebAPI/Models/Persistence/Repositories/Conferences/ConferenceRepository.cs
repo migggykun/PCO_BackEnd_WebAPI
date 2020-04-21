@@ -43,32 +43,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
                                                          .Where(p => (string.IsNullOrEmpty(toDate) || !isEndDateValid)  ? true : DbFunctions.TruncateTime(p.End) <= (DbFunctions.TruncateTime(endDate)))
                                                          .Where(p => (string.IsNullOrEmpty(fromDate) || !isStartDateValid) ? true : DbFunctions.TruncateTime(p.Start) >= (DbFunctions.TruncateTime(startDate)));
 
-            PageResult<Conference> pageResult = new PageResult<Conference>();
-            int recordCount = queryResult.Count();
-            int mod;
-            int totalPageCount;
-            int offset;
-            int recordToReturn;
-            if (size == 0)
-            {
-                mod = 0;
-                totalPageCount = 1;
-                offset = 0;
-                recordToReturn = recordCount;
-            }
-            else
-            {
-                mod = recordCount % size;
-                totalPageCount = (recordCount/size) + (mod == 0 ? 0 : 1);
-                offset = size * (page - 1);
-                recordToReturn = size;
-            }
-            pageResult.Results = queryResult.OrderBy(c => c.Id)
-                                            .Skip(offset)
-                                            .Take(recordToReturn)
-                                            .ToList();
-            pageResult.PageCount = totalPageCount;
-            pageResult.RecordCount = recordCount;
+            PageResult<Conference> pageResult;
+            pageResult = PaginationManager<Conference>.GetPagedResult(queryResult, page, size, appDbContext.Conferences.Count());
             return pageResult;
         }
 
@@ -89,7 +65,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
           return updatedConference;
         }
 
-        public ApplicationDbContext appDbContext
+        private ApplicationDbContext appDbContext
         {
             get
             {

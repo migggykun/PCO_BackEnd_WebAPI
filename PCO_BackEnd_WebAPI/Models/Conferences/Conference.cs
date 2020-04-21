@@ -15,6 +15,7 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
             Rates = new HashSet<Rate>();
         }
 
+        [Key]
         public int Id { get; set; }
 
         [Required]

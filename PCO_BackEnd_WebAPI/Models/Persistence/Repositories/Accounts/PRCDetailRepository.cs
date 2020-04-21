@@ -23,8 +23,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
                                                        DateTime? aExpirationDateFrom = null,
                                                        DateTime? aExpirationDateTo = null)
         {
-            PageResult<PRCDetail> pageResult = new PageResult<PRCDetail>();
-            int recordCount = appDbContext.PRCDetails
+            PageResult<PRCDetail> pageResult;
+            IQueryable<PRCDetail> queryResult= appDbContext.PRCDetails
                                              .Where(p =>
                                                         (String.IsNullOrEmpty(filter) == true) ?
                                                              true
@@ -36,45 +36,9 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
                                                              true
                                                              :
                                                              (p.ExpirationDate >= aExpirationDateFrom &&
-                                                              p.ExpirationDate <= aExpirationDateTo))
-                                             .Count();
-            int mod;
-            int totalPageCount;
-            int offset;
-            int recordToReturn;
-            if (size == 0)
-            {
-                mod = 0;
-                totalPageCount = 1;
-                offset = 0;
-                recordToReturn = recordCount;
-            }
-            else
-            {
-                mod = recordCount % size;
-                totalPageCount = (recordCount / size) + (mod == 0 ? 0 : 1);
-                offset = size * (page - 1);
-                recordToReturn = size;
-            }
-            pageResult.Results = appDbContext.PRCDetails
-                                             .Where(p =>
-                                                        (String.IsNullOrEmpty(filter) == true) ? 
-                                                             true 
-                                                             : 
-                                                             p.IdNumber.Contains(filter))
-                                             .Where(p =>
-                                                        (aExpirationDateFrom == null &&
-                                                         aExpirationDateTo == null) ? 
-                                                             true 
-                                                             :
-                                                             (p.ExpirationDate >= aExpirationDateFrom &&
-                                                              p.ExpirationDate <= aExpirationDateTo))
-                                             .OrderBy(a => a.Id)
-                                             .Skip(offset)
-                                             .Take(recordToReturn)
-                                             .ToList();
-            pageResult.PageCount = totalPageCount;
-            pageResult.RecordCount = recordCount;
+                                                              p.ExpirationDate <= aExpirationDateTo));
+
+            pageResult = PaginationManager<PRCDetail>.GetPagedResult(queryResult, page, size, appDbContext.PRCDetails.Count());
             return pageResult;
         }
 
@@ -90,7 +54,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
             return appDbContext.UpdateGraph<PRCDetail>(entityToUpdate);
         }
 
-        public ApplicationDbContext appDbContext
+        private ApplicationDbContext appDbContext
         {
             get
             {

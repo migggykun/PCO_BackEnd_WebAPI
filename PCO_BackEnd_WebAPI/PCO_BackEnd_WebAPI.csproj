@@ -313,6 +313,7 @@
     <Compile Include="Models\Images\ImageBase.cs" />
     <Compile Include="Models\Images\ImageManager.cs" />
     <Compile Include="Models\Pagination\PageResult.cs" />
+    <Compile Include="Models\Pagination\PaginationManager.cs" />
     <Compile Include="Models\Pagination\PaginationMapper.cs" />
     <Compile Include="Models\ParameterBindingModels\ConferenceParameterBindingModel.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IAddressRepository.cs" />
