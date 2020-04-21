@@ -48,7 +48,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
                                                                u.Email.Contains(filter) ||
                                                                u.PhoneNumber.Contains(filter));
 
-            pageResult = PaginationManager<ApplicationUser>.GetPagedResult(queryResult, page, size, UserManager.Users.Count());
+            pageResult = PaginationManager<ApplicationUser>.GetPagedResult(queryResult, page, size);
             return pageResult;
         }
 

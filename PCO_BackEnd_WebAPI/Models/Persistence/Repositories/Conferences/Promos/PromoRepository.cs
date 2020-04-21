@@ -28,7 +28,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences.Promos
                                                                                               x.Description.Contains(filter) ||
                                                                                               x.PromoMembers.Any(p => p.MembershipType.Name.Contains(filter)) ||
                                                                                               !IsAmountValid ? true : x.Amount == amount);
-            pageResult = PaginationManager<Promo>.GetPagedResult(queryResult, page, size, appDbContext.Promos.Count());
+            pageResult = PaginationManager<Promo>.GetPagedResult(queryResult, page, size);
             return pageResult;
         }
 

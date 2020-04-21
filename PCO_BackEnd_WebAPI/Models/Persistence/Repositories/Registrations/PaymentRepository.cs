@@ -51,7 +51,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 
 
 
-            pageResult = PaginationManager<Payment>.GetPagedResult(queryResult, page, size, appDbContext.Payments.Count());
+            pageResult = PaginationManager<Payment>.GetPagedResult(queryResult, page, size);
             return pageResult;
 		}
 

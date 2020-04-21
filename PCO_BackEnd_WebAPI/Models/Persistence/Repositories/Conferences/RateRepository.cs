@@ -24,7 +24,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
             PageResult<Rate> pageResult = new PageResult<Rate>();
             IQueryable<Rate> queryResult = appDbContext.Rates;
 
-            pageResult = PaginationManager<Rate>.GetPagedResult(queryResult, page, size, appDbContext.Rates.Count());
+            pageResult = PaginationManager<Rate>.GetPagedResult(queryResult, page, size);
             return pageResult;
 
         }

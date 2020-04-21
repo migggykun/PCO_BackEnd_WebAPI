@@ -41,7 +41,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
                                                         .Where(c => filter == null ? true : c.ConferenceId == filter)
                                                         .Where(c => aStatusId == null ? true : c.RegistrationStatusId == aStatusId);
 
-            pageResult = PaginationManager<Registration>.GetPagedResult(queryResult, page, size, appDbContext.Registrations.Count());
+            pageResult = PaginationManager<Registration>.GetPagedResult(queryResult, page, size);
             return pageResult;
         }
 

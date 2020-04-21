@@ -22,7 +22,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences.Promos
             PageResult<PromoMember> pageResult;
             IQueryable<PromoMember> queryResult = appDbContext.PromoMembers;
 
-            pageResult = PaginationManager<PromoMember>.GetPagedResult(queryResult, page, size, appDbContext.PromoMembers.Count());
+            pageResult = PaginationManager<PromoMember>.GetPagedResult(queryResult, page, size);
             return pageResult;
             
         }

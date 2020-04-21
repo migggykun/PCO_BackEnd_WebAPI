@@ -21,7 +21,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
             PageResult<UserInfo> pageResult;
             IQueryable<UserInfo> queryResult = appDbContext.UserInfos;
 
-            pageResult = PaginationManager<UserInfo>.GetPagedResult(queryResult, page, size, appDbContext.UserInfos.Count());
+            pageResult = PaginationManager<UserInfo>.GetPagedResult(queryResult, page, size);
             return pageResult;
         }
 

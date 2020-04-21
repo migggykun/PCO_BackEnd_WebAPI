@@ -23,7 +23,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
             PageResult<Address> pageResult;
             IQueryable<Address> queryResult = appDbContext.Addresses;
 
-            pageResult = PaginationManager<Address>.GetPagedResult(queryResult, page, size, appDbContext.Addresses.Count());
+            pageResult = PaginationManager<Address>.GetPagedResult(queryResult, page, size);
             return pageResult;
         }
 

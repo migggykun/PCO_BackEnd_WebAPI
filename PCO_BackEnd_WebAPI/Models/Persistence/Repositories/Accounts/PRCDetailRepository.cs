@@ -38,7 +38,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
                                                              (p.ExpirationDate >= aExpirationDateFrom &&
                                                               p.ExpirationDate <= aExpirationDateTo));
 
-            pageResult = PaginationManager<PRCDetail>.GetPagedResult(queryResult, page, size, appDbContext.PRCDetails.Count());
+            pageResult = PaginationManager<PRCDetail>.GetPagedResult(queryResult, page, size);
             return pageResult;
         }
 

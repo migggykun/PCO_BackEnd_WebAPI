@@ -11,8 +11,9 @@ namespace PCO_BackEnd_WebAPI.Models.Pagination
 {
     public static class PaginationManager<TEntity> where TEntity : class
     {
-        public static PageResult<TEntity> GetPagedResult(IQueryable<TEntity> query, int page, int size, int recordCount)
+        public static PageResult<TEntity> GetPagedResult(IQueryable<TEntity> query, int page, int size)
         {
+            int recordCount = query.Count();
             PageResult<TEntity> pageResult = new PageResult<TEntity>();
             int mod;
             int totalPageCount;

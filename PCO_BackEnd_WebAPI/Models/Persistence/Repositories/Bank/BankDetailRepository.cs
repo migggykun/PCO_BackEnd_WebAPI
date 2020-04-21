@@ -25,7 +25,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Bank
                                                                                 b.BankName.Contains(filter) ||
                                                                                 b.AccountNumber.Contains(filter));
 
-            pageResult = PaginationManager<BankDetail>.GetPagedResult(queryResult, page, size, appDbContext.BankDetails.Count());
+            pageResult = PaginationManager<BankDetail>.GetPagedResult(queryResult, page, size);
             return pageResult;
         }
 

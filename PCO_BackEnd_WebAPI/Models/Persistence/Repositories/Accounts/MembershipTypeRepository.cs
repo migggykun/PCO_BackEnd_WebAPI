@@ -23,7 +23,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
             IQueryable<MembershipType> queryResult = appDbContext.MembershipTypes.Where(u => string.IsNullOrEmpty(filter) ? true :
                                                                                                                           u.Name.Contains(filter) ||
                                                                                                                           u.Description.Contains(filter));
-            pageResult = PaginationManager<MembershipType>.GetPagedResult(queryResult, page, size, appDbContext.MembershipTypes.Count());
+            pageResult = PaginationManager<MembershipType>.GetPagedResult(queryResult, page, size);
             return pageResult;
         }
         public MembershipType GetMembershipTypeByName(string membershipTypeName)

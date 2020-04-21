@@ -44,7 +44,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
                                                          .Where(p => (string.IsNullOrEmpty(fromDate) || !isStartDateValid) ? true : DbFunctions.TruncateTime(p.Start) >= (DbFunctions.TruncateTime(startDate)));
 
             PageResult<Conference> pageResult;
-            pageResult = PaginationManager<Conference>.GetPagedResult(queryResult, page, size, appDbContext.Conferences.Count());
+            pageResult = PaginationManager<Conference>.GetPagedResult(queryResult, page, size);
             return pageResult;
         }
 
