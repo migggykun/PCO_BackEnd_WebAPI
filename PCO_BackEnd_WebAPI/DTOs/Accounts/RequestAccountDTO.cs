@@ -9,12 +9,10 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
     public class RequestAccountDTO
     {
         [Required]
-        [DataType(DataType.EmailAddress,ErrorMessage="{0} is an invalid email!")]
         [StringLength(128, ErrorMessage = "{0} length must be lesser than {1}.")]
         public string Email { get; set; }
 
         [Required]
-        [DataType(DataType.PhoneNumber, ErrorMessage="{0} is invalid phone number")]
         [StringLength(28, ErrorMessage = "{0} length must be lesser than {1}.")]
         public string PhoneNumber { get; set; }
 

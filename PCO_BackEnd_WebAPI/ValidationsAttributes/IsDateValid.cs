@@ -11,13 +11,18 @@ namespace PCO_BackEnd_WebAPI.ValidationsAttributes
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            if (value.ToString() == "")
+            {
+                return ValidationResult.Success;
+            }
+
             DateTime minDate =  Convert.ToDateTime("2000-01-01T00:00:00");
             DateTime maxDate = Convert.ToDateTime("3000-01-01T00:00:00");
             DateTime date;
             DateTime.TryParse(value.ToString(), out date);
             DateTime result;
 
-            if (date == null)
+            if (date == DateTime.MinValue)
             {
                 return new ValidationResult("Invalid Date Format.");
             }
