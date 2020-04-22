@@ -9,17 +9,17 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
     public class RequestAddressDTO
     {
         [Required]
-        [StringLength(128, ErrorMessage = "{0} length must be lesser than {1}.")]
+        [StringLength(100, ErrorMessage = "{0} length must be lesser than {1}.")]
         public string StreetAddress { get; set; }
 
-        [StringLength(128, ErrorMessage = "{0} length must be lesser than {1}.")]
+        [StringLength(30, ErrorMessage = "{0} length must be lesser than {1}.")]
         public string Barangay { get; set; }
 
-        [StringLength(128, ErrorMessage = "{0} length must be lesser than {1}.")]
+        [StringLength(20, ErrorMessage = "{0} length must be lesser than {1}.")]
         [Required]
         public string City { get; set; }
 
-        [StringLength(128, ErrorMessage = "{0} length must be lesser than {1}.")]
+        [StringLength(20, ErrorMessage = "{0} length must be lesser than {1}.")]
         [Required]
         public string Province { get; set; }
 
