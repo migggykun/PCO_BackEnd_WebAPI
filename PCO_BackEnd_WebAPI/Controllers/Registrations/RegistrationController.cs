@@ -202,9 +202,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpGet]
-        [Authorize]
-        [Route("api/GetRegistrationStatus")]
-        public async Task<IHttpActionResult> SetRegistrationStatus(int conferenceId, int userId)
+        [Route("api/GetRegistrationStatus/{conferenceId=conferenceId}/{userId=userId}")]
+        public async Task<IHttpActionResult> GetRegistrationStatus(int conferenceId, int userId)
         {
             try
             {
