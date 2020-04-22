@@ -19,7 +19,7 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
             var resultDTO = PaginationMapper<Conference, ResponseConferenceDTO>.MapResult(conferences);
             foreach (var r in conferences.Results)
             {
-                int index = resultDTO.Results.ToList().FindIndex(x => x.Id == r.Id);
+                int index = resultDTO.Results.FindIndex(x => x.Id == r.Id);
                 resultDTO.Results[index].Banner = r.Banner == null ? string.Empty : ImageFormatter.GetImageStringFormat(r.Banner);
             }
             return resultDTO;

@@ -20,8 +20,8 @@ namespace PCO_BackEnd_WebAPI.Models.Images
         {
             ImageInfo imageInfo = new ImageInfo(imageString);
             MimeType = imageInfo.MimeType;
+            Base64Value = imageInfo.Base64String;
             byte[] imgArray = Convert.FromBase64String(imageInfo.Base64String);
-
             using (var ms = new MemoryStream(imgArray, 0, imgArray.Length))
             {
                 Image = Image.FromStream(ms, true);
@@ -34,20 +34,21 @@ namespace PCO_BackEnd_WebAPI.Models.Images
             {
                 var img = Image.FromStream(ms, true);
                 MimeType = img.RawFormat.GetImageMIMEType();
-                Image = img;
             }
+
+            Byte = imageInArray;
         }
         public void ReduceImageSize()
         {
             double scaleFactor = .9;
-            Image _image;
             do
             {
                 //Resize Image
+                ms.SetLength(0);
                 var newWidth = (int)(Image.Width * scaleFactor);
                 var newHeight = (int)(Image.Height * scaleFactor);
                 Bitmap newBitMap = new Bitmap(newWidth, newHeight);
-                Image = newBitMap;
+                Image = CreateNewImage(newBitMap);
                 scaleFactor -= .01;
             }
             while (FileSize > 100000);

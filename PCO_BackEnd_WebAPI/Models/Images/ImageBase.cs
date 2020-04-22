@@ -12,6 +12,8 @@ namespace PCO_BackEnd_WebAPI.Models.Images
 {
     public abstract class ImageBase
     {
+        protected MemoryStream ms{get ;set ;}
+
         private Image _image;
         public Image Image
         {
@@ -25,11 +27,16 @@ namespace PCO_BackEnd_WebAPI.Models.Images
             }
         }
 
+        private byte[] _Byte;
         public byte[] Byte
         {
             get
             {
                 return GetByte();
+            }
+            set
+            {
+                _Byte = value;
             }
         }
 
@@ -46,7 +53,7 @@ namespace PCO_BackEnd_WebAPI.Models.Images
         {
             get
             {
-                return GetMIMEType();
+                return _mimeType;
             }
             set
             {
@@ -59,48 +66,59 @@ namespace PCO_BackEnd_WebAPI.Models.Images
         {
             get
             {
-                return ConvertToBase64(Byte);
+                return GetBase64();
             }
             set
             {
                 _base64Value = value;
             }
         }
+        
+        public ImageBase ()
+	    {
+            ms = new MemoryStream();
+    	}
+
+        ~ImageBase()
+        {
+            ms.Dispose();
+        }
 
         private Image SetImage(Image image)
         {
             Image imageWithFormat;
-            using (MemoryStream ms = new MemoryStream())
-            {
-                CreateNewImage(image).Save(ms, ImageTypeManager.GetImageFormat(_mimeType));
-                imageWithFormat = Image.FromStream(ms);
-            }
+            image.Save(ms, ImageTypeManager.GetImageFormat(_mimeType));
+            imageWithFormat = Image.FromStream(ms);
             return imageWithFormat;
         }
 
-        private string ConvertToBase64(byte[] arrayValue)
+        private string GetBase64()
         {
-            _base64Value = Convert.ToBase64String(arrayValue);
-            return _base64Value;
+            if (!string.IsNullOrEmpty(_base64Value))
+            {
+                return _base64Value;
+            }
+            else
+            {
+                return Convert.ToBase64String(_Byte);
+            }
         }
+
         private byte[] GetByte()
         {
-            byte[] result;
-            using (MemoryStream ms = new MemoryStream())
+            if (_Byte != null)
             {
-                CreateNewImage(_image).Save(ms, ImageTypeManager.GetImageFormat(_mimeType));
-                result = ms.ToArray();
+                return _Byte;
             }
-            return result;
+            else
+            {
+                return Convert.FromBase64String(_base64Value);
+            }
         }
 
         private double GetFileSize()
         {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                ms.Write(Byte, 0, Byte.Length);
-                return ms.Length;
-            }
+            return Byte.Length;
         }
 
         private string GetMIMEType()
@@ -108,7 +126,27 @@ namespace PCO_BackEnd_WebAPI.Models.Images
             return _image.RawFormat.GetImageMIMEType();
         }
 
-        private Image CreateNewImage(Image image)
+        protected Image CreateNewImage(Image image)
+        {
+            var rawImage = DrawImage(image);
+            var imagewithFormat = GetImageWithFormat(rawImage);
+            SetNewImageInfo(imagewithFormat);
+            
+            return imagewithFormat;
+        }
+
+        private Image GetImageWithFormat(Image newImage)
+        {
+            newImage.Save(ms, ImageTypeManager.GetImageFormat(_mimeType));
+            return Image.FromStream(ms);
+        }
+        private void SetNewImageInfo(Image newImage)
+        {
+            _Byte = ms.ToArray();
+            _base64Value = Convert.ToBase64String(_Byte);
+        }
+
+        private Image DrawImage(Image image)
         {
             var oldImg = this._image == null ? image : this._image;
             Bitmap bitmapNew = new Bitmap(image.Width, image.Height);
