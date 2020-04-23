@@ -69,20 +69,13 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 
         }
 
-        public int GetRegistrationStatus(int conferenceId, int userId)
+        public Registration GetRegistration(int conferenceId, int userId)
         {
             Expression<Func<Registration, bool>> predicate;
             predicate = (x) => x.ConferenceId == conferenceId && x.UserId == userId;
             IQueryable<Registration> query = appDbContext.Registrations;
 
-            if (query.Any(x => x.ConferenceId == conferenceId && x.UserId == userId))
-            {
-                return query.First(predicate).RegistrationStatusId;
-            }
-            else
-            {
-                return 0;
-            }
+            return query.FirstOrDefault(predicate);
         }
 
         private ApplicationDbContext appDbContext

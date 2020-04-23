@@ -202,20 +202,16 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("api/GetRegistrationStatus/{conferenceId=conferenceId}/{userId=userId}")]
+        [Route("api/GetRegistration/{conferenceId=conferenceId}/{userId=userId}")]
         public async Task<IHttpActionResult> GetRegistrationStatus(int conferenceId, int userId)
         {
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
-                int registrationStatus = unitOfWork.Registrations.GetRegistrationStatus(conferenceId, userId);
-                
-                ResponseRegistrationStatusDTO result = new ResponseRegistrationStatusDTO()
-                {
-                    registrationStatusId = registrationStatus
-                };
+                var result = unitOfWork.Registrations.GetRegistration(conferenceId, userId);
 
-                return Ok(result);
+                var registrationDTO = Mapper.Map<Registration, ResponseRegistrationDTO>(result);
+                return Ok(registrationDTO);
             }
             catch (Exception)
             {
