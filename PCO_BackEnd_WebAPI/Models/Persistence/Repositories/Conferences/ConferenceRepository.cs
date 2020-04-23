@@ -13,6 +13,7 @@ using AutoMapper;
 using System.Globalization;
 using PCO_BackEnd_WebAPI.Models.Images;
 using PCO_BackEnd_WebAPI.Models.Helpers;
+using PCO_BackEnd_WebAPI.Models.Images.Manager;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
 {
@@ -60,8 +61,12 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
         {
           conference.Id = id;
           conference.Rates.ToList().ForEach(x => x.conferenceId = id);
-          conference.Banner = string.IsNullOrEmpty(base64Image) ? null : new ImageManager(base64Image).Bytes;
+
+          //Update banner
+          var banner = appDbContext.Banners.Find(id);
+          banner.Image = new ImageManager(base64Image).Bytes;
           var updatedConference = appDbContext.UpdateGraph<Conference>(conference, map => map.OwnedCollection(e => e.Rates));
+          
           return updatedConference;
         }
 

@@ -9,6 +9,7 @@ using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.Models.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Registrations;
 using PCO_BackEnd_WebAPI.Models.Bank;
+using PCO_BackEnd_WebAPI.Models.Images;
 namespace PCO_BackEnd_WebAPI.Models.Entities
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser,CustomRole, 
@@ -34,6 +35,8 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
         public virtual DbSet<UserInfo> UserInfos { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<BankDetail> BankDetails { get; set; }
+        public virtual DbSet<Banner> Banners { get; set; }
+        public virtual DbSet<Receipt> Receipts { get; set; }
 
         public static ApplicationDbContext Create()
         {
@@ -73,6 +76,11 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                         .WithRequired()
                         .WillCascadeOnDelete(true);
 
+            modelBuilder.Entity<Conference>()
+                        .HasOptional(e => e.Banner)
+                        .WithRequired()
+                        .WillCascadeOnDelete(true);
+
             modelBuilder.Entity<Promo>()
                         .HasMany(p => p.PromoMembers)
                         .WithRequired()
@@ -101,8 +109,6 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                         .WithMany()
                         .WillCascadeOnDelete(true);
 
-
-
             modelBuilder.Entity<Registration>()
                         .HasOptional(e => e.RegistrationPayment)
                         .WithRequired(e => e.Registration);
@@ -110,6 +116,11 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
             modelBuilder.Entity<Registration>()
                         .HasRequired(e => e.User)
                         .WithMany();
+
+            modelBuilder.Entity<Payment>()
+                        .HasRequired(e => e.Receipt)
+                        .WithRequiredPrincipal()
+                        .WillCascadeOnDelete(true);
         }
     }
 }

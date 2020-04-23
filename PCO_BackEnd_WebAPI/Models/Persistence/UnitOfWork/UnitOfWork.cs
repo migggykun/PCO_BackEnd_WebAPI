@@ -18,6 +18,7 @@ using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Registrations;
 using PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations;
 using PCO_BackEnd_WebAPI.Models.Registrations;
 using PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Bank;
+using PCO_BackEnd_WebAPI.Models.Images;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
 {
@@ -37,6 +38,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
         public Repository<RegistrationStatus> RegStatus { get; set; }
         public BankDetailRepository BankDetails { get; set; }
         public IAddressRepository Addresses { get; set; }
+        public Repository<Banner> Banners { get; set; }
+        public Repository<Receipt> Receipts { get; set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -54,6 +57,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
             RegStatus = new Repository<RegistrationStatus>(_context);
             BankDetails = new BankDetailRepository(_context);
             Addresses = new AddressRepository(_context);
+            Banners = new Repository<Banner>(_context);
+            Receipts = new Repository<Receipt>(_context);
         }
 
         /// <summary>

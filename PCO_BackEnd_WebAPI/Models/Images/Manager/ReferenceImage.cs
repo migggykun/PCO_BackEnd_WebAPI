@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using System.Drawing;
 using PCO_BackEnd_WebAPI.Models.Images.Helpers;
 
-namespace PCO_BackEnd_WebAPI.Models.Images
+namespace PCO_BackEnd_WebAPI.Models.Images.Manager
 {
     public class ReferenceImage : ImageBase
     {

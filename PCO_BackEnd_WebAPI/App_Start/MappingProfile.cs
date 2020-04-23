@@ -78,7 +78,7 @@ namespace PCO_BackEnd_WebAPI.App_Start
             Mapper.CreateMap<Registration, ResponseListRegistrationDTO>();
             Mapper.CreateMap<ApplicationUser, ResponseAccountDTO>();
             Mapper.CreateMap<AddPaymentDTO, Payment>().ForMember(dst => dst.ProofOfPayment, src => src.Ignore());
-            Mapper.CreateMap<UpdatePaymentDTO, Payment>().ForMember(dst => dst.ProofOfPayment, src => src.Ignore());
+            Mapper.CreateMap<UpdatePaymentDTO, Payment>().ForMember(dst => dst.Receipt, src => src.Ignore());
             Mapper.CreateMap<Payment, ResponsePaymentDTO>();
 
             //BankDetail

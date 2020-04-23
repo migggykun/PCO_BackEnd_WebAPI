@@ -547,6 +547,21 @@
             <param name="id">id of the bank details to be deleted</param>
             <returns></returns>
         </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Images.ImageController.GetImages(System.Int32)">
+            <summary>
+            Gets banner or receipt
+            </summary>
+            <param name="identifier">1: banner , 2: receipts</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Images.ImageController.GetImages(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id">image id</param>
+            <param name="identifier">1: banner , 2: receipts</param>
+            <returns></returns>
+        </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Registrations.PaymentController.GetAll(System.String,System.Int32,System.Int32,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
             <summary>
             Gets list of Registration
@@ -905,7 +920,7 @@
             <param name="aException"></param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Images.ImageManager.GetAdjustedSizeInBytes">
+        <member name="M:PCO_BackEnd_WebAPI.Models.Images.Manager.ImageManager.GetAdjustedSizeInBytes">
             <summary>
             Resizes image if size is greater than 100kb
             </summary>
@@ -1097,7 +1112,7 @@
             <param name="aText"></param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Images.ReferenceImage.#ctor(System.String)">
+        <member name="M:PCO_BackEnd_WebAPI.Models.Images.Manager.ReferenceImage.#ctor(System.String)">
             <summary>
             
             </summary>

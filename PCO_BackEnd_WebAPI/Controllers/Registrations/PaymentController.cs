@@ -17,6 +17,7 @@ using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.DTOs.Accounts;
 using PCO_BackEnd_WebAPI.DTOs.Conferences;
 using PCO_BackEnd_WebAPI.Models.Helpers;
+using PCO_BackEnd_WebAPI.Models.Images.Manager;
 using PCO_BackEnd_WebAPI.Models.Images;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Registrations
@@ -107,7 +108,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
             {
                 //Convert receipt image to bytes
                 ImageManager receiptManager = new ImageManager(paymentDTO.ProofOfPayment);
-                payment.ProofOfPayment = receiptManager.GetAdjustedSizeInBytes();
+                payment.Receipt = new Receipt();
+                payment.Receipt.Id = payment.RegistrationId;
+                payment.Receipt.Image = receiptManager.GetAdjustedSizeInBytes();
 
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
                 await Task.Run(() => unitOfWork.Payments.Add(payment));
@@ -154,8 +157,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                 }
                 else
                 {
-                    ImageManager receiptManager = new ImageManager(paymentDTO.ProofOfPayment);
-                    await Task.Run(() => unitOfWork.Payments.UpdatePayment(id, payment, receiptManager.GetAdjustedSizeInBytes()));
+                    await Task.Run(() => unitOfWork.Payments.UpdatePayment(id, payment, paymentDTO.ProofOfPayment));
                     await Task.Run(() => unitOfWork.Complete());
                     var user = unitOfWork.UserInfos.Get(result.Registration.UserId);
                     var conference = unitOfWork.Conferences.Get(result.Registration.ConferenceId);

@@ -1,3 +1,4 @@
+using PCO_BackEnd_WebAPI.Models.Images;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,7 +19,7 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
 
         public DateTime PaymentSubmissionDate { get; set; }
 
-        public byte[] ProofOfPayment { get; set; }
+        public Receipt Receipt { get; set; }
 
         public int AmountPaid { get; set; }
 

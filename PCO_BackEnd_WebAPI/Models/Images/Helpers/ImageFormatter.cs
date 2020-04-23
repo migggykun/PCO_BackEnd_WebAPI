@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using PCO_BackEnd_WebAPI.Models.Images.Manager;
 
 namespace PCO_BackEnd_WebAPI.Models.Images.Helpers
 {

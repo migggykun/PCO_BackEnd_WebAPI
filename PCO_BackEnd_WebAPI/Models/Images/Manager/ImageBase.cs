@@ -8,7 +8,7 @@ using System.Linq;
 using System.Web;
 using PCO_BackEnd_WebAPI.Models.Images.Helpers;
 
-namespace PCO_BackEnd_WebAPI.Models.Images
+namespace PCO_BackEnd_WebAPI.Models.Images.Manager
 {
     public abstract class ImageBase
     {

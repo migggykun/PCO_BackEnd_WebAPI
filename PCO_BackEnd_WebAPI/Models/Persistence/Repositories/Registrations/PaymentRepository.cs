@@ -8,6 +8,7 @@ using System.Web;
 using RefactorThis.GraphDiff;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Helpers;
+using PCO_BackEnd_WebAPI.Models.Images.Manager;
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 {
 	public class PaymentRepository : Repository<Payment> , IPaymentRepository
@@ -62,10 +63,13 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 			appDbContext.Payments.Add(payment);
 		}
 
-		public void UpdatePayment(int id, Payment payment, byte[] imageSize)
+		public void UpdatePayment(int id, Payment payment, string base64Image)
 		{
 			payment.RegistrationId = id;
-            payment.ProofOfPayment = imageSize;
+
+            var receipt = appDbContext.Receipts.Find(id);
+            receipt.Image = new ImageManager(base64Image).GetAdjustedSizeInBytes();
+            
             SetPaymentDetails(payment);
 			appDbContext.UpdateGraph<Payment>(payment);
 		}

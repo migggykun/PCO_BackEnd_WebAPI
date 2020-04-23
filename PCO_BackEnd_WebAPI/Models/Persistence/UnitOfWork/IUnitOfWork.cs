@@ -1,4 +1,5 @@
-﻿using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces;
+﻿using PCO_BackEnd_WebAPI.Models.Images;
+using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces;
 using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Accounts;
 using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences;
 using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences.Promos;
@@ -21,6 +22,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
         ConferenceRepository Conferences { get; set; }
         Repository<RegistrationStatus> RegStatus { get; set; }
         BankDetailRepository BankDetails { get; set; }
+        Repository<Banner> Banners { get; set; }
+        Repository<Receipt> Receipts { get; set; }
         IMembershipTypeRepository MembershipTypes { get; set; }
         IPRCDetailRepository PRCDetails { get; set; }
         IUserInfoRepository UserInfos { get; set; }

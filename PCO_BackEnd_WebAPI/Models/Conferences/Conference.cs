@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.Spatial;
 using PCO_BackEnd_WebAPI.Models.Conferences.Promos;
+using PCO_BackEnd_WebAPI.Models.Images;
 
 namespace PCO_BackEnd_WebAPI.Models.Conferences
 {
@@ -36,7 +37,7 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
         [Required]
         public DateTime End { get; set; }
 
-        public byte[] Banner { get; set; }
+        public  Banner Banner { get; set; }
 
         public int? PromoId { get; set; }
         public virtual Promo Promo { get; set; }

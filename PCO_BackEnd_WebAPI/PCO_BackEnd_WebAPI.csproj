@@ -256,6 +256,7 @@
     <Compile Include="Controllers\Accounts\AddressController.cs" />
     <Compile Include="Controllers\Bank\BankDetailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Images\ImageController.cs" />
     <Compile Include="Controllers\Registrations\PaymentController.cs" />
     <Compile Include="Controllers\Registrations\RegistrationController.cs" />
     <Compile Include="Controllers\Accounts\MembershipTypeController.cs" />
@@ -281,7 +282,7 @@
     <Compile Include="DTOs\Bank\RequestUpdateBankDetailDTO.cs" />
     <Compile Include="DTOs\Bank\ResponseBankDetailDTO.cs" />
     <Compile Include="DTOs\Conferences\BaseConferenceDTO.cs" />
-    <Compile Include="DTOs\Pictures\RequestPictureDTO.cs" />
+    <Compile Include="DTOs\Images\ResponseImageDTO.cs" />
     <Compile Include="DTOs\Registrations\AddPaymentDTO.cs" />
     <Compile Include="DTOs\Registrations\BasePaymentDTO.cs" />
     <Compile Include="DTOs\Registrations\RequestRegistrationDTO.cs" />
@@ -307,12 +308,17 @@
     <Compile Include="Models\Bank\BankDetail.cs" />
     <Compile Include="Models\Helpers\ConferenceMapper.cs" />
     <Compile Include="Models\Helpers\DataConverter.cs" />
+    <Compile Include="Models\Helpers\Identifiers.cs" />
+    <Compile Include="Models\Helpers\ImageMappers.cs" />
     <Compile Include="Models\Helpers\PaymentMapper.cs" />
+    <Compile Include="Models\Images\Banner.cs" />
     <Compile Include="Models\Images\Helpers\ImageFormatter.cs" />
     <Compile Include="Models\Images\Helpers\ImageInfo.cs" />
     <Compile Include="Models\Images\Helpers\ImageTypeManager.cs" />
-    <Compile Include="Models\Images\ImageBase.cs" />
-    <Compile Include="Models\Images\ImageManager.cs" />
+    <Compile Include="Models\Images\PcoImage.cs" />
+    <Compile Include="Models\Images\Manager\ImageBase.cs" />
+    <Compile Include="Models\Images\Manager\ImageManager.cs" />
+    <Compile Include="Models\Images\Receipt.cs" />
     <Compile Include="Models\Pagination\PageResult.cs" />
     <Compile Include="Models\Pagination\PaginationManager.cs" />
     <Compile Include="Models\Pagination\PaginationMapper.cs" />
@@ -328,7 +334,7 @@
     <Compile Include="Models\Helpers\EmailClassification.cs" />
     <Compile Include="Models\Helpers\EmailTemplate.cs" />
     <Compile Include="Models\Helpers\StringManipulationHelper.cs" />
-    <Compile Include="Models\Images\ReferenceImage.cs" />
+    <Compile Include="Models\Images\Manager\ReferenceImage.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IMembershipTypeRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IPRCDetailRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IUserInfoRepository.cs" />

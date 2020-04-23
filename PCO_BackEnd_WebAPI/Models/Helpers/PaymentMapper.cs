@@ -35,7 +35,6 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
             var resultDTO = Mapper.Map<Payment, ResponsePaymentDTO>(payment);
             resultDTO.Conference = ConferenceMapper.MapToResponseConferenceDTO(conference);
             resultDTO.UserInfo = Mapper.Map<UserInfo, ResponseUserInfoDTO>(userInfo);
-            resultDTO.ProofOfPayment = payment.ProofOfPayment == null ? string.Empty : ImageFormatter.GetImageStringFormat(payment.ProofOfPayment);
             return resultDTO;
         }
     }

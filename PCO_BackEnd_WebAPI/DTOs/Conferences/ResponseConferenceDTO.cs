@@ -27,9 +27,6 @@ namespace PCO_BackEnd_WebAPI.DTOs.Conferences
         public DateTime End { get; set; }
 
 
-        public string Banner { get; set; }
-
-
         public string PromoId { get; set; }
 
         [Required]

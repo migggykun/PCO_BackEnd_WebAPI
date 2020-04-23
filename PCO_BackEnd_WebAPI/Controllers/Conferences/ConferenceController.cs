@@ -18,6 +18,7 @@ using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.ParameterBindingModels;
 using PCO_BackEnd_WebAPI.Models.Images;
 using PCO_BackEnd_WebAPI.Models.Helpers;
+using PCO_BackEnd_WebAPI.Models.Images.Manager;
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences
 {
     public class ConferenceController : ApiController
@@ -91,7 +92,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
                 if (!string.IsNullOrEmpty(conferenceDTO.Banner))
                 {
                     imageManager = new ImageManager(conferenceDTO.Banner);
-                    conference.Banner = imageManager.Bytes;
+                    conference.Banner = new Banner();
+                    conference.Banner.Image = imageManager.Bytes;
                 }
 
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
