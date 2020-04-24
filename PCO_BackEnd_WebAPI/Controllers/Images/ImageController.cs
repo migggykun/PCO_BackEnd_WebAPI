@@ -45,8 +45,16 @@ namespace PCO_BackEnd_WebAPI.Controllers.Images
             {
                 return BadRequest("Invalid Identifier");
             }
-            var resultDTO = ImageMappers.MaptoListImageDTO(images);
-            return Ok(resultDTO);
+
+            if (images == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                var resultDTO = ImageMappers.MaptoListImageDTO(images);
+                return Ok(resultDTO);
+            }
         }
 
         /// <summary>
@@ -74,9 +82,16 @@ namespace PCO_BackEnd_WebAPI.Controllers.Images
             {
                 return BadRequest("Invalid Identifier");
             }
-
-            var resultDTO = image.MapToImageDTO();
-            return Ok(resultDTO);
+            
+            if (image == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                var resultDTO = image.MapToImageDTO();
+                return Ok(resultDTO);
+            }
         }
 
 
