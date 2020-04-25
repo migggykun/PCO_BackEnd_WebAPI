@@ -9,6 +9,9 @@ namespace PCO_BackEnd_WebAPI.Security.DTO
     {
         public string Token { get; set; }
 
+        public int UserId { get; set; }
+
         public bool IsAdmin { get; set; }
+
     }
 }

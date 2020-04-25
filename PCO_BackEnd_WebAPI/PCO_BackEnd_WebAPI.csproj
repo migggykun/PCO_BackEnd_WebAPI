@@ -391,7 +391,6 @@
     <Compile Include="Models\Registrations\Payment.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Security\Authorization\CustomAuthorizationFilter.cs" />
-    <Compile Include="Security\Controller\SecurityController.cs" />
     <Compile Include="Security\DTO\UserInformationDTO.cs" />
     <Compile Include="Security\TokenManager.cs" />
     <Compile Include="Startup.cs" />

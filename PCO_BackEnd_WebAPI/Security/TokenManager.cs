@@ -10,17 +10,17 @@ namespace PCO_BackEnd_WebAPI.Security
 {
     public class TokenManager
     {
-        private static string Secret = @"904706c5/334c/4fd8/bbeb/0164b9dcec7e";
+        private static string Secret = Guid.NewGuid().ToString().Replace('-','+');
 
-        public static string GenerateToken(string userName, bool accountType)
+        public static string GenerateToken(string userName)
         {
             //string Secret = "sUXa82XSgk3q6n/Yr1630f/Xfrq44lr/kpzcYLMEPBRnCwktx8LrtaIjyCKeJEhp5QA=";
             byte[] key = Convert.FromBase64String(Secret);
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(key);
             SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, userName), new Claim(ClaimTypes.Role, accountType.ToString())}),
-                Expires = DateTime.UtcNow.AddDays(3),
+                Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, userName) }),
+                Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature),
             };
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();

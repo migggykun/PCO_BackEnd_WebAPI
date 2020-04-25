@@ -29,6 +29,8 @@ using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using PCO_BackEnd_WebAPI.Models.Helpers;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Helpers;
+using PCO_BackEnd_WebAPI.Security;
+using PCO_BackEnd_WebAPI.Security.DTO;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
@@ -381,6 +383,28 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 await UserManager.DeleteAsync(appuserToDelete);
             }
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("Login")]
+        public async Task<IHttpActionResult> Login(string email, string password)
+        {
+            var user = await Task.Run(() => UserManager.FindAsync(email, password));
+            if (user == null)
+            {
+                return BadRequest("Username or Password is invalid.");
+            }
+            else
+            {
+                string token = TokenManager.GenerateToken(user.UserName);
+                UserInformationDTO resultDTO = new UserInformationDTO()
+                {
+                    Token = token,
+                    UserId = user.Id,
+                    IsAdmin = user.IsAdmin
+                };
+                return Ok(resultDTO);
+            }
         }
 
         #endregion
