@@ -1,3 +1,27 @@
+﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
+using PCO_BackEnd_WebAPI.DTOs.Accounts;
+using PCO_BackEnd_WebAPI.Models.AccountBindingModels;
+using PCO_BackEnd_WebAPI.Models.Accounts;
+using PCO_BackEnd_WebAPI.Models.AccountViewModels;
+using PCO_BackEnd_WebAPI.Models.Entities;
+using PCO_BackEnd_WebAPI.Models.Helpers;
+using PCO_BackEnd_WebAPI.Models.Pagination;
+using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
+using PCO_BackEnd_WebAPI.Roles;
+using PCO_BackEnd_WebAPI.Security;
+using PCO_BackEnd_WebAPI.Security.DTO;
+using PCO_BackEnd_WebAPI.Security.OAuth;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Http;
+using System.Web.Http.Description;
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -31,6 +55,10 @@ using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Helpers;
 using PCO_BackEnd_WebAPI.Security;
 using PCO_BackEnd_WebAPI.Security.DTO;
+using PCO_BackEnd_WebAPI.Security.OAuth;
+using PCO_BackEnd_WebAPI.Roles;
+using Microsoft.Owin.Security;
+using System.Net;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
@@ -75,6 +103,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="id">User Id</param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpPost]
         [Route("SendEmailConfirmation/{id:int}")]
         public async Task<IHttpActionResult> SendEmailConfirmation(int id)
@@ -122,6 +151,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="email">Email of user to reset</param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpPost]
         [Route("SendResetPasswordEmail")]
         public async Task<IHttpActionResult> SendResetPasswordEmail(string email)
@@ -142,6 +172,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpPost]
         [Route("ResetPassword")]
         public async Task<IHttpActionResult> ResetPassword(ResetPasswordViewModel model)
@@ -170,6 +201,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="model">userId: id of user<br/>token: Generate token to confirm email</param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpPost]
         [Route("ConfirmEmail")]
         public async Task<IHttpActionResult> ConfirmEmail(ConfirmEmailViewModel model)
@@ -246,6 +278,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
+        [CustomAuthorize]
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
@@ -273,6 +306,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <param name="keywordFilter">filter of returned items</param>
         /// <returns></returns>
+        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpGet]
         [Route("GetAllUsers")]
         [ResponseType(typeof(List<ResponseAccountDTO>))]
@@ -293,6 +327,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="email">Registered email of user</param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpGet]
         [Route("GetUserByEmail")]
         public async Task<IHttpActionResult> GetUserByEmail(string email)
@@ -314,10 +349,17 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="id">id of account to be fetched</param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpGet]
         [ResponseType(typeof(ResponseAccountDTO))]
         public async Task<IHttpActionResult> GetUser(int id)
         {
+            int userId = Convert.ToInt32(User.Identity.GetUserId());
+            if (User.IsInRole(UserRoles.ROLE_MEMBER) && userId != id)
+            {
+                return StatusCode(HttpStatusCode.Forbidden);
+            }
+
             var user = await UserManager.FindByIdAsync(id);
             if (user == null)
             {
@@ -335,6 +377,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id">user Id</param>
         /// <param name="accountDTO">Request body of user</param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpPost]
         [Route("UpdateUser/{id:int}")]
         [ResponseType(typeof(ResponseAccountDTO))]
@@ -369,6 +412,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="id">user of id to be deleted</param>
         /// <returns></returns>
+        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpPost]
         [Route("DeleteUser/{id:int}")]
         public async Task<IHttpActionResult> DeleteUser(int id)

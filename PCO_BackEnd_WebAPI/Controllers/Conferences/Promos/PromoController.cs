@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using PCO_BackEnd_WebAPI.DTOs.Conferences;
 using PCO_BackEnd_WebAPI.DTOs.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Conferences.Promos;
@@ -14,6 +14,8 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using PCO_BackEnd_WebAPI.Models.Pagination;
+using PCO_BackEnd_WebAPI.Security.OAuth;
+using PCO_BackEnd_WebAPI.Roles;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
 {
@@ -32,6 +34,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <param name="page">nth page of list. Default value: 1</param>
         /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <returns></returns>
+        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpGet]
         [ResponseType(typeof(PageResult<ResponsePromoDTO>))]
         public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0, string filter = null)
@@ -47,6 +50,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpGet]
         [ResponseType(typeof(ResponsePromoDTO))]
         public async Task<IHttpActionResult> Get(int id)
@@ -69,6 +73,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// </summary>
         /// <param name="promoDTO">Details about the Promo to be added</param>
         /// <returns></returns>
+        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpPost]
         [ResponseType(typeof(ResponsePromoDTO))]
         public async Task<IHttpActionResult> AddPromo(RequestPromoDTO promoDTO)
@@ -101,6 +106,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <param name="id">id of the promo to be updated</param>
         /// <param name="promoDTO">New information about the promo to be updated</param>
         /// <returns></returns>
+        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpPost]
         [Route("api/UpdatePromo/{id:int}")]
         [ResponseType(typeof(ResponsePromoDTO))]
@@ -140,6 +146,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// </summary>
         /// <param name="id">id of the promo to be deleted.</param>
         /// <returns></returns>
+        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpPost]
         [Route("api/DeletePromo/{id:int}")]
         public async Task<IHttpActionResult> DeletePromo(int id)

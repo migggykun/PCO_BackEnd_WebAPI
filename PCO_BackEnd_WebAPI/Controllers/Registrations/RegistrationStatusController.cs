@@ -1,5 +1,6 @@
-﻿using PCO_BackEnd_WebAPI.Models.Entities;
+using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
+using PCO_BackEnd_WebAPI.Security.OAuth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
             _context = new ApplicationDbContext();
         }
 
+        [CustomAuthorize]
         [HttpGet]
         public async Task<IHttpActionResult> GetStatusRegistration()
         {

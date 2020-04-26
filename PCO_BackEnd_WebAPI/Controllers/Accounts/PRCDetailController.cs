@@ -1,4 +1,4 @@
-﻿using PCO_BackEnd_WebAPI.Models.Entities;
+using PCO_BackEnd_WebAPI.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +14,9 @@ using System.Web.Http.Description;
 using PCO_BackEnd_WebAPI.Models.Roles;
 using System.Web.Http.Cors;
 using PCO_BackEnd_WebAPI.Models.Pagination;
+using PCO_BackEnd_WebAPI.Security.OAuth;
+using PCO_BackEnd_WebAPI.Roles;
+using Microsoft.AspNet.Identity;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
@@ -34,6 +37,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <param name="prcId">search PRC Details with the input prcId</param>
         /// <returns></returns>
+        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpGet]
         [ResponseType(typeof(ResponsePRCDetailDTO))]
         public async Task<IHttpActionResult> GetAll(int page = 1, 
@@ -57,10 +61,17 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="id">id of the prc detail to be fetched</param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpGet]
         [ResponseType(typeof(ResponsePRCDetailDTO))]
         public async Task<IHttpActionResult> Get(int id)
         {
+            int userId = Convert.ToInt32(User.Identity.GetUserId());
+            if (User.IsInRole(UserRoles.ROLE_MEMBER) && userId != id)
+            {
+                return StatusCode(HttpStatusCode.Forbidden);
+            }
+
             UnitOfWork unitOfWork = new UnitOfWork(_context);
             var result = await Task.Run(() => unitOfWork.PRCDetails.Get(id));
             if (result == null)
@@ -79,6 +90,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="PRCDetailDTO">Details about PRC Details to be added</param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpPost]
         [ResponseType(typeof(ResponsePRCDetailDTO))]
         public async Task<IHttpActionResult> AddPRCDetail(RequestPRCDetailDTO PRCDetailDTO)
@@ -111,6 +123,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id">user Id</param>
         /// <param name="prcDetailDTO">New information about the PRCDetails to be updated</param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpPost]
         [Route("UpdatePRCDetail/{id:int}")]
         [ResponseType(typeof(ResponsePRCDetailDTO))]
@@ -150,6 +163,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="id">user id to delete</param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpPost]
         [Route("api/DeletePRCDetail/{id:int}")]
         public async Task<IHttpActionResult> DeletePRCDetail(int id)

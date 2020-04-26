@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using PCO_BackEnd_WebAPI.DTOs.Registrations;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
@@ -19,6 +19,8 @@ using PCO_BackEnd_WebAPI.DTOs.Conferences;
 using PCO_BackEnd_WebAPI.Models.Helpers;
 using PCO_BackEnd_WebAPI.Models.Images.Manager;
 using PCO_BackEnd_WebAPI.Models.Images;
+using PCO_BackEnd_WebAPI.Security.OAuth;
+using PCO_BackEnd_WebAPI.Roles;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Registrations
 {
@@ -37,6 +39,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// <param name="page">nth page of list. Default value: 1</param>
         /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <returns></returns>
+        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpGet]
         [ResponseType(typeof(ResponsePaymentDTO))]
         public async Task<IHttpActionResult> GetAll(string filter = null,
@@ -69,6 +72,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// </summary>
         /// <param name="id">id of payment to be fetched</param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpGet]
         [ResponseType(typeof(ResponsePaymentDTO))]
         public async Task<IHttpActionResult> Get(int id)
@@ -93,6 +97,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// </summary>
         /// <param name="paymentDTO">Details about the payment to be added</param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpPost]
         [ResponseType(typeof(ResponsePaymentDTO))]
         public async Task<IHttpActionResult> AddPayment(AddPaymentDTO paymentDTO)
@@ -137,6 +142,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// <param name="id">id of payment to be updated</param>
         /// <param name="paymentDTO">New information of payment to be updated</param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpPost]
         [Route("api/UpdatePayment/{id:int}")]
         public async Task<IHttpActionResult> UpdatePayment(int id, UpdatePaymentDTO paymentDTO)
@@ -177,6 +183,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// </summary>
         /// <param name="id">id of payment to be deleted</param>
         /// <returns></returns>
+        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpPost]
         [Route("api/DeletePayment/{id:int}")]
         public async Task<IHttpActionResult> DeletePayment(int id)
@@ -208,6 +215,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// </summary>
         /// <param name="id">id of payment to be confirmed</param>
         /// <returns></returns>
+        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpPost]
         [Route("api/SetConfirmationDate/{id}")]
         public async Task<IHttpActionResult> ConfirmPaymentDate(int id)

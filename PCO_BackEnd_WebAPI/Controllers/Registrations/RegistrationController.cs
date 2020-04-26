@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using PCO_BackEnd_WebAPI.DTOs;
 using PCO_BackEnd_WebAPI.DTOs.Registrations;
 using PCO_BackEnd_WebAPI.Models.Entities;
@@ -15,6 +15,9 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using PCO_BackEnd_WebAPI.Models.Pagination;
+using PCO_BackEnd_WebAPI.Security.OAuth;
+using PCO_BackEnd_WebAPI.Roles;
+using Microsoft.AspNet.Identity;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
@@ -34,6 +37,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <param name="conferenceId">filter results by conference id</param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpGet]
         [ResponseType(typeof(List<ResponseRegistrationDTO>))]
         public async Task<IHttpActionResult> GetAll(int page = 1, 
@@ -43,6 +47,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                                                     int? userId = null,
                                                     string akeywordFilter = null)
         {
+            int id = Convert.ToInt32(User.Identity.GetUserId());
+            if (User.IsInRole(UserRoles.ROLE_MEMBER) && userId != id)
+            {
+                return StatusCode(HttpStatusCode.Forbidden);
+            }
+
             UnitOfWork unitOfWork = new UnitOfWork(_context);
             var registrationList = await Task.Run(() => unitOfWork.Registrations.GetPagedRegistration(page, size, conferenceId, aStatusId, userId, akeywordFilter));
             var registrationListDTO = PaginationMapper<Registration, ResponseListRegistrationDTO>.MapResult(registrationList);
@@ -55,6 +65,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="id">id of the registration to be fetched</param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpGet]
         public async Task<IHttpActionResult> Get(int id)
         {
@@ -76,6 +87,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="registrationDTO">Details about the registration to be added</param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpPost]
         [ResponseType(typeof(ResponseRegistrationDTO))]
         public async Task<IHttpActionResult> Add(RequestRegistrationDTO registrationDTO)
@@ -108,6 +120,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id"></param>
         /// <param name="registrationDTO"></param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpPost]
         [Route("api/UpdateRegistration/{id:int}")]
         [ResponseType(typeof(ResponseRegistrationDTO))]
@@ -146,6 +159,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="id">id of registration to be deleted</param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpPost]
         [Route("api/DeleteRegistration/{id:int}")]
         public async Task<IHttpActionResult> Delete(int id)
@@ -177,6 +191,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="model">registration id and new registration status</param>
         /// <returns></returns>
+        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpPost]
         [Route("api/SetRegistrationStatus")]
         public async Task<IHttpActionResult> SetRegistrationStatus(SetRegistrationViewModel model)
@@ -201,6 +216,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpGet]
         [Route("api/GetRegistration/{conferenceId=conferenceId}/{userId=userId}")]
         public async Task<IHttpActionResult> GetRegistrationStatus(int conferenceId, int userId)
