@@ -8,10 +8,12 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
+using PCO_BackEnd_WebAPI.Security.OAuth;
 using PCO_BackEnd_WebAPI.Providers;
 using PCO_BackEnd_WebAPI.Models;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Accounts;
+using System.Web.Http;
 
 namespace PCO_BackEnd_WebAPI
 {
@@ -29,26 +31,26 @@ namespace PCO_BackEnd_WebAPI
             // Configure the db context and user manager to use a single instance per request
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
-
-            // Enable the application to use a cookie to store information for the signed in user
-            // and to use a cookie to temporarily store information about a user logging in with a third party login provider
-            app.UseCookieAuthentication(new CookieAuthenticationOptions());
-            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
+            
+            var customProvider = new CustomAuthorizationServiceProvider();
 
             // Configure the application for OAuth based flow
             PublicClientId = "self";
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
-                TokenEndpointPath = new PathString("/Login"),
-                Provider = new ApplicationOAuthProvider(PublicClientId),
+                TokenEndpointPath = new PathString("/GetApiToken"),
+                Provider = customProvider,
                 AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(365),
                 // In production mode set AllowInsecureHttp = false
                 AllowInsecureHttp = true
             };
-
+            app.UseOAuthAuthorizationServer(OAuthOptions);
             // Enable the application to use bearer tokens to authenticate users
-            app.UseOAuthBearerTokens(OAuthOptions);
+            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+
+            HttpConfiguration config = new HttpConfiguration();
+            WebApiConfig.Register(config);
 
             // Uncomment the following lines to enable logging in with third party login providers
             //app.UseMicrosoftAccountAuthentication(

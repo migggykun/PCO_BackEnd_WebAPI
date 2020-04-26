@@ -11,7 +11,7 @@ namespace PCO_BackEnd_WebAPI.App_Start.AuthToken
     {
         public void Apply(SwaggerDocument swaggerDoc, SchemaRegistry schemaRegistry, IApiExplorer apiExplorer)
         {
-            swaggerDoc.paths.Add("/login", new PathItem
+            swaggerDoc.paths.Add("/GetApiToken", new PathItem
             {
                 post = new Operation
                 {
@@ -32,7 +32,7 @@ namespace PCO_BackEnd_WebAPI.App_Start.AuthToken
                         new Parameter
                         {
                             type = "string",
-                            name = "username",
+                            name = "email",
                             required = false,
                             @in = "formData"
                         },
