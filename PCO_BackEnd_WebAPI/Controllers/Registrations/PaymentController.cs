@@ -209,7 +209,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// <param name="id">id of payment to be confirmed</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("api/SetConfirmationDate/{id}")]
+        [Route("api/payment/SetConfirmationDate/{id}")]
         public async Task<IHttpActionResult> ConfirmPaymentDate(int id)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
