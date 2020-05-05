@@ -17,11 +17,11 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
         public int Id { get; set; }
 
         [Required]
-        [StringLength(15)]
+        [StringLength(128)]
         public string Name { get; set; }
 
         [Required]
-        [StringLength(128)]
+        [StringLength(512)]
         public string Description { get; set; }
     }
 }
