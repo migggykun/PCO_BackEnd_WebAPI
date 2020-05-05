@@ -35,6 +35,7 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
             var resultDTO = Mapper.Map<Payment, ResponsePaymentDTO>(payment);
             resultDTO.Conference = ConferenceMapper.MapToResponseConferenceDTO(conference);
             resultDTO.UserInfo = Mapper.Map<UserInfo, ResponseUserInfoDTO>(userInfo);
+            resultDTO.RegistrationStatusId = payment.Registration.RegistrationStatusId;
             return resultDTO;
         }
     }

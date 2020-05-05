@@ -28,6 +28,8 @@ namespace PCO_BackEnd_WebAPI.DTOs.Registrations
 
         public string Remarks { get; set; }
 
+        public int RegistrationStatusId { get; set; }
+
         [Required]
         public ResponseUserInfoDTO UserInfo { get; set; }
        
