@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.DTOs.Accounts;
+using PCO_BackEnd_WebAPI.ValidationsAttributes;
 
 namespace PCO_BackEnd_WebAPI.Models.AccountBindingModels
 {
@@ -16,7 +17,7 @@ namespace PCO_BackEnd_WebAPI.Models.AccountBindingModels
         [Required]
         public string Password { get; set; }
 
-        [Required]
+        [IsValidPhoneNumber(true,11,11)]
         public string PhoneNumber { get; set; }
 
         

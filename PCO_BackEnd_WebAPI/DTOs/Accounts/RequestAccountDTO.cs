@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PCO_BackEnd_WebAPI.ValidationsAttributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,8 +13,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
         [StringLength(128, ErrorMessage = "{0} length must be lesser than {1}.")]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(28, ErrorMessage = "{0} length must be lesser than {1}.")]
+        [IsValidPhoneNumber(true, 11, 11)]
         public string PhoneNumber { get; set; }
 
 

@@ -401,6 +401,7 @@
     <Compile Include="Models\Accounts\UserInfo.cs" />
     <Compile Include="ValidationsAttributes\IsDateValid.cs" />
     <Compile Include="ValidationsAttributes\IsPRCIdValid.cs" />
+    <Compile Include="ValidationsAttributes\IsValidPhoneNumber.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
