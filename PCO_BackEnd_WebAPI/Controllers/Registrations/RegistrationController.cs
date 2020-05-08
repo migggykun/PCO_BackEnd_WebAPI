@@ -18,6 +18,7 @@ using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Security.OAuth;
 using PCO_BackEnd_WebAPI.Roles;
 using Microsoft.AspNet.Identity;
+using System.Security.Claims;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
@@ -50,7 +51,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             int id = Convert.ToInt32(User.Identity.GetUserId());
             if (User.IsInRole(UserRoles.ROLE_MEMBER) && userId != id)
             {
-                return StatusCode(HttpStatusCode.Forbidden);
+                userId = id;
             }
 
             UnitOfWork unitOfWork = new UnitOfWork(_context);
