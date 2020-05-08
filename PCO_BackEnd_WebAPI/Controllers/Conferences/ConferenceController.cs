@@ -19,6 +19,8 @@ using PCO_BackEnd_WebAPI.Models.ParameterBindingModels;
 using PCO_BackEnd_WebAPI.Models.Images;
 using PCO_BackEnd_WebAPI.Models.Helpers;
 using PCO_BackEnd_WebAPI.Models.Images.Manager;
+using PCO_BackEnd_WebAPI.Security.OAuth;
+using PCO_BackEnd_WebAPI.Roles;
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences
 {
     public class ConferenceController : ApiController
@@ -37,6 +39,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="page">nth page of list. Default value: 1</param>
         /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet]
         [ResponseType(typeof(ResponseConferenceDTO))]
         public async Task<IHttpActionResult> GetAll([FromUri] ConferenceParameterBindingModel model)
@@ -55,6 +58,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// </summary>
         /// <param name="id">id of the conference to be fetched</param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpGet]
         public async Task<IHttpActionResult> Get(int id)
         {
@@ -76,6 +80,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// </summary>
         /// <param name="conferenceDTO">Details about the conference to be added.</param>
         /// <returns></returns>
+        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpPost]
         [ResponseType(typeof(ResponseConferenceDTO))]
         public async Task<IHttpActionResult> AddConference(AddConferenceDTO conferenceDTO)
@@ -115,6 +120,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="id">id of the conference to be updated</param>
         /// <param name="conferenceDTO">New information about the conference to be updated</param>
         /// <returns></returns>
+        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpPost]
         [Route("api/UpdateConference/{id:int}")]
         [ResponseType(typeof(ResponseConferenceDTO))]
@@ -154,6 +160,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// </summary>
         /// <param name="id">id of the conference to be deleted</param>
         /// <returns></returns>
+        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpPost]
         [Route("api/DeleteConference/{id:int}")]
         public async Task<IHttpActionResult> DeleteConference(int id)

@@ -16,6 +16,7 @@ using System.Web.Http.Cors;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Security.Authorization;
 using PCO_BackEnd_WebAPI.Security.OAuth;
+using PCO_BackEnd_WebAPI.Roles;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
@@ -35,6 +36,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <param name="membershipType">keyword for searching</param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet]
         [ResponseType(typeof(ResponseMembershipTypeDTO))]
         public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0, string membershipType = null)
@@ -50,6 +52,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="id">id of the membershipType to be fetched</param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet]
         [ResponseType(typeof(ResponseMembershipTypeDTO))]
         public async Task<IHttpActionResult> Get(int id)
@@ -72,6 +75,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="membershipTypeDTO">Details about the type of membershipType to be added</param>
         /// <returns></returns>
+        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpPost]
         [ResponseType(typeof(ResponseMembershipTypeDTO))]
         public async Task<IHttpActionResult> AddMembershipType(RequestMembershipTypeDTO membershipTypeDTO)
@@ -105,6 +109,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id">id of membershipType</param>
         /// <param name="membershipTypeDTO">New information about membershipType to update</param>
         /// <returns></returns>
+        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpPost]
         [Route("api/UpdateMembershipType/{id:int}")]
         [ResponseType(typeof(ResponseMembershipTypeDTO))]
@@ -145,6 +150,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="id">user id of membershipType to delete</param>
         /// <returns></returns>
+        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpPost]
         [Route("api/DeleteMembershipType/{id:int}")]
         public async Task<IHttpActionResult> DeleteMembershipType(int id)
