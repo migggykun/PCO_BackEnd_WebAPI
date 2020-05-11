@@ -10,12 +10,15 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
     {
 
         [Required]
+        [Display(Name = "First name")]
         [StringLength(512, ErrorMessage = "{0} length must be lesser than {1}.")]
         public string FirstName { get; set; }
 
-        [StringLength(256, ErrorMessage = "{0} length must be lesser than {1}.")]
+        [Display(Name = "Middle initial")]
+        [StringLength(2, ErrorMessage = "{0} length must be lesser than {1}.")]
         public string MiddleName { get; set; }
 
+        [Display(Name = "Last name")]
         [StringLength(256, ErrorMessage = "{0} length must be lesser than {1}.")]
         [Required]
         public string LastName { get; set; }
@@ -23,7 +26,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
         [Required]
         public RequestAddressDTO Address { get; set; }
 
-        [StringLength(512, ErrorMessage = "{0} length must be lesser than {1}.")]
+        [StringLength(256, ErrorMessage = "{0} length must be lesser than {1}.")]
         [Required]
         public string Organization { get; set; }
 

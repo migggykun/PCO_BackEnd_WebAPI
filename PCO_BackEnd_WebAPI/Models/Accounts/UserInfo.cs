@@ -15,20 +15,20 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
         public int Id { get; set; }
 
         [Required]
-        [StringLength(30)]
+        [StringLength(512)]
         public string FirstName { get; set; }
 
-        [StringLength(30)]
+        [StringLength(2)]
         public string MiddleName { get; set; }
 
         [Required]
-        [StringLength(30)]
+        [StringLength(256)]
         public string LastName { get; set; }
 
         [Required]
         public virtual Address Address{ get; set; }
 
-        [StringLength(50)]
+        [StringLength(256)]
         public string Organization { get; set; }
 
         [Required]

@@ -12,6 +12,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
         [StringLength(128, ErrorMessage = "{0} length must be lesser than {1}.")]
         public string StreetAddress { get; set; }
 
+        [Required]
         [StringLength(128, ErrorMessage = "{0} length must be lesser than {1}.")]
         public string Barangay { get; set; }
 
@@ -23,7 +24,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
         [Required]
         public string Province { get; set; }
 
-        [StringLength(4, ErrorMessage = "{0} length must be lesser than {1}.")]
+        [StringLength(4, ErrorMessage = "{0} length must be lesser than {1}.", MinimumLength = 4)]
         [Required]
         public string Zipcode { get; set; }
 

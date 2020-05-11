@@ -14,19 +14,19 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
         public int Id { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(128)]
         public string StreetAddress { get; set; }
 
         [Required]
-        [StringLength(30)]
+        [StringLength(128)]
         public string Barangay { get; set; }
 
         [Required]
-        [StringLength(20)]
+        [StringLength(128)]
         public string City { get; set; }
 
         [Required]
-        [StringLength(20)]
+        [StringLength(128)]
         public string Province { get; set; }
 
         [Required]
