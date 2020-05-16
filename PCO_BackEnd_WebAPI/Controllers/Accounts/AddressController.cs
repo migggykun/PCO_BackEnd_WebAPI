@@ -14,6 +14,9 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using PCO_BackEnd_WebAPI.Models.Pagination;
+using PCO_BackEnd_WebAPI.Security.OAuth;
+using PCO_BackEnd_WebAPI.Roles;
+using Microsoft.AspNet.Identity;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
@@ -32,6 +35,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="page">nth page of list. Default value: 1</param>
         /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <returns></returns>
+        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpGet]
         [ResponseType(typeof(ResponseAddressDTO))]
         public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0)
@@ -47,10 +51,17 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="id">id of the user information to be fetched</param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpGet]
         [ResponseType(typeof(ResponseAddressDTO))]
         public async Task<IHttpActionResult> Get(int id)
         {
+            int userId = Convert.ToInt32(User.Identity.GetUserId());
+            if (User.IsInRole(UserRoles.ROLE_MEMBER) && userId != id)
+            {
+                return StatusCode(HttpStatusCode.Forbidden);
+            }
+
             UnitOfWork unitOfWork = new UnitOfWork(_context);
             var result = await Task.Run(() => unitOfWork.Addresses.Get(id));
             if (result == null)
@@ -70,6 +81,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id">user id</param>
         /// <param name="addressDTO">New information about the user to be updated</param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpPost]
         [Route("api/UpdateAddress/{id:int}")]
         [ResponseType(typeof(ResponseAddressDTO))]

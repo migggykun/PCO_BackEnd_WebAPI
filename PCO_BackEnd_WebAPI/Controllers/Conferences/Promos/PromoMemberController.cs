@@ -4,6 +4,8 @@ using PCO_BackEnd_WebAPI.Models.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
+using PCO_BackEnd_WebAPI.Roles;
+using PCO_BackEnd_WebAPI.Security.OAuth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +33,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <param name="page">nth page of list. Default value: 1</param>
         /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <returns></returns>
+        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpGet]
         [ResponseType(typeof(ResponsePromoMemberDTO))]
         public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0)
@@ -46,6 +49,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// </summary>
         /// <param name="id">id of the promo member to be get</param>
         /// <returns></returns>
+        [CustomAuthorize]
         [HttpGet]
         [ResponseType(typeof(ResponsePromoMemberDTO))]
         public async Task<IHttpActionResult> Get(int id)
@@ -68,6 +72,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// </summary>
         /// <param name="promoMembersDTO">Details about the promo member to be added</param>
         /// <returns></returns>
+        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpPost]
         [ResponseType(typeof(ResponsePromoMemberDTO))]
         public async Task<IHttpActionResult> AddPromoMember(List<ResponsePromoMemberDTO> promoMembersDTO)
@@ -109,6 +114,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <param name="id">id of the promo member to be updated</param>
         /// <param name="promoMemberDTO">New information about the promo member to be updated</param>
         /// <returns></returns>
+        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpPost]
         [Route("api/UpdatePromoMember/{id:int}")]
         [ResponseType(typeof(ResponsePromoMemberDTO))]
@@ -147,6 +153,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// </summary>
         /// <param name="id">id of promo member to be deleted</param>
         /// <returns></returns>
+        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpPost]
         [Route("api/DeletePromoMember/{id:int}")]
         public async Task<IHttpActionResult> DeletePromoMember(int id)
@@ -174,4 +181,3 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         }
     }
 }
-

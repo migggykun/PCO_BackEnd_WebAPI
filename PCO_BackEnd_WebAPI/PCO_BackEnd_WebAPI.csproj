@@ -257,6 +257,7 @@
     <Compile Include="Controllers\Bank\BankDetailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Images\ImageController.cs" />
+    <Compile Include="Controllers\Messages\SMSController.cs" />
     <Compile Include="Controllers\Registrations\PaymentController.cs" />
     <Compile Include="Controllers\Registrations\RegistrationController.cs" />
     <Compile Include="Controllers\Accounts\MembershipTypeController.cs" />
@@ -392,10 +393,14 @@
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Roles\UserRoles.cs" />
     <Compile Include="Security\Authorization\CustomAuthorizationFilter.cs" />
+    <Compile Include="Security\Cryptography\Entity\ClientEntity.cs" />
+    <Compile Include="Security\Cryptography\Models\ClientInfo.cs" />
+    <Compile Include="Security\Cryptography\Hash\HashManager.cs" />
     <Compile Include="Security\DTO\UserInformationDTO.cs" />
     <Compile Include="Security\OAuth\AuthorizeAttribute.cs" />
     <Compile Include="Security\OAuth\CustomAuthorizationServiceProvider.cs" />
     <Compile Include="Security\OAuth\CustomOAuthGrantResourceOwner.cs" />
+    <Compile Include="Security\OAuth\CustomRefreshTokenProvider.cs" />
     <Compile Include="Security\TokenManager.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Models\Accounts\UserInfo.cs" />
