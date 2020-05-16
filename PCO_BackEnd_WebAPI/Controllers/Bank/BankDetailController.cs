@@ -10,8 +10,6 @@ using AutoMapper;
 using PCO_BackEnd_WebAPI.Models.Bank;
 using PCO_BackEnd_WebAPI.DTOs.Bank;
 using System.Web.Http.Description;
-using PCO_BackEnd_WebAPI.Security.OAuth;
-using PCO_BackEnd_WebAPI.Roles;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Bank
 {
@@ -28,7 +26,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
         /// Returns all bank details
         /// </summary>
         /// <returns></returns>
-        [AllowAnonymous]
         [HttpGet]
         [ResponseType(typeof(List<ResponseBankDetailDTO>))]
         public async Task <IHttpActionResult> GetAll(int page = 0, int size = 0, string filter = null)
@@ -43,7 +40,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [CustomAuthorize]
         [HttpGet]
         public async Task<IHttpActionResult> Get(int id)
         {
@@ -65,7 +61,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
         /// </summary>
         /// <param name="bankDetailDTO">Bank details to be added.</param>
         /// <returns></returns>
-        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpPost]
         [ResponseType(typeof(ResponseBankDetailDTO))]
         public async Task<IHttpActionResult> AddBankDetails(RequestAddBankDetailDTO bankDetailDTO)
@@ -97,7 +92,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
         /// <param name="id">id of the bank detail to be updated</param>
         /// <param name="conferenceDTO">New information about the bank to be updated</param>
         /// <returns></returns>
-        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpPost]
         [Route("api/UpdateBankDetail/{id:int}")]
         [ResponseType(typeof(ResponseBankDetailDTO))]
@@ -135,7 +129,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
         /// </summary>
         /// <param name="id">id of the bank details to be deleted</param>
         /// <returns></returns>
-        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]        
         [HttpPost]
         [Route("api/DeleteBankDetail/{id:int}")]
         public async Task<IHttpActionResult> DeleteBankDetails(int id)
