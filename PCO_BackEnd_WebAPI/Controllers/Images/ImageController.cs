@@ -10,8 +10,6 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using PCO_BackEnd_WebAPI.Roles;
-using PCO_BackEnd_WebAPI.Security.OAuth;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Images
 {
@@ -29,7 +27,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Images
         /// </summary>
         /// <param name="identifier">1: banner , 2: receipts</param>
         /// <returns></returns>
-        [CustomAuthorize(Roles = UserRoles.ROLE_ADMIN)]
         [HttpGet]
         public async Task<IHttpActionResult> GetImages(int identifier)
         {
@@ -66,7 +63,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Images
         /// <param name="id">image id</param>
         /// <param name="identifier">1: banner , 2: receipts</param>
         /// <returns></returns>
-        [AllowAnonymous]
         [HttpGet]
         [Route("api/GetSingleImage")]
         public async Task<IHttpActionResult> GetImages(int id, int identifier)

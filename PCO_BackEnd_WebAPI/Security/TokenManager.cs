@@ -14,6 +14,7 @@ namespace PCO_BackEnd_WebAPI.Security
 
         public static string GenerateToken(string userName)
         {
+            //string Secret = "sUXa82XSgk3q6n/Yr1630f/Xfrq44lr/kpzcYLMEPBRnCwktx8LrtaIjyCKeJEhp5QA=";
             byte[] key = Convert.FromBase64String(Secret);
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(key);
             SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor
