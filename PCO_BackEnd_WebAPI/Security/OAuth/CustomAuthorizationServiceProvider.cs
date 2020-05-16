@@ -31,7 +31,6 @@ namespace PCO_BackEnd_WebAPI.Security.OAuth
                 role = user.IsAdmin ? UserRoles.ROLE_ADMIN : UserRoles.ROLE_MEMBER;
                 identity.AddClaim(new Claim(ClaimTypes.Role, role));
                 identity.AddClaim(new Claim(ClaimTypes.Email, email));
-                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
                 context.Validated(identity);
             }
             else

@@ -1145,13 +1145,5 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Security.Cryptography.Hash.HashManager.GetSha256Hash(System.String,System.String)">
-            <summary>
-            Generates SHA256 encrypted string
-            </summary>
-            <param name="rawData"></param>
-            <param name="salt"></param>
-            <returns></returns>
-        </member>
     </members>
 </doc>
