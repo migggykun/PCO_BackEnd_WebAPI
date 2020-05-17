@@ -400,7 +400,6 @@
     <Compile Include="Security\OAuth\AuthorizeAttribute.cs" />
     <Compile Include="Security\OAuth\CustomAuthorizationServiceProvider.cs" />
     <Compile Include="Security\OAuth\CustomOAuthGrantResourceOwner.cs" />
-    <Compile Include="Security\OAuth\CustomRefreshTokenProvider.cs" />
     <Compile Include="Security\TokenManager.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Models\Accounts\UserInfo.cs" />

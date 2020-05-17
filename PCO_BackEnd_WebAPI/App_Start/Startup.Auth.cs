@@ -42,7 +42,6 @@ namespace PCO_BackEnd_WebAPI
                 Provider = customProvider,
                 AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(7),
-                RefreshTokenProvider = new CustomRefreshTokenProvider(),
                 
                 // In production mode set AllowInsecureHttp = false
                 AllowInsecureHttp = true

@@ -32,14 +32,14 @@ namespace PCO_BackEnd_WebAPI.App_Start.AuthToken
                         new Parameter
                         {
                             type = "string",
-                            name = "email",
+                            name = "client_id",
                             required = false,
                             @in = "formData"
                         },
                         new Parameter
                         {
                             type = "string",
-                            name = "password",
+                            name = "client_secret",
                             required = false,
                             @in = "formData"
                         },
