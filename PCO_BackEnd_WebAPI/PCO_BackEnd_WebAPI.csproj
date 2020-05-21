@@ -257,6 +257,7 @@
     <Compile Include="Controllers\Bank\BankDetailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Images\ImageController.cs" />
+    <Compile Include="Controllers\Messages\EmailController.cs" />
     <Compile Include="Controllers\Messages\SMSController.cs" />
     <Compile Include="Controllers\Registrations\PaymentController.cs" />
     <Compile Include="Controllers\Registrations\RegistrationController.cs" />
@@ -445,7 +446,9 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

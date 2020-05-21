@@ -24,6 +24,21 @@ namespace PCO_BackEnd_WebAPI.Controllers.Messages
             _context = new ApplicationDbContext();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sms"></param>
+        /// <returns></returns>
+        ///         /// <remarks>
+        /// take note of the following formatting
+        /// <fname> - changes to user first name
+        /// <lname> - changes to user last name
+        /// <minitial> - changes to user middle initial
+        /// <org> - changes to user organization/school
+        /// <memtype> - changes to user membership type
+        /// \n - changes to end of line
+        /// limit per line input by 55 char to preserve format
+        /// </remarks>
         [HttpPost]
         public async Task<IHttpActionResult> SendSMS(SMSBindingModel sms)
         {
@@ -55,11 +70,21 @@ namespace PCO_BackEnd_WebAPI.Controllers.Messages
 
         private string FormatSMS(string SMS, UserInfo u = null)
         {
-            SMS = SMS.Replace("<fname>", u.FirstName)
+           string[] tags = {"<fname>",
+                "<minitial>",
+                "<lname>",
+                "<memtype>", 
+                "<org>"};
+
+            foreach(string str in tags)
+            {
+                SMS = SMS.Replace("<fname>",u.FirstName)
                     .Replace("<lname>", u.LastName)
                     .Replace("<minitial>", u.MiddleName)
                     .Replace("<memtype>", u.MembershipType.Name)
                     .Replace("<org>", u.Organization);
+
+            }
             return SMS;
         }
     }

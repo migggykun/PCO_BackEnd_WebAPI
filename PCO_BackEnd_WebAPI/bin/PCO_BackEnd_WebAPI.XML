@@ -562,6 +562,8 @@
             <param name="identifier">1: banner , 2: receipts</param>
             <returns></returns>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:PCO_BackEnd_WebAPI.Controllers.Mail.EmailController.SendEmail(System.Collections.Generic.List{System.Int32},System.String,System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:PCO_BackEnd_WebAPI.Controllers.Messages.SMSController.SendSMS(PCO_BackEnd_WebAPI.Models.AccountBindingModels.SMSBindingModel)" -->
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Registrations.PaymentController.GetAll(System.String,System.Int32,System.Int32,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
             <summary>
             Gets list of Registration
