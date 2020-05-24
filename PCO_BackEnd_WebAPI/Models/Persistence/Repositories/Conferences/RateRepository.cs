@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using RefactorThis.GraphDiff;
 using PCO_BackEnd_WebAPI.Models.Pagination;
+using System.Linq.Expressions;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
 {
@@ -45,6 +46,12 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
         {
             appDbContext.Rates.RemoveRange(rates);
         }
+
+        public Rate GetRate(Expression<Func<Rate, bool>> predicate)
+        {
+            return appDbContext.Rates.FirstOrDefault(predicate);
+        }
+
         private ApplicationDbContext appDbContext
         {
             get

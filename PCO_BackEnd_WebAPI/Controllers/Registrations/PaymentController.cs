@@ -114,6 +114,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
 
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
                 await Task.Run(() => unitOfWork.Payments.Add(payment));
+                await Task.Run(() => unitOfWork.Registrations.UpdateRegistrationFee(payment.RegistrationId, paymentDTO.Price, paymentDTO.Discount));
                 await Task.Run(() => unitOfWork.Complete());
 
                 //Convert to DTO
@@ -158,6 +159,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                 else
                 {
                     await Task.Run(() => unitOfWork.Payments.UpdatePayment(id, payment, paymentDTO.ProofOfPayment));
+                    await Task.Run(() => unitOfWork.Registrations.UpdateRegistrationFee(payment.RegistrationId, paymentDTO.Price, paymentDTO.Discount));
                     await Task.Run(() => unitOfWork.Complete());
                     var user = unitOfWork.UserInfos.Get(result.Registration.UserId);
                     var conference = unitOfWork.Conferences.Get(result.Registration.ConferenceId);

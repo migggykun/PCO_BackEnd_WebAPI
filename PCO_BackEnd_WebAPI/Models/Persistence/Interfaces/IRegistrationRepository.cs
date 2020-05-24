@@ -17,5 +17,6 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces
         void SetRegistrationStatus(int id, int status);
         PageResult<Registration> GetPagedRegistration(int page, int size, int? filter, int? aStatusId, int? userId, string akeywordFilter);
         Registration GetRegistration(int conferenceId, int userId);
+        void UpdateRegistrationFee(int id, double amount, double discount);
     }
 }

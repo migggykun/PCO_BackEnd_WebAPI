@@ -660,6 +660,15 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.RegistrationController.Get(System.Int32,System.Int32)">
+            <summary>
+            Gets RegistrationFee
+            </summary>
+            <param name="conferenceId"></param>
+            <param name="promoId"></param>
+            <param name="membershipTypeId"></param>
+            <returns></returns>
+        </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.MembershipTypeController.GetAll(System.Int32,System.Int32,System.String)">
             <summary>
             Get list of membershiptypes

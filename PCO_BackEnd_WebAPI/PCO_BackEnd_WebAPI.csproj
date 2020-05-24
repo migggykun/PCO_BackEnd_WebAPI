@@ -284,6 +284,7 @@
     <Compile Include="DTOs\Bank\RequestUpdateBankDetailDTO.cs" />
     <Compile Include="DTOs\Bank\ResponseBankDetailDTO.cs" />
     <Compile Include="DTOs\Conferences\BaseConferenceDTO.cs" />
+    <Compile Include="DTOs\Registrations\ResponseRegistrationFeeDTO.cs" />
     <Compile Include="DTOs\Images\ResponseImageDTO.cs" />
     <Compile Include="DTOs\Registrations\AddPaymentDTO.cs" />
     <Compile Include="DTOs\Registrations\BasePaymentDTO.cs" />
