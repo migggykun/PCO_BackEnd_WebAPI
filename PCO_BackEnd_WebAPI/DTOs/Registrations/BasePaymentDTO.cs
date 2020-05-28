@@ -17,11 +17,5 @@ namespace PCO_BackEnd_WebAPI.DTOs.Registrations
 
         [StringLength(512, ErrorMessage = "{0} length must be less than {1}.")]
         public string Remarks { get; set; }
-
-        public double Price { get; set; }
-
-        public double Discount { get; set; }
-
-
     }
 }

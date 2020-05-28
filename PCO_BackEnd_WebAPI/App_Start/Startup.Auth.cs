@@ -38,7 +38,7 @@ namespace PCO_BackEnd_WebAPI
             PublicClientId = "self";
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
-                TokenEndpointPath = new PathString("/GetApiToken"),
+                TokenEndpointPath = new PathString("/Login"),
                 Provider = customProvider,
                 AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(365),

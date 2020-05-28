@@ -57,13 +57,6 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
             return appDbContext.UpdateGraph<Registration>(newRegistration);
         }
 
-        public void UpdateRegistrationFee(int id, double amount, double discount)
-        {
-            var registration = appDbContext.Registrations.Find(id);
-            registration.Amount = amount;
-            registration.Discount = discount;
-        }
-
         public void Remove(List<Registration> aRegistrationList)
         {
             appDbContext.Registrations.RemoveRange(aRegistrationList);
