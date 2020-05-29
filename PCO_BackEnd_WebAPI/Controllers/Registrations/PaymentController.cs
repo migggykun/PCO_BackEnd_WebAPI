@@ -106,11 +106,14 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
             var payment = Mapper.Map<AddPaymentDTO, Payment>(paymentDTO);
             try
             {
-                //Convert receipt image to bytes
-                ImageManager receiptManager = new ImageManager(paymentDTO.ProofOfPayment);
-                payment.Receipt = new Receipt();
-                payment.Receipt.Id = payment.RegistrationId;
-                payment.Receipt.Image = receiptManager.GetAdjustedSizeInBytes();
+                if (!string.IsNullOrEmpty(paymentDTO.ProofOfPayment))
+                {
+                    //Convert receipt image to bytes
+                    ImageManager receiptManager = new ImageManager(paymentDTO.ProofOfPayment);
+                    payment.Receipt = new Receipt();
+                    payment.Receipt.Id = payment.RegistrationId;
+                    payment.Receipt.Image = receiptManager.GetAdjustedSizeInBytes();
+                }
 
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
                 await Task.Run(() => unitOfWork.Payments.Add(payment));

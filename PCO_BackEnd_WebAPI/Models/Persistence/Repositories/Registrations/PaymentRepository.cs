@@ -65,8 +65,11 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 
 		public void UpdatePayment(Payment oldPayment, Payment newPayment, string base64Image)
 		{
-            var receipt = appDbContext.Receipts.Find(oldPayment.RegistrationId);
-            receipt.Image = new ImageManager(base64Image).GetAdjustedSizeInBytes();
+            if (string.IsNullOrEmpty(base64Image))
+            {
+                var receipt = appDbContext.Receipts.Find(oldPayment.RegistrationId);
+                receipt.Image = new ImageManager(base64Image).GetAdjustedSizeInBytes();
+            }
 
             oldPayment.PaymentSubmissionDate = DateTime.Now;
             oldPayment.TransactionNumber = Guid.NewGuid().ToString();
