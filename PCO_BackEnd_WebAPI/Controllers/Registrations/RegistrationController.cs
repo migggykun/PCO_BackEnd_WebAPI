@@ -19,6 +19,7 @@ using PCO_BackEnd_WebAPI.Security.OAuth;
 using PCO_BackEnd_WebAPI.Roles;
 using Microsoft.AspNet.Identity;
 using System.Security.Claims;
+using PCO_BackEnd_WebAPI.Models.Accounts;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
@@ -48,13 +49,20 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                                                     int? userId = null,
                                                     string akeywordFilter = null)
         {
-            int id = Convert.ToInt32(User.Identity.GetUserId());
-            if (User.IsInRole(UserRoles.ROLE_MEMBER) && userId != id)
+            UnitOfWork unitOfWork = new UnitOfWork(_context);
+            var user = await Task.Run(() => unitOfWork.Accounts.UserManager.FindByIdAsync((int)userId));
+            if (userId != null && user == null)
             {
-                userId = id;
+                return NotFound();
+            }
+            else if(user != null)
+            {
+                if (User.IsInRole(UserRoles.ROLE_MEMBER) && user.IsAdmin)
+                {
+                    return StatusCode(HttpStatusCode.Forbidden);
+                }
             }
 
-            UnitOfWork unitOfWork = new UnitOfWork(_context);
             var registrationList = await Task.Run(() => unitOfWork.Registrations.GetPagedRegistration(page, size, conferenceId, aStatusId, userId, akeywordFilter));
             var registrationListDTO = PaginationMapper<Registration, ResponseListRegistrationDTO>.MapResult(registrationList);
 

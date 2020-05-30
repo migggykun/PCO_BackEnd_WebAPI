@@ -10,6 +10,7 @@ using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Roles;
 using PCO_BackEnd_WebAPI.Security.Cryptography.Entity;
 using PCO_BackEnd_WebAPI.Security.Cryptography.Hash;
+using System.Data.SqlClient;
 namespace PCO_BackEnd_WebAPI.Security.OAuth
 {
     public class CustomAuthorizationServiceProvider : OAuthAuthorizationServerProvider
@@ -20,7 +21,7 @@ namespace PCO_BackEnd_WebAPI.Security.OAuth
         }
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
-        {
+        {       
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
             var form = await context.Request.ReadFormAsync();
             string clientId = form["client_id"];
@@ -36,21 +37,22 @@ namespace PCO_BackEnd_WebAPI.Security.OAuth
 
             using (ClientEntity clientContext = new ClientEntity())
             {
-                var clientDetails = clientContext.ClientInfos.ToList();               
-                foreach (var c in clientDetails)
+                string command = string.Format("EXEC pc0_credentials.GetRole @client_id, @client_password");
+                SqlParameter parameter1 = new SqlParameter("@client_id", clientId);
+                SqlParameter parameter2 = new SqlParameter("@client_password", clientSecret);
+                
+                //Get Website Type
+                var type = clientContext.Database.SqlQuery<string>(command, parameter1, parameter2).ToList();
+                if (type != null)
                 {
-                    var hashedClientId = new HashManager(clientId, c.salt).HashedValue;
-                    var hashedClientSecret = new HashManager(clientSecret, c.salt).HashedValue;
-
-                    if (string.Compare(hashedClientId, c.clientId) == 0 &&
-                       string.Compare(hashedClientSecret, c.clientSecret) == 0)
-                    {
-                        identity.AddClaim(new Claim(ClaimTypes.Role, c.type));
-                        context.Validated(identity);
-                        return;
-                    }
+                    identity.AddClaim(new Claim(ClaimTypes.Role, type[0]));
+                    context.Validated(identity);
+                    return;
                 }
-                context.SetError("Invalid grant type", "Login credentials are incorrect.");
+                else
+                {
+                    context.SetError("Invalid grant type", "Login credentials are incorrect.");
+                }
             }       
         }
     }

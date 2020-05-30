@@ -58,21 +58,20 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         [ResponseType(typeof(ResponseUserInfoDTO))]
         public async Task<IHttpActionResult> Get(int id)
         {
-            int userId = Convert.ToInt32(User.Identity.GetUserId());
-            if (User.IsInRole(UserRoles.ROLE_MEMBER) && userId != id)
-            {
-                return StatusCode(HttpStatusCode.Forbidden);
-            }
 
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = await Task.Run(() => unitOfWork.UserInfos.Get(id));
+            var result = await Task.Run(() => unitOfWork.Accounts.UserManager.FindByIdAsync(id));
             if (result == null)
             {
                 return NotFound();
             }
+            else if ((User.IsInRole(UserRoles.ROLE_MEMBER) && result.IsAdmin))
+            {
+                return StatusCode(HttpStatusCode.Forbidden);
+            }
             else
             {
-                var userInfoDTO = Mapper.Map<UserInfo, ResponseUserInfoDTO>(result);
+                var userInfoDTO = Mapper.Map<UserInfo, ResponseUserInfoDTO>(result.UserInfo);
                 return Ok(userInfoDTO);
             }
         }

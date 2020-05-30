@@ -66,13 +66,20 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         [ResponseType(typeof(ResponsePRCDetailDTO))]
         public async Task<IHttpActionResult> Get(int id)
         {
-            int userId = Convert.ToInt32(User.Identity.GetUserId());
-            if (User.IsInRole(UserRoles.ROLE_MEMBER) && userId != id)
+            UnitOfWork unitOfWork = new UnitOfWork(_context);
+            var user = await Task.Run(() => unitOfWork.Accounts.UserManager.FindByIdAsync(id));
+            if (user == null)
             {
-                return StatusCode(HttpStatusCode.Forbidden);
+                return NotFound();
+            }
+            else if (user != null)
+            {
+                if (User.IsInRole(UserRoles.ROLE_MEMBER) && user.IsAdmin)
+                {
+                    return StatusCode(HttpStatusCode.Forbidden);
+                }
             }
 
-            UnitOfWork unitOfWork = new UnitOfWork(_context);
             var result = await Task.Run(() => unitOfWork.PRCDetails.Get(id));
             if (result == null)
             {

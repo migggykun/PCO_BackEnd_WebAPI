@@ -53,7 +53,6 @@ using System.Net;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
-    [AllowAnonymous]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
@@ -142,7 +141,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="email">Email of user to reset</param>
         /// <returns></returns>
-        [AllowAnonymous]
+        [CustomAuthorize]
         [HttpPost]
         [Route("SendResetPasswordEmail")]
         public async Task<IHttpActionResult> SendResetPasswordEmail(string email)
@@ -163,7 +162,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [AllowAnonymous]
+        [CustomAuthorize]
         [HttpPost]
         [Route("ResetPassword")]
         public async Task<IHttpActionResult> ResetPassword(ResetPasswordViewModel model)
@@ -222,7 +221,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="model">If no PRC Details to be specified, set values to empty string(""). otherwise, set its value</param>
         /// <returns></returns>
-        [AllowAnonymous]
+        [CustomAuthorize]
         [Route("Register")]
         [ResponseType(typeof(ResponseAccountDTO))]
         public async Task<IHttpActionResult> Register(UserAccountBindingModel model)
@@ -345,15 +344,15 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         [ResponseType(typeof(ResponseAccountDTO))]
         public async Task<IHttpActionResult> GetUser(int id)
         {
-            int userId = Convert.ToInt32(User.Identity.GetUserId());
-            if (User.IsInRole(UserRoles.ROLE_MEMBER) && userId != id)
-            {
-                return StatusCode(HttpStatusCode.Forbidden);
-            }
-            var user = await UserManager.FindByIdAsync(id);
+            var user = await Task.Run(() => UserManager.FindByIdAsync(id));
+
             if (user == null)
             {
                 return NotFound();
+            }
+            else if ((User.IsInRole(UserRoles.ROLE_MEMBER) && user.IsAdmin))
+            {
+                    return StatusCode(HttpStatusCode.Forbidden);
             }
             else
             {
@@ -419,6 +418,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             return Ok();
         }
 
+
+        [CustomAuthorize]
         [HttpGet]
         [Route("Login")]
         public async Task<IHttpActionResult> Login(string email, string password)

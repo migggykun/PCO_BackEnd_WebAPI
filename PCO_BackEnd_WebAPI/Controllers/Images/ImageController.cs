@@ -66,7 +66,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Images
         /// <param name="id">image id</param>
         /// <param name="identifier">1: banner , 2: receipts</param>
         /// <returns></returns>
-        [AllowAnonymous]
+        [CustomAuthorize]
         [HttpGet]
         [Route("api/GetSingleImage")]
         public async Task<IHttpActionResult> GetImages(int id, int identifier)

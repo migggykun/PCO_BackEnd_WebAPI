@@ -36,7 +36,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <param name="membershipType">keyword for searching</param>
         /// <returns></returns>
-        [AllowAnonymous]
+        [CustomAuthorize]
         [HttpGet]
         [ResponseType(typeof(ResponseMembershipTypeDTO))]
         public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0, string membershipType = null)
@@ -52,7 +52,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="id">id of the membershipType to be fetched</param>
         /// <returns></returns>
-        [AllowAnonymous]
+        [CustomAuthorize]
         [HttpGet]
         [ResponseType(typeof(ResponseMembershipTypeDTO))]
         public async Task<IHttpActionResult> Get(int id)

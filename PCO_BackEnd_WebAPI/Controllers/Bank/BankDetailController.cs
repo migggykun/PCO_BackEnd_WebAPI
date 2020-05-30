@@ -28,7 +28,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
         /// Returns all bank details
         /// </summary>
         /// <returns></returns>
-        [AllowAnonymous]
+        [CustomAuthorize]
         [HttpGet]
         [ResponseType(typeof(List<ResponseBankDetailDTO>))]
         public async Task <IHttpActionResult> GetAll(int page = 0, int size = 0, string filter = null)

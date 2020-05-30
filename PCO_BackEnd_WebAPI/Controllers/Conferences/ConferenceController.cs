@@ -39,7 +39,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="page">nth page of list. Default value: 1</param>
         /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <returns></returns>
-        [AllowAnonymous]
+        [CustomAuthorize]
         [HttpGet]
         [ResponseType(typeof(ResponseConferenceDTO))]
         public async Task<IHttpActionResult> GetAll([FromUri] ConferenceParameterBindingModel model)

@@ -21,7 +21,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
             _context = new ApplicationDbContext();
         }
 
-        [AllowAnonymous]
+        [CustomAuthorize]
         [HttpGet]
         public async Task<IHttpActionResult> GetStatusRegistration()
         {
