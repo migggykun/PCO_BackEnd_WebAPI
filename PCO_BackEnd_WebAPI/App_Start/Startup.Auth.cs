@@ -39,7 +39,7 @@ namespace PCO_BackEnd_WebAPI
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
                 TokenEndpointPath = new PathString("/Login"),
-                Provider = customProvider,
+                Provider = new ApplicationOAuthProvider(PublicClientId),
                 AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(365),
                 // In production mode set AllowInsecureHttp = false
