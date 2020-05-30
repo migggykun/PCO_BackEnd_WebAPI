@@ -42,9 +42,28 @@ namespace PCO_BackEnd_WebAPI.Controllers.Messages
         [HttpPost]
         public async Task<IHttpActionResult> SendSMS(SMSBindingModel sms)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
             string messageTemplate = string.Empty;
             var users = _context.Users.Where(u => sms.UserIds.Any(uId => uId == u.Id));
+
+            if (users.Count<ApplicationUser>() == 0)
+            {
+                string errorMessage = "User Ids do not exist";
+                return BadRequest(errorMessage);
+            }
+
+            if (sms.UserIds.Count != users.Count<ApplicationUser>())
+            {
+                string errorMessage = "Some user Ids do not exist";
+                return BadRequest(errorMessage);  
+            }
+
+            string failedSmsMessage = "Failed to send Sms to the following users: ";
+            bool isSomeSmsFails = false;
 
             foreach (var u in users)
             {
@@ -63,9 +82,23 @@ namespace PCO_BackEnd_WebAPI.Controllers.Messages
                 {
                     request.Content = new StringContent(json, Encoding.UTF8, "application/json");
                     var response = client.SendAsync(request, HttpCompletionOption.ResponseContentRead).Result;
+                    
+                    if(response.IsSuccessStatusCode == false)
+                    {
+                       failedSmsMessage += u.Email + ",";
+                       isSomeSmsFails = true;
+                    }
                 }
             }
-            return Ok();
+
+            if (isSomeSmsFails)
+            {
+                return Ok(failedSmsMessage);
+            }
+            else
+            {
+                return Ok();
+            }
         }
 
         private string FormatSMS(string SMS, UserInfo u = null)
