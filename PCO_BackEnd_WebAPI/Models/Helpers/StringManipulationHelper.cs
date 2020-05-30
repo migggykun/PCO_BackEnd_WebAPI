@@ -8,9 +8,14 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
 {
     public static class StringManipulationHelper
     {
-        private const string baseAddress = "https://stgadmin.philippineoptometry.org/#/";
-        private const string confirmEmailBaseURL = baseAddress + "confirm-email"; //http://pcosample.somee.com
-        private const string resetPasswordBaseURL = baseAddress + "reset-password";
+        private const string baseAdminAddress = "https://stgadmin.philippineoptometry.org/#";
+        private const string baseClientAddress = "https://philippineoptometry.org";
+        private const string confirmEmailPage = "/confirm-email";
+        private const string resetPasswordPage = "/reset-password";
+        private const string confirmEmailBaseURLAdmin = baseAdminAddress + confirmEmailPage;
+        private const string resetPasswordBaseURLAdmin = baseAdminAddress + resetPasswordPage;
+        private const string confirmEmailBaseURLClient = baseClientAddress + confirmEmailPage;
+        private const string resetPasswordBaseURLClient = baseClientAddress + resetPasswordPage;
 
         /// <summary>
         /// Use in encryption formula. To be added in UserID
@@ -20,9 +25,16 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
         /// Cipher - Dicipher string (RN - Renz MZ - Migz GY - Gendy MC - Michelle JS- Jonas)
         /// </summary>
         private const string CUSTOM_ALPHABET = "RNMZGYMCJS";
-        public static string SetParameter(string aEmail, string token)
+        public static string SetParameter(string aEmail, string token, bool isAdmin)
         {
-            return string.Format("{0}/{1}", aEmail, HttpUtility.UrlEncode(token,System.Text.Encoding.UTF8));
+            if (isAdmin)
+            {
+                return string.Format("{0}/{1}", aEmail, HttpUtility.UrlEncode(token, System.Text.Encoding.UTF8));
+            }
+            else
+            {
+                return string.Format("email={0}&token={1}", aEmail, HttpUtility.UrlEncode(token, System.Text.Encoding.UTF8));
+            }
         }
 
         public static string ConvertToHyperLink(string link)
@@ -30,9 +42,16 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
             return string.Format("<a href=\"{0}\">link</a>", link);
         }
 
-        public static string SetConfirmEmailUrl(string token)
+        public static string SetConfirmEmailUrl(string token, bool isAdmin)
         {
-            return string.Format("{0}/{1}", confirmEmailBaseURL, token);
+            if (isAdmin)
+            {
+                return string.Format("{0}/{1}", confirmEmailBaseURLAdmin, token);
+            }
+            else
+            {
+                return string.Format("{0}?{1}", confirmEmailBaseURLClient, token);
+            }
         }
 
         public static string DecodeCodeToEmailToken(string code)
@@ -46,9 +65,16 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
             return token;
         }
 
-        public static string SetResetPasswordURL(string token)
+        public static string SetResetPasswordURL(string token, bool isAdmin)
         {
-            return string.Format("{0}/{1}", resetPasswordBaseURL, token);
+            if (isAdmin)
+            {
+                return string.Format("{0}/{1}", resetPasswordBaseURLAdmin, token);
+            }
+            else
+            {
+                return string.Format("{0}/{1}", resetPasswordBaseURLClient, token);
+            }
         }
 
         /// <summary>

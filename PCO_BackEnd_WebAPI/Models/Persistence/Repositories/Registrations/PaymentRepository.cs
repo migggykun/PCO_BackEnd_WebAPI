@@ -63,15 +63,18 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 			appDbContext.Payments.Add(payment);
 		}
 
-		public void UpdatePayment(int id, Payment payment, string base64Image)
+		public void UpdatePayment(Payment oldPayment, Payment newPayment, string base64Image)
 		{
-			payment.RegistrationId = id;
+            if (string.IsNullOrEmpty(base64Image))
+            {
+                var receipt = appDbContext.Receipts.Find(oldPayment.RegistrationId);
+                receipt.Image = new ImageManager(base64Image).GetAdjustedSizeInBytes();
+            }
 
-            var receipt = appDbContext.Receipts.Find(id);
-            receipt.Image = new ImageManager(base64Image).GetAdjustedSizeInBytes();
-            
-            SetPaymentDetails(payment);
-			appDbContext.UpdateGraph<Payment>(payment);
+            oldPayment.PaymentSubmissionDate = DateTime.Now;
+            oldPayment.TransactionNumber = Guid.NewGuid().ToString();
+            oldPayment.AmountPaid = newPayment.AmountPaid;
+            oldPayment.Remarks = newPayment.Remarks;
 		}
 
 		public void SetPaymentConfirmationDate(int id)

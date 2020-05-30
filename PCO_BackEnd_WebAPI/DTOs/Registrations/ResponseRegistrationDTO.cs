@@ -24,5 +24,8 @@ namespace PCO_BackEnd_WebAPI.DTOs.Registrations
 
         public int? PromoId { get; set; }
 
+        public double? Amount { get; set; }
+
+        public double? Discount { get; set; }
     }
 }

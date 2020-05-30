@@ -36,5 +36,9 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
 
         public int? PromoId { get; set; }
         public virtual Promo Promo { get; set; }
+
+        public double? Amount { get; set; }
+
+        public double? Discount { get; set; }
     }
 }

@@ -106,11 +106,14 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
             var payment = Mapper.Map<AddPaymentDTO, Payment>(paymentDTO);
             try
             {
-                //Convert receipt image to bytes
-                ImageManager receiptManager = new ImageManager(paymentDTO.ProofOfPayment);
-                payment.Receipt = new Receipt();
-                payment.Receipt.Id = payment.RegistrationId;
-                payment.Receipt.Image = receiptManager.GetAdjustedSizeInBytes();
+                if (!string.IsNullOrEmpty(paymentDTO.ProofOfPayment))
+                {
+                    //Convert receipt image to bytes
+                    ImageManager receiptManager = new ImageManager(paymentDTO.ProofOfPayment);
+                    payment.Receipt = new Receipt();
+                    payment.Receipt.Id = payment.RegistrationId;
+                    payment.Receipt.Image = receiptManager.GetAdjustedSizeInBytes();
+                }
 
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
                 await Task.Run(() => unitOfWork.Payments.Add(payment));
@@ -146,7 +149,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                 string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
                 return BadRequest(errorMessages);
             }
-            var payment = Mapper.Map<UpdatePaymentDTO, Payment>(paymentDTO);
+            var newPayment = Mapper.Map<UpdatePaymentDTO, Payment>(paymentDTO);
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -157,11 +160,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                 }
                 else
                 {
-                    await Task.Run(() => unitOfWork.Payments.UpdatePayment(id, payment, paymentDTO.ProofOfPayment));
+                    await Task.Run(() => unitOfWork.Payments.UpdatePayment(result, newPayment, paymentDTO.ProofOfPayment));
                     await Task.Run(() => unitOfWork.Complete());
                     var user = unitOfWork.UserInfos.Get(result.Registration.UserId);
                     var conference = unitOfWork.Conferences.Get(result.Registration.ConferenceId);
-                    var resultDTO = PaymentMapper.MapToResponsePaymentDTO(payment, conference, user);
+                    var resultDTO = PaymentMapper.MapToResponsePaymentDTO(result, conference, user);
                     return Ok(resultDTO);
                 }
             }

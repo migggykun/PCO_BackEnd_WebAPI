@@ -15,6 +15,8 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using PCO_BackEnd_WebAPI.Models.Pagination;
+using PCO_BackEnd_WebAPI.DTOs.Conferences.Promos;
+using PCO_BackEnd_WebAPI.Models.Conferences;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
@@ -217,6 +219,73 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             {
                 return BadRequest("Error occured. Try Again.");
             }
+        }
+
+        
+        /// <summary>
+        /// Gets RegistrationFee
+        /// </summary>
+        /// <param name="conferenceId"></param>
+        /// <param name="promoId"></param>
+        /// <param name="membershipTypeId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/GetRegistrationFee")]
+        public async Task<IHttpActionResult> Get(int conferenceId, int membershipTypeId)
+        {
+            RegistrationFeeDTO registrationFee;
+            UnitOfWork unitOfWork = new UnitOfWork(_context);
+
+            var conference = unitOfWork.Conferences.Get(conferenceId);
+            if(conference == null)
+            {
+                return NotFound();
+            }
+
+            var rate = unitOfWork.Rates.GetRate(x => x.conferenceId == conferenceId && x.membershipTypeId == membershipTypeId); 
+            var promo = conference.PromoId == null ? null : unitOfWork.Promos.Get((int)conference.PromoId);
+            bool IsPromoMemberExists = promo == null ? false : promo.PromoMembers.Any(x => x.MembershipTypeId == membershipTypeId);
+
+            if (rate == null)
+            {
+                return NotFound();
+            }
+
+            if (promo == null)
+            {
+                registrationFee = GetRegularPrice(rate);
+            }
+            else
+            {
+                var start = promo.Start;
+                var end = promo.End;
+                var today = DateTime.Now;
+                if (today >= start && today <= end && IsPromoMemberExists)
+                {
+                    registrationFee = new RegistrationFeeDTO
+                    {
+                        Price = rate.regularPrice - promo.Amount,
+                        Discount = promo.Amount,
+                        IsPromoApplied = true
+                    };
+                }
+                else
+                {
+                    registrationFee = GetRegularPrice(rate);
+                }
+            }
+
+            return Ok(registrationFee);
+        }
+
+        private RegistrationFeeDTO GetRegularPrice(Rate rate)
+        {
+            return new RegistrationFeeDTO
+            {
+                Price = rate.regularPrice,
+                Discount = 0,
+                IsPromoApplied = false
+            };
         }
     }
 }

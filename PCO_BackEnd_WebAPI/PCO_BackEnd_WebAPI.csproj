@@ -257,6 +257,8 @@
     <Compile Include="Controllers\Bank\BankDetailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Images\ImageController.cs" />
+    <Compile Include="Controllers\Messages\EmailController.cs" />
+    <Compile Include="Controllers\Messages\SMSController.cs" />
     <Compile Include="Controllers\Registrations\PaymentController.cs" />
     <Compile Include="Controllers\Registrations\RegistrationController.cs" />
     <Compile Include="Controllers\Accounts\MembershipTypeController.cs" />
@@ -282,6 +284,7 @@
     <Compile Include="DTOs\Bank\RequestUpdateBankDetailDTO.cs" />
     <Compile Include="DTOs\Bank\ResponseBankDetailDTO.cs" />
     <Compile Include="DTOs\Conferences\BaseConferenceDTO.cs" />
+    <Compile Include="DTOs\Registrations\ResponseRegistrationFeeDTO.cs" />
     <Compile Include="DTOs\Images\ResponseImageDTO.cs" />
     <Compile Include="DTOs\Registrations\AddPaymentDTO.cs" />
     <Compile Include="DTOs\Registrations\BasePaymentDTO.cs" />
@@ -303,6 +306,7 @@
     <Compile Include="DTOs\Registrations\ResponseRegistrationStatusDTO.cs" />
     <Compile Include="DTOs\Registrations\UpdatePaymentDTO.cs" />
     <Compile Include="Models\AccountBindingModels\LoginViewModel.cs" />
+    <Compile Include="Models\AccountBindingModels\SMSBindingModel.cs" />
     <Compile Include="Models\Accounts\Address.cs" />
     <Compile Include="Models\Accounts\IdentityModels.cs" />
     <Compile Include="Models\Bank\BankDetail.cs" />
@@ -443,7 +447,9 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
