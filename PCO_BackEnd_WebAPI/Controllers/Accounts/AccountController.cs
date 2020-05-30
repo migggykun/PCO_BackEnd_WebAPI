@@ -101,8 +101,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             if (emailClassification == (int)EmailClassification.CONFIRM_EMAIL)
             {
                 string code = await UserManager.GenerateEmailConfirmationTokenAsync(id);
-                string idToken = StringManipulationHelper.SetParameter(aEmail, code);
-                string callbackURL = StringManipulationHelper.SetConfirmEmailUrl(idToken);
+                string idToken = StringManipulationHelper.SetParameter(aEmail, code, user.IsAdmin);
+                string callbackURL = StringManipulationHelper.SetConfirmEmailUrl(idToken, user.IsAdmin);
                 string emailBody = EmailTemplate.FormatConfirmEmailBody(callbackURL);
                 await UserManager.SendEmailAsync(id, EmailTemplate.CONFIRM_EMAIL_HEADER, emailBody);
             }
@@ -110,8 +110,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             if (emailClassification == (int)EmailClassification.RESET_PASSWORD)
             {             
                 string code = await UserManager.GeneratePasswordResetTokenAsync(id);
-                string idToken = StringManipulationHelper.SetParameter(aEmail, code);
-                string callbackURL = StringManipulationHelper.SetResetPasswordURL(idToken);
+                string idToken = StringManipulationHelper.SetParameter(aEmail, code, user.IsAdmin);
+                string callbackURL = StringManipulationHelper.SetResetPasswordURL(idToken,user.IsAdmin);
                 string emailBody = EmailTemplate.FormatResetPasswordBody(callbackURL);
                 await UserManager.SendEmailAsync(id, EmailTemplate.RESET_PASSWORD_HEADER, emailBody);
             }
@@ -130,10 +130,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 
             var token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
 
-            //if (user != null && user.EmailConfirmed)
-            {
                 await Task.Run(() => SendEmail(email, (int)EmailClassification.RESET_PASSWORD));
-            }
             return Ok();
         }
 
