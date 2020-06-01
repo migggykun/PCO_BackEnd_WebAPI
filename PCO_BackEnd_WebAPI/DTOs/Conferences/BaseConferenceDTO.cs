@@ -9,15 +9,15 @@ namespace PCO_BackEnd_WebAPI.DTOs.Conferences
     public class BaseConferenceDTO
     {
         [Required]
-        [StringLength(128, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 2)]
+        [StringLength(128, ErrorMessage = "{0} length must be less than {1}.")]
         public string Title { get; set; }
 
         [Required]
-        [StringLength(512, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 2)]
+        [StringLength(512, ErrorMessage = "{0} length must be less than {1}.")]
         public string Description { get; set; }
 
         [Required]
-        [StringLength(512, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 2)]
+        [StringLength(512, ErrorMessage = "{0} length must be less than {1}.")]
         public string Location { get; set; }
 
         [Required]

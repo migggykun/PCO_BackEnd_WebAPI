@@ -20,12 +20,12 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
         public int Id { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(128)]
         [Index("IX_Conferences_Title", IsUnique = true)]
         public string Title { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(512)]
         public string Description { get; set; }
 
         [Required]
