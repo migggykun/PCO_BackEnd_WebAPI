@@ -270,6 +270,7 @@
     <Compile Include="Controllers\Conferences\RateController.cs" />
     <Compile Include="Controllers\ErrorManager.cs" />
     <Compile Include="Controllers\Registrations\RegistrationStatusController.cs" />
+    <Compile Include="Controllers\TestAPIs\TestController.cs" />
     <Compile Include="DTOs\Accounts\RequestAccountDTO.cs" />
     <Compile Include="DTOs\Accounts\RequestAddressDTO.cs" />
     <Compile Include="DTOs\Accounts\RequestMembershipTypeDTO.cs" />
@@ -309,7 +310,12 @@
     <Compile Include="Models\AccountBindingModels\SMSBindingModel.cs" />
     <Compile Include="Models\Accounts\Address.cs" />
     <Compile Include="Models\Accounts\IdentityModels.cs" />
+    <Compile Include="Models\Attendances\ActivityAttendance.cs" />
     <Compile Include="Models\Bank\BankDetail.cs" />
+    <Compile Include="Models\Conferences\Activities\Activity.cs" />
+    <Compile Include="Models\Conferences\ActivitySchedule.cs" />
+    <Compile Include="Models\Conferences\ConferenceActivity.cs" />
+    <Compile Include="Models\Conferences\ConferenceDay.cs" />
     <Compile Include="Models\Helpers\ConferenceMapper.cs" />
     <Compile Include="Models\Helpers\DataConverter.cs" />
     <Compile Include="Models\Helpers\Identifiers.cs" />

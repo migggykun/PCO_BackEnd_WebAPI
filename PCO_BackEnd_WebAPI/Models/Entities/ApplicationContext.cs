@@ -10,13 +10,14 @@ using PCO_BackEnd_WebAPI.Models.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Registrations;
 using PCO_BackEnd_WebAPI.Models.Bank;
 using PCO_BackEnd_WebAPI.Models.Images;
+using PCO_BackEnd_WebAPI.Models.Conferences.Activities;
 namespace PCO_BackEnd_WebAPI.Models.Entities
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser,CustomRole, 
                                         int, CustomUserLogin, CustomUserRole, CustomUserClaim>
     {
         public ApplicationDbContext()
-            : base("PCO_Context")
+            : base("PCO_Context_Staging")
         {
             //Database.SetInitializer(new ApplicationUserSeeder());
         }
@@ -37,6 +38,10 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
         public virtual DbSet<BankDetail> BankDetails { get; set; }
         public virtual DbSet<Banner> Banners { get; set; }
         public virtual DbSet<Receipt> Receipts { get; set; }
+        public virtual DbSet<Activity> Activities { get; set; }
+        public virtual DbSet<ActivitySchedule> ActivitySchedules { get; set; }
+        public virtual DbSet<ConferenceDay> ConferenceDays { get; set; }
+        public virtual DbSet<ConferenceActivity> ConferenceActivities { get; set; }
 
         public static ApplicationDbContext Create()
         {
@@ -120,6 +125,22 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
             modelBuilder.Entity<Payment>()
                         .HasRequired(e => e.Receipt)
                         .WithRequiredPrincipal()
+                        .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<ConferenceActivity>()
+                        .HasRequired(e => e.ActivitySchedule);
+
+            modelBuilder.Entity<ActivitySchedule>()
+                        .HasRequired(e => e.Activity);
+
+            modelBuilder.Entity<ConferenceDay>()
+                        .HasMany(e => e.ConferenceActivities)
+                        .WithRequired()
+                        .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<Conference>()
+                        .HasMany(e => e.ConferenceDays)
+                        .WithRequired()
                         .WillCascadeOnDelete(true);
         }
     }

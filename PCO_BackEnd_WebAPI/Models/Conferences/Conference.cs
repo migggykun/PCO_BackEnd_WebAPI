@@ -44,5 +44,7 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Rate> Rates { get; set; }
+
+        public virtual ICollection<ConferenceDay> ConferenceDays { get; set; }
     }
 }
