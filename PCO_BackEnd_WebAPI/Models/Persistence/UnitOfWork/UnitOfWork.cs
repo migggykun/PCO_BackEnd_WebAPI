@@ -19,6 +19,7 @@ using PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations;
 using PCO_BackEnd_WebAPI.Models.Registrations;
 using PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Bank;
 using PCO_BackEnd_WebAPI.Models.Images;
+using PCO_BackEnd_WebAPI.Models.Conferences.Activities;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
 {
@@ -40,6 +41,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
         public IAddressRepository Addresses { get; set; }
         public Repository<Banner> Banners { get; set; }
         public Repository<Receipt> Receipts { get; set; }
+        public IActivityRepository Activities { get; set; }
+
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -59,6 +62,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
             Addresses = new AddressRepository(_context);
             Banners = new Repository<Banner>(_context);
             Receipts = new Repository<Receipt>(_context);
+            Activities = new ActivityRepository(_context);
         }
 
         /// <summary>
