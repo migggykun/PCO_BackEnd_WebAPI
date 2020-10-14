@@ -33,5 +33,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
         IPromoMemberRepository PromoMembers { get; set; }
         IPaymentRepository Payments { get; set; }
         IRegistrationRepository Registrations { get; set; }
+
+        //test
+        IActivityScheduleRepository ActivitySchedules { get; set; }
     }
 }

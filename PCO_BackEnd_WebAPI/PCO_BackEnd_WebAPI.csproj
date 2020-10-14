@@ -21,6 +21,8 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -286,6 +288,12 @@
     <Compile Include="DTOs\Bank\RequestUpdateBankDetailDTO.cs" />
     <Compile Include="DTOs\Bank\ResponseBankDetailDTO.cs" />
     <Compile Include="DTOs\Conferences\BaseConferenceDTO.cs" />
+    <Compile Include="DTOs\Conferences\ConferenceDay\ConferenceActivity\ActivitySchedule\RequestActivityScheduleDTO.cs" />
+    <Compile Include="DTOs\Conferences\ConferenceDay\ConferenceActivity\ActivitySchedule\ResponseActivityScheduleDTO.cs" />
+    <Compile Include="DTOs\Conferences\ConferenceDay\ConferenceActivity\RequestConferenceActivityDTO.cs" />
+    <Compile Include="DTOs\Conferences\ConferenceDay\ConferenceActivity\ResponseConferenceActivityDTO.cs" />
+    <Compile Include="DTOs\Conferences\ConferenceDay\RequestConferenceDayDTO.cs" />
+    <Compile Include="DTOs\Conferences\ConferenceDay\ResponseConferenceDayDTO.cs" />
     <Compile Include="DTOs\Registrations\ResponseRegistrationFeeDTO.cs" />
     <Compile Include="DTOs\Images\ResponseImageDTO.cs" />
     <Compile Include="DTOs\Registrations\AddPaymentDTO.cs" />
@@ -336,10 +344,12 @@
     <Compile Include="Models\ParameterBindingModels\ConferenceParameterBindingModel.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IAddressRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Conferences\IActivityRepository.cs" />
+    <Compile Include="Models\Persistence\Interfaces\Conferences\IActivityScheduleRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Accounts\AddressRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Bank\BankDetailRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Bank\IBankDetailRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Conferences\ActivityRepository.cs" />
+    <Compile Include="Models\Persistence\Repositories\Conferences\ActivityScheduleRepository.cs" />
     <Compile Include="Models\ViewModels\ConfirmEmailViewModel.cs" />
     <Compile Include="Models\ViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="Models\Conferences\Conference.cs" />

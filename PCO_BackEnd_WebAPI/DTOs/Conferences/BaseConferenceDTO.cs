@@ -30,6 +30,9 @@ namespace PCO_BackEnd_WebAPI.DTOs.Conferences
 
         public string Banner { get; set; }
 
+        [Required]
+        public virtual ICollection<RequestConferenceDayDTO> ConferenceDays { get; set; }
+
         [RegularExpression(@"^[0-9]+$", ErrorMessage = "Characters are not allowed.")]
         public int? PromoId { get; set; }
     }

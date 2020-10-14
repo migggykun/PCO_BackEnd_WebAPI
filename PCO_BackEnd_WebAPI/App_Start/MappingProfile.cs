@@ -71,6 +71,12 @@ namespace PCO_BackEnd_WebAPI.App_Start
             Mapper.CreateMap<Rate, ResponseRateDTO>();
             Mapper.CreateMap<RequestPromoMemberDTO, PromoMember>();
             Mapper.CreateMap<PromoMember, ResponsePromoMemberDTO>();
+            Mapper.CreateMap<RequestConferenceDayDTO, ConferenceDay>();
+            Mapper.CreateMap<ConferenceDay, ResponseConferenceDayDTO>();
+            Mapper.CreateMap<RequestConferenceActivityDTO, ConferenceActivity>();
+            Mapper.CreateMap<ConferenceActivity, ResponseConferenceActivityDTO>();
+            Mapper.CreateMap<RequestActivityScheduleDTO, ActivitySchedule>();
+            Mapper.CreateMap<ActivitySchedule, ResponseActivityScheduleDTO>();
 
             //Registration
             Mapper.CreateMap<RequestRegistrationDTO, Registration>().ForMember(dst => dst.RegistrationStatusId, x => x.MapFrom(a => 1));

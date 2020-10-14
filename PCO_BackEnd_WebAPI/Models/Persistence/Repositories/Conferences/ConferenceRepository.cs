@@ -64,7 +64,11 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
 
           //Update banner
           var banner = appDbContext.Banners.Find(id);
-          banner.Image = new ImageManager(base64Image).Bytes;
+          if (base64Image != null)
+          {
+            banner.Image = new ImageManager(base64Image).Bytes;
+          }
+          
           var updatedConference = appDbContext.UpdateGraph<Conference>(conference, map => map.OwnedCollection(e => e.Rates));
           
           return updatedConference;

@@ -7,7 +7,7 @@ using System.Web;
 namespace PCO_BackEnd_WebAPI.Models.Conferences.Activities
 {
     [Table("pc0_Database_Staging.[dbo.Activities]")]
-    public class Activity
+    public partial class Activity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int  Id { get;  set;  }

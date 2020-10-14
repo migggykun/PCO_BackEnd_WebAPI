@@ -15,6 +15,7 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
         public int ConferenceDayId { get; set; }
 
         public int ActivityScheduleId { get; set; }
+        
         public virtual ActivitySchedule ActivitySchedule { get; set; }
     }
 }

@@ -43,6 +43,9 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
         public Repository<Receipt> Receipts { get; set; }
         public IActivityRepository Activities { get; set; }
 
+        //test
+        public IActivityScheduleRepository ActivitySchedules { get; set; }
+
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -63,6 +66,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
             Banners = new Repository<Banner>(_context);
             Receipts = new Repository<Receipt>(_context);
             Activities = new ActivityRepository(_context);
+            //test
+            ActivitySchedules = new ActivityScheduleRepository(_context);
         }
 
         /// <summary>

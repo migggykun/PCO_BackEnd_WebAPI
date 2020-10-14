@@ -130,8 +130,8 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
             modelBuilder.Entity<ConferenceActivity>()
                         .HasRequired(e => e.ActivitySchedule);
 
-            modelBuilder.Entity<ActivitySchedule>()
-                        .HasRequired(e => e.Activity);
+            modelBuilder.Entity<ActivitySchedule>();
+            //            .HasRequired(e => e.Activity);
 
             modelBuilder.Entity<ConferenceDay>()
                         .HasMany(e => e.ConferenceActivities)

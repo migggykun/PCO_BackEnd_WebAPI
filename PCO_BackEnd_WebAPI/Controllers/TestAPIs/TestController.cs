@@ -1,5 +1,6 @@
 ﻿
 using PCO_BackEnd_WebAPI.Models.Entities;
+using PCO_BackEnd_WebAPI.DTOs.Conferences;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,13 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Description;
+using AutoMapper;
+using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
+using PCO_BackEnd_WebAPI.Models.Images.Manager;
+using PCO_BackEnd_WebAPI.Models.Images;
+using PCO_BackEnd_WebAPI.Models.Conferences;
+using PCO_BackEnd_WebAPI.Models.Helpers;
 
 namespace PCO_BackEnd_WebAPI.Controllers.TestAPIs
 {
@@ -27,23 +35,118 @@ namespace PCO_BackEnd_WebAPI.Controllers.TestAPIs
             //return Ok(result);
 
             //ActivitySchedule
-            //var result =  await Task.Run(() => _context.ActivitySchedules.ToList());
+            //var result = await Task.Run(() => _context.ActivitySchedules.ToList());
             //return Ok(result);
 
-            //ActivitySchedule
+            //ConferenceActivity
             //var result = await Task.Run(() => _context.ConferenceActivities.ToList());
             //return Ok(result);
 
 
             //ConferenceDays
-            //var result =  await Task.Run(() => _context.ConferenceDays.ToList());
-            //return Ok(result);
-
-            //Conference
-            var result =  await Task.Run(() => _context.Conferences.ToList());
+            var result = await Task.Run(() => _context.ConferenceDays.ToList());
             return Ok(result);
 
+            //Conference
+            //var result =  await Task.Run(() => _context.Conferences.ToList());
+            //return Ok(result);
 
-        } 
+
+        }
+
+        [HttpPost]
+        [ResponseType(typeof(ResponseActivityScheduleDTO))]
+        public async Task<IHttpActionResult> AddActivitySchedule(RequestActivityScheduleDTO activityScheduleDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var activitySchedule = Mapper.Map<RequestActivityScheduleDTO, ActivitySchedule>(activityScheduleDTO);
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(_context);
+                await Task.Run(() => unitOfWork.ActivitySchedules.Add(activitySchedule));
+                await Task.Run(() => unitOfWork.Complete());
+                //var resultDTO = Mapper.Map<ActivitySchedule, ResponseActivityScheduleDTO>(activitySchedule);
+                return Ok(Mapper.Map<ActivitySchedule, ResponseActivityScheduleDTO>(activitySchedule));
+
+            }
+            catch (Exception ex)
+            {
+                string message = ErrorManager.GetInnerExceptionMessage(ex);
+                return BadRequest(message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/AddConferenceActivity")]
+        [ResponseType(typeof(ResponseConferenceActivityDTO))]
+        public async Task<IHttpActionResult> AddConferenceActivity(RequestConferenceActivityDTO conferenceActivityDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            //var activitySchedule = Mapper.Map<RequestActivityScheduleDTO, ActivitySchedule>(conferenceActivityDTO);
+            try
+            {
+                var conferenceActivity = new ConferenceActivity
+                {
+                    Id = 0,
+                    ConferenceDayId = 1,
+                    ActivityScheduleId = 0,
+                    ActivitySchedule = new ActivitySchedule
+                    {
+                        Id = 0,
+                        ActivityId=1,
+                        Start = DateTime.Now,
+                        End = DateTime.Now
+                    }
+                };
+                _context.ConferenceActivities.Add(conferenceActivity);
+                _context.SaveChanges();
+                return Ok(conferenceActivity);
+            }
+            catch (Exception ex)
+            {
+                string message = ErrorManager.GetInnerExceptionMessage(ex);
+                return BadRequest(message);
+            }
+        }
+
+        [HttpPost]
+        [Route("api/AddConferenceDay")]
+        [ResponseType(typeof(ResponseConferenceDayDTO))]
+        public async Task<IHttpActionResult> AddConferenceDay(RequestConferenceDayDTO conferenceDayDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            //var conferenceDay = Mapper.Map<RequestConferenceDayDTO, ConferenceDay>(conferenceDayDTO);
+            try
+            {
+                var conferenceDay = new ConferenceDay
+                {
+                    Id = 0,
+                    ConferenceId = 4,
+                    Date = DateTime.Now,
+                    Start = DateTime.Now,
+                    End = DateTime.Now
+                };
+                _context.ConferenceDays.Add(conferenceDay);
+                _context.SaveChanges();
+                return Ok(conferenceDay);
+            }
+            catch (Exception ex)
+            {
+                string message = ErrorManager.GetInnerExceptionMessage(ex);
+                return BadRequest(message);
+            }
+        }
     }
 }
