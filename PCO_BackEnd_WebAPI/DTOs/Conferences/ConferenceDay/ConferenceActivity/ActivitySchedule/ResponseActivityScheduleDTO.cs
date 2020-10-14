@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using PCO_BackEnd_WebAPI.DTOs.Activities;
 
 namespace PCO_BackEnd_WebAPI.DTOs.Conferences
 {
@@ -11,7 +12,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Conferences
 
         public int ActivityId { get; set; }
 
-        //public ResponseActivityDTO Activity { get; set; } to do: uncomment after activity DTO is created.
+        public ResponseActivityDTO Activity { get; set; }
 
         public DateTime Start { get; set; }
 

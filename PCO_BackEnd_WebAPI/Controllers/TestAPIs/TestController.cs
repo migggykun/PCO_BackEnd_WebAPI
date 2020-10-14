@@ -35,8 +35,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.TestAPIs
             //return Ok(result);
 
             //ActivitySchedule
-            //var result = await Task.Run(() => _context.ActivitySchedules.ToList());
-            //return Ok(result);
+            var result = await Task.Run(() => _context.ActivitySchedules.ToList());
+            return Ok(result);
 
             //ConferenceActivity
             //var result = await Task.Run(() => _context.ConferenceActivities.ToList());
@@ -44,8 +44,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.TestAPIs
 
 
             //ConferenceDays
-            var result = await Task.Run(() => _context.ConferenceDays.ToList());
-            return Ok(result);
+            //var result = await Task.Run(() => _context.ConferenceDays.ToList());
+            //return Ok(result);
 
             //Conference
             //var result =  await Task.Run(() => _context.Conferences.ToList());
@@ -55,6 +55,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.TestAPIs
         }
 
         [HttpPost]
+        [Route("api/AddActivitySchedule")]
         [ResponseType(typeof(ResponseActivityScheduleDTO))]
         public async Task<IHttpActionResult> AddActivitySchedule(RequestActivityScheduleDTO activityScheduleDTO)
         {

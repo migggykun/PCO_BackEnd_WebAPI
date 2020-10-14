@@ -10,7 +10,7 @@ using PCO_BackEnd_WebAPI.Models.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Registrations;
 using PCO_BackEnd_WebAPI.Models.Bank;
 using PCO_BackEnd_WebAPI.Models.Images;
-using PCO_BackEnd_WebAPI.Models.Conferences.Activities;
+using PCO_BackEnd_WebAPI.Models.Conferences;
 namespace PCO_BackEnd_WebAPI.Models.Entities
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser,CustomRole, 
@@ -130,8 +130,8 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
             modelBuilder.Entity<ConferenceActivity>()
                         .HasRequired(e => e.ActivitySchedule);
 
-            modelBuilder.Entity<ActivitySchedule>();
-            //            .HasRequired(e => e.Activity);
+            modelBuilder.Entity<ActivitySchedule>()
+                        .HasRequired(e => e.Activity);
 
             modelBuilder.Entity<ConferenceDay>()
                         .HasMany(e => e.ConferenceActivities)

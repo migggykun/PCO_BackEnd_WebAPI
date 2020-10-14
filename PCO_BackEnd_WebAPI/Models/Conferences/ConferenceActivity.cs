@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
-using PCO_BackEnd_WebAPI.Models.Conferences.Activities;
+using PCO_BackEnd_WebAPI.Models.Conferences;
 
 namespace PCO_BackEnd_WebAPI.Models.Conferences
 {

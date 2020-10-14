@@ -12,7 +12,7 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
 
         public int ActivityId { get; set; }
         
-        //public virtual Activity Activity { get; set; }
+        public virtual Activity Activity { get; set; }
 
         public DateTime Start { get; set; }
 

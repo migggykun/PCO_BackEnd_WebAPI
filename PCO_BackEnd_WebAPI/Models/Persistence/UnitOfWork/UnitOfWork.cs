@@ -19,7 +19,7 @@ using PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations;
 using PCO_BackEnd_WebAPI.Models.Registrations;
 using PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Bank;
 using PCO_BackEnd_WebAPI.Models.Images;
-using PCO_BackEnd_WebAPI.Models.Conferences.Activities;
+using PCO_BackEnd_WebAPI.Models.Conferences;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
 {

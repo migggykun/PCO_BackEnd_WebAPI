@@ -284,6 +284,8 @@
     <Compile Include="DTOs\Accounts\ResponseMembershipTypeDTO.cs" />
     <Compile Include="DTOs\Accounts\ResponsePRCDetailDTO.cs" />
     <Compile Include="DTOs\Accounts\ResponseUserInfoDTO.cs" />
+    <Compile Include="DTOs\Activities\RequestActivityDTO.cs" />
+    <Compile Include="DTOs\Activities\ResponseActivityDTO.cs" />
     <Compile Include="DTOs\Bank\RequestBankDetailDTO.cs" />
     <Compile Include="DTOs\Bank\RequestUpdateBankDetailDTO.cs" />
     <Compile Include="DTOs\Bank\ResponseBankDetailDTO.cs" />

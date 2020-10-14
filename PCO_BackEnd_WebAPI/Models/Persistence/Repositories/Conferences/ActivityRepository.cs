@@ -1,4 +1,4 @@
-﻿using PCO_BackEnd_WebAPI.Models.Conferences.Activities;
+﻿using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences;
