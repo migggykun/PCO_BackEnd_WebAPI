@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using PCO_BackEnd_WebAPI.DTOs.Activities;
 using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Pagination;
@@ -30,22 +31,22 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="size"></param>
         /// <returns></returns>
         [HttpGet]
-        [ResponseType(typeof(Activity))]
+        [ResponseType(typeof(ResponseActivityDTO))]
         public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
             var result = await Task.Run(() => unitOfWork.Activities.GetPagedActivities(page, size));
-            var resultDTO = PaginationMapper<Activity, Activity>.MapResult(result);
+            var resultDTO = PaginationMapper<Activity, ResponseActivityDTO>.MapResult(result);
             return Ok(resultDTO);
         }
 
         /// <summary>
         /// Gets the activity information based on specified id
         /// </summary>
-        /// <param name="id">id of rate to be fetched</param>
+        /// <param name="id">id of activity to be fetched</param>
         /// <returns></returns>
         [HttpGet]
-        [ResponseType(typeof(Activity))]
+        [ResponseType(typeof(ResponseActivityDTO))]
         public async Task<IHttpActionResult> Get(int id)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -56,8 +57,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             }
             else
             {
-                var rateDTO = Mapper.Map<Activity, Activity>(result);
-                return Ok(rateDTO);
+                var activity = Mapper.Map<Activity, ResponseActivityDTO>(result);
+                return Ok(activity);
             }
         }
 
@@ -67,8 +68,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="activity"></param>
         /// <returns></returns>
         [HttpPost]
-        [ResponseType(typeof(Activity))]
-        public async Task<IHttpActionResult> AddActivities(List<Activity> activity)
+        [ResponseType(typeof(ResponseActivityDTO))]
+        public async Task<IHttpActionResult> AddActivities(List<RequestActivityDTO> activityDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -76,21 +77,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
                 return BadRequest(errorMessages);
             }
 
-            var activities = activity.Select(Mapper.Map<Activity, Activity>).ToList();
+            var activities = activityDTO.Select(Mapper.Map<RequestActivityDTO, Activity>).ToList();
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
-
-                if (activities.Count() == 1)
-                {
-                    await Task.Run(() => unitOfWork.Activities.Add(activities[0]));
-                }
-                else
-                {
-                    await Task.Run(() => unitOfWork.Activities.AddRates(activities));
-                }
                 await Task.Run(() => unitOfWork.Complete());
-                var resultDTO = activities.Select(Mapper.Map<Activity, Activity>);
+                var resultDTO = activities.Select(Mapper.Map<Activity, ResponseActivityDTO>);
                 return Created(string.Empty, resultDTO);
             }
             catch (Exception ex)
@@ -108,7 +100,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <returns></returns>
         [HttpPost]
         [Route("api/UpdateActivity/{id:int}")]
-        public async Task<IHttpActionResult> UpdateRate(int id, Activity activityDTO)
+        public async Task<IHttpActionResult> UpdateActivity(int id, RequestActivityDTO activityDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -116,7 +108,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
                 return BadRequest(errorMessages);
             }
 
-            var activity = Mapper.Map<Activity, Activity>(activityDTO);
+            var activity = Mapper.Map<RequestActivityDTO, Activity>(activityDTO);
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -127,9 +119,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
                 }
                 else
                 {
-                    result = await Task.Run(() => unitOfWork.Activities.UpdateRate(id, activity));
+                    result = await Task.Run(() => unitOfWork.Activities.UpdateActivity(id, activity));
                     await Task.Run(() => unitOfWork.Complete());
-                    return Ok(Mapper.Map<Activity, Activity>(result));
+                    return Ok(Mapper.Map<Activity, ResponseActivityDTO>(result));
                 }
             }
             catch (Exception ex)
@@ -146,7 +138,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <returns></returns>
         [HttpPost]
         [Route("api/DeleteActivity/{id:int}")]
-        [ResponseType(typeof(Activity))]
+        [ResponseType(typeof(ResponseActivityDTO))]
         public async Task<IHttpActionResult> DeleteActivity(int id)
         {
             try

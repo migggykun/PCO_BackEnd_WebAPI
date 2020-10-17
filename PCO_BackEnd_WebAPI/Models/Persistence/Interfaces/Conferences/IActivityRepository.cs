@@ -13,9 +13,9 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences
     public interface IActivityRepository : IRepository<Activity>
     {
         PageResult<Activity> GetPagedActivities(int page, int size);
-        List<Activity> AddRates(List<Activity> activities);
-        Activity UpdateRate(int id, Activity activity);
-        void RemoveRates(List<Activity> rates);
-        Activity GetRate(Expression<Func<Activity, bool>> predicate);
+        List<Activity> AddActivities(List<Activity> activities);
+        Activity UpdateActivity(int id, Activity activity);
+        void RemoveActivity(List<Activity> activities);
+        Activity GetActivity(Expression<Func<Activity, bool>> predicate);
     }
 }

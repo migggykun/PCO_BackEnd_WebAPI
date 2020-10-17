@@ -29,24 +29,24 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
 
         }
 
-        public List<Activity> AddRates(List<Activity> activity)
+        public List<Activity> AddActivities(List<Activity> activity)
         {
             return appDbContext.Activities.AddRange(activity).ToList();
         }
 
-        public Activity UpdateRate(int id, Activity activity)
+        public Activity UpdateActivity(int id, Activity activity)
         {
             var activityToUpdate = appDbContext.Activities.Find(id);
             appDbContext.Entry(activityToUpdate).CurrentValues.SetValues(activity);
             return activityToUpdate;
         }
 
-        public void RemoveRates(List<Activity> rates)
+        public void RemoveActivities(List<Activity> activities)
         {
-            appDbContext.Activities.RemoveRange(rates);
+            appDbContext.Activities.RemoveRange(activities);
         }
 
-        public Activity GetRate(Expression<Func<Activity, bool>> predicate)
+        public Activity GetActivity(Expression<Func<Activity, bool>> predicate)
         {
             return appDbContext.Activities.FirstOrDefault(predicate);
         }
@@ -66,6 +66,12 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
 
             pageResult = PaginationManager<Activity>.GetPagedResult(queryResult, page, size);
             return pageResult;
+        }
+
+
+        public void RemoveActivity(List<Activity> activities)
+        {
+            appDbContext.Activities.RemoveRange(activities);
         }
     }
 }
