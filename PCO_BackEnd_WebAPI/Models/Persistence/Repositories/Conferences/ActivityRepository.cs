@@ -36,6 +36,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
 
         public Activity UpdateActivity(int id, Activity activity)
         {
+            activity.Id = id;
             var activityToUpdate = appDbContext.Activities.Find(id);
             appDbContext.Entry(activityToUpdate).CurrentValues.SetValues(activity);
             return activityToUpdate;

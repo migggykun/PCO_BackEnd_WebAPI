@@ -19,5 +19,6 @@ namespace PCO_BackEnd_WebAPI.DTOs.Conferences
         [Required]
         [RegularExpression(@"^[0-9]*(?:\.[0-9]+)?$", ErrorMessage = "{0} is an invalid amount!")]
         public double regularPrice { get; set; }
+        public int? conferenceActivityId { get; set; }
     }
 }

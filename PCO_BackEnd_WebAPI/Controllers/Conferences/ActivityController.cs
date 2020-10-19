@@ -81,6 +81,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
+                await Task.Run(() => unitOfWork.Activities.Add(activities[0]));
                 await Task.Run(() => unitOfWork.Complete());
                 var resultDTO = activities.Select(Mapper.Map<Activity, ResponseActivityDTO>);
                 return Created(string.Empty, resultDTO);

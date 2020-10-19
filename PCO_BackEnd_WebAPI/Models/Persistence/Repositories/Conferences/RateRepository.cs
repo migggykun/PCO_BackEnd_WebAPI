@@ -37,6 +37,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
 
         public Rate UpdateRate(int id, Rate rate)
         {
+            rate.Id = id;
             var rateToUpdate = appDbContext.Rates.Find(id);
             appDbContext.Entry(rateToUpdate).CurrentValues.SetValues(rate);
             return rateToUpdate;
