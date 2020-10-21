@@ -23,9 +23,9 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
 
         public DateTime Date { get; set; }
 
-        public DateTime Start { get; set; }
+        public TimeSpan Start { get; set; }
 
-        public DateTime End { get; set; }
+        public TimeSpan End { get; set; }
 
         public virtual ICollection <ConferenceActivity> ConferenceActivities { get; set; }
     }

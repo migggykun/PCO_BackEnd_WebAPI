@@ -14,8 +14,8 @@ namespace PCO_BackEnd_WebAPI.DTOs.Conferences
         
         public RequestActivityDTO Activity { get; set; } 
 
-        public DateTime Start { get; set; }
+        public TimeSpan Start { get; set; }
 
-        public DateTime End { get; set; }
+        public TimeSpan End { get; set; }
     }
 }

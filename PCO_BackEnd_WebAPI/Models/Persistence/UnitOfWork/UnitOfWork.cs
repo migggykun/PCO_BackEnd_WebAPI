@@ -20,6 +20,8 @@ using PCO_BackEnd_WebAPI.Models.Registrations;
 using PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Bank;
 using PCO_BackEnd_WebAPI.Models.Images;
 using PCO_BackEnd_WebAPI.Models.Conferences;
+using PCO_BackEnd_WebAPI.Models.Attendances;
+using PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Attendance;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
 {
@@ -46,6 +48,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
         //test
         public IActivityScheduleRepository ActivitySchedules { get; set; }
 
+        public AttendanceRepository ActivityAttendances { get; set; }
+
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -68,6 +72,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
             Activities = new ActivityRepository(_context);
             //test
             ActivitySchedules = new ActivityScheduleRepository(_context);
+            ActivityAttendances = new AttendanceRepository(_context);
         }
 
         /// <summary>

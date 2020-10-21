@@ -256,6 +256,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\Accounts\AddressController.cs" />
+    <Compile Include="Controllers\Attendance\AttendanceController.cs" />
     <Compile Include="Controllers\Bank\BankDetailController.cs" />
     <Compile Include="Controllers\Conferences\ActivityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -345,13 +346,16 @@
     <Compile Include="Models\Pagination\PaginationMapper.cs" />
     <Compile Include="Models\ParameterBindingModels\ConferenceParameterBindingModel.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IAddressRepository.cs" />
+    <Compile Include="Models\Persistence\Interfaces\Attendance\IAttendaceRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Conferences\IActivityRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Conferences\IActivityScheduleRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Accounts\AddressRepository.cs" />
+    <Compile Include="Models\Persistence\Repositories\Attendance\AttendanceRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Bank\BankDetailRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Bank\IBankDetailRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Conferences\ActivityRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Conferences\ActivityScheduleRepository.cs" />
+    <Compile Include="Models\Registrations\ActivitiesToAttend.cs" />
     <Compile Include="Models\ViewModels\ConfirmEmailViewModel.cs" />
     <Compile Include="Models\ViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="Models\Conferences\Conference.cs" />
@@ -489,6 +493,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Attendance\" />
     <Folder Include="Views\BankDetail\" />
   </ItemGroup>
   <ItemGroup>

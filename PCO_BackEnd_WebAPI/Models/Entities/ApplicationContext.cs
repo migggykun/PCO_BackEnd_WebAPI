@@ -11,6 +11,8 @@ using PCO_BackEnd_WebAPI.Models.Registrations;
 using PCO_BackEnd_WebAPI.Models.Bank;
 using PCO_BackEnd_WebAPI.Models.Images;
 using PCO_BackEnd_WebAPI.Models.Conferences;
+using PCO_BackEnd_WebAPI.Models.Attendances;
+
 namespace PCO_BackEnd_WebAPI.Models.Entities
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser,CustomRole, 
@@ -42,6 +44,8 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
         public virtual DbSet<ActivitySchedule> ActivitySchedules { get; set; }
         public virtual DbSet<ConferenceDay> ConferenceDays { get; set; }
         public virtual DbSet<ConferenceActivity> ConferenceActivities { get; set; }
+
+        public virtual DbSet<ActivityAttendance> ActivityAttendances { get; set; }
 
         public static ApplicationDbContext Create()
         {
@@ -142,6 +146,8 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                         .HasMany(e => e.ConferenceDays)
                         .WithRequired()
                         .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<ActivityAttendance>();
         }
     }
 }

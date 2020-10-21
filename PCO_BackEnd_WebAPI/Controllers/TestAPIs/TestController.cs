@@ -102,9 +102,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.TestAPIs
                     ActivitySchedule = new ActivitySchedule
                     {
                         Id = 0,
-                        ActivityId=1,
-                        Start = DateTime.Now,
-                        End = DateTime.Now
+                        ActivityId = 1,
+                        Start = DateTime.Now.TimeOfDay,
+                        End = DateTime.Now.TimeOfDay
                     }
                 };
                 _context.ConferenceActivities.Add(conferenceActivity);
@@ -136,8 +136,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.TestAPIs
                     Id = 0,
                     ConferenceId = 4,
                     Date = DateTime.Now,
-                    Start = DateTime.Now,
-                    End = DateTime.Now
+                    Start = DateTime.Now.TimeOfDay,
+                    End = DateTime.Now.TimeOfDay
                 };
                 _context.ConferenceDays.Add(conferenceDay);
                 _context.SaveChanges();
