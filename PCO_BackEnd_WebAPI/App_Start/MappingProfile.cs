@@ -17,6 +17,7 @@ using PCO_BackEnd_WebAPI.DTOs.Bank;
 using PCO_BackEnd_WebAPI.Models.Bank;
 using PCO_BackEnd_WebAPI.Models.Images;
 using System.Globalization;
+using PCO_BackEnd_WebAPI.DTOs.Activities;
 
 namespace PCO_BackEnd_WebAPI.App_Start
 {
@@ -77,6 +78,10 @@ namespace PCO_BackEnd_WebAPI.App_Start
             Mapper.CreateMap<ConferenceActivity, ResponseConferenceActivityDTO>();
             Mapper.CreateMap<RequestActivityScheduleDTO, ActivitySchedule>();
             Mapper.CreateMap<ActivitySchedule, ResponseActivityScheduleDTO>();
+
+            Mapper.CreateMap<Activity, ResponseActivityDTO>();
+            Mapper.CreateMap<RequestActivityDTO, Activity>();
+            
 
             //Registration
             Mapper.CreateMap<RequestRegistrationDTO, Registration>().ForMember(dst => dst.RegistrationStatusId, x => x.MapFrom(a => 1));

@@ -19,5 +19,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Conferences
 
         [Required]
         public double regularPrice { get; set; }
+        [Required]
+        public int? conferenceActivityId { get; set; }
     }
 }
