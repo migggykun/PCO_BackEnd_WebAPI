@@ -65,10 +65,10 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <summary>
         /// Get list of activities
         /// </summary>
-        /// <param name="activity"></param>
+        /// <param name="activityDTO"></param>
         /// <returns></returns>
         [HttpPost]
-        [ResponseType(typeof(ResponseActivityDTO))]
+        [ResponseType(typeof(List<ResponseActivityDTO>))]
         public async Task<IHttpActionResult> AddActivities(List<RequestActivityDTO> activityDTO)
         {
             if (!ModelState.IsValid)
@@ -81,7 +81,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
-                await Task.Run(() => unitOfWork.Activities.Add(activities[0]));
+                await Task.Run(() => unitOfWork.Activities.AddActivities(activities));
                 await Task.Run(() => unitOfWork.Complete());
                 var resultDTO = activities.Select(Mapper.Map<Activity, ResponseActivityDTO>);
                 return Created(string.Empty, resultDTO);
