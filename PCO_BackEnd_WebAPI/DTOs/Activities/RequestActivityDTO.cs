@@ -7,6 +7,8 @@ namespace PCO_BackEnd_WebAPI.DTOs.Activities
 {
     public class RequestActivityDTO
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }
