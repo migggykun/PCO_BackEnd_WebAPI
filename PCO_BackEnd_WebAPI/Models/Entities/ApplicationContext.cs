@@ -47,6 +47,8 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
 
         public virtual DbSet<ActivityAttendance> ActivityAttendances { get; set; }
 
+        public virtual DbSet<ActivitiesToAttend> ActivitiesToAttend { get; set; }
+
         public static ApplicationDbContext Create()
         {
            return new ApplicationDbContext();
@@ -104,9 +106,9 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                         .IsFixedLength();
 
             modelBuilder.Entity<Registration>()
-                        .HasMany(e => e.DailyAttendanceRecords)
-                        .WithRequired(e => e.Registration)
-                        .WillCascadeOnDelete(false);
+                        .HasMany(e => e.ActivitiesToAttend);
+                        //.WithRequired(e => e.Registration)
+                        //.WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Registration>()
                         .HasRequired(e => e.User)

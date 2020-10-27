@@ -82,3 +82,4 @@ C:\Users\rodol\Documents\GitHub\PCO_BackEnd_WebAPI\PCO_BackEnd_WebAPI\obj\Debug\
 C:\Users\rodol\Documents\GitHub\PCO_BackEnd_WebAPI\PCO_BackEnd_WebAPI\obj\Debug\PCO_BackEnd_WebAPI.csproj.CopyComplete
 C:\Users\rodol\Documents\GitHub\PCO_BackEnd_WebAPI\PCO_BackEnd_WebAPI\obj\Debug\PCO_BackEnd_WebAPI.dll
 C:\Users\rodol\Documents\GitHub\PCO_BackEnd_WebAPI\PCO_BackEnd_WebAPI\obj\Debug\PCO_BackEnd_WebAPI.pdb
+C:\Users\rodol\Documents\GitHub\PCO_BackEnd_WebAPI\PCO_BackEnd_WebAPI\obj\Debug\PCO_BackEnd_WebAPI.csprojAssemblyReference.cache

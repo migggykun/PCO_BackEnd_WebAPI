@@ -22,10 +22,18 @@ namespace PCO_BackEnd_WebAPI.DTOs.Registrations
         [Required]
         public int RegistrationStatusId { get; set; }
 
+        [Required]
+        public virtual ICollection<ResponseActivitiesToAttendDTO> ActivitiesToAttend { get; set; }
+
+        [Required]
+        public bool IsBundle { get; set; }
+
         public int? PromoId { get; set; }
 
         public double? Amount { get; set; }
 
         public double? Discount { get; set; }
+
+        
     }
 }

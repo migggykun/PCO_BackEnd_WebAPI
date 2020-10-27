@@ -13,7 +13,7 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Registration()
         {
-            DailyAttendanceRecords = new HashSet<DailyAttendanceRecord>();
+            ActivitiesToAttend = new HashSet<ActivitiesToAttend>();
         }
 
         [Key]
@@ -21,24 +21,29 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
 
         public int UserId { get; set; }
 
-        public virtual ApplicationUser User { get; set; }
-
         public int ConferenceId { get; set; }
 
         public virtual Conference Conference { get; set; }
 
-        public int RegistrationStatusId { get; set; }
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ActivitiesToAttend> ActivitiesToAttend { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DailyAttendanceRecord> DailyAttendanceRecords { get; set; }
-
-        public virtual Payment RegistrationPayment { get; set; }
+        public bool IsBundle { get; set; }
 
         public int? PromoId { get; set; }
-        public virtual Promo Promo { get; set; }
 
         public double? Amount { get; set; }
 
         public double? Discount { get; set; }
+
+        public virtual ApplicationUser User { get; set; }
+
+        public int RegistrationStatusId { get; set; }
+
+        public virtual Payment RegistrationPayment { get; set; }
+
+        public virtual Promo Promo { get; set; }
+
+
     }
 }

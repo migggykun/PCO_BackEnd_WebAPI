@@ -291,12 +291,17 @@
     <Compile Include="DTOs\Bank\RequestUpdateBankDetailDTO.cs" />
     <Compile Include="DTOs\Bank\ResponseBankDetailDTO.cs" />
     <Compile Include="DTOs\Conferences\BaseConferenceDTO.cs" />
+    <Compile Include="DTOs\Conferences\ConferenceDay\ConferenceActivity\ActivitySchedule\AddActivityScheduleDTO.cs" />
     <Compile Include="DTOs\Conferences\ConferenceDay\ConferenceActivity\ActivitySchedule\RequestActivityScheduleDTO.cs" />
     <Compile Include="DTOs\Conferences\ConferenceDay\ConferenceActivity\ActivitySchedule\ResponseActivityScheduleDTO.cs" />
+    <Compile Include="DTOs\Conferences\ConferenceDay\ConferenceActivity\AddConferenceActivityDTO.cs" />
     <Compile Include="DTOs\Conferences\ConferenceDay\ConferenceActivity\RequestConferenceActivityDTO.cs" />
     <Compile Include="DTOs\Conferences\ConferenceDay\ConferenceActivity\ResponseConferenceActivityDTO.cs" />
+    <Compile Include="DTOs\Conferences\ConferenceDay\AddConferenceDayDTO.cs" />
     <Compile Include="DTOs\Conferences\ConferenceDay\RequestConferenceDayDTO.cs" />
     <Compile Include="DTOs\Conferences\ConferenceDay\ResponseConferenceDayDTO.cs" />
+    <Compile Include="DTOs\Registrations\RequestActivitiesToAttendDTO.cs" />
+    <Compile Include="DTOs\Registrations\ResponseActivitiesToAttendDTO.cs" />
     <Compile Include="DTOs\Registrations\ResponseRegistrationFeeDTO.cs" />
     <Compile Include="DTOs\Images\ResponseImageDTO.cs" />
     <Compile Include="DTOs\Registrations\AddPaymentDTO.cs" />

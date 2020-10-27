@@ -73,10 +73,13 @@ namespace PCO_BackEnd_WebAPI.App_Start
             Mapper.CreateMap<RequestPromoMemberDTO, PromoMember>();
             Mapper.CreateMap<PromoMember, ResponsePromoMemberDTO>();
             Mapper.CreateMap<RequestConferenceDayDTO, ConferenceDay>();
+            Mapper.CreateMap<AddConferenceDayDTO, ConferenceDay>();
             Mapper.CreateMap<ConferenceDay, ResponseConferenceDayDTO>();
             Mapper.CreateMap<RequestConferenceActivityDTO, ConferenceActivity>();
+            Mapper.CreateMap<AddConferenceActivityDTO, ConferenceActivity>();
             Mapper.CreateMap<ConferenceActivity, ResponseConferenceActivityDTO>();
             Mapper.CreateMap<RequestActivityScheduleDTO, ActivitySchedule>();
+            Mapper.CreateMap<AddActivityScheduleDTO, ActivitySchedule>();
             Mapper.CreateMap<ActivitySchedule, ResponseActivityScheduleDTO>();
 
             Mapper.CreateMap<Activity, ResponseActivityDTO>();
@@ -91,6 +94,8 @@ namespace PCO_BackEnd_WebAPI.App_Start
             Mapper.CreateMap<AddPaymentDTO, Payment>().ForMember(dst => dst.Receipt, src => src.Ignore());
             Mapper.CreateMap<UpdatePaymentDTO, Payment>().ForMember(dst => dst.Receipt, src => src.Ignore());
             Mapper.CreateMap<Payment, ResponsePaymentDTO>();
+            Mapper.CreateMap<RequestActivitiesToAttendDTO, ActivitiesToAttend>();
+            Mapper.CreateMap<ActivitiesToAttend, ResponseAccountDTO>();
 
             //BankDetail
             Mapper.CreateMap<RequestAddBankDetailDTO, BankDetail>().ForMember(dst => dst.IsActive, src => src.MapFrom(p => true));

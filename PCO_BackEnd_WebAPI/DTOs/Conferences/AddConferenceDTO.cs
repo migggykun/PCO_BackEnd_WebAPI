@@ -12,5 +12,8 @@ namespace PCO_BackEnd_WebAPI.DTOs.Conferences
     {
         [Required]
         public virtual ICollection<AddRateWithConferenceDTO> Rates { get; set; }
+
+        [Required]
+        public virtual ICollection<AddConferenceDayDTO> ConferenceDays { get; set; }
     }
 }
