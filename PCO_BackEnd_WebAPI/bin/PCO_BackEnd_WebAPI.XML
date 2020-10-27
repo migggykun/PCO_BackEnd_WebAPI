@@ -547,6 +547,43 @@
             <param name="id">id of the bank details to be deleted</param>
             <returns></returns>
         </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ActivityController.GetAll(System.Int32,System.Int32)">
+            <summary>
+            Gets list of activities
+            </summary>
+            <param name="page"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ActivityController.Get(System.Int32)">
+            <summary>
+            Gets the activity information based on specified id
+            </summary>
+            <param name="id">id of activity to be fetched</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ActivityController.AddActivities(System.Collections.Generic.List{PCO_BackEnd_WebAPI.DTOs.Activities.RequestActivityDTO})">
+            <summary>
+            Get list of activities
+            </summary>
+            <param name="activityDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ActivityController.UpdateActivity(System.Int32,PCO_BackEnd_WebAPI.DTOs.Activities.RequestActivityDTO)">
+            <summary>
+            Updates a activity
+            </summary>
+            <param name="id">user id</param>
+            <param name="activityDTO">New information about the activity to be updated</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ActivityController.DeleteActivity(System.Int32)">
+            <summary>
+            Deletes a activity
+            </summary>
+            <param name="id">id of the activity to be deleted.</param>
+            <returns></returns>
+        </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Images.ImageController.GetImages(System.Int32)">
             <summary>
             Gets banner or receipt
