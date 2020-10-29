@@ -22,7 +22,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
             throw new NotImplementedException();
         }
 
-        public PageResult<ActivitySchedule> GetPagedActivitySchedules(int page, int size, string filter = null, string day = null, string month = null, string year = null, string fromDate = null, string toDate = null)
+        public PageResult<ActivitySchedule> GetPagedActivitySchedules(int page, int size)
         {
             PageResult<ActivitySchedule> pageResult = new PageResult<ActivitySchedule>();
             IQueryable<ActivitySchedule> queryResult = appDbContext.ActivitySchedules;

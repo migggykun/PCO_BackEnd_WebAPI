@@ -11,7 +11,6 @@ namespace PCO_BackEnd_WebAPI.DTOs.Conferences
 
         public int ConferenceDayId { get; set; }
 
-        public int ActivityScheduleId { get; set; }
         public RequestActivityScheduleDTO ActivitySchedule { get; set; }
     }
 }

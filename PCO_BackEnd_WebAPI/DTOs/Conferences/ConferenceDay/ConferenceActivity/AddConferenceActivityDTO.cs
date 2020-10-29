@@ -7,7 +7,6 @@ namespace PCO_BackEnd_WebAPI.DTOs.Conferences
 {
     public class AddConferenceActivityDTO
     {
-        public int ActivityScheduleId { get; set; }
         public AddActivityScheduleDTO ActivitySchedule { get; set; }
     }
 }
