@@ -78,7 +78,6 @@ C:\Users\rodol\Documents\GitHub\PCO_BackEnd_WebAPI\PCO_BackEnd_WebAPI\bin\Micros
 C:\Users\rodol\Documents\GitHub\PCO_BackEnd_WebAPI\PCO_BackEnd_WebAPI\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\rodol\Documents\GitHub\PCO_BackEnd_WebAPI\PCO_BackEnd_WebAPI\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\rodol\Documents\GitHub\PCO_BackEnd_WebAPI\PCO_BackEnd_WebAPI\bin\System.Web.Http.Owin.xml
-C:\Users\rodol\Documents\GitHub\PCO_BackEnd_WebAPI\PCO_BackEnd_WebAPI\obj\Debug\PCO_BackEnd_WebAPI.csprojAssemblyReference.cache
 C:\Users\rodol\Documents\GitHub\PCO_BackEnd_WebAPI\PCO_BackEnd_WebAPI\obj\Debug\PCO_BackEnd_WebAPI.csproj.CoreCompileInputs.cache
 C:\Users\rodol\Documents\GitHub\PCO_BackEnd_WebAPI\PCO_BackEnd_WebAPI\obj\Debug\PCO_BackEnd_WebAPI.csproj.CopyComplete
 C:\Users\rodol\Documents\GitHub\PCO_BackEnd_WebAPI\PCO_BackEnd_WebAPI\obj\Debug\PCO_BackEnd_WebAPI.dll

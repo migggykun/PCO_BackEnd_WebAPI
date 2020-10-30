@@ -74,6 +74,22 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
           return updatedConference;
         }
 
+        /// <summary>
+        /// helper Function for finding conference activity by id to populate activity in conferenceDTO
+        /// </summary>
+        /// <param name="ActivityId"></param>
+        /// <returns></returns>
+        public void FillInConferenceActivities(Conference conference)
+        {
+            foreach (ConferenceDay conferenceDay in conference.ConferenceDays)
+            {
+                foreach (ConferenceActivity conferenceActivity in conferenceDay.ConferenceActivities.Where(x => x.ActivitySchedule.Activity == null))
+                {
+                    conferenceActivity.ActivitySchedule.Activity = appDbContext.Activities.ToList().Find(x => x.Id == conferenceActivity.ActivitySchedule.ActivityId);
+                }
+
+            }
+        }
         private ApplicationDbContext appDbContext
         {
             get

@@ -16,5 +16,6 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences
                                                          string year = null, string fromDate = null, string toDate = null);
         Conference GetConferenceByTitle(string title);
         Conference UpdateConferenceInfo(int id, Conference conference, string base64Image);
+        void FillInConferenceActivities(Conference conference);
     }
 }
