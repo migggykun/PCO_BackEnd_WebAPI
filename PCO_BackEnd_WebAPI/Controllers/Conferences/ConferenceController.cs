@@ -77,7 +77,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="conferenceDTO">Details about the conference to be added.</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("api/AddConference/")]
         [ResponseType(typeof(ResponseConferenceDTO))]
         public async Task<IHttpActionResult> AddConference(AddConferenceDTO conferenceDTO)
         {
