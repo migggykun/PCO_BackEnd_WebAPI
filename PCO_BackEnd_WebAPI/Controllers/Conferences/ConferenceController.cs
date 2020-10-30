@@ -86,6 +86,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             }
 
             var conference = Mapper.Map<AddConferenceDTO, Conference>(conferenceDTO);
+            FillInConferenceActivities(conference);
             try
             {
                 ImageManager imageManager;
@@ -99,15 +100,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
                 await Task.Run(() => unitOfWork.Conferences.Add(conference));
                 await Task.Run(() => unitOfWork.Complete());
-
-                foreach(ConferenceDay conferenceDay in conference.ConferenceDays)
-                {
-                    foreach(ConferenceActivity conferenceActivity in conferenceDay.ConferenceActivities.Where(x=>x.ActivitySchedule.Activity==null))
-                    {
-                        conferenceActivity.ActivitySchedule.Activity = GetConferenceActivityById(conferenceActivity.ActivitySchedule.ActivityId);
-                    }
-
-                }
                 
                 var resultDTO = ConferenceMapper.MapToResponseConferenceDTO(conference);
                 return Created(new Uri(Request.RequestUri + "/" + conference.Id), resultDTO);
@@ -117,17 +109,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
                 string message = ErrorManager.GetInnerExceptionMessage(ex);
                 return BadRequest(message);
             }
-        }
-
-        /// <summary>
-        /// helper Function for finding conference activity by id to populate activity in conferenceDTO
-        /// </summary>
-        /// <param name="ActivityId"></param>
-        /// <returns></returns>
-        private Activity GetConferenceActivityById(int ActivityId)
-        {
-            Activity resultActivity = _context.Activities.ToList().Find(x=>x.Id == ActivityId);
-            return resultActivity;
         }
 
         /// <summary>
@@ -200,5 +181,27 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
                 return BadRequest(message);
             }
         }
+
+        #region private Helper Methods
+
+        /// <summary>
+        /// helper Function for finding conference activity by id to populate activity in conferenceDTO
+        /// </summary>
+        /// <param name="ActivityId"></param>
+        /// <returns></returns>
+        private void FillInConferenceActivities(Conference conference)
+        {
+            foreach (ConferenceDay conferenceDay in conference.ConferenceDays)
+            {
+                foreach (ConferenceActivity conferenceActivity in conferenceDay.ConferenceActivities.Where(x => x.ActivitySchedule.Activity == null))
+                {
+                    conferenceActivity.ActivitySchedule.Activity = _context.Activities.ToList().Find(x => x.Id == conferenceActivity.ActivitySchedule.ActivityId);
+                }
+
+            }
+        }  
+
+        #endregion
+
     }
 }
