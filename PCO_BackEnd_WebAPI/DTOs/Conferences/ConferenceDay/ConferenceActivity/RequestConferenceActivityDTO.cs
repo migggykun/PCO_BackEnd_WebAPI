@@ -12,5 +12,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Conferences
         public int ConferenceDayId { get; set; }
 
         public RequestActivityScheduleDTO ActivitySchedule { get; set; }
+
+        public virtual ICollection<RequestActivityRateDTO> ActivityRates { get; set; }
     }
 }

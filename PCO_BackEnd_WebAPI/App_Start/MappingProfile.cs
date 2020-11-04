@@ -81,6 +81,7 @@ namespace PCO_BackEnd_WebAPI.App_Start
             Mapper.CreateMap<RequestActivityScheduleDTO, ActivitySchedule>();
             Mapper.CreateMap<AddActivityScheduleDTO, ActivitySchedule>();
             Mapper.CreateMap<ActivitySchedule, ResponseActivityScheduleDTO>();
+            Mapper.CreateMap<AddActivityRateDTO, Rate>();
 
             Mapper.CreateMap<Activity, ResponseActivityDTO>();
             Mapper.CreateMap<RequestActivityDTO, Activity>();

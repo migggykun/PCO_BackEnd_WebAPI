@@ -17,5 +17,7 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
         public int ActivityScheduleId { get; set; }
         
         public virtual ActivitySchedule ActivitySchedule { get; set; }
+
+        public virtual ICollection<Rate> ActivityRates { get; set; }
     }
 }

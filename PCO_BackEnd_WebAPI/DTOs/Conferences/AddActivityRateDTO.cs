@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PCO_BackEnd_WebAPI.DTOs.Conferences
 {
-    public class AddRateWithConferenceDTO
+    public class AddActivityRateDTO
     {
         [Required]
         [RegularExpression(@"^[0-9]+$", ErrorMessage = "Characters are not allowed.")]
@@ -15,7 +11,5 @@ namespace PCO_BackEnd_WebAPI.DTOs.Conferences
         [Required]
         [RegularExpression(@"^[0-9]*(?:\.[0-9]+)?$", ErrorMessage = "{0} is an invalid amount!")]
         public double regularPrice { get; set; }
-
-        public int? conferenceActivityId { get; set; }
     }
 }

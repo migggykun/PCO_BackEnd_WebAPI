@@ -53,6 +53,20 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
             return appDbContext.Rates.FirstOrDefault(predicate);
         }
 
+        public void UpdateRatesDatabase(Conference conference)
+        {
+            foreach (Rate rate in conference.Rates.Where(x => x.conferenceActivityId == null))
+            {
+                foreach (ConferenceActivity ca in appDbContext.ConferenceActivities)
+                {
+                    //rate.conferenceActivityId = appDbContext.Rates.Find(x=>x.)
+
+
+                }
+            }
+
+        }
+
         private ApplicationDbContext appDbContext
         {
             get
