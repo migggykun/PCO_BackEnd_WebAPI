@@ -291,6 +291,7 @@
     <Compile Include="DTOs\Bank\RequestUpdateBankDetailDTO.cs" />
     <Compile Include="DTOs\Bank\ResponseBankDetailDTO.cs" />
     <Compile Include="DTOs\Conferences\AddActivityRateDTO.cs" />
+    <Compile Include="DTOs\Conferences\RequestActivityRateDTO.cs" />
     <Compile Include="DTOs\Conferences\BaseConferenceDTO.cs" />
     <Compile Include="DTOs\Conferences\ConferenceDay\ConferenceActivity\ActivitySchedule\AddActivityScheduleDTO.cs" />
     <Compile Include="DTOs\Conferences\ConferenceDay\ConferenceActivity\ActivitySchedule\RequestActivityScheduleDTO.cs" />
@@ -299,10 +300,8 @@
     <Compile Include="DTOs\Conferences\ConferenceDay\ConferenceActivity\RequestConferenceActivityDTO.cs" />
     <Compile Include="DTOs\Conferences\ConferenceDay\ConferenceActivity\ResponseConferenceActivityDTO.cs" />
     <Compile Include="DTOs\Conferences\ConferenceDay\AddConferenceDayDTO.cs" />
-    <Compile Include="DTOs\Conferences\ConferenceDay\RequestActivityRateDTO.cs" />
     <Compile Include="DTOs\Conferences\ConferenceDay\RequestConferenceDayDTO.cs" />
     <Compile Include="DTOs\Conferences\ConferenceDay\ResponseConferenceDayDTO.cs" />
-    <Compile Include="DTOs\Conferences\ResponseActivityRateDTO.cs" />
     <Compile Include="DTOs\Registrations\RequestActivitiesToAttendDTO.cs" />
     <Compile Include="DTOs\Registrations\ResponseActivitiesToAttendDTO.cs" />
     <Compile Include="DTOs\Registrations\ResponseRegistrationFeeDTO.cs" />

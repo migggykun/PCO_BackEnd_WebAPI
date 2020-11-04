@@ -18,7 +18,5 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
         public double regularPrice { get; set; }
 
         public int? conferenceActivityId { get; set; }
-    
-        public int? ActivityId { get; set; }
     }
 }
