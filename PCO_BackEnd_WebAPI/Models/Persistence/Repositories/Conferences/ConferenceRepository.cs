@@ -81,11 +81,13 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
         /// <returns></returns>
         public void FillInConferenceActivities(Conference conference)
         {
+            var activities = appDbContext.Activities.ToList();
+
             foreach (ConferenceDay conferenceDay in conference.ConferenceDays)
             {
                 foreach (ConferenceActivity conferenceActivity in conferenceDay.ConferenceActivities.Where(x => x.ActivitySchedule.Activity == null))
                 {
-                    conferenceActivity.ActivitySchedule.Activity = appDbContext.Activities.ToList().Find(x => x.Id == conferenceActivity.ActivitySchedule.ActivityId);
+                    conferenceActivity.ActivitySchedule.Activity = activities.Find(x => x.Id == conferenceActivity.ActivitySchedule.ActivityId);
                 }
 
             }
