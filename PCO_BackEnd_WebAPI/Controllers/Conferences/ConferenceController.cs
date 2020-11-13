@@ -97,9 +97,10 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
                 }
 
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
-                await Task.Run(() => unitOfWork.Conferences.FillInConferenceActivities(conference));
                 await Task.Run(() => unitOfWork.Conferences.Add(conference));
                 await Task.Run(() => unitOfWork.Complete());
+                await Task.Run(() => unitOfWork.Conferences.FillInConferenceActivities(conference));
+
                 
                 var resultDTO = ConferenceMapper.MapToResponseConferenceDTO(conference);
                 return Created(new Uri(Request.RequestUri + "/" + conference.Id), resultDTO);
