@@ -256,6 +256,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\Accounts\AddressController.cs" />
+    <Compile Include="Controllers\Accounts\MembershipStatusController.cs" />
     <Compile Include="Controllers\Attendance\AttendanceController.cs" />
     <Compile Include="Controllers\Bank\BankDetailController.cs" />
     <Compile Include="Controllers\Conferences\ActivityController.cs" />

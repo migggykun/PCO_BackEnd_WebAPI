@@ -34,5 +34,8 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
         [Required]
         public int MembershipTypeId { get; set; }
         public virtual MembershipType MembershipType { get; set; }
+        public bool? IsMember { get; set; }
+        public bool? IsActive { get; set; }
+
     }
 }
