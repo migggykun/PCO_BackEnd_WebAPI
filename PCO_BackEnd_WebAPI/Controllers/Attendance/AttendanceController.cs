@@ -4,6 +4,7 @@ using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
+using PCO_BackEnd_WebAPI.Models.Registrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +25,42 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
             _context = new ApplicationDbContext();
         }
 
+        //[HttpPost]
+        //[Route("api/UpdateAttendance/{id:int}")]
+        //public async Task<IHttpActionResult> UpdateAttendance(int id, ActivityAttendance attendanceDTO)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
+        //        return BadRequest(errorMessages);
+        //    }
+
+        //    var activityAttendance = Mapper.Map<ActivityAttendance, ActivityAttendance>(attendanceDTO);
+        //    try
+        //    {
+        //        UnitOfWork unitOfWork = new UnitOfWork(_context);
+        //        var result = await Task.Run(() => unitOfWork.ActivityAttendances.Get(id));
+        //        if (result == null)
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            result = await Task.Run(() => unitOfWork.ActivityAttendances.UpdateAttendance(id, activityAttendance));
+        //            await Task.Run(() => unitOfWork.Complete());
+        //            return Ok(Mapper.Map<ActivityAttendance, ActivityAttendance>(result));
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        string message = ErrorManager.GetInnerExceptionMessage(ex);
+        //        return BadRequest(message);
+        //    }
+        //}
+
         [HttpPost]
-        [Route("api/UpdateAttendance/{id:int}")]
-        public async Task<IHttpActionResult> UpdateAttendance(int id, ActivityAttendance attendanceDTO)
+        [Route("api/TimeIn")]
+        public async Task<IHttpActionResult> TimeIn(int registrationId, int conferenceActivityId)
         {
             if (!ModelState.IsValid)
             {
@@ -34,18 +68,47 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
                 return BadRequest(errorMessages);
             }
 
-            var activityAttendance = Mapper.Map<ActivityAttendance, ActivityAttendance>(attendanceDTO);
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
-                var result = await Task.Run(() => unitOfWork.ActivityAttendances.Get(id));
-                if (result == null)
+                Registration registration = await Task.Run(() => unitOfWork.Registrations.Get(registrationId));
+
+                // check if user is registered          
+                if(registration == null)
                 {
                     return NotFound();
                 }
+
+                //check if user is registered as bundle
+                bool isBundle = registration.IsBundle;
+                //check if user is registered to activity
+                if (!isBundle)
+                {
+                    bool registeredToActivity = registration.ActivitiesToAttend.ToList().Exists(x => x.ConferenceActivityId == conferenceActivityId);
+                    if(!registeredToActivity)
+                    {
+                        return NotFound();
+                    }
+                }
+
+                //check if attendance record is existing, then time in
+                ActivityAttendance attendance = await Task.Run(() => (unitOfWork.ActivityAttendances.Find(registration.UserId, conferenceActivityId)));             
+                if(attendance == null)
+                {
+                    ActivityAttendance newAttendance = new ActivityAttendance()
+                    {
+                        ConferenceActivityId = conferenceActivityId,
+                        UserId = registration.UserId,
+                        TimeIn = DateTime.Now
+                    };
+                    var result = newAttendance;
+                    await Task.Run(() => unitOfWork.ActivityAttendances.Add(newAttendance));
+                    await Task.Run(() => unitOfWork.Complete());
+                    return Ok(Mapper.Map<ActivityAttendance, ActivityAttendance>(result));
+                }
                 else
                 {
-                    result = await Task.Run(() => unitOfWork.ActivityAttendances.UpdateAttendance(id, activityAttendance));
+                    var result = await Task.Run(() => unitOfWork.ActivityAttendances.TimeIn(attendance.Id));
                     await Task.Run(() => unitOfWork.Complete());
                     return Ok(Mapper.Map<ActivityAttendance, ActivityAttendance>(result));
                 }
@@ -56,9 +119,10 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
                 return BadRequest(message);
             }
         }
+
         [HttpPost]
-        [Route("api/TimeIn/{id:int}")]
-        public async Task<IHttpActionResult> TimeIn(int id)
+        [Route("api/TimeOut")]
+        public async Task<IHttpActionResult> TimeOut(int registrationId, int conferenceActivityId)
         {
             if (!ModelState.IsValid)
             {
@@ -69,46 +133,44 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
-                var result = await Task.Run(() => unitOfWork.ActivityAttendances.Get(id));
-                if (result == null)
+                Registration registration = await Task.Run(() => unitOfWork.Registrations.Get(registrationId));
+
+                // check if user is registered          
+                if (registration == null)
                 {
                     return NotFound();
                 }
-                else
+
+                //check if user is registered as bundle
+                bool isBundle = registration.IsBundle;
+                //check if user is registered to activity
+                if (!isBundle)
                 {
-                    result = await Task.Run(() => unitOfWork.ActivityAttendances.TimeIn(id));
+                    bool registeredToActivity = registration.ActivitiesToAttend.ToList().Exists(x => x.ConferenceActivityId == conferenceActivityId);
+                    if (!registeredToActivity)
+                    {
+                        return NotFound();
+                    }
+                }
+
+                //check if attendance record is existing, then time out
+                ActivityAttendance attendance = await Task.Run(() => (unitOfWork.ActivityAttendances.Find(registration.UserId, conferenceActivityId)));
+                if (attendance == null)
+                {
+                    ActivityAttendance newAttendance = new ActivityAttendance()
+                    {
+                        ConferenceActivityId = conferenceActivityId,
+                        UserId = registration.UserId,
+                        TimeOut = DateTime.Now
+                    };
+                    var result = newAttendance;
+                    await Task.Run(() => unitOfWork.ActivityAttendances.Add(newAttendance));
                     await Task.Run(() => unitOfWork.Complete());
                     return Ok(Mapper.Map<ActivityAttendance, ActivityAttendance>(result));
                 }
-            }
-            catch (Exception ex)
-            {
-                string message = ErrorManager.GetInnerExceptionMessage(ex);
-                return BadRequest(message);
-            }
-        }
-
-        [HttpPost]
-        [Route("api/TimeOut/{id:int}")]
-        public async Task<IHttpActionResult> TimeOut(int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
-                return BadRequest(errorMessages);
-            }
-
-            try
-            {
-                UnitOfWork unitOfWork = new UnitOfWork(_context);
-                var result = await Task.Run(() => unitOfWork.ActivityAttendances.Get(id));
-                if (result == null)
-                {
-                    return NotFound();
-                }
                 else
                 {
-                    result = await Task.Run(() => unitOfWork.ActivityAttendances.TimeOut(id));
+                    var result = await Task.Run(() => unitOfWork.ActivityAttendances.TimeOut(attendance.Id));
                     await Task.Run(() => unitOfWork.Complete());
                     return Ok(Mapper.Map<ActivityAttendance, ActivityAttendance>(result));
                 }

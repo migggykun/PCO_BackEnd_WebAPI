@@ -49,7 +49,6 @@ namespace PCO_BackEnd_WebAPI.App_Start
                                                                                 }
                                                                             };
 
-
             Mapper.CreateMap<RequestAccountDTO, ApplicationUser>();
             Mapper.CreateMap<UserInfo, ResponseUserInfoDTO>();
             Mapper.CreateMap<RequestUserInfoDTO, UserInfo>();
@@ -97,7 +96,7 @@ namespace PCO_BackEnd_WebAPI.App_Start
             Mapper.CreateMap<UpdatePaymentDTO, Payment>().ForMember(dst => dst.Receipt, src => src.Ignore());
             Mapper.CreateMap<Payment, ResponsePaymentDTO>();
             Mapper.CreateMap<RequestActivitiesToAttendDTO, ActivitiesToAttend>();
-            Mapper.CreateMap<ActivitiesToAttend, ResponseAccountDTO>();
+            Mapper.CreateMap<ActivitiesToAttend, ResponseActivitiesToAttendDTO>();
 
             //BankDetail
             Mapper.CreateMap<RequestAddBankDetailDTO, BankDetail>().ForMember(dst => dst.IsActive, src => src.MapFrom(p => true));

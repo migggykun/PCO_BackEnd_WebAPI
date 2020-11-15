@@ -12,7 +12,7 @@ using System.Web;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Attendance
 {
-    public class AttendanceRepository : Repository<ActivityAttendance>, IAttendaceRepository
+    public class AttendanceRepository : Repository<ActivityAttendance>, IAttendanceRepository
     {
         public AttendanceRepository(DbContext context)
             : base(context)
@@ -27,10 +27,9 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Attendance
             return pageResult;
         }
 
-        public ActivityAttendance UpdateAttendance(int id, ActivityAttendance entityToUpdate)
+        public ActivityAttendance Find(int userId, int conferenceActivityId)
         {
-            var attendanceToUpdate = appDbContext.ActivityAttendances.Find(id);
-            appDbContext.Entry(attendanceToUpdate).CurrentValues.SetValues(entityToUpdate);
+            ActivityAttendance attendanceToUpdate = appDbContext.ActivityAttendances.ToList().Find(x => x.UserId == userId && x.ConferenceActivityId == conferenceActivityId);
             return attendanceToUpdate;
         }
 

@@ -16,11 +16,10 @@ namespace PCO_BackEnd_WebAPI.DTOs.Registrations
         [RegularExpression(@"^[0-9]+$", ErrorMessage = "Characters are not allowed!")]
         public int ConferenceId { get; set; }
 
-        [Required]
-        public virtual ICollection<RequestActivitiesToAttendDTO> ActivitiesToAttend { get; set; }
-
-        [Required]
+        //[Required]
         public bool IsBundle { get; set; }
+
+        public virtual ICollection<RequestActivitiesToAttendDTO> ActivitiesToAttend { get; set; }
 
         public int? PromoId { get; set; }
 

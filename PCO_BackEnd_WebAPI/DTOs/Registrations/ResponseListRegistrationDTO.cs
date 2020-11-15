@@ -24,6 +24,8 @@ namespace PCO_BackEnd_WebAPI.DTOs.Registrations
 
         public double? Discount { get; set; }
 
+        public bool IsBundle { get; set; }
+
         [Required]
         public ResponseAccountDTO User { get; set; }
     }

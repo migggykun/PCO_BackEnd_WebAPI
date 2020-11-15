@@ -14,6 +14,10 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
         public Registration()
         {
             ActivitiesToAttend = new HashSet<ActivitiesToAttend>();
+            //Conference = new Conference();
+            //User = new ApplicationUser();
+            //Promo = new Promo();
+            //RegistrationPayment = new Payment();
         }
 
         [Key]
@@ -23,11 +27,6 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
 
         public int ConferenceId { get; set; }
 
-        public virtual Conference Conference { get; set; }
-
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ActivitiesToAttend> ActivitiesToAttend { get; set; }
-
         public bool IsBundle { get; set; }
 
         public int? PromoId { get; set; }
@@ -36,14 +35,17 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
 
         public double? Discount { get; set; }
 
-        public virtual ApplicationUser User { get; set; }
-
         public int RegistrationStatusId { get; set; }
+
+        public virtual ApplicationUser User { get; set; }
 
         public virtual Payment RegistrationPayment { get; set; }
 
         public virtual Promo Promo { get; set; }
 
+        public virtual Conference Conference { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ActivitiesToAttend> ActivitiesToAttend { get; set; }
     }
 }

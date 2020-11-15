@@ -150,6 +150,10 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                         .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<ActivityAttendance>();
+
+            modelBuilder.Entity<ActivitiesToAttend>();
+                        //.HasRequired(u=>u.ConferenceActivityId)
+                        //.WithMany();
         }
     }
 }

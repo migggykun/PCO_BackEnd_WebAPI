@@ -354,7 +354,7 @@
     <Compile Include="Models\Pagination\PaginationMapper.cs" />
     <Compile Include="Models\ParameterBindingModels\ConferenceParameterBindingModel.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IAddressRepository.cs" />
-    <Compile Include="Models\Persistence\Interfaces\Attendance\IAttendaceRepository.cs" />
+    <Compile Include="Models\Persistence\Interfaces\Attendance\IAttendanceRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Conferences\IActivityRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Conferences\IActivityScheduleRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Accounts\AddressRepository.cs" />

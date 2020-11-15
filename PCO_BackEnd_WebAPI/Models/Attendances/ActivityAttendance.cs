@@ -6,18 +6,24 @@ using System.Web;
 
 namespace PCO_BackEnd_WebAPI.Models.Attendances
 {
-    [Table("pc0_Database_Staging.[ActivityAttendance]")]
+    [Table("pc0_Database_Staging.[dbo.ActivityAttendance]")]
     public class ActivityAttendance
     {
+        public ActivityAttendance()
+        {
+            TimeIn = null;
+            TimeOut = null;
+        }
+
         public int Id { get; set; }
 
         public int UserId { get; set; }
 
         public int ConferenceActivityId { get; set; }
 
-        public DateTime TimeIn { get; set; }
+        public DateTime? TimeIn { get; set; }
 
-        public DateTime TimeOut { get; set; }
+        public DateTime? TimeOut { get; set; }
 
     }
 }
