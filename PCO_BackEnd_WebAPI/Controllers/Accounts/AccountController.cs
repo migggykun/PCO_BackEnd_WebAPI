@@ -275,12 +275,23 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         [ResponseType(typeof(List<ResponseAccountDTO>))]
         public async Task<IHttpActionResult> GetUsers(string keywordFilter = null, 
                                                       int page = 1, 
-                                                      int size = 0)
+                                                      int size = 0,
+                                                      string organization = null,
+                                                      string province = null,
+                                                      string membershipType = null,
+                                                      bool? isMember = null,
+                                                      bool? isActive = null)
         {
             UnitOfWork unitOfWork = new UnitOfWork(new ApplicationDbContext());
-            var result = await Task.Run(() => unitOfWork.Accounts.GetPagedAccounts(page, 
-                                                                                   size, 
-                                                                                   keywordFilter));
+            var result = await Task.Run(() => unitOfWork.Accounts.GetPagedAccounts(page,
+                                                                                   size,
+                                                                                   keywordFilter,
+                                                                                   organization,
+                                                                                   province,
+                                                                                   membershipType,
+                                                                                   isMember,
+                                                                                   isActive));
+
             var resultDTO = PaginationMapper<ApplicationUser, ResponseAccountDTO>.MapResult(result);
             return Ok(resultDTO);
         }

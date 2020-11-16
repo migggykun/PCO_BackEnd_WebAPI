@@ -30,7 +30,12 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
 
         public PageResult<ApplicationUser> GetPagedAccounts(int page, 
                                                             int size,
-                                                            string filter = null)
+                                                            string filter = null,
+                                                            string organization = null,
+                                                            string province = null,
+                                                            string membershipType = null,
+                                                            bool? isMember = null,
+                                                            bool? isActive = null)
         {
             PageResult<ApplicationUser> pageResult;
             DateTime PRCDate;
@@ -47,7 +52,35 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
                                                                u.PRCDetail.IdNumber.Contains(filter) ||
                                                                u.Email.Contains(filter) ||
                                                                u.PhoneNumber.Contains(filter));
+            //Filter by organization
+            queryResult = queryResult.Where(u => (organization == null) ?
+                                                  true
+                                                  :
+                                                  (u.UserInfo.Organization.Contains(organization)));
+            //Filter by membershipType
+            queryResult = queryResult.Where(u => (membershipType == null) ?
+                                                  true
+                                                  :
+                                                  (u.UserInfo.MembershipType.Name.Contains(membershipType)));
+            //Filter by Province
+            queryResult = queryResult.Where(u => (province == null) ?
+                                       true
+                                       :
+                                       (u.UserInfo.Address.Province.Contains(province)));
 
+
+            //Filter by isActive
+            queryResult = queryResult.Where(u => (isActive == null) ?
+                                       true
+                                       :
+                                       (u.UserInfo.IsActive == isActive));
+
+            //Filter by isMember
+            queryResult = queryResult.Where(u => (isMember == null) ?
+                                       true
+                                       :
+                                       (u.UserInfo.IsMember == isMember)); 
+            
             pageResult = PaginationManager<ApplicationUser>.GetPagedResult(queryResult, page, size);
             return pageResult;
         }
