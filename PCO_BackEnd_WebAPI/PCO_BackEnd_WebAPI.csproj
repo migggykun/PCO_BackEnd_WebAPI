@@ -331,6 +331,8 @@
     <Compile Include="Models\Accounts\Address.cs" />
     <Compile Include="Models\Accounts\IdentityModels.cs" />
     <Compile Include="Models\Attendances\ActivityAttendance.cs" />
+    <Compile Include="Models\Attendances\ActivityAttendanceReport.cs" />
+    <Compile Include="Models\Attendances\ConferenceAttendanceReport.cs" />
     <Compile Include="Models\Bank\BankDetail.cs" />
     <Compile Include="Models\Conferences\Activities\Activity.cs" />
     <Compile Include="Models\Conferences\ActivitySchedule.cs" />

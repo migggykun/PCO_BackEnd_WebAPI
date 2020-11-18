@@ -74,5 +74,17 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
         {
             appDbContext.Activities.RemoveRange(activities);
         }
+
+        public PageResult<ConferenceActivity> GetActivitiesFromConferenceId(int conferenceId, int page, int size )
+        {
+            List <ConferenceActivity> ConferenceActivities = new List<ConferenceActivity>();
+            List<ConferenceDay> confdays = appDbContext.ConferenceDays.Where(x => x.ConferenceId == conferenceId).ToList();
+            foreach(var d in confdays)
+            {
+                ConferenceActivities.AddRange(d.ConferenceActivities);
+            }
+
+            return PaginationManager<ConferenceActivity>.GetPagedResult(ConferenceActivities.AsQueryable(), page, size);
+        }
     }
 }

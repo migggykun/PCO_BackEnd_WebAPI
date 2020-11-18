@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.Models.Attendances;
 using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.Models.Entities;
@@ -24,39 +25,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
         {
             _context = new ApplicationDbContext();
         }
-
-        //[HttpPost]
-        //[Route("api/UpdateAttendance/{id:int}")]
-        //public async Task<IHttpActionResult> UpdateAttendance(int id, ActivityAttendance attendanceDTO)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
-        //        return BadRequest(errorMessages);
-        //    }
-
-        //    var activityAttendance = Mapper.Map<ActivityAttendance, ActivityAttendance>(attendanceDTO);
-        //    try
-        //    {
-        //        UnitOfWork unitOfWork = new UnitOfWork(_context);
-        //        var result = await Task.Run(() => unitOfWork.ActivityAttendances.Get(id));
-        //        if (result == null)
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            result = await Task.Run(() => unitOfWork.ActivityAttendances.UpdateAttendance(id, activityAttendance));
-        //            await Task.Run(() => unitOfWork.Complete());
-        //            return Ok(Mapper.Map<ActivityAttendance, ActivityAttendance>(result));
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        string message = ErrorManager.GetInnerExceptionMessage(ex);
-        //        return BadRequest(message);
-        //    }
-        //}
 
         [HttpPost]
         [Route("api/TimeIn")]
@@ -180,6 +148,125 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
                 string message = ErrorManager.GetInnerExceptionMessage(ex);
                 return BadRequest(message);
             }
+        }
+
+        [HttpGet]
+        [Route("api/GetActivityAttendanceReport")]
+        public async Task<IHttpActionResult> GetActivityAttendanceReport(int conferenceId, int conferenceActivityId)
+        {
+            List<ActivityAttendanceReport> ActivityAttendanceReport = new List<ActivityAttendanceReport>();
+
+            ActivityAttendanceReport.AddRange(getActivityAttendanceReport(conferenceId, conferenceActivityId));
+
+            return Ok(Mapper.Map<List<ActivityAttendanceReport>, List<ActivityAttendanceReport>>(ActivityAttendanceReport));
+        }
+
+        [HttpGet]
+        [Route("api/GetConferenceAttendanceReport")]
+        public async Task<IHttpActionResult> GetConferenceAttendanceReport(int conferenceId)
+        {
+            UnitOfWork unitOfWork = new UnitOfWork(_context);
+
+            //Prepare activity attendance report object
+            ConferenceAttendanceReport reportItem = new ConferenceAttendanceReport();
+            List<ConferenceAttendanceReport> ConferenceAttendanceReports = new List<ConferenceAttendanceReport>();
+
+            //get conference
+            Conference conference = unitOfWork.Conferences.Get(conferenceId);
+
+            foreach(var cd in conference.ConferenceDays)
+            {
+                foreach(var ca in cd.ConferenceActivities)
+                {
+                    reportItem = new ConferenceAttendanceReport();
+                    List<ActivityAttendanceReport> ActivityAttendanceReports = getActivityAttendanceReport(conferenceId, ca.Id);
+                    foreach(var a in ActivityAttendanceReports)
+                    {
+                        reportItem.ActivityDate = cd.Date;
+                        reportItem.ActivityName = ca.ActivitySchedule.Activity.Name;
+
+                        reportItem.Amount = a.Amount;
+                        reportItem.Discount = a.Discount;
+                        reportItem.isBundle = a.isBundle;
+                        reportItem.PRCExpiration = a.PRCExpiration;
+                        reportItem.PRCId = a.PRCId;
+                        reportItem.RegistrationStatus = a.RegistrationStatus;
+                        reportItem.TimeIn = a.TimeIn;
+                        reportItem.TimeOut = a.TimeOut;
+                        reportItem.UserId = a.UserId;
+                        reportItem.UserName = a.UserName;
+
+                        ConferenceAttendanceReports.Add(reportItem);
+                    }
+                }
+
+            }
+
+            return Ok(Mapper.Map<List<ConferenceAttendanceReport>, List<ConferenceAttendanceReport>>(ConferenceAttendanceReports));
+        }
+
+        private List<ActivityAttendanceReport> getActivityAttendanceReport(int conferenceId, int conferenceActivityId)
+        {
+            UnitOfWork unitOfWork = new UnitOfWork(_context);
+
+            //Prepare activity attendance report object
+            ActivityAttendanceReport reportItem = new ActivityAttendanceReport();
+            List<ActivityAttendanceReport> ActivityAttendanceReport = new List<ActivityAttendanceReport>();
+
+            string[] regStatus = { null, "Unpaid", "Pending", "Paid", "Declined", "Cancelled" };
+
+            //get registrations + attendance for conferenceactivity
+            List<Registration> registrations = unitOfWork.Registrations.GetAll().Where(x => x.ConferenceId == conferenceId).ToList();
+
+            foreach (Registration r in registrations)
+            {
+                reportItem = new ActivityAttendanceReport();
+                if (r.IsBundle == false)
+                {
+                    foreach (var att in r.ActivitiesToAttend)
+                    {
+                        if (att.ConferenceActivityId == conferenceActivityId)
+                        {
+                            //log
+                            ActivityAttendance aa = unitOfWork.ActivityAttendances.Find(r.UserId, att.ConferenceActivityId);
+                            reportItem.isBundle = r.IsBundle;
+                            UserInfo ui = unitOfWork.UserInfos.Get(r.UserId);
+                            PRCDetail prc = unitOfWork.PRCDetails.GetPRCDetailById(r.UserId.ToString());
+                            reportItem.Amount = r.Amount.Value;
+                            reportItem.Discount = r.Discount.Value;
+                            reportItem.RegistrationStatus = regStatus[r.RegistrationStatusId];
+                            reportItem.UserId = r.UserId;
+                            reportItem.UserName = ui.FirstName + " " + ui.LastName;
+                            if (prc != null) reportItem.PRCId = prc.IdNumber;
+                            if (prc != null) reportItem.PRCExpiration = prc.ExpirationDate;
+                            if (aa != null) reportItem.TimeIn = aa.TimeIn.Value;
+                            if (aa != null) reportItem.TimeOut = aa.TimeOut.Value;
+                            ActivityAttendanceReport.Add(reportItem);
+                        }
+                    }
+                }
+                else
+                {
+                    List<ActivityAttendance> aaa = unitOfWork.ActivityAttendances.GetAll().ToList();
+                    ActivityAttendance aa = aaa.Find(x => x.ConferenceActivityId == conferenceActivityId);
+                    reportItem.isBundle = r.IsBundle;
+                    UserInfo ui = unitOfWork.UserInfos.Get(r.UserId);
+                    PRCDetail prc = unitOfWork.PRCDetails.Get(r.UserId);
+                    reportItem.Amount = r.Amount.Value;
+                    reportItem.Discount = r.Discount.Value;
+                    reportItem.RegistrationStatus = regStatus[r.RegistrationStatusId];
+                    reportItem.UserId = r.UserId;
+                    reportItem.UserName = ui.FirstName + " " + ui.LastName;
+                    if (prc != null) reportItem.PRCId = prc.IdNumber;
+                    if (prc != null) reportItem.PRCExpiration = prc.ExpirationDate;
+                    if (aa != null) reportItem.TimeIn = aa.TimeIn.Value;
+                    if (aa != null) reportItem.TimeOut = aa.TimeOut.Value;
+                    ActivityAttendanceReport.Add(reportItem);
+                }
+            }
+
+
+            return ActivityAttendanceReport;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using PCO_BackEnd_WebAPI.DTOs.Activities;
+using PCO_BackEnd_WebAPI.DTOs.Conferences;
 using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Pagination;
@@ -37,6 +38,17 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             UnitOfWork unitOfWork = new UnitOfWork(_context);
             var result = await Task.Run(() => unitOfWork.Activities.GetPagedActivities(page, size));
             var resultDTO = PaginationMapper<Activity, ResponseActivityDTO>.MapResult(result);
+            return Ok(resultDTO);
+        }
+
+        [HttpGet]
+        [ResponseType(typeof(ResponseConferenceActivityDTO))]
+        [Route("api/GetActivitiesWithConferenceId")]
+        public async Task<IHttpActionResult> GetActivitiesWithConferenceId(int conferenceId, int page = 1, int size = 0)
+        {
+            UnitOfWork unitOfWork = new UnitOfWork(_context);
+            var result = await Task.Run(() => unitOfWork.Activities.GetActivitiesFromConferenceId(conferenceId, page, size));
+            var resultDTO = PaginationMapper<ConferenceActivity, ResponseConferenceActivityDTO>.MapResult(result);
             return Ok(resultDTO);
         }
 

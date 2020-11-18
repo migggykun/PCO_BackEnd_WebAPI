@@ -69,7 +69,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
             banner.Image = new ImageManager(base64Image).Bytes;
           }
           
-          var updatedConference = appDbContext.UpdateGraph<Conference>(conference, map => map.OwnedCollection(e => e.Rates));
+          var updatedConference = appDbContext.UpdateGraph<Conference>(conference, map => map.OwnedCollection(a => a.ConferenceDays,aa=>aa.OwnedCollection(b=>b.ConferenceActivities,bb=>bb.OwnedEntity(c=>c.ActivitySchedule))).OwnedCollection(e=>e.Rates));
           
           return updatedConference;
         }

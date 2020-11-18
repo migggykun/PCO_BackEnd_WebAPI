@@ -17,5 +17,6 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences
         Activity UpdateActivity(int id, Activity activity);
         void RemoveActivity(List<Activity> activities);
         Activity GetActivity(Expression<Func<Activity, bool>> predicate);
+        PageResult<ConferenceActivity> GetActivitiesFromConferenceId(int conferenceId, int page, int size);
     }
 }
