@@ -15,6 +15,9 @@ using PCO_BackEnd_WebAPI.Models.Images.Manager;
 using PCO_BackEnd_WebAPI.Models.Images;
 using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.Models.Helpers;
+using PCO_BackEnd_WebAPI.DTOs.Registrations;
+using PCO_BackEnd_WebAPI.Models.Registrations;
+using System.Data.Entity.Validation;
 
 namespace PCO_BackEnd_WebAPI.Controllers.TestAPIs
 {
@@ -148,6 +151,43 @@ namespace PCO_BackEnd_WebAPI.Controllers.TestAPIs
                 string message = ErrorManager.GetInnerExceptionMessage(ex);
                 return BadRequest(message);
             }
+        }
+
+        [HttpPost]
+        [Route("api/AddPayment")]
+        public async Task<IHttpActionResult> AddPayment(AddPaymentDTO addpaymentDTO)
+        {
+            try
+            {
+                Payment temp = new Payment
+                {
+                    AmountPaid = 1200,
+                    TransactionNumber = "ABCD",
+                    PaymentSubmissionDate = DateTime.Now,
+                    refId = 10088,
+                    paymentType = "membership"
+                };
+
+                _context.Payments.Add(temp);
+                _context.SaveChanges();
+            }
+
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
+
+            return Ok();
         }
     }
 }

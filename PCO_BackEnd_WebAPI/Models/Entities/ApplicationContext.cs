@@ -121,10 +121,6 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                         .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Registration>()
-                        .HasOptional(e => e.RegistrationPayment)
-                        .WithRequired(e => e.Registration);
-
-            modelBuilder.Entity<Registration>()
                         .HasRequired(e => e.User)
                         .WithMany();
 
@@ -132,6 +128,10 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                         .HasRequired(e => e.Receipt)
                         .WithRequiredPrincipal()
                         .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<Payment>()
+                        .HasOptional(e => e.Registration)
+                        .WithOptionalPrincipal();
 
             modelBuilder.Entity<ConferenceActivity>()
                         .HasRequired(e => e.ActivitySchedule);

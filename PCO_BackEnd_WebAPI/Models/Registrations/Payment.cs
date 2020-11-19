@@ -1,3 +1,4 @@
+using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.Models.Images;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
     {
         [Key]
         [Column("id")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int RegistrationId { get; set; }
 
         [Required]
@@ -28,5 +30,9 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
         public virtual Registration Registration { get; set; }
 
         public string Remarks { get; set; }
+
+        public int refId { get; set; }
+
+        public string paymentType { get; set;  }
     }
 }

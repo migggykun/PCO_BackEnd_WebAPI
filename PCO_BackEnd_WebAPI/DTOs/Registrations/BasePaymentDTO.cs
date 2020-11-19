@@ -16,5 +16,11 @@ namespace PCO_BackEnd_WebAPI.DTOs.Registrations
 
         /*[StringLength(512, ErrorMessage = "{0} length must be less than {1}.")] TODO: custom validation*/
         public string Remarks { get; set; }
+
+        [Required]
+        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Characters are not allowed!")]
+        public int refId { get; set; }
+
+        public string paymentType { get; set; }
     }
 }

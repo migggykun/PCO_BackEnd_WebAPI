@@ -73,6 +73,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         [ResponseType(typeof(ResponsePaymentDTO))]
         public async Task<IHttpActionResult> Get(int id)
         {
+            UserInfo user = null;
+            Conference conference = null;
+
             UnitOfWork unitOfWork = new UnitOfWork(_context);
             var result = await Task.Run(() => unitOfWork.Payments.Get(id));
             if (result == null)
@@ -81,9 +84,13 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
             }
             else
             {
-                var user = unitOfWork.UserInfos.Get(result.Registration.UserId);
-                var conference = unitOfWork.Conferences.Get(result.Registration.ConferenceId);
-                var resultDTO = PaymentMapper.MapToResponsePaymentDTO(result, conference, user);
+                if (string.Compare(result.paymentType, "registration", true) == 0)
+                {
+                    user = unitOfWork.UserInfos.Get(result.Registration.UserId);
+                    conference = unitOfWork.Conferences.Get(result.Registration.ConferenceId);
+                }
+
+                var resultDTO = PaymentMapper.MapToResponsePaymentDTO(result, conference, user, result.Registration == null ? (int?)result.Registration.RegistrationStatusId : null);
                 return Ok(resultDTO);
             }
         }
@@ -97,6 +104,10 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         [ResponseType(typeof(ResponsePaymentDTO))]
         public async Task<IHttpActionResult> AddPayment(AddPaymentDTO paymentDTO)
         {
+
+            UserInfo user = null;
+            Conference conference = null;
+            Registration registration = null;
             if (!ModelState.IsValid)
             {
                 string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
@@ -120,9 +131,13 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                 await Task.Run(() => unitOfWork.Complete());
 
                 //Convert to DTO
-                var user = unitOfWork.UserInfos.Get(payment.RegistrationId);
-                var conference = unitOfWork.Registrations.Get(payment.RegistrationId).Conference;
-                var resultDTO = PaymentMapper.MapToResponsePaymentDTO(payment, conference, user);
+                if(string.Compare(paymentDTO.paymentType, "registration",true) == 0)
+                {
+                    registration = unitOfWork.Registrations.Get(payment.refId);
+                    user = unitOfWork.UserInfos.Get(registration.UserId);
+                    conference = registration.Conference;
+                }
+                var resultDTO = PaymentMapper.MapToResponsePaymentDTO(payment, conference, user, registration == null ? (int?)registration.RegistrationStatusId : null);
 
                 return Created(new Uri(Request.RequestUri + "/" + payment.RegistrationId), resultDTO);
             }
@@ -144,6 +159,10 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         [Route("api/UpdatePayment/{id:int}")]
         public async Task<IHttpActionResult> UpdatePayment(int id, UpdatePaymentDTO paymentDTO)
         {
+            Registration registration = null;
+            UserInfo user = null;
+            Conference conference = null;
+
             if (!ModelState.IsValid)
             {
                 string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
@@ -162,9 +181,17 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                 {
                     await Task.Run(() => unitOfWork.Payments.UpdatePayment(result, newPayment, paymentDTO.ProofOfPayment));
                     await Task.Run(() => unitOfWork.Complete());
-                    var user = unitOfWork.UserInfos.Get(result.Registration.UserId);
-                    var conference = unitOfWork.Conferences.Get(result.Registration.ConferenceId);
-                    var resultDTO = PaymentMapper.MapToResponsePaymentDTO(result, conference, user);
+
+
+                    //Convert to DTO
+                    if (string.Compare(paymentDTO.paymentType, "registration", true) == 0)
+                    {
+                        registration = unitOfWork.Registrations.Get(result.refId);
+                        user = unitOfWork.UserInfos.Get(registration.UserId);
+                        conference = registration.Conference;
+                    }
+                    var resultDTO = PaymentMapper.MapToResponsePaymentDTO(result, conference, user, registration == null ? (int?)registration.RegistrationStatusId : null);
+
                     return Ok(resultDTO);
                 }
             }
