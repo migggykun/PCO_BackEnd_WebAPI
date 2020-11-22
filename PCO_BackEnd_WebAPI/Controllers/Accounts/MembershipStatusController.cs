@@ -35,6 +35,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         [Route("api/UpdateMembershipStatus/{id:int}")]
         public async Task<IHttpActionResult> UpdateMembershipStatus(int id, int? membershipTypeId = null, bool? isMember = null, bool? isActive = null)
         {
+            return Ok();
+            /*
             if (!ModelState.IsValid)
             {
                 string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
@@ -104,7 +106,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             {
                 string message = ErrorManager.GetInnerExceptionMessage(ex);
                 return BadRequest(message);
-            }
+            }*/
         }
     }
 }

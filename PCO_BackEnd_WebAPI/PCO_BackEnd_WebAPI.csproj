@@ -278,11 +278,13 @@
     <Compile Include="Controllers\TestAPIs\TestController.cs" />
     <Compile Include="DTOs\Accounts\RequestAccountDTO.cs" />
     <Compile Include="DTOs\Accounts\RequestAddressDTO.cs" />
+    <Compile Include="DTOs\Accounts\RequestMemberDTO.cs" />
     <Compile Include="DTOs\Accounts\RequestMembershipTypeDTO.cs" />
     <Compile Include="DTOs\Accounts\RequestPRCDetailDTO.cs" />
     <Compile Include="DTOs\Accounts\RequestUserInfoDTO.cs" />
     <Compile Include="DTOs\Accounts\ResponseAccountDTO.cs" />
     <Compile Include="DTOs\Accounts\ResponseAddressDTO.cs" />
+    <Compile Include="DTOs\Accounts\ResponseMemberDTO.cs" />
     <Compile Include="DTOs\Accounts\ResponseMembershipTypeDTO.cs" />
     <Compile Include="DTOs\Accounts\ResponsePRCDetailDTO.cs" />
     <Compile Include="DTOs\Accounts\ResponseUserInfoDTO.cs" />
@@ -330,6 +332,7 @@
     <Compile Include="Models\AccountBindingModels\SMSBindingModel.cs" />
     <Compile Include="Models\Accounts\Address.cs" />
     <Compile Include="Models\Accounts\IdentityModels.cs" />
+    <Compile Include="Models\Accounts\Member.cs" />
     <Compile Include="Models\Attendances\ActivityAttendance.cs" />
     <Compile Include="Models\Attendances\ActivityAttendanceReport.cs" />
     <Compile Include="Models\Attendances\ConferenceAttendanceReport.cs" />

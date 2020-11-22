@@ -68,7 +68,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
                                        :
                                        (u.UserInfo.Address.Province.Contains(province)));
 
-
+            /*
             //Filter by isActive
             queryResult = queryResult.Where(u => (isActive == null) ?
                                        true
@@ -80,7 +80,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
                                        true
                                        :
                                        (u.UserInfo.IsMember == isMember)); 
-            
+            */
+
             pageResult = PaginationManager<ApplicationUser>.GetPagedResult(queryResult, page, size);
             return pageResult;
         }
