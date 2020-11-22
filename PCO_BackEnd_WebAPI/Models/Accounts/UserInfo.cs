@@ -18,7 +18,7 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
         [StringLength(512)]
         public string FirstName { get; set; }
 
-        [StringLength(2)]
+        [StringLength(256)]
         public string MiddleName { get; set; }
 
         [Required]
@@ -34,8 +34,16 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
         [Required]
         public int MembershipTypeId { get; set; }
         public virtual MembershipType MembershipType { get; set; }
-        public bool? IsMember { get; set; }
-        public bool? IsActive { get; set; }
+
+        [Required]
+        public DateTime Birthday { get; set; }
+
+        [StringLength(256, ErrorMessage = "{0} length must be lesser than {1}.")]
+        [Required]
+        public string School { get; set; }
+
+        [Required]
+        public DateTime YearGraduated { get; set; }
 
     }
 }

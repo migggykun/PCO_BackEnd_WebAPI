@@ -343,6 +343,7 @@
     <Compile Include="Models\Helpers\Identifiers.cs" />
     <Compile Include="Models\Helpers\ImageMappers.cs" />
     <Compile Include="Models\Helpers\PaymentMapper.cs" />
+    <Compile Include="Models\Helpers\SMSClassification.cs" />
     <Compile Include="Models\Images\Banner.cs" />
     <Compile Include="Models\Images\Helpers\ImageFormatter.cs" />
     <Compile Include="Models\Images\Helpers\ImageInfo.cs" />

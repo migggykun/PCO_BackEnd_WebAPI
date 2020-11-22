@@ -18,5 +18,8 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
 
         [Column(TypeName = "date")]
         public DateTime ExpirationDate { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime RegistrationDate { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PCO_BackEnd_WebAPI.ValidationsAttributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
         public string FirstName { get; set; }
 
         [Display(Name = "Middle initial")]
-        [StringLength(2, ErrorMessage = "{0} length must be lesser than {1}.")]
+        [StringLength(256, ErrorMessage = "{0} length must be lesser than {1}.")]
         public string MiddleName { get; set; }
 
         [Display(Name = "Last name")]
@@ -32,5 +33,16 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
 
         [Required]
         public int MembershipTypeId { get; set; }
+
+        [Required]
+        public DateTime Birthday { get; set; }
+
+        [StringLength(256, ErrorMessage = "{0} length must be lesser than {1}.")]
+        [Required]
+        public string School { get; set; }
+
+        [Required]
+        [IsDateValid]
+        public DateTime YearGraduated { get; set; }
     }
 }

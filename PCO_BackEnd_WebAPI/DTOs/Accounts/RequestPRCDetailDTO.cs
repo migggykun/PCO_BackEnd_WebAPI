@@ -14,5 +14,8 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
 
         [IsDateValid]
         public string ExpirationDate { get; set; }
+
+        [IsDateValid]
+        public string RegistrationDate { get; set; }
     }
 }

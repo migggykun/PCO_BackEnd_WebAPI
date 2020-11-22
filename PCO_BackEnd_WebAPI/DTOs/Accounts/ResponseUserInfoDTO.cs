@@ -27,5 +27,14 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
 
         [Required]
         public int MembershipTypeId { get; set; }
+
+        [Required]
+        public DateTime Birthday { get; set; }
+
+        [Required]
+        public string School { get; set; }
+
+        [Required]
+        public DateTime YearGraduated { get; set; }
     }
 }

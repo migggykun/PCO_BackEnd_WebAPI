@@ -31,6 +31,8 @@ using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Helpers;
 using PCO_BackEnd_WebAPI.Security;
 using PCO_BackEnd_WebAPI.Security.DTO;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
@@ -89,6 +91,24 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         /// <summary>
+        /// Sends email to user to confirm registered email address.
+        /// </summary>
+        /// <param name="id">User Id</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("SendPhoneConfirmation/{id:int}")]
+        public async Task<IHttpActionResult> SendPhoneConfirmation(int id)
+        {
+            var user = await UserManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                await Task.Run(() => SendSMS(id, (int)SMSClassification.CONFIRM_PHONE));
+            }
+
+            return Ok();
+        }
+
+        /// <summary>
         /// Send Email to use using SMTP
         /// </summary>
         /// <param name="aEmail">email address</param>
@@ -114,6 +134,86 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 string callbackURL = StringManipulationHelper.SetResetPasswordURL(idToken,user.IsAdmin);
                 string emailBody = EmailTemplate.FormatResetPasswordBody(callbackURL);
                 await UserManager.SendEmailAsync(id, EmailTemplate.RESET_PASSWORD_HEADER, emailBody);
+            }
+        }
+
+        private async Task SendSMSAsync(int id, string phoneNumber, string message)
+        {
+            var u = await UserManager.FindByIdAsync(id);
+            var param = new
+            {
+                apikey = "dfb7ef7a3607feef3d9373d84a55da0e",
+                number = u.PhoneNumber,
+                message = FormatSMS(message, u.UserInfo),
+                sendername = "PCOAdvisory"
+            };
+
+            var json = JsonConvert.SerializeObject(param);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var url = "https://api.semaphore.co/api/v4/messages";
+            using (var client = new HttpClient())
+            using (var request = new HttpRequestMessage(HttpMethod.Post, url))
+            {
+                request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = client.SendAsync(request, HttpCompletionOption.ResponseContentRead).Result;
+
+                //if (response.IsSuccessStatusCode == false)
+                //{
+                //    failedSmsMessage += u.Email + ",";
+                //    isSomeSmsFails = true;
+                //}
+            }
+        }
+
+        private string FormatSMS(string SMS, UserInfo u = null)
+        {
+            string[] tags = {"<fname>",
+                "<minitial>",
+                "<lname>",
+                "<memtype>",
+                "<org>"};
+
+
+            foreach (string str in tags)
+            {
+                if (u.FirstName != null) SMS = SMS.Replace("<fname>", u.FirstName);
+                if (u.MiddleName != null) SMS = SMS.Replace("<fname>", u.MiddleName);
+                if (u.LastName != null) SMS = SMS.Replace("<fname>", u.LastName);
+                if (u.MembershipType != null) SMS = SMS.Replace("<fname>", u.MembershipType.Name);
+                if (u.Organization != null) SMS = SMS.Replace("<fname>", u.Organization);
+
+            }
+            return SMS;
+        }
+
+        /// <summary>
+        /// Send Email to use using SMTP
+        /// </summary>
+        /// <param name="aEmail">email address</param>
+        /// <param name="emailClassification">Checker if email template for reset password or confirm email will be passed.</param>
+        /// <returns>Void</returns>
+        private async Task SendSMS(int id, int emailClassification)
+        {
+            var user = await UserManager.FindByIdAsync(id);
+            if (emailClassification == (int)SMSClassification.CONFIRM_PHONE)
+            {
+                string code = await UserManager.GenerateChangePhoneNumberTokenAsync(id,user.PhoneNumber);
+                string idToken = StringManipulationHelper.SetParameter(user.PhoneNumber, code, user.IsAdmin);
+                string callbackURL = StringManipulationHelper.SetConfirmPhoneURL(idToken, user.IsAdmin);
+
+                var message = "To Complete your registration, please confirm your phone number by clicking the link: " + callbackURL;
+                await SendSMSAsync(id,user.PhoneNumber,message);
+  
+            }
+
+            if (emailClassification == (int)SMSClassification.RESET_PASSWORD)
+            {
+                string code = await UserManager.GenerateChangePhoneNumberTokenAsync(id,user.PhoneNumber);
+                string idToken = StringManipulationHelper.SetParameter(user.PhoneNumber, code, user.IsAdmin);
+                string callbackURL = StringManipulationHelper.SetResetPasswordURL(idToken, user.IsAdmin);
+
+                var message = "To Reset your password, please click the link: " + callbackURL;
+                await SendSMSAsync(id, user.PhoneNumber, message);
             }
         }
 
@@ -190,6 +290,34 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
         }
 
+        /// <summary>
+        /// Sets the user account as confirmed.
+        /// </summary>
+        /// <param name="model">userId: id of user<br/>token: Generate token to confirm email</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("ConfirmPhone")]
+        public async Task<IHttpActionResult> ConfirmPhone(ConfirmEmailViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
+                return BadRequest(errorMessages);
+            }
+
+            var user = await UserManager.FindByEmailAsync(model.Email);
+            IdentityResult result = result = await UserManager.ConfirmEmailAsync(user.Id, model.Token);
+            if (result.Succeeded)
+            {
+                await UserManager.UpdateSecurityStampAsync(user.Id);
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(result.Errors.ToList()[0].ToString());
+            }
+        }
+
         // POST api/Account/Register
         /// <summary>
         /// Creates a user account
@@ -227,6 +355,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 }
 
                 await Task.Run(() => SendEmail(user.Email, (int)EmailClassification.CONFIRM_EMAIL));
+                //await Task.Run(() => SendSMS(user.Id, (int)SMSClassification.CONFIRM_PHONE));
 
                 return Ok(Mapper.Map<ApplicationUser, ResponseAccountDTO>(user));
             }

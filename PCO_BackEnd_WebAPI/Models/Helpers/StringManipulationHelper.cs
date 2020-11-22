@@ -12,10 +12,13 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
         private const string baseClientAddress = "https://philippineoptometry.org";
         private const string confirmEmailPage = "/confirm-email";
         private const string resetPasswordPage = "/reset-password";
+        private const string confirmPhonePage = "/confirm-phone";
         private const string confirmEmailBaseURLAdmin = baseAdminAddress + confirmEmailPage;
         private const string resetPasswordBaseURLAdmin = baseAdminAddress + resetPasswordPage;
         private const string confirmEmailBaseURLClient = baseClientAddress + confirmEmailPage;
         private const string resetPasswordBaseURLClient = baseClientAddress + resetPasswordPage;
+        private const string confirmPhoneBaseURLAdmin = baseAdminAddress + confirmPhonePage;
+        private const string confirmPhoneBaseURLClient = baseClientAddress + confirmPhonePage;
 
         /// <summary>
         /// Use in encryption formula. To be added in UserID
@@ -51,6 +54,18 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
             else
             {
                 return string.Format("{0}?{1}", confirmEmailBaseURLClient, token);
+            }
+        }
+
+        public static string SetConfirmPhoneURL(string token, bool isAdmin)
+        {
+            if (isAdmin)
+            {
+                return string.Format("{0}/{1}", confirmPhoneBaseURLAdmin, token);
+            }
+            else
+            {
+                return string.Format("{0}?{1}", confirmPhoneBaseURLClient, token);
             }
         }
 

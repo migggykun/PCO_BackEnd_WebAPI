@@ -71,7 +71,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Messages
                 {
                     apikey = "dfb7ef7a3607feef3d9373d84a55da0e",
                     number = u.PhoneNumber,
-                    message = FormatSMS(sms.Message, u.UserInfo)
+                    message = FormatSMS(sms.Message, u.UserInfo),
+                    sendername = "PCOAdvisory"
                 };
 
                 var json = JsonConvert.SerializeObject(param);
@@ -103,19 +104,20 @@ namespace PCO_BackEnd_WebAPI.Controllers.Messages
 
         private string FormatSMS(string SMS, UserInfo u = null)
         {
-           string[] tags = {"<fname>",
+            string[] tags = {"<fname>",
                 "<minitial>",
                 "<lname>",
-                "<memtype>", 
+                "<memtype>",
                 "<org>"};
 
-            foreach(string str in tags)
+
+            foreach (string str in tags)
             {
-                SMS = SMS.Replace("<fname>",u.FirstName)
-                    .Replace("<lname>", u.LastName)
-                    .Replace("<minitial>", u.MiddleName)
-                    .Replace("<memtype>", u.MembershipType.Name)
-                    .Replace("<org>", u.Organization);
+                if (u.FirstName != null) SMS = SMS.Replace("<fname>", u.FirstName);
+                if (u.MiddleName != null) SMS = SMS.Replace("<minitial>", u.MiddleName);
+                if (u.LastName != null) SMS = SMS.Replace("<lname>", u.LastName);
+                if (u.MembershipType != null) SMS = SMS.Replace("<fname>", u.MembershipType.Name);
+                if (u.Organization != null) SMS = SMS.Replace("<fname>", u.Organization);
 
             }
             return SMS;
