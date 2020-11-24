@@ -53,18 +53,33 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
             return appDbContext.Rates.FirstOrDefault(predicate);
         }
 
-        public void UpdateRatesDatabase(Conference conference)
+        public ICollection<Rate> UpdateRates(ICollection<Rate> rates, int cId)
         {
-            foreach (Rate rate in conference.Rates.Where(x => x.conferenceActivityId == null))
+            //Update existing data
+            foreach (var r in rates)
             {
-                foreach (ConferenceActivity ca in appDbContext.ConferenceActivities)
+                var tempRate = appDbContext.Rates.Find(r.Id);
+                if (tempRate != null)
                 {
-                    //rate.conferenceActivityId = appDbContext.Rates.Find(x=>x.)
-
-
+                    //Entity already exists in db
+                    var attachedEntry = appDbContext.Entry(tempRate);
+                    attachedEntry.CurrentValues.SetValues(r);
+                }
+                else
+                {
+                    //Entity not yet exists in db
+                    appDbContext.Rates.Add(r);
                 }
             }
 
+            //Delete data not in collection
+            var ratesIdFromDbList = appDbContext.Rates.Where(x => x.conferenceId == cId)
+                                                .Select(y => y).ToList();
+
+            List<Rate> ratesToDelete = rates.Except(ratesIdFromDbList).ToList();
+            appDbContext.Rates.RemoveRange(ratesToDelete);
+
+            return appDbContext.Rates.Where(x => x.conferenceId == cId) .Select(y => y).ToList();
         }
 
         private ApplicationDbContext appDbContext

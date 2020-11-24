@@ -1044,7 +1044,22 @@
             <param name="id">User Id</param>
             <returns></returns>
         </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.SendPhoneConfirmation(System.Int32)">
+            <summary>
+            Sends email to user to confirm registered email address.
+            </summary>
+            <param name="id">User Id</param>
+            <returns></returns>
+        </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.SendEmail(System.String,System.Int32)">
+            <summary>
+            Send Email to use using SMTP
+            </summary>
+            <param name="aEmail">email address</param>
+            <param name="emailClassification">Checker if email template for reset password or confirm email will be passed.</param>
+            <returns>Void</returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.SendSMS(System.Int32,System.Int32)">
             <summary>
             Send Email to use using SMTP
             </summary>
@@ -1067,6 +1082,13 @@
             <returns></returns>
         </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.ConfirmEmail(PCO_BackEnd_WebAPI.Models.AccountViewModels.ConfirmEmailViewModel)">
+            <summary>
+            Sets the user account as confirmed.
+            </summary>
+            <param name="model">userId: id of user<br/>token: Generate token to confirm email</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.ConfirmPhone(PCO_BackEnd_WebAPI.Models.AccountViewModels.ConfirmEmailViewModel)">
             <summary>
             Sets the user account as confirmed.
             </summary>
