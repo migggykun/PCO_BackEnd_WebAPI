@@ -48,6 +48,7 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
         public virtual DbSet<ActivityAttendance> ActivityAttendances { get; set; }
 
         public virtual DbSet<ActivitiesToAttend> ActivitiesToAttend { get; set; }
+        public virtual DbSet<Member> Members { get; set; }
 
         public static ApplicationDbContext Create()
         {
@@ -154,6 +155,7 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
             modelBuilder.Entity<ActivitiesToAttend>();
                         //.HasRequired(u=>u.ConferenceActivityId)
                         //.WithMany();
+            modelBuilder.Entity<Member>();
         }
     }
 }

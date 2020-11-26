@@ -85,7 +85,10 @@ namespace PCO_BackEnd_WebAPI.App_Start
 
             Mapper.CreateMap<Activity, ResponseActivityDTO>();
             Mapper.CreateMap<RequestActivityDTO, Activity>();
-            
+            Mapper.CreateMap<Member, ResponseMemberDTO>();
+            Mapper.CreateMap<ResponseMemberDTO, Member>();
+            Mapper.CreateMap<Member, RequestMemberDTO>();
+            Mapper.CreateMap<RequestMemberDTO, Member>();
 
             //Registration
             Mapper.CreateMap<RequestRegistrationDTO, Registration>().ForMember(dst => dst.RegistrationStatusId, x => x.MapFrom(a => 1));

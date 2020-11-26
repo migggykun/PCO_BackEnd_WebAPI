@@ -49,6 +49,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
         public IActivityScheduleRepository ActivitySchedules { get; set; }
 
         public AttendanceRepository ActivityAttendances { get; set; }
+        public IMemberRepository Members { get; set; }
 
 
         public UnitOfWork(ApplicationDbContext context)
@@ -73,6 +74,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
             //test
             ActivitySchedules = new ActivityScheduleRepository(_context);
             ActivityAttendances = new AttendanceRepository(_context);
+            Members = new MemberRepository(_context);
         }
 
         /// <summary>
