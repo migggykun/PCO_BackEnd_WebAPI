@@ -512,14 +512,42 @@
             <param name="addressDTO">New information about the user to be updated</param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.MembershipStatusController.UpdateMembershipStatus(System.Int32,System.Nullable{System.Int32},System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.MemberController.GetAll(System.Int32,System.Int32)">
             <summary>
-            Update membershipTypeId, membershipStatus, and membership activeness
+            Get list of members
             </summary>
-            <param name="id"></param>
-            <param name="membershipTypeId"></param>
-            <param name="isMember"></param>
-            <param name="isActive"></param>
+            <param name="page">nth page of list. Default value: 1</param>
+            <param name="size">count of item to return in a page. Returns all record if not specified</param>
+            <param name="member">keyword for searching</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.MemberController.Get(System.Int32)">
+            <summary>
+            Gets the member based on specified userId
+            </summary>
+            <param name="userId">id of the user to be fetched</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.MemberController.AddMember(PCO_BackEnd_WebAPI.DTOs.Accounts.RequestMemberDTO)">
+            <summary>
+            Adds a member
+            </summary>
+            <param name="responseMemberDTO">Details about the member to be added</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.MemberController.UpdateMember(System.Int32,PCO_BackEnd_WebAPI.DTOs.Accounts.RequestMemberDTO)">
+            <summary>
+            Updates a member
+            </summary>
+            <param name="userId">user id</param>
+            <param name="memberDTO">New information about the member to be updated</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.MemberController.DeleteMember(System.Int32)">
+            <summary>
+            Deletes a member
+            </summary>
+            <param name="userId">id of the member to be deleted.</param>
             <returns></returns>
         </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Bank.BankDetailController.GetAll(System.Int32,System.Int32,System.String)">

@@ -60,7 +60,8 @@ namespace PCO_BackEnd_WebAPI.App_Start
             Mapper.CreateMap<PRCDetail, ResponsePRCDetailDTO>().ConvertUsing(convertToPRCDTO);
                                                         
             //Conference    
-            Mapper.CreateMap<Conference, ResponseConferenceDTO>().ForMember(dst => dst.PromoId, src => src.MapFrom(c => (c.PromoId == null) ? string.Empty : c.PromoId.Value.ToString()));
+            Mapper.CreateMap<Conference, ResponseConferenceDTO>().ForMember(dst => dst.PromoId, src => src.MapFrom(c => (c.PromoId == null) ? string.Empty : c.PromoId.Value.ToString()))
+                                                                 .ForMember(dst => dst.Rates, src => src.MapFrom(r => r.Rates.Where(x => x.conferenceActivityId == null).ToList()));
             Mapper.CreateMap<RequestPromoDTO, Promo>().ForMember(dst => dst.PromoMembers, src => src.MapFrom(p => p.MembershipTypeIds.Select(mId => new PromoMember { MembershipTypeId = mId }).ToList())); ;
             Mapper.CreateMap<Promo, ResponsePromoDTO>().ForMember(dst => dst.MembershipTypeIds, src => src.MapFrom(p => p.PromoMembers.Select(pm => pm.MembershipTypeId))); ;
             Mapper.CreateMap<AddConferenceDTO, Conference>().ForMember(dst => dst.Banner, src => src.Ignore());
