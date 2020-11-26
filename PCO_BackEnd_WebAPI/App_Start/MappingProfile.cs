@@ -27,8 +27,8 @@ namespace PCO_BackEnd_WebAPI.App_Start
         {
             //Accounts
             Func<PRCDetail, ResponsePRCDetailDTO> convertToPRCDTO = (x) => x == null ? new ResponsePRCDetailDTO() { Id = string.Empty, IdNumber = string.Empty, ExpirationDate = string.Empty, RegistrationDate = string.Empty } :
-                                                                             new ResponsePRCDetailDTO() { Id = x.Id.ToString(), IdNumber = x.IdNumber, ExpirationDate = x.ExpirationDate.Date.ToShortDateString(), RegistrationDate = x.RegistrationDate.Date.ToShortTimeString() };
-            Func<RequestPRCDetailDTO, PRCDetail> convertToPRCEntity = (x) =>
+                                                                             new ResponsePRCDetailDTO() { Id = x.Id.ToString(), IdNumber = x.IdNumber, ExpirationDate = x.ExpirationDate.ToString("yyyy'-'MM'-'dd"), RegistrationDate = x.RegistrationDate.ToString("yyyy'-'MM'-'dd") };
+            Func <RequestPRCDetailDTO, PRCDetail> convertToPRCEntity = (x) =>
                                                                             {
                                                                                 if (x != null && (string.IsNullOrEmpty(x.IdNumber) || string.IsNullOrEmpty(x.ExpirationDate) || string.IsNullOrEmpty(x.RegistrationDate)))
                                                                                 {
