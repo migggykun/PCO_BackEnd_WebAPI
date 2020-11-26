@@ -42,8 +42,8 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
         [Required]
         public string School { get; set; }
 
-        [Required]
-        public DateTime YearGraduated { get; set; }
+        [StringLength(4)]
+        public string YearGraduated { get; set; }
 
     }
 }

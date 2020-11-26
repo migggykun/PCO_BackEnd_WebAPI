@@ -28,7 +28,6 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
         public RequestAddressDTO Address { get; set; }
 
         [StringLength(256, ErrorMessage = "{0} length must be lesser than {1}.")]
-        [Required]
         public string Organization { get; set; }
 
         [Required]
@@ -41,8 +40,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
         [Required]
         public string School { get; set; }
 
-        [Required]
-        [IsDateValid]
-        public DateTime YearGraduated { get; set; }
+        [StringLength(4, ErrorMessage = "{0} length must be lesser than {1}.")]
+        public string YearGraduated { get; set; }
     }
 }

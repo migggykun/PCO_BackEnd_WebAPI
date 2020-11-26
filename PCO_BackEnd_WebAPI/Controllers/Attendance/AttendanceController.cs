@@ -156,14 +156,54 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
         {
             List<ActivityAttendanceReport> ActivityAttendanceReport = new List<ActivityAttendanceReport>();
 
-            ActivityAttendanceReport.AddRange(getActivityAttendanceReport(conferenceId, conferenceActivityId));
+            await Task.Run(()=> ActivityAttendanceReport.AddRange(getActivityAttendanceReport(conferenceId, conferenceActivityId)));
 
             return Ok(Mapper.Map<List<ActivityAttendanceReport>, List<ActivityAttendanceReport>>(ActivityAttendanceReport));
         }
 
         [HttpGet]
+        [Route("api/GetConferenceAttendanceHistory")]
+        public async Task<IHttpActionResult> GetConferenceAttendanceHistory(int userId, int page = 0, int size = 0, string filter = null)
+        {
+            UnitOfWork unitOfWork = new UnitOfWork(_context);
+
+            PageResult<ConferenceAttendanceHistory> pageResult;
+            List<ConferenceAttendanceHistory> conferenceAttendanceHistory = new List<ConferenceAttendanceHistory>();
+            List<Conference> conferences = await Task.Run(() => unitOfWork.Conferences.GetAll().ToList());
+            
+            foreach(Conference c in conferences)
+            {
+                List<ConferenceAttendanceReport> conferenceAttendanceReports = getConferenceAttendanceReport(c.Id).Where(x => x.UserId == userId).ToList();
+                foreach(var report in conferenceAttendanceReports)
+                {
+                    ConferenceAttendanceHistory conferenceAttendanceHistoryItem = new ConferenceAttendanceHistory();
+                    conferenceAttendanceHistoryItem.ConferenceId = c.Id;
+                    conferenceAttendanceHistoryItem.ConferenceName = c.Title;
+                    conferenceAttendanceHistoryItem.ActivityDate = report.ActivityDate;
+                    conferenceAttendanceHistoryItem.ActivityName = report.ActivityName;
+                    conferenceAttendanceHistoryItem.TimeIn = report.TimeIn;
+                    conferenceAttendanceHistoryItem.TimeOut = report.TimeOut;
+                    conferenceAttendanceHistoryItem.RegistrationStatus = report.RegistrationStatus;
+                    conferenceAttendanceHistory.Add(conferenceAttendanceHistoryItem);
+                }
+            }
+
+            IQueryable<ConferenceAttendanceHistory> queryResult = conferenceAttendanceHistory.AsQueryable().Where(b => string.IsNullOrEmpty(filter) ? true :
+                                                                                b.ConferenceName.Contains(filter) ||
+                                                                                b.ActivityName.Contains(filter));
+
+            pageResult = PaginationManager<ConferenceAttendanceHistory>.GetPagedResult(queryResult, page, size);
+            return Ok(pageResult);
+        }
+
+        [HttpGet]
         [Route("api/GetConferenceAttendanceReport")]
         public async Task<IHttpActionResult> GetConferenceAttendanceReport(int conferenceId)
+        {
+            var result = await Task.Run(() => getConferenceAttendanceReport(conferenceId));
+            return Ok(Mapper.Map<List<ConferenceAttendanceReport>, List<ConferenceAttendanceReport>>(result));
+        }
+        private List<ConferenceAttendanceReport> getConferenceAttendanceReport(int conferenceId)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
 
@@ -174,13 +214,13 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
             //get conference
             Conference conference = unitOfWork.Conferences.Get(conferenceId);
 
-            foreach(var cd in conference.ConferenceDays)
+            foreach (var cd in conference.ConferenceDays)
             {
-                foreach(var ca in cd.ConferenceActivities)
+                foreach (var ca in cd.ConferenceActivities)
                 {
                     reportItem = new ConferenceAttendanceReport();
                     List<ActivityAttendanceReport> ActivityAttendanceReports = getActivityAttendanceReport(conferenceId, ca.Id);
-                    foreach(var a in ActivityAttendanceReports)
+                    foreach (var a in ActivityAttendanceReports)
                     {
                         reportItem.ActivityDate = cd.Date;
                         reportItem.ActivityName = ca.ActivitySchedule.Activity.Name;
@@ -201,10 +241,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
                 }
 
             }
-
-            return Ok(Mapper.Map<List<ConferenceAttendanceReport>, List<ConferenceAttendanceReport>>(ConferenceAttendanceReports));
+            return ConferenceAttendanceReports;
         }
-
         private List<ActivityAttendanceReport> getActivityAttendanceReport(int conferenceId, int conferenceActivityId)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -216,56 +254,58 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
             string[] regStatus = { null, "Unpaid", "Pending", "Paid", "Declined", "Cancelled" };
 
             //get registrations + attendance for conferenceactivity
-            List<Registration> registrations = unitOfWork.Registrations.GetAll().Where(x => x.ConferenceId == conferenceId).ToList();
+            IEnumerable<Registration> regs = unitOfWork.Registrations.GetAll();
+            List<Registration> registrations;
+            if (regs.Count() > 0){ 
+                registrations = regs.Where(x => x.ConferenceId == conferenceId).ToList();
 
-            foreach (Registration r in registrations)
-            {
-                reportItem = new ActivityAttendanceReport();
-                if (r.IsBundle == false)
+                foreach (Registration r in registrations)
                 {
-                    foreach (var att in r.ActivitiesToAttend)
+                    reportItem = new ActivityAttendanceReport();
+                    if (r.IsBundle == false)
                     {
-                        if (att.ConferenceActivityId == conferenceActivityId)
+                        foreach (var att in r.ActivitiesToAttend)
                         {
-                            //log
-                            ActivityAttendance aa = unitOfWork.ActivityAttendances.Find(r.UserId, att.ConferenceActivityId);
-                            reportItem.isBundle = r.IsBundle;
-                            UserInfo ui = unitOfWork.UserInfos.Get(r.UserId);
-                            PRCDetail prc = unitOfWork.PRCDetails.GetPRCDetailById(r.UserId.ToString());
-                            reportItem.Amount = r.Amount.Value;
-                            reportItem.Discount = r.Discount.Value;
-                            reportItem.RegistrationStatus = regStatus[r.RegistrationStatusId];
-                            reportItem.UserId = r.UserId;
-                            reportItem.UserName = ui.FirstName + " " + ui.LastName;
-                            if (prc != null) reportItem.PRCId = prc.IdNumber;
-                            if (prc != null) reportItem.PRCExpiration = prc.ExpirationDate;
-                            if (aa != null) reportItem.TimeIn = aa.TimeIn.Value;
-                            if (aa != null) reportItem.TimeOut = aa.TimeOut.Value;
-                            ActivityAttendanceReport.Add(reportItem);
+                            if (att.ConferenceActivityId == conferenceActivityId)
+                            {
+                                //log
+                                ActivityAttendance aa = unitOfWork.ActivityAttendances.Find(r.UserId, att.ConferenceActivityId);
+                                reportItem.isBundle = r.IsBundle;
+                                UserInfo ui = unitOfWork.UserInfos.Get(r.UserId);
+                                PRCDetail prc = unitOfWork.PRCDetails.GetPRCDetailById(r.UserId.ToString());
+                                reportItem.Amount = r.Amount.Value;
+                                reportItem.Discount = r.Discount.Value;
+                                reportItem.RegistrationStatus = regStatus[r.RegistrationStatusId];
+                                reportItem.UserId = r.UserId;
+                                reportItem.UserName = ui.FirstName + " " + ui.LastName;
+                                if (prc != null) reportItem.PRCId = prc.IdNumber;
+                                if (prc != null) reportItem.PRCExpiration = prc.ExpirationDate;
+                                if (aa != null) reportItem.TimeIn = aa.TimeIn.Value;
+                                if (aa != null) reportItem.TimeOut = aa.TimeOut.Value;
+                                ActivityAttendanceReport.Add(reportItem);
+                            }
                         }
                     }
-                }
-                else
-                {
-                    List<ActivityAttendance> aaa = unitOfWork.ActivityAttendances.GetAll().ToList();
-                    ActivityAttendance aa = aaa.Find(x => x.ConferenceActivityId == conferenceActivityId);
-                    reportItem.isBundle = r.IsBundle;
-                    UserInfo ui = unitOfWork.UserInfos.Get(r.UserId);
-                    PRCDetail prc = unitOfWork.PRCDetails.Get(r.UserId);
-                    reportItem.Amount = r.Amount.Value;
-                    reportItem.Discount = r.Discount.Value;
-                    reportItem.RegistrationStatus = regStatus[r.RegistrationStatusId];
-                    reportItem.UserId = r.UserId;
-                    reportItem.UserName = ui.FirstName + " " + ui.LastName;
-                    if (prc != null) reportItem.PRCId = prc.IdNumber;
-                    if (prc != null) reportItem.PRCExpiration = prc.ExpirationDate;
-                    if (aa != null) reportItem.TimeIn = aa.TimeIn.Value;
-                    if (aa != null) reportItem.TimeOut = aa.TimeOut.Value;
-                    ActivityAttendanceReport.Add(reportItem);
-                }
+                    else
+                    {
+                        List<ActivityAttendance> aaa = unitOfWork.ActivityAttendances.GetAll().ToList();
+                        ActivityAttendance aa = aaa.Find(x => x.ConferenceActivityId == conferenceActivityId);
+                        reportItem.isBundle = r.IsBundle;
+                        UserInfo ui = unitOfWork.UserInfos.Get(r.UserId);
+                        PRCDetail prc = unitOfWork.PRCDetails.Get(r.UserId);
+                        reportItem.Amount = r.Amount.Value;
+                        reportItem.Discount = r.Discount.Value;
+                        reportItem.RegistrationStatus = regStatus[r.RegistrationStatusId];
+                        reportItem.UserId = r.UserId;
+                        reportItem.UserName = ui.FirstName + " " + ui.LastName;
+                        if (prc != null) reportItem.PRCId = prc.IdNumber;
+                        if (prc != null) reportItem.PRCExpiration = prc.ExpirationDate;
+                        if (aa != null) reportItem.TimeIn = aa.TimeIn.Value;
+                        if (aa != null) reportItem.TimeOut = aa.TimeOut.Value;
+                        ActivityAttendanceReport.Add(reportItem);
+                    }
+                } 
             }
-
-
             return ActivityAttendanceReport;
         }
     }

@@ -39,8 +39,6 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
 
         public virtual ApplicationUser User { get; set; }
 
-        public virtual Payment RegistrationPayment { get; set; }
-
         public virtual Promo Promo { get; set; }
 
         public virtual Conference Conference { get; set; }

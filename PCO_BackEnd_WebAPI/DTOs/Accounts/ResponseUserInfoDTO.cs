@@ -22,7 +22,6 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
         [Required]
         public ResponseAddressDTO Address { get; set; }
 
-        [Required]
         public string Organization { get; set; }
 
         [Required]
@@ -34,7 +33,6 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
         [Required]
         public string School { get; set; }
 
-        [Required]
-        public DateTime YearGraduated { get; set; }
+        public string YearGraduated { get; set; }
     }
 }

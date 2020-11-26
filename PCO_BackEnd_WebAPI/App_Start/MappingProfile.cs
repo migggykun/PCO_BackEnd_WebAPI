@@ -26,21 +26,21 @@ namespace PCO_BackEnd_WebAPI.App_Start
         public MappingProfile()
         {
             //Accounts
-            Func<PRCDetail, ResponsePRCDetailDTO> convertToPRCDTO = (x) => x == null ? new ResponsePRCDetailDTO() { Id = string.Empty, IdNumber = string.Empty, ExpirationDate = string.Empty } :
-                                                                             new ResponsePRCDetailDTO() { Id = x.Id.ToString(), IdNumber = x.IdNumber, ExpirationDate = x.ExpirationDate.Date.ToShortDateString() };
+            Func<PRCDetail, ResponsePRCDetailDTO> convertToPRCDTO = (x) => x == null ? new ResponsePRCDetailDTO() { Id = string.Empty, IdNumber = string.Empty, ExpirationDate = string.Empty, RegistrationDate = string.Empty } :
+                                                                             new ResponsePRCDetailDTO() { Id = x.Id.ToString(), IdNumber = x.IdNumber, ExpirationDate = x.ExpirationDate.Date.ToShortDateString(), RegistrationDate = x.RegistrationDate.Date.ToShortTimeString() };
             Func<RequestPRCDetailDTO, PRCDetail> convertToPRCEntity = (x) =>
                                                                             {
-                                                                                if (x != null && (string.IsNullOrEmpty(x.IdNumber) || string.IsNullOrEmpty(x.ExpirationDate)))
+                                                                                if (x != null && (string.IsNullOrEmpty(x.IdNumber) || string.IsNullOrEmpty(x.ExpirationDate) || string.IsNullOrEmpty(x.RegistrationDate)))
                                                                                 {
                                                                                     return null;
                                                                                 }
-                                                                                else if (x != null && (!string.IsNullOrEmpty(x.IdNumber) || !string.IsNullOrEmpty(x.ExpirationDate)))
+                                                                                else if (x != null && (!string.IsNullOrEmpty(x.IdNumber) || !string.IsNullOrEmpty(x.ExpirationDate) || !string.IsNullOrEmpty(x.RegistrationDate)))
                                                                                 {
                                                                                     return new PRCDetail()
                                                                                     {
                                                                                         IdNumber = x.IdNumber,
-                                                                                        ExpirationDate = DateTime.Parse(x.ExpirationDate)
-
+                                                                                        ExpirationDate = DateTime.Parse(x.ExpirationDate),
+                                                                                        RegistrationDate = DateTime.Parse(x.RegistrationDate)
                                                                                     };
                                                                                 }
                                                                                 else //RequestPRCDetailDTO is null
