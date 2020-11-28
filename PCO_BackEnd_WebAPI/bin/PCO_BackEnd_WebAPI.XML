@@ -1079,7 +1079,7 @@
             <param name="id">User Id</param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.SendEmail(System.String,System.Int32)">
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.SendEmail(System.Int32,System.Int32)">
             <summary>
             Send Email to use using SMTP
             </summary>

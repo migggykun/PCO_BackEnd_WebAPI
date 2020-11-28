@@ -342,6 +342,9 @@
     <Compile Include="Models\Conferences\ActivitySchedule.cs" />
     <Compile Include="Models\Conferences\ConferenceActivity.cs" />
     <Compile Include="Models\Conferences\ConferenceDay.cs" />
+    <Compile Include="Models\Email\ConfirmEmailService.cs" />
+    <Compile Include="Models\Email\BaseEmailService.cs" />
+    <Compile Include="Models\Email\ResetPasswordService.cs" />
     <Compile Include="Models\Helpers\ConferenceMapper.cs" />
     <Compile Include="Models\Helpers\DataConverter.cs" />
     <Compile Include="Models\Helpers\Identifiers.cs" />

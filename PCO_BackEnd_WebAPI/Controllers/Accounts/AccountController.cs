@@ -33,6 +33,7 @@ using PCO_BackEnd_WebAPI.Security;
 using PCO_BackEnd_WebAPI.Security.DTO;
 using Newtonsoft.Json;
 using System.Text;
+using PCO_BackEnd_WebAPI.Models.Email;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
@@ -84,7 +85,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             var user = await UserManager.FindByIdAsync(id);
             if (user != null)
             {
-                await Task.Run(() => SendEmail(user.Email, (int)EmailClassification.CONFIRM_EMAIL));
+                await Task.Run(() => SendEmail(user.Id, (int)EmailClassification.CONFIRM_EMAIL));
             }
 
             return Ok();
@@ -114,26 +115,23 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="aEmail">email address</param>
         /// <param name="emailClassification">Checker if email template for reset password or confirm email will be passed.</param>
         /// <returns>Void</returns>
-        private async Task SendEmail(string aEmail, int emailClassification)
+        private async Task SendEmail(int id, int emailClassification)
         {
-            var user = await UserManager.FindByEmailAsync(aEmail);
-            int id = user.Id;
+            BaseEmailService emailService;
             if (emailClassification == (int)EmailClassification.CONFIRM_EMAIL)
             {
-                string code = await UserManager.GenerateEmailConfirmationTokenAsync(id);
-                string idToken = StringManipulationHelper.SetParameter(aEmail, code, user.IsAdmin);
-                string callbackURL = StringManipulationHelper.SetConfirmEmailUrl(idToken, user.IsAdmin);
-                string emailBody = EmailTemplate.FormatConfirmEmailBody(callbackURL);
-                await UserManager.SendEmailAsync(id, EmailTemplate.CONFIRM_EMAIL_HEADER, emailBody);
+                emailService = new ConfirmEmailService(id);
+                await emailService.SendEmail(UserManager);
             }
 
-            if (emailClassification == (int)EmailClassification.RESET_PASSWORD)
-            {             
-                string code = await UserManager.GeneratePasswordResetTokenAsync(id);
-                string idToken = StringManipulationHelper.SetParameter(aEmail, code, user.IsAdmin);
-                string callbackURL = StringManipulationHelper.SetResetPasswordURL(idToken,user.IsAdmin);
-                string emailBody = EmailTemplate.FormatResetPasswordBody(callbackURL);
-                await UserManager.SendEmailAsync(id, EmailTemplate.RESET_PASSWORD_HEADER, emailBody);
+            else if (emailClassification == (int)EmailClassification.RESET_PASSWORD)
+            {
+                emailService = new ResetPasswordService(id);
+                await emailService.SendEmail(UserManager);
+            }
+            else
+            {
+                //Do Nothing
             }
         }
 
@@ -228,9 +226,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         {
             var user = await UserManager.FindByEmailAsync(email);
 
-            var token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-
-                await Task.Run(() => SendEmail(email, (int)EmailClassification.RESET_PASSWORD));
+            await Task.Run(() => SendEmail(user.Id, (int)EmailClassification.RESET_PASSWORD));
             return Ok();
         }
 
@@ -354,7 +350,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                     return GetErrorResult(result);
                 }
 
-                await Task.Run(() => SendEmail(user.Email, (int)EmailClassification.CONFIRM_EMAIL));
+                await Task.Run(() => SendEmail(user.Id, (int)EmailClassification.CONFIRM_EMAIL));
                 //await Task.Run(() => SendSMS(user.Id, (int)SMSClassification.CONFIRM_PHONE));
 
                 return Ok(Mapper.Map<ApplicationUser, ResponseAccountDTO>(user));
