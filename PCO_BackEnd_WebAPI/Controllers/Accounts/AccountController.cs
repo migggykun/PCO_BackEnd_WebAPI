@@ -34,6 +34,7 @@ using PCO_BackEnd_WebAPI.Security.DTO;
 using Newtonsoft.Json;
 using System.Text;
 using PCO_BackEnd_WebAPI.Models.Email;
+using PCO_BackEnd_WebAPI.Models.ViewModels;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
@@ -293,24 +294,26 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <returns></returns>
         [HttpPost]
         [Route("ConfirmPhone")]
-        public async Task<IHttpActionResult> ConfirmPhone(ConfirmEmailViewModel model)
+        public async Task<IHttpActionResult> ConfirmPhone(ConfirmSmsViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
                 return BadRequest(errorMessages);
             }
-
+          
             var user = await UserManager.FindByEmailAsync(model.Email);
-            IdentityResult result = result = await UserManager.ConfirmEmailAsync(user.Id, model.Token);
-            if (result.Succeeded)
+
+            bool result = result = await UserManager.VerifyChangePhoneNumberTokenAsync(user.Id, model.Token, model.PhoneNumber);
+            if (result)
             {
+                user.PhoneNumberConfirmed = true;
                 await UserManager.UpdateSecurityStampAsync(user.Id);
                 return Ok();
             }
             else
             {
-                return BadRequest(result.Errors.ToList()[0].ToString());
+                return BadRequest();
             }
         }
 

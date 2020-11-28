@@ -377,6 +377,7 @@
     <Compile Include="Models\Persistence\Repositories\Conferences\ActivityScheduleRepository.cs" />
     <Compile Include="Models\Registrations\ActivitiesToAttend.cs" />
     <Compile Include="Models\ViewModels\ConfirmEmailViewModel.cs" />
+    <Compile Include="Models\ViewModels\ConfirmSmsViewModel.cs" />
     <Compile Include="Models\ViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="Models\Conferences\Conference.cs" />
     <Compile Include="Controllers\Accounts\AccountController.cs" />
