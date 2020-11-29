@@ -375,12 +375,19 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
         }
 
-        public async Task<IHttpActionResult> GetUserByPhoneOrEmail(string PhoneOrEmail)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="phoneOrEmail"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("GetUserByPhoneOrEmail")]
+        public async Task<IHttpActionResult> GetUserByPhoneOrEmail(string phoneOrEmail)
         {
-            bool isEmail = Regex.IsMatch(PhoneOrEmail, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase);
+            bool isEmail = Regex.IsMatch(phoneOrEmail, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase);
             if(isEmail)
             {
-                var user = await UserManager.FindByEmailAsync(PhoneOrEmail);
+                var user = await UserManager.FindByEmailAsync(phoneOrEmail);
                 if (user == null)
                 {
                     return BadRequest();
@@ -394,7 +401,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             else
             {
                 UnitOfWork unitOfWork = new UnitOfWork(new ApplicationDbContext());
-                var user = await Task.Run(()=> unitOfWork.Accounts.GetUserByPhoneNumber(PhoneOrEmail));
+                var user = await Task.Run(()=> unitOfWork.Accounts.GetUserByPhoneNumber(phoneOrEmail));
                 if (user == null)
                 {
                     return BadRequest();
@@ -404,6 +411,28 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                     var resultDTO = Mapper.Map<ApplicationUser, ResponseAccountDTO>(user);
                     return Ok(resultDTO);
                 }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="phoneOrEmail"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("GetUserByPhone")]
+        public async Task<IHttpActionResult> GetUserByPhone(string phoneOrEmail)
+        {
+            UnitOfWork unitOfWork = new UnitOfWork(new ApplicationDbContext());
+            var user = await Task.Run(() => unitOfWork.Accounts.GetUserByPhoneNumber(phoneOrEmail));
+            if (user == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                var resultDTO = Mapper.Map<ApplicationUser, ResponseAccountDTO>(user);
+                return Ok(resultDTO);
             }
         }
 
