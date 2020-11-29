@@ -28,6 +28,13 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
             UserManager = new UserManager<ApplicationUser, int>(store);
         }
 
+        public ApplicationUser GetUserByPhoneNumber(string phoneNumber)
+        {
+            ApplicationUser result = UserManager.Users.ToList().Find(x => x.PhoneNumber == phoneNumber);
+
+            return result;
+        }
+
         public PageResult<ApplicationUser> GetPagedAccounts(int page, 
                                                             int size,
                                                             string filter = null,
@@ -93,7 +100,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
             oldUser.PhoneNumber = user.PhoneNumber;
             oldUser.Email = user.Email;
             oldUser.IsAdmin = user.IsAdmin;
-            oldUser.EmailConfirmed = (string.Compare(oldUser.Email, user.Email, true) == 0 ? true : false);
+            oldUser.EmailConfirmed = (string.Compare(oldUser.Email, user.Email, true) == 0 ? oldUser.EmailConfirmed : false); 
+            oldUser.PhoneNumberConfirmed = (string.Compare(oldUser.PhoneNumber, user.PhoneNumber, true) == 0 ? oldUser.PhoneNumberConfirmed : false); 
 
             //Update UserInfo object
             user.UserInfo.Id = id;

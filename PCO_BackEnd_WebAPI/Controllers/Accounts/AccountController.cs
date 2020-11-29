@@ -35,6 +35,7 @@ using Newtonsoft.Json;
 using System.Text;
 using PCO_BackEnd_WebAPI.Models.Email;
 using PCO_BackEnd_WebAPI.Models.ViewModels;
+using System.Text.RegularExpressions;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
@@ -334,6 +335,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 return BadRequest(errorMessages);
             }
 
+            UnitOfWork unitOfWork = new UnitOfWork(new ApplicationDbContext());
             var user = new ApplicationUser()
             {
                 UserName = model.Email,
@@ -346,6 +348,14 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             };
             try
             {
+                if (unitOfWork.Accounts.GetUserByPhoneNumber(user.PhoneNumber) != null)
+                {
+                    IdentityResult existingPhone = new IdentityResult();
+                    ModelState.AddModelError("", string.Format("User with {0} Phone Number already exists!",user.PhoneNumber));
+                    string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
+                    return BadRequest(errorMessages);
+                }
+
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
                 if (!result.Succeeded)
@@ -362,6 +372,38 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             {
                string message = ErrorManager.GetAllExceptionMessages(ex);
                return BadRequest(message);
+            }
+        }
+
+        public async Task<IHttpActionResult> GetUserByPhoneOrEmail(string PhoneOrEmail)
+        {
+            bool isEmail = Regex.IsMatch(PhoneOrEmail, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase);
+            if(isEmail)
+            {
+                var user = await UserManager.FindByEmailAsync(PhoneOrEmail);
+                if (user == null)
+                {
+                    return BadRequest();
+                }
+                else
+                {
+                    var resultDTO = Mapper.Map<ApplicationUser, ResponseAccountDTO>(user);
+                    return Ok(resultDTO);
+                }
+            }
+            else
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(new ApplicationDbContext());
+                var user = await Task.Run(()=> unitOfWork.Accounts.GetUserByPhoneNumber(PhoneOrEmail));
+                if (user == null)
+                {
+                    return BadRequest();
+                }
+                else
+                {
+                    var resultDTO = Mapper.Map<ApplicationUser, ResponseAccountDTO>(user);
+                    return Ok(resultDTO);
+                }
             }
         }
 
@@ -490,6 +532,18 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             {
                 return NotFound();
             }
+            else if (unitOfWork.Accounts.GetUserByPhoneNumber(user.PhoneNumber) != null && (userToUpdate.PhoneNumber != user.PhoneNumber))
+            {
+                ModelState.AddModelError("", string.Format("User with {0} Phone Number already exists!",user.PhoneNumber));
+                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
+                return BadRequest(errorMessages);
+            }
+            else if (unitOfWork.Accounts.UserManager.FindByEmail(user.Email) != null && (userToUpdate.Email != user.Email))
+            {
+                ModelState.AddModelError("", string.Format("User with {0} Email already exists!", user.Email));
+                string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
+                return BadRequest(errorMessages);
+            }
             else
             {
                 var result = unitOfWork.Accounts.UpdateAccount(id, user);
@@ -497,7 +551,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 unitOfWork.Complete();
                 return Ok(resultDTO);
             }
-            return Ok(Mapper.Map<ApplicationUser, ResponseAccountDTO>(userToUpdate));
         }
 
         /// <summary>
