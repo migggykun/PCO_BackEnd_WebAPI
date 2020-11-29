@@ -421,10 +421,10 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <returns></returns>
         [HttpGet]
         [Route("GetUserByPhone")]
-        public async Task<IHttpActionResult> GetUserByPhone(string phoneOrEmail)
+        public async Task<IHttpActionResult> GetUserByPhone(string phoneNumber)
         {
             UnitOfWork unitOfWork = new UnitOfWork(new ApplicationDbContext());
-            var user = await Task.Run(() => unitOfWork.Accounts.GetUserByPhoneNumber(phoneOrEmail));
+            var user = await Task.Run(() => unitOfWork.Accounts.GetUserByPhoneNumber(phoneNumber));
             if (user == null)
             {
                 return BadRequest();
