@@ -264,6 +264,7 @@
     <Compile Include="Controllers\Images\ImageController.cs" />
     <Compile Include="Controllers\Messages\EmailController.cs" />
     <Compile Include="Controllers\Messages\SMSController.cs" />
+    <Compile Include="Controllers\Registrations\MemberRegistrations\MemberRegistrationController.cs" />
     <Compile Include="Controllers\Registrations\PaymentController.cs" />
     <Compile Include="Controllers\Registrations\RegistrationController.cs" />
     <Compile Include="Controllers\Accounts\MembershipTypeController.cs" />
@@ -306,7 +307,11 @@
     <Compile Include="DTOs\Conferences\ConferenceDay\RequestConferenceDayDTO.cs" />
     <Compile Include="DTOs\Conferences\ConferenceDay\ResponseConferenceDayDTO.cs" />
     <Compile Include="DTOs\Registrations\RequestActivitiesToAttendDTO.cs" />
+    <Compile Include="DTOs\Registrations\RequestMemberRegistrationDTO.cs" />
     <Compile Include="DTOs\Registrations\ResponseActivitiesToAttendDTO.cs" />
+    <Compile Include="DTOs\Registrations\ResponseListMemberRegistrationDTO.cs" />
+    <Compile Include="DTOs\Registrations\ResponseMemberRegistrationDTO.cs" />
+    <Compile Include="DTOs\Registrations\ResponseMemberRegistrationFeeDTO.cs" />
     <Compile Include="DTOs\Registrations\ResponseRegistrationFeeDTO.cs" />
     <Compile Include="DTOs\Images\ResponseImageDTO.cs" />
     <Compile Include="DTOs\Registrations\AddPaymentDTO.cs" />
@@ -326,6 +331,7 @@
     <Compile Include="DTOs\Conferences\ResponseRateDTO.cs" />
     <Compile Include="DTOs\Conferences\UpdateConferenceDTO.cs" />
     <Compile Include="DTOs\Conferences\UpdateRateWithConferenceDTO.cs" />
+    <Compile Include="DTOs\Registrations\ResponseMemberRegistrationStatusDTO.cs" />
     <Compile Include="DTOs\Registrations\ResponseRegistrationStatusDTO.cs" />
     <Compile Include="DTOs\Registrations\UpdatePaymentDTO.cs" />
     <Compile Include="Models\AccountBindingModels\LoginViewModel.cs" />
@@ -363,11 +369,14 @@
     <Compile Include="Models\Pagination\PaginationManager.cs" />
     <Compile Include="Models\Pagination\PaginationMapper.cs" />
     <Compile Include="Models\ParameterBindingModels\ConferenceParameterBindingModel.cs" />
+    <Compile Include="Models\PCOAdmin\PCOAdminDetail.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IAddressRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Accounts\IMemberRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Attendance\IAttendanceRepository.cs" />
+    <Compile Include="Models\Persistence\Interfaces\PCOAdmin\IPCOAdminRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Conferences\IActivityRepository.cs" />
     <Compile Include="Models\Persistence\Interfaces\Conferences\IActivityScheduleRepository.cs" />
+    <Compile Include="Models\Persistence\Interfaces\IMemberRegistrationRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Accounts\AddressRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Accounts\MemberRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Attendance\AttendanceRepository.cs" />
@@ -375,7 +384,10 @@
     <Compile Include="Models\Persistence\Interfaces\Bank\IBankDetailRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Conferences\ActivityRepository.cs" />
     <Compile Include="Models\Persistence\Repositories\Conferences\ActivityScheduleRepository.cs" />
+    <Compile Include="Models\Persistence\Repositories\PCOAdmin\PCOAdminRepository.cs" />
+    <Compile Include="Models\Persistence\Repositories\Registrations\MemberRegistrationRepository.cs" />
     <Compile Include="Models\Registrations\ActivitiesToAttend.cs" />
+    <Compile Include="Models\Registrations\MemberRegistration.cs" />
     <Compile Include="Models\ViewModels\ConfirmEmailViewModel.cs" />
     <Compile Include="Models\ViewModels\ConfirmSmsViewModel.cs" />
     <Compile Include="Models\ViewModels\ResetPasswordViewModel.cs" />
