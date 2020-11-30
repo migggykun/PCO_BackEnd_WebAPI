@@ -12,7 +12,6 @@ using PCO_BackEnd_WebAPI.Models.Bank;
 using PCO_BackEnd_WebAPI.Models.Images;
 using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.Models.Attendances;
-using PCO_BackEnd_WebAPI.Models.PCOAdmin;
 
 namespace PCO_BackEnd_WebAPI.Models.Entities
 {
@@ -35,7 +34,6 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
         public virtual DbSet<Rate> Rates { get; set; }
         public virtual DbSet<Payment> Payments { get; set; }
         public virtual DbSet<Registration> Registrations { get; set; }
-        public virtual DbSet<MemberRegistration> MemberRegistrations { get; set; }
         public virtual DbSet<RegistrationStatus> RegistrationStatus { get; set; }
         public virtual DbSet<UserInfo> UserInfos { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
@@ -51,8 +49,6 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
 
         public virtual DbSet<ActivitiesToAttend> ActivitiesToAttend { get; set; }
         public virtual DbSet<Member> Members { get; set; }
-
-        public virtual DbSet<PCOAdminDetail> PCOAdminDetails{ get; set; }
 
         public static ApplicationDbContext Create()
         {
@@ -135,8 +131,8 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                         .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Payment>()
-                        .HasOptional(e => e.Registration);
-                        //.WithOptionalPrincipal();
+                        .HasOptional(e => e.Registration)
+                        .WithOptionalPrincipal();
 
             modelBuilder.Entity<ConferenceActivity>()
                         .HasRequired(e => e.ActivitySchedule);
@@ -160,11 +156,6 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                         //.HasRequired(u=>u.ConferenceActivityId)
                         //.WithMany();
             modelBuilder.Entity<Member>();
-
-            modelBuilder.Entity<MemberRegistration>()
-                        .HasRequired(e => e.User);
-
-            modelBuilder.Entity<PCOAdminDetail>();
         }
     }
 }

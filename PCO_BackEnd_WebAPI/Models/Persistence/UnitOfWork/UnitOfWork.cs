@@ -22,7 +22,6 @@ using PCO_BackEnd_WebAPI.Models.Images;
 using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.Models.Attendances;
 using PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Attendance;
-using PCO_BackEnd_WebAPI.Models.Persistence.Repositories.PCOAdmin;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
 {
@@ -38,7 +37,6 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
         public IPromoMemberRepository PromoMembers { get; set; }
         public AccountRepository Accounts { get; set; }
         public IRegistrationRepository Registrations{ get; set; }
-        public IMemberRegistrationRepository MemberRegistrations { get; set; }
         public IPaymentRepository Payments { get; set; }
         public Repository<RegistrationStatus> RegStatus { get; set; }
         public BankDetailRepository BankDetails { get; set; }
@@ -53,8 +51,6 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
         public AttendanceRepository ActivityAttendances { get; set; }
         public IMemberRepository Members { get; set; }
 
-        public IPCOAdminRepository PCOAdminDetail { get; set; }
-
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -68,7 +64,6 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
             Promos = new PromoRepository(_context);
             PromoMembers = new PromoMemberRepository(_context);
             Registrations = new ConferenceRegistrationRepository(_context);
-            MemberRegistrations = new MemberRegistrationRepository(_context);
             Payments = new PaymentRepository(_context);
             RegStatus = new Repository<RegistrationStatus>(_context);
             BankDetails = new BankDetailRepository(_context);
@@ -80,7 +75,6 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork
             ActivitySchedules = new ActivityScheduleRepository(_context);
             ActivityAttendances = new AttendanceRepository(_context);
             Members = new MemberRepository(_context);
-            PCOAdminDetail = new PCOAdminRepository(_context);
         }
 
         /// <summary>
