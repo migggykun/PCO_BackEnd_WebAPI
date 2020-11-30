@@ -10,7 +10,6 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
     [Table("pc0_Database_Staging.[dbo.Members]")]
     public partial class Member
     {
-        [Key]
         public int Id { get; set; }
 
         public int UserId { get; set; }
