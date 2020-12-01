@@ -196,8 +196,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.MemberRegistrations
             }
         }
 
-        [HttpGet]
+        [HttpGet]      
         [Route("api/GetMemberRegistration/{userId=userId}")]
+        [ResponseType(typeof(ResponseMemberRegistrationDTO))]
         public async Task<IHttpActionResult> GetMemberRegistration(int userId)
         {
             try
@@ -222,7 +223,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.MemberRegistrations
         /// <returns></returns>
         [HttpGet]
         [Route("api/GetMemberRegistrationFee")]
-        public async Task<IHttpActionResult> GetMemberRegistrationFee(int userId)
+        public async Task<IHttpActionResult> GetMemberRegistrationFee()
         {
             double registrationFee;
             UnitOfWork unitOfWork = new UnitOfWork(_context);

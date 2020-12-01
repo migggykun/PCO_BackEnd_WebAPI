@@ -23,7 +23,7 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
 
         public double? Amount { get; set; }
 
-        public int RegistrationStatusId { get; set; }
+        public int MemberRegistrationStatusId { get; set; }
 
         public virtual ApplicationUser User { get; set; }
     }

@@ -37,7 +37,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
                                                                 c.User.UserInfo.FirstName.Contains(akeywordFilter) ||
                                                                 c.User.UserInfo.MiddleName.Contains(akeywordFilter)
                                                                )
-                                                        .Where(c => aStatusId == null ? true : c.RegistrationStatusId == aStatusId);
+                                                        .Where(c => aStatusId == null ? true : c.MemberRegistrationStatusId == aStatusId);
 
             pageResult = PaginationManager<MemberRegistration>.GetPagedResult(queryResult, page, size);
             return pageResult;
@@ -51,7 +51,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
         public MemberRegistration Update(MemberRegistration oldMemberRegistration, MemberRegistration newMemberRegistration)
         {
             newMemberRegistration.Id = oldMemberRegistration.Id;
-            newMemberRegistration.RegistrationStatusId = oldMemberRegistration.RegistrationStatusId;
+            newMemberRegistration.MemberRegistrationStatusId = oldMemberRegistration.MemberRegistrationStatusId;
             return appDbContext.UpdateGraph<MemberRegistration>(newMemberRegistration);
         }
 
@@ -63,7 +63,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
         public void SetRegistrationStatus(int id, int status)
         {
             var reg = appDbContext.MemberRegistrations.Find(id);
-            reg.RegistrationStatusId = status;
+            reg.MemberRegistrationStatusId = status;
 
         }
 

@@ -72,7 +72,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <returns></returns>
         [HttpPost]
         [ResponseType(typeof(ResponseMemberDTO))]
-        public async Task<IHttpActionResult> AddMember(RequestMemberDTO memberDTO)
+        public async Task<IHttpActionResult> AddMember(int userId)
         {
             if (!ModelState.IsValid)
             {
@@ -80,7 +80,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 return BadRequest(errorMessages);
             }
 
-            var member = Mapper.Map<RequestMemberDTO, Member>(memberDTO);
+            Member member = new Member(userId);
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -148,7 +148,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
-                var member = await Task.Run(() => unitOfWork.Members.Find(x=>x.UserId == userId).ToList()[0]);
+                var member = await Task.Run(() => unitOfWork.Members.Find(x=>x.UserId == userId).ToList().FirstOrDefault());
                 if (member == null)
                 {
                     return NotFound();
