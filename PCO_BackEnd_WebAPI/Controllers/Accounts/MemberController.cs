@@ -99,6 +99,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 ApplicationUser updateMembership = await Task.Run(() => unitOfWork.Accounts.UserManager.FindByIdAsync(userId));
                 updateMembership.IsActive = true;
                 updateMembership.IsMember = true;
+                updateMembership.UserInfo.MembershipTypeId = 1; //default value for associate Member
                 await Task.Run(()=>unitOfWork.Accounts.UpdateAccount(userId, updateMembership));
                 
                 await Task.Run(() => unitOfWork.Complete());
@@ -145,6 +146,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 
                     ApplicationUser updateMembership = await Task.Run(() => unitOfWork.Accounts.UserManager.FindByIdAsync(userId));
                     updateMembership.IsActive = member.IsActive;
+                    updateMembership.UserInfo.MembershipTypeId = member.IsActive?1:0; //default value for associate Member (1) Non-member (0)
                     await Task.Run(() => unitOfWork.Accounts.UpdateAccount(userId, updateMembership));
 
                     await Task.Run(() => unitOfWork.Complete());
@@ -183,6 +185,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                     ApplicationUser updateMembership = await Task.Run(() => unitOfWork.Accounts.UserManager.FindByIdAsync(userId));
                     updateMembership.IsActive = false;
                     updateMembership.IsMember = false;
+                    updateMembership.UserInfo.MembershipTypeId = 0;
                     await Task.Run(() => unitOfWork.Accounts.UpdateAccount(userId, updateMembership));
 
                     await Task.Run(() => unitOfWork.Complete());
