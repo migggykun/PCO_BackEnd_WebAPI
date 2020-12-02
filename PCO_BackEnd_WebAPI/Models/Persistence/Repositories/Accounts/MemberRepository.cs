@@ -53,5 +53,10 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
         {
             return appDbContext.Members.AddRange(members).ToList();
         }
+
+        Member IMemberRepository.GetMemberByUserId(int userId)
+        {
+            return  appDbContext.Members.ToList().Find(x => x.UserId == userId);           
+        }
     }
 }

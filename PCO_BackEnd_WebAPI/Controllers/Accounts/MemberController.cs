@@ -53,7 +53,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         public async Task<IHttpActionResult> Get(int userId)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = await Task.Run(() => unitOfWork.Members.Find(x => x.UserId == userId).ToList()[0]);
+            var result = await Task.Run(() => unitOfWork.Members.GetMemberByUserId(userId));
             if (result == null)
             {
                 return NotFound();
@@ -80,14 +80,32 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 return BadRequest(errorMessages);
             }
 
+            UnitOfWork unitOfWork = new UnitOfWork(_context);
+
+
+            var memberExists = await Task.Run(() => unitOfWork.Members.GetMemberByUserId(userId));
+            if (memberExists!=null)
+            {
+                string errorMessages = "Member Already Exists";
+                return BadRequest(errorMessages);
+            }
+
             Member member = new Member(userId);
             try
             {
-                UnitOfWork unitOfWork = new UnitOfWork(_context);
+                
                 await Task.Run(() => unitOfWork.Members.Add(member));
+                
+                ApplicationUser updateMembership = await Task.Run(() => unitOfWork.Accounts.UserManager.FindByIdAsync(userId));
+                updateMembership.IsActive = true;
+                updateMembership.IsMember = true;
+                await Task.Run(()=>unitOfWork.Accounts.UpdateAccount(userId, updateMembership));
+                
                 await Task.Run(() => unitOfWork.Complete());
                 var resultDTO = Mapper.Map<Member, ResponseMemberDTO>(member);
+
                 return Created(new Uri(Request.RequestUri + "/" + member.Id), resultDTO);
+
             }
             catch (Exception ex)
             {
@@ -124,6 +142,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 else
                 {
                     result = await Task.Run(() => unitOfWork.Members.UpdateMember(result.Id, member));
+
+                    ApplicationUser updateMembership = await Task.Run(() => unitOfWork.Accounts.UserManager.FindByIdAsync(userId));
+                    updateMembership.IsActive = member.IsActive;
+                    await Task.Run(() => unitOfWork.Accounts.UpdateAccount(userId, updateMembership));
+
                     await Task.Run(() => unitOfWork.Complete());
                     return Ok(Mapper.Map<Member, ResponseMemberDTO>(result));
                 }
@@ -156,6 +179,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 else
                 {
                     await Task.Run(() => unitOfWork.Members.Remove(member));
+
+                    ApplicationUser updateMembership = await Task.Run(() => unitOfWork.Accounts.UserManager.FindByIdAsync(userId));
+                    updateMembership.IsActive = false;
+                    updateMembership.IsMember = false;
+                    await Task.Run(() => unitOfWork.Accounts.UpdateAccount(userId, updateMembership));
+
                     await Task.Run(() => unitOfWork.Complete());
                     return Ok();
                 }

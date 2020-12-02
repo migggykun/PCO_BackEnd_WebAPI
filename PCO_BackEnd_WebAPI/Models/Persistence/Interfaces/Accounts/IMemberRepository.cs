@@ -16,5 +16,6 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Accounts
         List<Member> AddMembers(List<Member> activities);
         Member UpdateMember(int userId, Member member);
         void RemoveMember(List<Member> members);
+        Member GetMemberByUserId(int userId);
     }
 }
