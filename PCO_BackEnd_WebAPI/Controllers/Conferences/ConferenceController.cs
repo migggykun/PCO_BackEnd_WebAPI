@@ -86,6 +86,13 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             }
 
             var conference = Mapper.Map<AddConferenceDTO, Conference>(conferenceDTO);
+            bool isValidSchedule = ConferenceValidator.IsValidSchedule(conference);
+
+            if (isValidSchedule == false)
+            {
+                return BadRequest("Invalid activity schedule!");
+            }
+
             try
             {
                 ImageManager imageManager;
@@ -129,6 +136,13 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             }
 
             var conference = Mapper.Map<UpdateConferenceDTO, Conference>(conferenceDTO);
+            bool isValidSchedule = ConferenceValidator.IsValidSchedule(conference);
+
+            if(isValidSchedule == false)
+            {
+                return BadRequest("Invalid activity schedule!");
+            }
+
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
