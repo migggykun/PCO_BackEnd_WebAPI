@@ -17,7 +17,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Registrations
         public int UserId { get; set; }
 
         [Required]
-        public int RegistrationStatusId { get; set; }
+        public int MemberRegistrationStatusId { get; set; }
 
         public double? Amount { get; set; }
         
