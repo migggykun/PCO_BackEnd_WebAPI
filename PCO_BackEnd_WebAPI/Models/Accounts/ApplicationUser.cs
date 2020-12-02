@@ -23,6 +23,10 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
 
         public bool IsAdmin { get; set; }
 
+        public bool IsMember { get; set; }
+
+        public bool IsActive { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser, int> manager, string authenticationType)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

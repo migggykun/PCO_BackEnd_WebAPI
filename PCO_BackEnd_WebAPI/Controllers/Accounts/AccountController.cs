@@ -342,9 +342,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 Email = model.Email,
                 PhoneNumber = model.PhoneNumber,
                 PRCDetail = Mapper.Map<RequestPRCDetailDTO, PRCDetail>(model.PrcDetail),
-                UserInfo =  Mapper.Map<RequestUserInfoDTO, UserInfo>(model.UserInfo),
+                UserInfo = Mapper.Map<RequestUserInfoDTO, UserInfo>(model.UserInfo),
                 IsAdmin = model.IsAdmin,
-                MemberSince = DateTime.Now.Date
+                MemberSince = DateTime.Now.Date,
+                IsActive = false,
+                IsMember = false
             };
             try
             {

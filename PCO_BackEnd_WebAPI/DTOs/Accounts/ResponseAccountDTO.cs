@@ -29,6 +29,12 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
         [Required]
         public bool IsAdmin { get; set; }
 
+        public bool IsMember { get; set; }
+
+        public bool IsActive { get; set; }
+
+        public ResponseMemberDTO MembershipInfo { get; set; }
+
         public DateTime MemberSince { get; set; }
     }
 }
