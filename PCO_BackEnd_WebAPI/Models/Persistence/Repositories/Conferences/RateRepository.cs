@@ -9,6 +9,7 @@ using System.Web;
 using RefactorThis.GraphDiff;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using System.Linq.Expressions;
+using PCO_BackEnd_WebAPI.Models.Comparer;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
 {
@@ -73,10 +74,9 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
             }
 
             //Delete data not in collection
-            var ratesIdFromDbList = appDbContext.Rates.Where(x => x.conferenceId == cId)
-                                                .Select(y => y).ToList();
+            var ratesIdFromDbList = appDbContext.Rates.Where(x => x.conferenceId == cId && x.conferenceActivityId == null).ToList();
 
-            List<Rate> ratesToDelete = rates.Except(ratesIdFromDbList).ToList();
+            List<Rate> ratesToDelete = ratesIdFromDbList.Except(rates, new GenericEqualityComparer<Rate>()).ToList();
             appDbContext.Rates.RemoveRange(ratesToDelete);
 
             return appDbContext.Rates.Where(x => x.conferenceId == cId) .Select(y => y).ToList();

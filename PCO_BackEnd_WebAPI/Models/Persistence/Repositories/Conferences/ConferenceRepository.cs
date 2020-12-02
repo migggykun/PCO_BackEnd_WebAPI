@@ -68,14 +68,12 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
           {
             banner.Image = new ImageManager(base64Image).Bytes;
           }
-          
-            //Update Rates
-          var tempRates = new RateRepository(appDbContext).UpdateRates(conference.Rates, id);
-          conference.Rates = null;
-          var updatedConference = appDbContext.UpdateGraph<Conference>(conference, map => map.OwnedCollection(a => a.ConferenceDays,aa=>aa.OwnedCollection(b=>b.ConferenceActivities,bb=>bb.OwnedEntity(c=>c.ActivityRates).OwnedEntity(c => c.ActivitySchedule))));
-          
-            updatedConference.Rates = tempRates;
-          return updatedConference;
+
+            var updatedConference = appDbContext.UpdateGraph<Conference>(conference, map => map.OwnedCollection(a => a.ConferenceDays,aa=>aa.OwnedCollection(b=>b.ConferenceActivities,bb=>bb.OwnedCollection(c=>c.ActivityRates).OwnedEntity(c => c.ActivitySchedule))));
+            
+            //Update PackageRates
+            var packageRates = new RateRepository(appDbContext).UpdateRates(conference.Rates, id);
+          return updatedConference;     
         }
 
         /// <summary>

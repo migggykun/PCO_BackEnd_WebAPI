@@ -344,6 +344,7 @@
     <Compile Include="Models\Attendances\ConferenceAttendanceHistory.cs" />
     <Compile Include="Models\Attendances\ConferenceAttendanceReport.cs" />
     <Compile Include="Models\Bank\BankDetail.cs" />
+    <Compile Include="Models\Comparer\GenericEqualityComparer.cs" />
     <Compile Include="Models\Conferences\Activities\Activity.cs" />
     <Compile Include="Models\Conferences\ActivitySchedule.cs" />
     <Compile Include="Models\Conferences\ConferenceActivity.cs" />
