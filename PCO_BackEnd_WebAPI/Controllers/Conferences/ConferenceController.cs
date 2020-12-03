@@ -86,11 +86,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             }
 
             var conference = Mapper.Map<AddConferenceDTO, Conference>(conferenceDTO);
-            bool isValidSchedule = ConferenceValidator.IsValidSchedule(conference);
+            string errorMessage = string.Empty;
+            bool isValidSchedule = ConferenceValidator.IsValidSchedule(conference, out errorMessage);
 
             if (isValidSchedule == false)
             {
-                return BadRequest("Invalid activity schedule!");
+                return BadRequest(errorMessage);
             }
 
             try
@@ -136,11 +137,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             }
 
             var conference = Mapper.Map<UpdateConferenceDTO, Conference>(conferenceDTO);
-            bool isValidSchedule = ConferenceValidator.IsValidSchedule(conference);
+            string errorMessage = string.Empty;
+            bool isValidSchedule = ConferenceValidator.IsValidSchedule(conference, out errorMessage);
 
             if(isValidSchedule == false)
             {
-                return BadRequest("Invalid activity schedule!");
+                return BadRequest(errorMessage);
             }
 
             try

@@ -7,10 +7,41 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
 {
     public static class ConferenceValidator
     {
-        public static bool IsValidSchedule(Conference confrence)
+        private static string[] errorMessage =
         {
-            foreach (var conferenceDay in confrence.ConferenceDays)
+        "Invalid date in conference day. Must be within conference date range",
+        "Invalid time schedule in conference acitivity",
+        "Invalid date. Conference day's date is already taken!"
+        };
+        public static bool IsValidSchedule(Conference conference, out string message)
+        {
+            message = string.Empty;
+
+            for (int i = 0; i < conference.ConferenceDays.Count; i++)
             {
+                for (int ii = 1+i; ii < conference.ConferenceDays.Count; ii++)
+                {
+                    if (conference.ConferenceDays.ToList()[i].Date == conference.ConferenceDays.ToList()[ii].Date)
+                    {
+                        message = errorMessage[2];
+                        return false;
+                    }
+                }
+            }
+
+            foreach (var conferenceDay in conference.ConferenceDays)
+            {
+                if ((conference.Start <= conferenceDay.Date &&
+                   conference.End >= conferenceDay.Date))
+                {
+                    //Do nothing
+                }
+                else
+                {
+                    message = errorMessage[0];
+                    return false;
+                }
+
                 foreach (var activity in conferenceDay.ConferenceActivities)
                 {
                     if ((conferenceDay.Start <= activity.ActivitySchedule.Start &&
@@ -23,6 +54,7 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
                     }
                     else
                     {
+                        message = errorMessage[1];
                         return false;
                     }
                 }
