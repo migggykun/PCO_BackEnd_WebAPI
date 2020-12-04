@@ -197,18 +197,18 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             var user = await UserManager.FindByIdAsync(id);
             if (emailClassification == (int)SMSClassification.CONFIRM_PHONE)
             {
-                string code = await UserManager.GenerateChangePhoneNumberTokenAsync(id,user.PhoneNumber);
-                string idToken = StringManipulationHelper.SetParameter(user.PhoneNumber, code, user.IsAdmin);
-                string callbackURL = StringManipulationHelper.SetConfirmPhoneURL(idToken, user.IsAdmin);
+                string code = await UserManager.GenerateEmailConfirmationTokenAsync(id);
+                string idToken = StringManipulationHelper.SetParameter(user.Email, code, user.IsAdmin);
+                string callbackURL = StringManipulationHelper.SetConfirmEmailUrl(idToken, user.IsAdmin);
 
-                var message = "To Complete your registration, please confirm your phone number by clicking the link: " + callbackURL;
+                var message = "To Complete your registration, please confirm your Account by clicking the link: " + callbackURL;
                 await SendSMSAsync(id,user.PhoneNumber,message);
   
             }
 
             if (emailClassification == (int)SMSClassification.RESET_PASSWORD)
             {
-                string code = await UserManager.GenerateChangePhoneNumberTokenAsync(id,user.PhoneNumber);
+                string code = await UserManager.GeneratePasswordResetTokenAsync(id);
                 string idToken = StringManipulationHelper.SetParameter(user.PhoneNumber, code, user.IsAdmin);
                 string callbackURL = StringManipulationHelper.SetResetPasswordURL(idToken, user.IsAdmin);
 
@@ -226,9 +226,20 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         [Route("SendResetPasswordEmail")]
         public async Task<IHttpActionResult> SendResetPasswordEmail(string email)
         {
-            var user = await UserManager.FindByEmailAsync(email);
+            bool isEmail = Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase);
+                 
+            if (isEmail)
+            {
+                var user = await UserManager.FindByEmailAsync(email);
+                await Task.Run(() => SendEmail(user.Id, (int)EmailClassification.RESET_PASSWORD));
+            }
+            else
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(new ApplicationDbContext());
+                var user = await Task.Run(() => unitOfWork.Accounts.GetUserByPhoneNumber(email));
+                await Task.Run(() => SendSMS(user.Id, (int)SMSClassification.RESET_PASSWORD));
+            }        
 
-            await Task.Run(() => SendEmail(user.Id, (int)EmailClassification.RESET_PASSWORD));
             return Ok();
         }
 
@@ -366,7 +377,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 }
 
                 await Task.Run(() => SendEmail(user.Id, (int)EmailClassification.CONFIRM_EMAIL));
-                //await Task.Run(() => SendSMS(user.Id, (int)SMSClassification.CONFIRM_PHONE));
+                await Task.Run(() => SendSMS(user.Id, (int)SMSClassification.CONFIRM_PHONE));
 
                 return Ok(Mapper.Map<ApplicationUser, ResponseAccountDTO>(user));
             }

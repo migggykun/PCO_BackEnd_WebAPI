@@ -12,13 +12,12 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
         private const string baseClientAddress = "https://philippineoptometry.org";
         private const string confirmEmailPage = "/confirm-email";
         private const string resetPasswordPage = "/reset-password";
-        private const string confirmPhonePage = "/confirm-phone";
         private const string confirmEmailBaseURLAdmin = baseAdminAddress + confirmEmailPage;
         private const string resetPasswordBaseURLAdmin = baseAdminAddress + resetPasswordPage;
         private const string confirmEmailBaseURLClient = baseClientAddress + confirmEmailPage;
         private const string resetPasswordBaseURLClient = baseClientAddress + resetPasswordPage;
-        private const string confirmPhoneBaseURLAdmin = baseAdminAddress + confirmPhonePage;
-        private const string confirmPhoneBaseURLClient = baseClientAddress + confirmPhonePage;
+        private const string confirmPhoneBaseURLAdmin = baseAdminAddress + confirmEmailPage;
+        private const string confirmPhoneBaseURLClient = baseClientAddress + confirmEmailPage;
 
         /// <summary>
         /// Use in encryption formula. To be added in UserID
