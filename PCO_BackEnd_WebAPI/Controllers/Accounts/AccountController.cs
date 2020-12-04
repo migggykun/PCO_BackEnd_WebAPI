@@ -177,10 +177,10 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             foreach (string str in tags)
             {
                 if (u.FirstName != null) SMS = SMS.Replace("<fname>", u.FirstName);
-                if (u.MiddleName != null) SMS = SMS.Replace("<fname>", u.MiddleName);
-                if (u.LastName != null) SMS = SMS.Replace("<fname>", u.LastName);
-                if (u.MembershipType != null) SMS = SMS.Replace("<fname>", u.MembershipType.Name);
-                if (u.Organization != null) SMS = SMS.Replace("<fname>", u.Organization);
+                if (u.MiddleName != null) SMS = SMS.Replace("<minitial>", u.MiddleName);
+                if (u.LastName != null) SMS = SMS.Replace("<lname>", u.LastName);
+                if (u.MembershipType != null) SMS = SMS.Replace("<memtype>", u.MembershipType.Name);
+                if (u.Organization != null) SMS = SMS.Replace("<org>", u.Organization);
 
             }
             return SMS;
@@ -201,15 +201,15 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 string idToken = StringManipulationHelper.SetParameter(user.Email, code, user.IsAdmin);
                 string callbackURL = StringManipulationHelper.SetConfirmEmailUrl(idToken, user.IsAdmin);
 
-                var message = "To Complete your registration, please confirm your Account by clicking the link: " + callbackURL;
-                await SendSMSAsync(id,user.PhoneNumber,message);
+                var message = "Congratulations <fname> <lname>! To Complete your registration, please confirm your Account by clicking the link: " + callbackURL;
+                await SendSMSAsync(id,user.PhoneNumber, message);
   
             }
 
             if (emailClassification == (int)SMSClassification.RESET_PASSWORD)
             {
                 string code = await UserManager.GeneratePasswordResetTokenAsync(id);
-                string idToken = StringManipulationHelper.SetParameter(user.PhoneNumber, code, user.IsAdmin);
+                string idToken = StringManipulationHelper.SetParameter(user.Email, code, user.IsAdmin);
                 string callbackURL = StringManipulationHelper.SetResetPasswordURL(idToken, user.IsAdmin);
 
                 var message = "To Reset your password, please click the link: " + callbackURL;
