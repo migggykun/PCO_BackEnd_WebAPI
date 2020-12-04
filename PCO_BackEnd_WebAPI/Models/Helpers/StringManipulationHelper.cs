@@ -11,13 +11,14 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
         private const string baseAdminAddress = "https://stgadmin.philippineoptometry.org/#";
         private const string baseClientAddress = "https://philippineoptometry.org";
         private const string confirmEmailPage = "/confirm-email";
+        private const string confirmPhonePage = "/confirm-phone";
         private const string resetPasswordPage = "/reset-password";
         private const string confirmEmailBaseURLAdmin = baseAdminAddress + confirmEmailPage;
         private const string resetPasswordBaseURLAdmin = baseAdminAddress + resetPasswordPage;
         private const string confirmEmailBaseURLClient = baseClientAddress + confirmEmailPage;
         private const string resetPasswordBaseURLClient = baseClientAddress + resetPasswordPage;
-        private const string confirmPhoneBaseURLAdmin = baseAdminAddress + confirmEmailPage;
-        private const string confirmPhoneBaseURLClient = baseClientAddress + confirmEmailPage;
+        private const string confirmPhoneBaseURLAdmin = baseAdminAddress + confirmPhonePage;
+        private const string confirmPhoneBaseURLClient = baseClientAddress + confirmPhonePage;
 
         /// <summary>
         /// Use in encryption formula. To be added in UserID
@@ -36,6 +37,18 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
             else
             {
                 return string.Format("email={0}&token={1}", aEmail, HttpUtility.UrlEncode(token, System.Text.Encoding.UTF8));
+            }
+        }
+
+        public static string SetParameterPhone(string phone, string token, bool isAdmin)
+        {
+            if (isAdmin)
+            {
+                return string.Format("{0}/{1}", phone, HttpUtility.UrlEncode(token, System.Text.Encoding.UTF8));
+            }
+            else
+            {
+                return string.Format("phoneNumber={0}&token={1}", phone, HttpUtility.UrlEncode(token, System.Text.Encoding.UTF8));
             }
         }
 

@@ -197,12 +197,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             var user = await UserManager.FindByIdAsync(id);
             if (emailClassification == (int)SMSClassification.CONFIRM_PHONE)
             {
-                string code = await UserManager.GenerateEmailConfirmationTokenAsync(id);
-                string idToken = StringManipulationHelper.SetParameter(user.Email, code, user.IsAdmin);
-                string callbackURL = StringManipulationHelper.SetConfirmEmailUrl(idToken, user.IsAdmin);
+                string code = await UserManager.GenerateChangePhoneNumberTokenAsync(id, user.PhoneNumber);
+                string idToken = StringManipulationHelper.SetParameterPhone(user.PhoneNumber, code, user.IsAdmin);
+                string callbackURL = StringManipulationHelper.SetConfirmPhoneURL(idToken, user.IsAdmin);
 
                 var message = "Congratulations <fname> <lname>! To Complete your registration, please confirm your Account by clicking the link: " + callbackURL;
-                await SendSMSAsync(id,user.PhoneNumber, message);
+                await SendSMSAsync(id, user.PhoneNumber, message);
   
             }
 
@@ -313,13 +313,15 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 string errorMessages = ErrorManager.GetModelStateErrors(ModelState);
                 return BadRequest(errorMessages);
             }
-          
-            var user = await UserManager.FindByEmailAsync(model.Email);
+
+            UnitOfWork unitOfWork = new UnitOfWork(new ApplicationDbContext());
+            var user = await Task.Run(() => unitOfWork.Accounts.GetUserByPhoneNumber(model.PhoneNumber));
 
             bool result = result = await UserManager.VerifyChangePhoneNumberTokenAsync(user.Id, model.Token, model.PhoneNumber);
             if (result)
             {
                 user.PhoneNumberConfirmed = true;
+                await Task.Run(() => unitOfWork.Accounts.UpdateAccount(user.Id, user));
                 await UserManager.UpdateSecurityStampAsync(user.Id);
                 return Ok();
             }
