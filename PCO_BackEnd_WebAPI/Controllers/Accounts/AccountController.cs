@@ -609,6 +609,13 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         [Route("Login")]
         public async Task<IHttpActionResult> Login(string email, string password)
         {
+            bool isEmail = Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase);
+            if(!isEmail)
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(new ApplicationDbContext());
+                email = await Task.Run(() => unitOfWork.Accounts.GetUserByPhoneNumber(email).Email);
+            }
+
             var user = await Task.Run(() => UserManager.FindAsync(email, password));
             if (user == null)
             {
