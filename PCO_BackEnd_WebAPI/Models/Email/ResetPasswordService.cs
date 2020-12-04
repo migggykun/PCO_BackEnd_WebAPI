@@ -27,7 +27,7 @@ namespace PCO_BackEnd_WebAPI.Models.Email
             {
                 string code = await userManager.GeneratePasswordResetTokenAsync(user.Id);
                 string idToken = StringManipulationHelper.SetParameter(user.Email, code, user.IsAdmin);
-                string callbackURL = StringManipulationHelper.SetConfirmEmailUrl(idToken, user.IsAdmin);
+                string callbackURL = StringManipulationHelper.SetResetPasswordURL(idToken, user.IsAdmin);
                 string emailBody = EmailTemplate.FormatResetPasswordBody(callbackURL);
                 await userManager.SendEmailAsync(user.Id, EmailTemplate.RESET_PASSWORD_HEADER, emailBody);
             }

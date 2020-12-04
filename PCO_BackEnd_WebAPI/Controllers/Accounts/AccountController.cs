@@ -252,8 +252,18 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         [Route("ResetPassword")]
         public async Task<IHttpActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            var user = await UserManager.FindByEmailAsync(model.Email);
-            
+            ApplicationUser user = null;
+            bool isEmail = Regex.IsMatch(model.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase);
+            if (!isEmail)
+            {
+                UnitOfWork unitOfWork = new UnitOfWork(new ApplicationDbContext());
+                user = await Task.Run(() => unitOfWork.Accounts.GetUserByPhoneNumber(model.Email));
+            }
+            else
+            {
+                user = await UserManager.FindByEmailAsync(model.Email);
+            }
+                  
             if (user == null)
             {
                 return NotFound();
