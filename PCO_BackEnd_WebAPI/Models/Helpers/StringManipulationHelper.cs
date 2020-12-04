@@ -100,7 +100,7 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
             }
             else
             {
-                return string.Format("{0}/{1}", resetPasswordBaseURLClient, token);
+                return string.Format("{0}?{1}", resetPasswordBaseURLClient, token);
             }
         }
 
