@@ -26,9 +26,9 @@ namespace PCO_BackEnd_WebAPI.Models.Attendances
 
         public DateTime? TimeOut { get; set; }
 
-        public double Amount { get; set; }
+        public double? Amount { get; set; }
 
-        public double Discount { get; set; }
+        public double? Discount { get; set; }
 
         public string RegistrationStatus { get; set; }
 

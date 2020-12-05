@@ -273,8 +273,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
                                 reportItem.isBundle = r.IsBundle;
                                 UserInfo ui = unitOfWork.UserInfos.Get(r.UserId);
                                 PRCDetail prc = unitOfWork.PRCDetails.GetPRCDetailById(r.UserId.ToString());
-                                reportItem.Amount = r.Amount.Value;
-                                reportItem.Discount = r.Discount.Value;
+                                reportItem.Amount = r.Amount;
+                                reportItem.Discount = r.Discount;
                                 reportItem.RegistrationStatus = regStatus[r.RegistrationStatusId];
                                 reportItem.UserId = r.UserId;
                                 reportItem.UserName = ui.FirstName + " " + ui.LastName;
@@ -293,8 +293,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
                         reportItem.isBundle = r.IsBundle;
                         UserInfo ui = unitOfWork.UserInfos.Get(r.UserId);
                         PRCDetail prc = unitOfWork.PRCDetails.Get(r.UserId);
-                        reportItem.Amount = r.Amount.Value;
-                        reportItem.Discount = r.Discount.Value;
+                        reportItem.Amount = r.Amount;
+                        reportItem.Discount = r.Discount;
                         reportItem.RegistrationStatus = regStatus[r.RegistrationStatusId];
                         reportItem.UserId = r.UserId;
                         reportItem.UserName = ui.FirstName + " " + ui.LastName;
