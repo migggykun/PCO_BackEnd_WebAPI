@@ -58,7 +58,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 
 		public override void Add(Payment payment)
 		{
-			//Set details
+			//Set details       
             SetPaymentDetails(payment);
 			appDbContext.Payments.Add(payment);
 		}

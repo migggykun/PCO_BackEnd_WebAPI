@@ -122,7 +122,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                     //Convert receipt image to bytes
                     ImageManager receiptManager = new ImageManager(paymentDTO.ProofOfPayment);
                     payment.Receipt = new Receipt();
-                    payment.Receipt.Id = payment.RegistrationId;
+                    payment.Receipt.Id = payment.Id;
                     payment.Receipt.Image = receiptManager.GetAdjustedSizeInBytes();
                 }
 
@@ -130,16 +130,18 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                 await Task.Run(() => unitOfWork.Payments.Add(payment));
                 await Task.Run(() => unitOfWork.Complete());
 
+                var resultDTO = Mapper.Map<Payment, ResponsePaymentDTO>(payment);
+
                 //Convert to DTO
-                if(string.Compare(paymentDTO.paymentType, "registration",true) == 0)
-                {
-                    registration = unitOfWork.Registrations.Get(payment.refId);
+                if(string.Compare(paymentDTO.paymentType, "registration",true) == 0 && payment.RegistrationId != null)
+                {             
+                    registration = unitOfWork.Registrations.Get((int)payment.RegistrationId);
                     user = unitOfWork.UserInfos.Get(registration.UserId);
                     conference = registration.Conference;
+                    resultDTO = PaymentMapper.MapToResponsePaymentDTO(payment, conference, user, registration == null ? (int?)registration.RegistrationStatusId : null);
                 }
-                var resultDTO = PaymentMapper.MapToResponsePaymentDTO(payment, conference, user, registration == null ? (int?)registration.RegistrationStatusId : null);
-
-                return Created(new Uri(Request.RequestUri + "/" + payment.RegistrationId), resultDTO);
+               
+                return Created(new Uri(Request.RequestUri + "/" + payment.Id), resultDTO);
             }
             catch (Exception ex)
             {
@@ -184,9 +186,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
 
 
                     //Convert to DTO
-                    if (string.Compare(paymentDTO.paymentType, "registration", true) == 0)
+                    if (string.Compare(paymentDTO.paymentType, "registration", true) == 0 && newPayment.RegistrationId != null)
                     {
-                        registration = unitOfWork.Registrations.Get(result.refId);
+                        registration = unitOfWork.Registrations.Get((int)result.RegistrationId);
                         user = unitOfWork.UserInfos.Get(registration.UserId);
                         conference = registration.Conference;
                     }
