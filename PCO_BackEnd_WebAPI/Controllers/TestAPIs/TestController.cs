@@ -164,7 +164,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.TestAPIs
                     AmountPaid = 1200,
                     TransactionNumber = "ABCD",
                     PaymentSubmissionDate = DateTime.Now,
-                    refId = 10088,
+                    //refRegistrationId = 10088,
                     paymentType = "membership"
                 };
 

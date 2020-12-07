@@ -99,8 +99,12 @@ namespace PCO_BackEnd_WebAPI.App_Start
             Mapper.CreateMap<MemberRegistration, ResponseMemberRegistrationDTO>();
             Mapper.CreateMap<MemberRegistration, ResponseListMemberRegistrationDTO>();
             Mapper.CreateMap<ApplicationUser, ResponseAccountDTO>();
-            Mapper.CreateMap<AddPaymentDTO, Payment>().ForMember(dst => dst.Receipt, src => src.Ignore());
-            Mapper.CreateMap<UpdatePaymentDTO, Payment>().ForMember(dst => dst.Receipt, src => src.Ignore());
+            Mapper.CreateMap<AddPaymentDTO, Payment>().ForMember(dst => dst.Receipt, src => src.Ignore())
+                                                      .ForMember(dst => dst.UserId, src => src.MapFrom(u => String.Compare(u.paymentType,"membership",true) == 0 ? (int?)u.refId : null))
+                                                      .ForMember(dst => dst.RegistrationId, src => src.MapFrom(u => String.Compare(u.paymentType,"registration",true) == 0 ? (int?)u.refId : null));
+            Mapper.CreateMap<UpdatePaymentDTO, Payment>().ForMember(dst => dst.Receipt, src => src.Ignore())
+                                                      .ForMember(dst => dst.UserId, src => src.MapFrom(u => String.Compare(u.paymentType, "membership", true) == 0 ? (int?)u.refId : null))
+                                                      .ForMember(dst => dst.RegistrationId, src => src.MapFrom(u => String.Compare(u.paymentType, "registration", true) == 0 ? (int?)u.refId : null));
             Mapper.CreateMap<Payment, ResponsePaymentDTO>();
             Mapper.CreateMap<RequestActivitiesToAttendDTO, ActivitiesToAttend>();
             Mapper.CreateMap<ActivitiesToAttend, ResponseActivitiesToAttendDTO>();
