@@ -95,10 +95,22 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             {
                 
                 await Task.Run(() => unitOfWork.Members.Add(member));
-                
-                ApplicationUser updateMembership = await Task.Run(() => unitOfWork.Accounts.UserManager.FindByIdAsync(userId));
+
+                ApplicationUser updateMembership = new ApplicationUser();
+                ApplicationUser getMember = await Task.Run(() => unitOfWork.Accounts.UserManager.FindByIdAsync(userId));
+
+                var propInfo = getMember.GetType().GetProperties();
+                foreach (var item in propInfo)
+                {
+                    if (item.CanWrite)
+                    {
+                        updateMembership.GetType().GetProperty(item.Name).SetValue(updateMembership, item.GetValue(getMember, null), null);
+                    }
+                }
+                updateMembership.Id = getMember.Id;
                 updateMembership.IsActive = true;
                 updateMembership.IsMember = true;
+                updateMembership.UserInfo.Address = getMember.UserInfo.Address;
                 if(updateMembership.UserInfo.MembershipTypeId!=3) updateMembership.UserInfo.MembershipTypeId = 1; //default value for associate Member (1). Student (3)
                 await Task.Run(()=>unitOfWork.Accounts.UpdateAccount(userId, updateMembership));
                 
