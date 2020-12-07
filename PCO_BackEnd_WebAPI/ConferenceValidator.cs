@@ -11,9 +11,10 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
         {
         "Invalid date in conference day. Must be within conference date range",
         "Invalid time schedule in conference acitivity",
-        "Invalid date. Conference day's date is already taken!"
+        "Invalid date. Conference day's date is already taken!",
+        "Cannot update multiple conferences at the same time."
         };
-        public static bool IsValidSchedule(Conference conference, out string message)
+        public static bool IsValidSchedule(Conference conference, out string message, int id = -1)
         {
             message = string.Empty;
 
@@ -31,6 +32,12 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
 
             foreach (var conferenceDay in conference.ConferenceDays)
             {
+                if(id != -1 && id != conferenceDay.ConferenceId)
+                {
+                    message = errorMessage[3];
+                    return false;
+                }
+
                 if ((conference.Start <= conferenceDay.Date &&
                    conference.End >= conferenceDay.Date))
                 {
