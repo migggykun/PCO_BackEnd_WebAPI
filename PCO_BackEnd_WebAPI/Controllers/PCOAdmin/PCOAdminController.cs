@@ -60,7 +60,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         public async Task<IHttpActionResult> SetPassword(string newPassword)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = await Task.Run(() => unitOfWork.PCOAdminDetail.UpdatePCOAdminDetails(null, newPassword));
+            var result = await Task.Run(() => unitOfWork.PCOAdminDetail.UpdatePCOAdminDetails(null,newPassword));
+            await Task.Run(() => unitOfWork.Complete());
             return Ok(result);
         }
 
