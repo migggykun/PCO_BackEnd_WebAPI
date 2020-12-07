@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Http;
+using PCO_BackEnd_WebAPI.Models.AccountBindingModels;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Mail
 {
@@ -50,16 +51,36 @@ namespace PCO_BackEnd_WebAPI.Controllers.Mail
         /// </remarks>
         [HttpPost]
         [Route("SendEmail")]
-        public async Task<IHttpActionResult> SendEmail(List<int> userIDs, string header, string body)
+        public async Task<IHttpActionResult> SendEmail(CustomEmailBindingModel email)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             UnitOfWork unitOfWork = new UnitOfWork(_context);
             EmailService es = new EmailService();
-            var users = await Task.Run(() => unitOfWork.Accounts.UserManager.Users.Where(u => userIDs.Any(uid => u.Id == uid)));
+            var users = await Task.Run(() => unitOfWork.Accounts.UserManager.Users.Where(u => email.UserIds.Any(uid => u.Id == uid)));
+            string messageTemplate = string.Empty;
+
+
+            if (users.Count<ApplicationUser>() == 0)
+            {
+                string errorMessage = "User Ids do not exist";
+                return BadRequest(errorMessage);
+            }
+
+            if (email.UserIds.Count != users.Count<ApplicationUser>())
+            {
+                string errorMessage = "Some user Ids do not exist";
+                return BadRequest(errorMessage);
+            }
+
             foreach (var u in users)
             {
                 IdentityMessage im = new IdentityMessage();
-                im.Subject = header;
-                im.Body = FormatBody(u.UserInfo, header, body);
+                im.Subject = email.Header;
+                im.Body = FormatBody(u.UserInfo, email.Header, email.Body);
                 im.Destination = (u.Email);
                 await es.SendAsync(im);
                 //await unitOfWork.Accounts.UserManager.SendEmailAsync(u.Id, subject, body);

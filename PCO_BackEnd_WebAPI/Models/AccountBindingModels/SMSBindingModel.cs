@@ -14,7 +14,7 @@ namespace PCO_BackEnd_WebAPI.Models.AccountBindingModels
         
         [Required]
         [Display(Name = "Message")]
-        [StringLength(160, ErrorMessage = "{0}'s maximum length is {1}.")]
+        [StringLength(512, ErrorMessage = "{0}'s maximum length is {1}.")]
         public string Message { get; set; }
     }
 }

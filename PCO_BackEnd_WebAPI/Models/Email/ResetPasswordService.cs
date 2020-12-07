@@ -1,4 +1,6 @@
-﻿using PCO_BackEnd_WebAPI.Models.Helpers;
+﻿using Microsoft.AspNet.Identity;
+using PCO_BackEnd_WebAPI.App_Start;
+using PCO_BackEnd_WebAPI.Models.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,8 +31,18 @@ namespace PCO_BackEnd_WebAPI.Models.Email
                 string idToken = StringManipulationHelper.SetParameter(user.Email, code, user.IsAdmin);
                 string callbackURL = StringManipulationHelper.SetResetPasswordURL(idToken, user.IsAdmin);
                 string emailBody = EmailTemplate.FormatResetPasswordBody(callbackURL);
-                await userManager.SendEmailAsync(user.Id, EmailTemplate.RESET_PASSWORD_HEADER, emailBody);
+                await SendEmailAsync(user.Email, EmailTemplate.RESET_PASSWORD_HEADER, emailBody);
             }
+        }
+
+        private async Task SendEmailAsync(string email, string header, string body)
+        {
+            EmailService es = new EmailService();
+            IdentityMessage im = new IdentityMessage();
+            im.Subject = header;
+            im.Body = body;
+            im.Destination = email;
+            await es.SendAsync(im);
         }
     }
 }
