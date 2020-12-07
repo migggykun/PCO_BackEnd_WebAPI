@@ -22,7 +22,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Registrations
         public DateTime PaymentSubmissionDate { get; set; }
 
         [Required]
-        public int AmountPaid { get; set; }
+        public double AmountPaid { get; set; }
 
         public string ConfirmationDate { get; set; }
 
