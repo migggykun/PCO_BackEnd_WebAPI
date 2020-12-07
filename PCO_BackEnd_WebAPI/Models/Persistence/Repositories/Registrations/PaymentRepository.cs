@@ -58,14 +58,14 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 
 		public override void Add(Payment payment)
 		{
-			//Set details       
+			//Set details
             SetPaymentDetails(payment);
 			appDbContext.Payments.Add(payment);
 		}
 
 		public void UpdatePayment(Payment oldPayment, Payment newPayment, string base64Image)
 		{
-            if (!string.IsNullOrEmpty(base64Image))
+            if (string.IsNullOrEmpty(base64Image))
             {
                 var receipt = appDbContext.Receipts.Find(oldPayment.RegistrationId);
                 receipt.Image = new ImageManager(base64Image).GetAdjustedSizeInBytes();

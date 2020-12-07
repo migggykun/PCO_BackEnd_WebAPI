@@ -26,20 +26,7 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
                 {
                     int index = resultDTO.Results.ToList().FindIndex(x => x.RegistrationId == r.RegistrationId);
                     var userInfo = userInfos.First(x => x.Id == r.Registration.UserId);
-                    Conference conference = null;
-                    foreach (Conference c in conferences)
-                    {
-                        if (c == null)
-                        {
-                            continue;
-                        }
-
-                        if (c.Id == r.Registration.ConferenceId)
-                        {
-                            conference = c;
-                            break;
-                        }
-                    }
+                    var conference = conferences.First(x => x.Id == r.Registration.ConferenceId);
                     var payment = resultDTO.Results[index];
                     resultDTO.Results[index] = MapToResponsePaymentDTO(r, conference, userInfo, r.Registration.RegistrationStatusId);
                 }
