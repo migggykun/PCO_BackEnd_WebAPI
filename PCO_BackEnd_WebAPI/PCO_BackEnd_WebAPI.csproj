@@ -265,6 +265,7 @@
     <Compile Include="Controllers\Images\ImageController.cs" />
     <Compile Include="Controllers\Messages\EmailController.cs" />
     <Compile Include="Controllers\Messages\SMSController.cs" />
+    <Compile Include="Controllers\PCOAdmin\PCOAdminController.cs" />
     <Compile Include="Controllers\Registrations\MemberRegistrations\MemberRegistrationController.cs" />
     <Compile Include="Controllers\Registrations\PaymentController.cs" />
     <Compile Include="Controllers\Registrations\RegistrationController.cs" />

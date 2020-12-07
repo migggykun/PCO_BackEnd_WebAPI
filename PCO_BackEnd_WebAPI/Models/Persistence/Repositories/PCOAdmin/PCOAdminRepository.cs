@@ -26,12 +26,21 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.PCOAdmin
             return appDbContext.PCOAdminDetails.FirstOrDefault().WebsitePassword;
         }
 
-        public PCOAdminDetail UpdatePCOAdminDetails(float? price = null, string password = null)
+        public PCOAdminDetail UpdatePCOAdminDetails(double? price = null, string password = null)
         {
+            PCOAdminDetail update = new PCOAdminDetail();
             if (price == null && password == null) return null;
-            PCOAdminDetail update = appDbContext.PCOAdminDetails.FirstOrDefault();
-            if (price != null) update.AnnualMembershipFee = price.Value;
-            if (password != null) update.WebsitePassword = password;
+            if (price != null)
+            {
+                update.AnnualMembershipFee = price.Value;
+                update.WebsitePassword = appDbContext.PCOAdminDetails.FirstOrDefault().WebsitePassword;
+            }
+            if (password != null)
+            {
+                update.WebsitePassword = password;
+                update.AnnualMembershipFee = appDbContext.PCOAdminDetails.FirstOrDefault().AnnualMembershipFee;
+            }
+            update.Id = appDbContext.PCOAdminDetails.FirstOrDefault().Id;
             return appDbContext.UpdateGraph<PCOAdminDetail>(update);
         }
 
