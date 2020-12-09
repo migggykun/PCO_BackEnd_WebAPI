@@ -138,7 +138,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
 
             var conference = Mapper.Map<UpdateConferenceDTO, Conference>(conferenceDTO);
             string errorMessage = string.Empty;
-            bool isValidSchedule = ConferenceValidator.IsValidSchedule(conference, out errorMessage);
+            bool isValidSchedule = ConferenceValidator.IsValidSchedule(conference, out errorMessage,id);
 
             if(isValidSchedule == false)
             {
