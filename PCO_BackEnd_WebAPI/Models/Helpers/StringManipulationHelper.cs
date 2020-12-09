@@ -1,6 +1,7 @@
 ﻿using PCO_BackEnd_WebAPI.Controllers;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 
@@ -8,17 +9,17 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
 {
     public static class StringManipulationHelper
     {
-        private const string baseAdminAddress = "https://stgadmin.philippineoptometry.org/#";
-        private const string baseClientAddress = "https://philippineoptometry.org";
-        private const string confirmEmailPage = "/confirm-email";
-        private const string confirmPhonePage = "/confirm-phone";
-        private const string resetPasswordPage = "/reset-password";
-        private const string confirmEmailBaseURLAdmin = baseAdminAddress + confirmEmailPage;
-        private const string resetPasswordBaseURLAdmin = baseAdminAddress + resetPasswordPage;
-        private const string confirmEmailBaseURLClient = baseClientAddress + confirmEmailPage;
-        private const string resetPasswordBaseURLClient = baseClientAddress + resetPasswordPage;
-        private const string confirmPhoneBaseURLAdmin = baseAdminAddress + confirmPhonePage;
-        private const string confirmPhoneBaseURLClient = baseClientAddress + confirmPhonePage;
+        private static string baseAdminAddress = ConfigurationManager.AppSettings["adminURL"];
+        private static string baseClientAddress = ConfigurationManager.AppSettings["clientURL"];
+        private static string confirmEmailPage = "/confirm-email";
+        private static string confirmPhonePage = "/confirm-phone";
+        private static string resetPasswordPage = "/reset-password";
+        private static string confirmEmailBaseURLAdmin = baseAdminAddress + confirmEmailPage;
+        private static string resetPasswordBaseURLAdmin = baseAdminAddress + resetPasswordPage;
+        private static string confirmEmailBaseURLClient = baseClientAddress + confirmEmailPage;
+        private static string resetPasswordBaseURLClient = baseClientAddress + resetPasswordPage;
+        private static string confirmPhoneBaseURLAdmin = baseAdminAddress + confirmPhonePage;
+        private static string confirmPhoneBaseURLClient = baseClientAddress + confirmPhonePage;
 
         /// <summary>
         /// Use in encryption formula. To be added in UserID
@@ -40,16 +41,9 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
             }
         }
 
-        public static string SetParameterPhone(string phone, string token, bool isAdmin)
+        public static string SetParameterPhone(string phone, string token)
         {
-            if (isAdmin)
-            {
-                return string.Format("{0}/{1}", phone, HttpUtility.UrlEncode(token, System.Text.Encoding.UTF8));
-            }
-            else
-            {
-                return string.Format("phoneNumber={0}&token={1}", phone, HttpUtility.UrlEncode(token, System.Text.Encoding.UTF8));
-            }
+            return string.Format("phoneNumber={0}&token={1}", phone, HttpUtility.UrlEncode(token, System.Text.Encoding.UTF8));
         }
 
         public static string ConvertToHyperLink(string link)
@@ -69,16 +63,9 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
             }
         }
 
-        public static string SetConfirmPhoneURL(string token, bool isAdmin)
+        public static string SetConfirmPhoneURL(string token)
         {
-            if (isAdmin)
-            {
-                return string.Format("{0}/{1}", confirmPhoneBaseURLAdmin, token);
-            }
-            else
-            {
-                return string.Format("{0}?{1}", confirmPhoneBaseURLClient, token);
-            }
+            return string.Format("{0}?{1}", confirmPhoneBaseURLClient, token);
         }
 
         public static string DecodeCodeToEmailToken(string code)

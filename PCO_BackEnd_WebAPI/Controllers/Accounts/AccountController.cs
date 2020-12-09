@@ -198,8 +198,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             if (emailClassification == (int)SMSClassification.CONFIRM_PHONE)
             {
                 string code = await UserManager.GenerateChangePhoneNumberTokenAsync(id, user.PhoneNumber);
-                string idToken = StringManipulationHelper.SetParameterPhone(user.PhoneNumber, code, user.IsAdmin);
-                string callbackURL = StringManipulationHelper.SetConfirmPhoneURL(idToken, user.IsAdmin);
+                string idToken = StringManipulationHelper.SetParameterPhone(user.PhoneNumber, code);
+                string callbackURL = StringManipulationHelper.SetConfirmPhoneURL(idToken);
 
                 var message = "Congratulations <fname> <lname>! To Complete your registration, please confirm your Account by clicking the link: " + callbackURL;
                 await SendSMSAsync(id, user.PhoneNumber, message);

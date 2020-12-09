@@ -20,6 +20,7 @@ namespace PCO_BackEnd_WebAPI.App_Start
             var credentialUserName = ConfigurationManager.AppSettings["FromEmail"];
             var sentFrom = ConfigurationManager.AppSettings["FromEmail"];
             var pwd = ConfigurationManager.AppSettings["password"];
+            var senderName = ConfigurationManager.AppSettings["senderName"];
 
             // Configure the client:
             System.Net.Mail.SmtpClient client =
@@ -37,9 +38,9 @@ namespace PCO_BackEnd_WebAPI.App_Start
             client.Credentials = credentials;
 
             // Create the message:
-            var mail =
-                new System.Net.Mail.MailMessage(sentFrom, message.Destination);
-
+            MailAddress from = new MailAddress(sentFrom, senderName);
+            MailAddress to = new MailAddress(message.Destination);
+            MailMessage mail = new MailMessage(from, to);
 
             mail.IsBodyHtml = true;
             mail.Subject = message.Subject;
