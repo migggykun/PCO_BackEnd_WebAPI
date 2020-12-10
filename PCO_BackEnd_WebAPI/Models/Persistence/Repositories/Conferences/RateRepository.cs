@@ -74,7 +74,14 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
             }
 
             //Delete data not in collection
-            var ratesIdFromDbList = appDbContext.Rates.Where(x => x.conferenceId == cId && x.conferenceActivityId == null).ToList();
+            List<Rate> ratesIdFromDbList = new List<Rate>();
+            foreach (var rate in appDbContext.Rates)
+            {
+                if(rate.conferenceId == cId && rate.conferenceActivityId == null)
+                {
+                    ratesIdFromDbList.Add(rate);
+                }
+            }
 
             List<Rate> ratesToDelete = ratesIdFromDbList.Except(rates, new GenericEqualityComparer<Rate>()).ToList();
             appDbContext.Rates.RemoveRange(ratesToDelete);

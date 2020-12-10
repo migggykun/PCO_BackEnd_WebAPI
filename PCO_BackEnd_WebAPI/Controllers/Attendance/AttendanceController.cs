@@ -67,7 +67,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
                     {
                         ConferenceActivityId = conferenceActivityId,
                         UserId = registration.UserId,
-                        TimeIn = DateTime.Now
+                        TimeIn = attendance.TimeIn == null ? DateTime.Now : attendance.TimeIn
                     };
                     var result = newAttendance;
                     await Task.Run(() => unitOfWork.ActivityAttendances.Add(newAttendance));
@@ -213,7 +213,10 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
 
             //get conference
             Conference conference = unitOfWork.Conferences.Get(conferenceId);
-
+            if(conference == null)
+            {
+                return null;
+            }
             foreach (var cd in conference.ConferenceDays)
             {
                 foreach (var ca in cd.ConferenceActivities)
@@ -255,7 +258,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
 
             //get registrations + attendance for conferenceactivity
             IEnumerable<Registration> regs = unitOfWork.Registrations.GetAll();
-            List<Registration> registrations;
+            List<Registration> registrations = new List<Registration>();
             if (regs.Count() > 0){ 
                 registrations = regs.Where(x => x.ConferenceId == conferenceId).ToList();
 
@@ -280,8 +283,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
                                 reportItem.UserName = ui.FirstName + " " + ui.LastName;
                                 if (prc != null) reportItem.PRCId = prc.IdNumber;
                                 if (prc != null) reportItem.PRCExpiration = prc.ExpirationDate;
-                                if (aa != null) reportItem.TimeIn = aa.TimeIn.Value;
-                                if (aa != null) reportItem.TimeOut = aa.TimeOut.Value;
+                                if (aa != null) reportItem.TimeIn = aa.TimeIn;
+                                if (aa != null) reportItem.TimeOut = aa.TimeOut;
                                 ActivityAttendanceReport.Add(reportItem);
                             }
                         }
@@ -300,8 +303,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
                         reportItem.UserName = ui.FirstName + " " + ui.LastName;
                         if (prc != null) reportItem.PRCId = prc.IdNumber;
                         if (prc != null) reportItem.PRCExpiration = prc.ExpirationDate;
-                        if (aa != null) reportItem.TimeIn = aa.TimeIn.Value;
-                        if (aa != null) reportItem.TimeOut = aa.TimeOut.Value;
+                        if (aa != null) reportItem.TimeIn = aa.TimeIn;
+                        if (aa != null) reportItem.TimeOut = aa.TimeOut;
                         ActivityAttendanceReport.Add(reportItem);
                     }
                 } 
