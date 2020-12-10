@@ -61,6 +61,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
         {
           conference.Id = id;
           conference.Rates.ToList().ForEach(x => x.conferenceId = id);
+          conference.ConferenceDays.ToList().ForEach(x => x.ConferenceActivities.ToList().ForEach(y => y.ActivityRates.ToList().ForEach(z => z.conferenceId = id)));
 
           //Update banner
           var banner = appDbContext.Banners.Find(id);

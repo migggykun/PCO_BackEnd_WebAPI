@@ -32,7 +32,7 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
 
             foreach (var conferenceDay in conference.ConferenceDays)
             {
-                if(id != -1 && id != conferenceDay.ConferenceId)
+                if(id != -1 && id != conferenceDay.ConferenceId && conferenceDay.ConferenceId!=0)
                 {
                     message = errorMessage[3];
                     return false;
