@@ -56,8 +56,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                                                                                    aConfirmationDateFrom,
                                                                                    aConfirmationDateTo));
 
-            var users = result.Results.Select(x => unitOfWork.UserInfos.Get(String.Compare(x.paymentType,"registration",true) == 0? x.Registration.UserId : (int)x.UserId));
-            var conferences = result.Results.Select(x => String.Compare(x.paymentType,"registration",true) == 0? unitOfWork.Conferences.Get(x.Registration.ConferenceId) : null);
+            var users = result.Results.Select(x => unitOfWork.UserInfos.Get(String.Compare(x.paymentType.Trim().ToLower(),"membership",true) == 0? (int)x.UserId: x.Registration.UserId));
+            var conferences = result.Results.Select(x => String.Compare(x.paymentType.Trim().ToLower(), "registration",true) == 0? unitOfWork.Conferences.Get(x.Registration.ConferenceId) : null);
 
             var resultDTO =  PaymentMapper.MapToPagedResponsePaymentDTO(result, conferences, users);
 
@@ -94,6 +94,48 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                
                 return Ok(resultDTO);
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="registrationId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [ResponseType(typeof(ResponsePaymentDTO))]
+        [Route("api/GetRegistrationPayment/{registrationId}")]
+        public async Task<IHttpActionResult> GetRegistrationPayment(int registrationId)
+        {
+            UnitOfWork unitOfWork = new UnitOfWork(_context);
+            var result = await Task.Run(() => unitOfWork.Payments.Find(x=>x.RegistrationId==registrationId).FirstOrDefault());
+            if (result == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                var activity = Mapper.Map<Payment, ResponsePaymentDTO>(result);
+                return Ok(activity);
+            }
+        }
+
+        /// <summary>
+        /// Gets list of Registration
+        /// </summary>
+        /// <param name="page">nth page of list. Default value: 1</param>
+        /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
+        /// <returns></returns>
+        [HttpGet]
+        [ResponseType(typeof(ResponsePaymentDTO))]
+        [Route("api/GetMemberPayments/{userId}")]
+        public async Task<IHttpActionResult> GetMemberPayments(int userId)
+        {
+            UnitOfWork unitOfWork = new UnitOfWork(_context);
+            var result = await Task.Run(() => unitOfWork.Payments.GetPagedPayments(userId));
+
+            var resultDTO = PaginationMapper<Payment, ResponsePaymentDTO>.MapResult(result);
+
+            return Ok(resultDTO);
         }
 
         /// <summary>

@@ -163,6 +163,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 }
                 else
                 {
+                    Payment paymentToDelete = await Task.Run(() => unitOfWork.Payments.Find(x => x.RegistrationId == id).FirstOrDefault());
+                    await Task.Run(() => unitOfWork.Payments.Remove(paymentToDelete));
                     await Task.Run(() => unitOfWork.Registrations.Remove(conferenceRegistration));
                     await Task.Run(() => unitOfWork.Complete());
                     return Ok();

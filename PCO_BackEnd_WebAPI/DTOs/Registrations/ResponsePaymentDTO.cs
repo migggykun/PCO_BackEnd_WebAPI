@@ -13,6 +13,9 @@ namespace PCO_BackEnd_WebAPI.DTOs.Registrations
     public class ResponsePaymentDTO
     {
         [Required]
+        public int Id{ get; set; }
+
+        [Required]
         public int RegistrationId { get; set; }
 
         [Required]

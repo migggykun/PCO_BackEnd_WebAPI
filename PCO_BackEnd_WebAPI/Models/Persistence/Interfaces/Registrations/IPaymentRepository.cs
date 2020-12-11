@@ -20,5 +20,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Registrations
                                              DateTime? aPaymentSubmissionDateTo,
                                              DateTime? aConfirmationDateFrom,
                                              DateTime? aConfirmationDateTo);
+        PageResult<Payment> GetPagedPayments(int userId);
     }
 }
+
