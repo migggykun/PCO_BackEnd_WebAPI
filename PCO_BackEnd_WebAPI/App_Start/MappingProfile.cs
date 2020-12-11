@@ -105,7 +105,7 @@ namespace PCO_BackEnd_WebAPI.App_Start
             Mapper.CreateMap<UpdatePaymentDTO, Payment>().ForMember(dst => dst.Receipt, src => src.Ignore())
                                                       .ForMember(dst => dst.UserId, src => src.MapFrom(u => String.Compare(u.paymentType, "membership", true) == 0 ? (int?)u.refId : null))
                                                       .ForMember(dst => dst.RegistrationId, src => src.MapFrom(u => String.Compare(u.paymentType, "registration", true) == 0 ? (int?)u.refId : null));
-            Mapper.CreateMap<Payment, ResponsePaymentDTO>();
+            Mapper.CreateMap<Payment, ResponsePaymentDTO>().ForMember(dst => dst.refId, src => src.MapFrom(u => String.Compare(u.paymentType, "membership", true) == 0 ? (int)u.UserId : String.Compare(u.paymentType, "registration", true) == 0 ? (int)u.RegistrationId : 0));
             Mapper.CreateMap<RequestActivitiesToAttendDTO, ActivitiesToAttend>();
             Mapper.CreateMap<ActivitiesToAttend, ResponseActivitiesToAttendDTO>();
 
