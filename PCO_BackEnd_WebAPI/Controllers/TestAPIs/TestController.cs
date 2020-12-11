@@ -106,8 +106,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.TestAPIs
                     {
                         Id = 0,
                         ActivityId = 1,
-                        Start = DateTime.Now.TimeOfDay,
-                        End = DateTime.Now.TimeOfDay
+                        Start = PhTime.Now().TimeOfDay,
+                        End = PhTime.Now().TimeOfDay
                     }
                 };
                 _context.ConferenceActivities.Add(conferenceActivity);
@@ -138,9 +138,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.TestAPIs
                 {
                     Id = 0,
                     ConferenceId = 4,
-                    Date = DateTime.Now,
-                    Start = DateTime.Now.TimeOfDay,
-                    End = DateTime.Now.TimeOfDay
+                    Date = PhTime.Now(),
+                    Start = PhTime.Now().TimeOfDay,
+                    End = PhTime.Now().TimeOfDay
                 };
                 _context.ConferenceDays.Add(conferenceDay);
                 _context.SaveChanges();
@@ -163,7 +163,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.TestAPIs
                 {
                     AmountPaid = 1200,
                     TransactionNumber = "ABCD",
-                    PaymentSubmissionDate = DateTime.Now,
+                    PaymentSubmissionDate = PhTime.Now(),
                     //refRegistrationId = 10088,
                     paymentType = "membership"
                 };

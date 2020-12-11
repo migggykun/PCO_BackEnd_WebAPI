@@ -367,7 +367,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 PRCDetail = Mapper.Map<RequestPRCDetailDTO, PRCDetail>(model.PrcDetail),
                 UserInfo = Mapper.Map<RequestUserInfoDTO, UserInfo>(model.UserInfo),
                 IsAdmin = model.IsAdmin,
-                MemberSince = DateTime.Now.Date,
+                MemberSince = DateTime.UtcNow.Date,
                 IsActive = false,
                 IsMember = false
             };

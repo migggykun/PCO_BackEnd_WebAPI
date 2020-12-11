@@ -14,6 +14,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using PCO_BackEnd_WebAPI.Models.Helpers;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Attendance
 {
@@ -67,8 +68,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
                     {
                         ConferenceActivityId = conferenceActivityId,
                         UserId = registration.UserId,
-                        TimeIn = attendance.TimeIn == null ? DateTime.Now : attendance.TimeIn
+                        TimeIn = attendance.TimeIn == null ? PhTime.Now() : attendance.TimeIn
                     };
+
                     var result = newAttendance;
                     await Task.Run(() => unitOfWork.ActivityAttendances.Add(newAttendance));
                     await Task.Run(() => unitOfWork.Complete());
@@ -129,7 +131,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
                     {
                         ConferenceActivityId = conferenceActivityId,
                         UserId = registration.UserId,
-                        TimeOut = DateTime.Now
+                        TimeOut = PhTime.Now()
                     };
                     var result = newAttendance;
                     await Task.Run(() => unitOfWork.ActivityAttendances.Add(newAttendance));

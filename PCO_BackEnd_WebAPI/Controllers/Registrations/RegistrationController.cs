@@ -17,6 +17,7 @@ using System.Web.Http.Description;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.DTOs.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Conferences;
+using PCO_BackEnd_WebAPI.Models.Helpers;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
@@ -259,7 +260,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             {
                 var start = promo.Start;
                 var end = promo.End;
-                var today = DateTime.Now;
+                var today = PhTime.Now();
                 if (today >= start && today <= end && IsPromoMemberExists)
                 {
                     registrationFee = new RegistrationFeeDTO

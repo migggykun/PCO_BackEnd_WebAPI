@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PCO_BackEnd_WebAPI.Models.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,7 +19,7 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
         {
             UserId = userId;
             IsActive = true;
-            MemberSince = DateTime.Now;
+            MemberSince = PhTime.Now();
         }
 
         public int Id { get; set; }
