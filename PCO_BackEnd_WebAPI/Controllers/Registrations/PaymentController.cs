@@ -93,8 +93,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                 }
                 else if(string.Compare(result.paymentType, "membership",true) ==0)
                 {
-                    var membershipRegistration = unitOfWork.MemberRegistrations.Find(x => x.Id == id).FirstOrDefault();
-                    user = unitOfWork.UserInfos.Get(membershipRegistration.UserId);
+                    var membershipRegistration = unitOfWork.MemberRegistrations.Find(x => x.Id == result.MemberRegistrationId).FirstOrDefault();
+                    if(membershipRegistration!=null)user = unitOfWork.UserInfos.Get(membershipRegistration.UserId);
                     resultDTO = PaymentMapper.MapToResponsePaymentDTO(result, null, user, membershipRegistration != null ? (int?)membershipRegistration.MemberRegistrationStatusId : null, membershipRegistration !=null ? (int?)membershipRegistration.Id : null);
                 }
                 else

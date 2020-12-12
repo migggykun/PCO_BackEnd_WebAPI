@@ -56,7 +56,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             var result = await Task.Run(() => unitOfWork.Members.GetMemberByUserId(userId));
             if (result == null)
             {
-                return NotFound();
+                return Ok(result);
             }
             else
             {
@@ -135,7 +135,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <returns></returns>
         [HttpPost]
         [Route("api/UpdateMember/")]
-        public async Task<IHttpActionResult> UpdateMember(int userId, RequestMemberDTO memberDTO)
+        public async Task<IHttpActionResult> UpdateMember(RequestMemberDTO memberDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -147,19 +147,21 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
-                var result = await Task.Run(() => unitOfWork.Members.Find(x=>x.UserId == userId).ToList()[0]);
+                var result = await Task.Run(() => unitOfWork.Members.Find(x=>x.UserId == memberDTO.UserId).ToList().FirstOrDefault());
                 if (result == null)
                 {
                     return NotFound();
                 }
                 else
                 {
+                    var membertoUpdate = await Task.Run(() => unitOfWork.Members.GetMemberByUserId(memberDTO.UserId));
+                    member.MemberSince = membertoUpdate.MemberSince;
                     result = await Task.Run(() => unitOfWork.Members.UpdateMember(result.Id, member));
 
-                    ApplicationUser updateMembership = await Task.Run(() => unitOfWork.Accounts.UserManager.FindByIdAsync(userId));
+                    ApplicationUser updateMembership = await Task.Run(() => unitOfWork.Accounts.UserManager.FindByIdAsync(memberDTO.UserId));
                     updateMembership.IsActive = member.IsActive;
                     if (updateMembership.UserInfo.MembershipTypeId != 3) updateMembership.UserInfo.MembershipTypeId = member.IsActive?1:0; //default value for associate Member (1) Non-member (0) Student (3)
-                    await Task.Run(() => unitOfWork.Accounts.UpdateAccount(userId, updateMembership));
+                    await Task.Run(() => unitOfWork.Accounts.UpdateAccount(memberDTO.UserId, updateMembership));
 
                     await Task.Run(() => unitOfWork.Complete());
                     return Ok(Mapper.Map<Member, ResponseMemberDTO>(result));

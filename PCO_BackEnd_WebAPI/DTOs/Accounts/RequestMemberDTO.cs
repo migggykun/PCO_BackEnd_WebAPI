@@ -13,8 +13,5 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
 
         [Required]
         public bool IsActive { get; set; }
-
-        [Required]
-        public DateTime MemberSince { get; set; }
     }
 }

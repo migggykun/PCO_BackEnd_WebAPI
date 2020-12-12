@@ -185,10 +185,10 @@ namespace PCO_BackEnd_WebAPI.Controllers.MemberRegistrations
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
-                await Task.Run(() => unitOfWork.MemberRegistrations.SetRegistrationStatus(model.RegistrationId, model.Status));
+                MemberRegistration result = await Task.Run(() => unitOfWork.MemberRegistrations.SetRegistrationStatus(model.RegistrationId, model.Status));
                 unitOfWork.Complete();
 
-                return Ok();
+                return Ok(result);
             }
             catch (Exception)
             {

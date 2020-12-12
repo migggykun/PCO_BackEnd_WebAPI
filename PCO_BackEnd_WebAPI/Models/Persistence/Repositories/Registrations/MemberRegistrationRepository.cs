@@ -60,17 +60,18 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
             appDbContext.MemberRegistrations.RemoveRange(aMemberRegistrationList);
         }
 
-        public void SetRegistrationStatus(int id, int status)
+        public MemberRegistration SetRegistrationStatus(int id, int status)
         {
             var reg = appDbContext.MemberRegistrations.Find(id);
             reg.MemberRegistrationStatusId = status;
-
+            return reg;
         }
 
         public MemberRegistration GetMemberRegistration(int userId)
         {
+            int archivedValue = 6;
             Expression<Func<MemberRegistration, bool>> predicate;
-            predicate = (x) => x.UserId == userId;
+            predicate = (x) => x.UserId == userId && x.MemberRegistrationStatusId!= archivedValue;
             IQueryable<MemberRegistration> query = appDbContext.MemberRegistrations;
 
             return query.FirstOrDefault(predicate);
