@@ -56,10 +56,10 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                                                                                    aConfirmationDateFrom,
                                                                                    aConfirmationDateTo));
 
-            var users = result.Results.Select(x => unitOfWork.UserInfos.Get(String.Compare(x.paymentType.Trim().ToLower(),"membership",true) == 0? (int)x.UserId: x.Registration.UserId));
+            var users = result.Results.Select(x => unitOfWork.UserInfos.Get(String.Compare(x.paymentType.Trim().ToLower(),"registration",true) == 0? x.Registration.UserId : (int)x.MemberRegistration.UserId));
             var conferences = result.Results.Select(x => String.Compare(x.paymentType.Trim().ToLower(), "registration",true) == 0? unitOfWork.Conferences.Get(x.Registration.ConferenceId) : null);
-
-            var resultDTO =  PaymentMapper.MapToPagedResponsePaymentDTO(result, conferences, users);
+            var membershipRegistrations = unitOfWork.MemberRegistrations.GetAll().Where(m => users.ToList().Find(u => u.Id == m.UserId) != null);
+            var resultDTO =  PaymentMapper.MapToPagedResponsePaymentDTO(result, conferences, users, membershipRegistrations);
 
             return Ok(resultDTO);
         }
@@ -89,7 +89,17 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                 {
                     user = unitOfWork.UserInfos.Get(result.Registration.UserId);
                     conference = unitOfWork.Conferences.Get(result.Registration.ConferenceId);
-                    resultDTO = PaymentMapper.MapToResponsePaymentDTO(result, conference, user, result.Registration == null ? (int?)result.Registration.RegistrationStatusId : null);
+                    resultDTO = PaymentMapper.MapToResponsePaymentDTO(result, conference, user, result.Registration != null ? (int?)result.Registration.RegistrationStatusId : null);
+                }
+                else if(string.Compare(result.paymentType, "membership",true) ==0)
+                {
+                    var membershipRegistration = unitOfWork.MemberRegistrations.Find(x => x.Id == id).FirstOrDefault();
+                    user = unitOfWork.UserInfos.Get(membershipRegistration.UserId);
+                    resultDTO = PaymentMapper.MapToResponsePaymentDTO(result, null, user, membershipRegistration != null ? (int?)membershipRegistration.MemberRegistrationStatusId : null, membershipRegistration !=null ? (int?)membershipRegistration.Id : null);
+                }
+                else
+                {
+                    //do nothing
                 }
                
                 return Ok(resultDTO);
@@ -127,15 +137,20 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponsePaymentDTO))]
-        [Route("api/GetMemberPayments/{userId}")]
-        public async Task<IHttpActionResult> GetMemberPayments(int userId)
+        [Route("api/GetMemberRegistrationPayment/{memberRegistrationId}")]
+        public async Task<IHttpActionResult> GetMemberRegistrationPayment(int memberRegistrationId)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = await Task.Run(() => unitOfWork.Payments.GetPagedPayments(userId));
-
-            var resultDTO = PaginationMapper<Payment, ResponsePaymentDTO>.MapResult(result);
-
-            return Ok(resultDTO);
+            var result = await Task.Run(() => unitOfWork.Payments.Find(x => x.MemberRegistrationId == memberRegistrationId).FirstOrDefault());
+            if (result == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                var activity = Mapper.Map<Payment, ResponsePaymentDTO>(result);
+                return Ok(activity);
+            }
         }
 
         /// <summary>
@@ -170,6 +185,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                 }
 
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
+
                 await Task.Run(() => unitOfWork.Payments.Add(payment));
                 await Task.Run(() => unitOfWork.Complete());
 

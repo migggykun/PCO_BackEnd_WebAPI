@@ -59,7 +59,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 		public PageResult<Payment> GetPagedPayments(int userId)
         {
 			PageResult<Payment> pageResult;
-			IQueryable<Payment> queryResult = appDbContext.Payments.OrderBy(p => p.Id).Where(p => p.UserId == userId);
+			IQueryable<Payment> queryResult = appDbContext.Payments.OrderBy(p => p.Id).Where(p => p.MemberRegistration.UserId == userId);
 
 			pageResult = PaginationManager<Payment>.GetPagedResult(queryResult, 0, 0);
 			return pageResult;

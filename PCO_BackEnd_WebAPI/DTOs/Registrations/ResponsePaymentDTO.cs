@@ -43,6 +43,8 @@ namespace PCO_BackEnd_WebAPI.DTOs.Registrations
 
         public string paymentType { get; set; }
 
+        public int? MemberRegistrationId { get; set; }
+
 
     }
 }

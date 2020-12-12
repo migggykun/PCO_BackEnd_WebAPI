@@ -27,12 +27,11 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
         public int? RegistrationId { get; set; }
         public virtual Registration Registration { get; set; }
 
+        public int? MemberRegistrationId { get; set; }
+        public virtual MemberRegistration MemberRegistration { get; set; }
+
         public string Remarks { get; set; }
 
         public string paymentType { get; set;  }
-        public int? UserId { get; set; }
-        public virtual ApplicationUser User { get; set; }
-    
-
     }
 }

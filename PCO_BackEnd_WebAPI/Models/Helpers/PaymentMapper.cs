@@ -16,38 +16,72 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
 {
     public static class PaymentMapper
     {
-        public static PageResult<ResponsePaymentDTO> MapToPagedResponsePaymentDTO(PageResult<Payment> payments, IEnumerable<Conference> conferences, IEnumerable<UserInfo> userInfos)
+        public static PageResult<ResponsePaymentDTO> MapToPagedResponsePaymentDTO(PageResult<Payment> payments, IEnumerable<Conference> conferences, IEnumerable<UserInfo> userInfos, IEnumerable<MemberRegistration> memberRegistrations)
         {
             string pType = "registration";
+            string mpType = "membership";
             var resultDTO = PaginationMapper<Payment, ResponsePaymentDTO>.MapResult(payments);
-            foreach (var r in payments.Results)
+            foreach (var paymentResult in payments.Results)
             {
-                if (string.Compare(r.paymentType, pType, true) == 0)
+                if (string.Compare(paymentResult.paymentType, pType, true) == 0)
                 {
-                    int index = resultDTO.Results.ToList().FindIndex(x => x.RegistrationId == r.RegistrationId);
-                    var userInfo = userInfos.First(x => x.Id == r.Registration.UserId);
+                    int index = resultDTO.Results.ToList().FindIndex(x => x.RegistrationId == paymentResult.RegistrationId);
+                    var userInfo = userInfos.First(x => x.Id == paymentResult.Registration.UserId);
                     Conference conference = null;
+                    if (conferences == null)
+                    {
+                        continue;
+                    }
                     foreach (Conference c in conferences)
                     {
                         if (c == null)
                         {
                             continue;
                         }
-
-                        if (c.Id == r.Registration.ConferenceId)
+                        if (c.Id == paymentResult.Registration.ConferenceId)
                         {
                             conference = c;
                             break;
                         }
                     }
                     var payment = resultDTO.Results[index];
-                    resultDTO.Results[index] = MapToResponsePaymentDTO(r, conference, userInfo, r.Registration.RegistrationStatusId);
+                    resultDTO.Results[index] = MapToResponsePaymentDTO(paymentResult, conference, userInfo, paymentResult.Registration.RegistrationStatusId);
+                }
+                else if (string.Compare(paymentResult.paymentType, mpType, true) == 0)
+                {
+                    //resultDTO.Results.Find(x => x.Id == paymentResult.Id); 
+                    var userInfo = userInfos.First(x => x.Id == paymentResult.MemberRegistration.UserId);
+                    MemberRegistration memberRegistration = null;
+                    if (memberRegistrations == null)
+                    {
+                        continue;
+                    }
+                    foreach (MemberRegistration m in memberRegistrations)
+                    {
+                        if (m == null)
+                        {
+                            continue;
+                        }
+                        if (m.UserId == paymentResult.MemberRegistration.UserId)
+                        {
+                            memberRegistration = m;
+                            break;
+                        }
+                    }
+                    int index = resultDTO.Results.ToList().FindIndex(x => x.MemberRegistrationId == paymentResult.MemberRegistrationId);
+                    var payment = resultDTO.Results[index];
+                    
+                    resultDTO.Results[index] = MapToResponsePaymentDTO(paymentResult, null, userInfo, memberRegistration.MemberRegistrationStatusId, memberRegistration != null ? (int?)memberRegistration.Id : null);
+                }
+                else
+                {
+                    //do nothing
                 }
             }
             return resultDTO;
         }
 
-        public static ResponsePaymentDTO MapToResponsePaymentDTO(Payment payment, Conference conference, UserInfo userInfo, int? registrationStatusId)
+        public static ResponsePaymentDTO MapToResponsePaymentDTO(Payment payment, Conference conference, UserInfo userInfo, int? registrationStatusId, int? memberRegistrationId=null)
         {
             var resultDTO = Mapper.Map<Payment, ResponsePaymentDTO>(payment);
             if (conference != null || userInfo != null)
@@ -55,6 +89,7 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
                 resultDTO.Conference = ConferenceMapper.MapToResponseConferenceDTO(conference);
                 resultDTO.UserInfo = Mapper.Map<UserInfo, ResponseUserInfoDTO>(userInfo);
                 resultDTO.RegistrationStatusId = registrationStatusId;
+                resultDTO.MemberRegistrationId = memberRegistrationId;
             }
             return resultDTO;
         }

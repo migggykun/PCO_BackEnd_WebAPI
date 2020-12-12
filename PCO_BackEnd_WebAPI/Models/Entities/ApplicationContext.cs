@@ -129,6 +129,10 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                         .HasRequired(e => e.User)
                         .WithMany();
 
+            modelBuilder.Entity<MemberRegistration>()
+                        .HasRequired(e => e.User)
+                        .WithMany();
+
             modelBuilder.Entity<Payment>()
                         .HasRequired(e => e.Receipt)
                         .WithRequiredPrincipal()
@@ -139,7 +143,7 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                         .WithMany();
 
             modelBuilder.Entity<Payment>()
-                        .HasOptional(e => e.User)
+                        .HasOptional(e => e.MemberRegistration)
                         .WithMany();
 
             modelBuilder.Entity<ConferenceActivity>()
@@ -164,9 +168,6 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                         //.HasRequired(u=>u.ConferenceActivityId)
                         //.WithMany();
             modelBuilder.Entity<Member>();
-
-            modelBuilder.Entity<MemberRegistration>()
-                        .HasRequired(e => e.User);
 
             modelBuilder.Entity<PCOAdminDetail>();
         }
