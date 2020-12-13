@@ -14,5 +14,9 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
         public string Name { get; set; }
 
         public string Description { get; set; }
+
+        public int? CpdUnits { get; set; }
+
+        public string CpdAccreditationNumber { get; set; }
     }
 }

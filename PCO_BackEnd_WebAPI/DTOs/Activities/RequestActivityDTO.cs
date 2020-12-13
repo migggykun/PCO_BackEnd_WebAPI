@@ -10,5 +10,9 @@ namespace PCO_BackEnd_WebAPI.DTOs.Activities
         public string Name { get; set; }
 
         public string Description { get; set; }
+
+        public int? CPDUnits { get; set; }
+
+        public string CPDAccreditationNumber { get; set; }
     }
 }
