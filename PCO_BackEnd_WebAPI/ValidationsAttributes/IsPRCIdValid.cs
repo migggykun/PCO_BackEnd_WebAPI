@@ -18,13 +18,13 @@ namespace PCO_BackEnd_WebAPI.ValidationsAttributes
             }
             else
             {
-                if(prcDetail.IdNumber.Count() == 8)
+                if(prcDetail.IdNumber.Count() == 7)
                 {
                     return ValidationResult.Success;
                 }
                 else
                 {
-                    return new ValidationResult("PRC Registration No should be 8 digits");
+                    return new ValidationResult("PRC Registration No should be 7 digits");
                 }
             }
         }
