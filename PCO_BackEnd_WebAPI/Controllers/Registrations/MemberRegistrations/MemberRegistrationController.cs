@@ -17,6 +17,7 @@ using System.Web.Http.Description;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.DTOs.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Conferences;
+using PCO_BackEnd_WebAPI.Models.Accounts;
 
 namespace PCO_BackEnd_WebAPI.Controllers.MemberRegistrations
 {
@@ -231,6 +232,42 @@ namespace PCO_BackEnd_WebAPI.Controllers.MemberRegistrations
             registrationFee = await Task.Run(()=>unitOfWork.PCOAdminDetail.GetAnnualFee());
 
             return Ok(registrationFee);
+        }
+
+        [HttpPost]
+        [Route("api/ResetMemberRegistrations")]
+        public async Task<IHttpActionResult> ResetMemberRegistrations()
+        {
+            int archivedValue = 6;
+            UnitOfWork unitOfWork = new UnitOfWork(_context);
+            var memberRegistrations = unitOfWork.MemberRegistrations.GetAll().ToList();
+            var members = unitOfWork.Members.GetAll().ToList();
+            try
+            {
+                foreach(var memberRegistration in memberRegistrations)
+                {
+                    MemberRegistration newMemberRegistration = new MemberRegistration();
+                    newMemberRegistration.MemberRegistrationStatusId = archivedValue;
+                    unitOfWork.MemberRegistrations.UpdateStatus(memberRegistration, newMemberRegistration);
+                   
+                }
+                foreach(var member in members)
+                {
+                    Member newMember = new Member();
+                    newMember.Id = member.Id;
+                    newMember.IsActive = false;
+                    newMember.MemberSince = member.MemberSince;
+                    newMember.UserId = member.UserId;
+                    unitOfWork.Members.UpdateMember(newMember.Id, newMember);
+                }
+                unitOfWork.Complete();
+
+            }
+            catch(Exception e)
+            {
+                return BadRequest();
+            }
+            return Ok();
         }
     }
 }

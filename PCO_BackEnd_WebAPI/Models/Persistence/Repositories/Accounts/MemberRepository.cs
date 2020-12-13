@@ -2,6 +2,7 @@
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Accounts;
+using RefactorThis.GraphDiff;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,12 +29,10 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Accounts
 
         }
 
-        public Member UpdateMember(int userId, Member member)
+        public Member UpdateMember(int id, Member member)
         {
-            member.Id = userId;
-            var memberToUpdate = appDbContext.Members.Find(userId);
-            appDbContext.Entry(memberToUpdate).CurrentValues.SetValues(member);
-            return memberToUpdate;
+            member.Id = id;
+            return appDbContext.UpdateGraph<Member>(member);
         }
 
         public void RemoveMember(List<Member> members)

@@ -68,10 +68,22 @@ namespace PCO_BackEnd_WebAPI.Models.Helpers
                             break;
                         }
                     }
-                    int index = resultDTO.Results.ToList().FindIndex(x => x.MemberRegistrationId == paymentResult.MemberRegistrationId);
-                    var payment = resultDTO.Results[index];
+                    int index = -1;
+                    int maxValidStatus = 3;
+                    if (paymentResult.MemberRegistration.MemberRegistrationStatusId <= maxValidStatus)
+                    {
+                        index = resultDTO.Results.ToList().FindIndex(x => x.MemberRegistrationId == paymentResult.MemberRegistrationId && paymentResult.MemberRegistration.MemberRegistrationStatusId <= maxValidStatus);
+                        var payment = resultDTO.Results[index];
+                        resultDTO.Results[index] = MapToResponsePaymentDTO(paymentResult, null, userInfo, paymentResult.MemberRegistration.MemberRegistrationStatusId, memberRegistration != null ? (int?)memberRegistration.Id : null);
+                    }
+                    else
+                    {
+                        index = resultDTO.Results.ToList().FindIndex(x => x.MemberRegistrationId == paymentResult.MemberRegistrationId);
+                        var payment = resultDTO.Results[index];
+                        resultDTO.Results[index] = MapToResponsePaymentDTO(paymentResult, null, userInfo, paymentResult.MemberRegistration.MemberRegistrationStatusId, memberRegistration != null ? (int?)memberRegistration.Id : null);
+                    }
+
                     
-                    resultDTO.Results[index] = MapToResponsePaymentDTO(paymentResult, null, userInfo, memberRegistration.MemberRegistrationStatusId, memberRegistration != null ? (int?)memberRegistration.Id : null);
                 }
                 else
                 {

@@ -55,6 +55,15 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
             return appDbContext.UpdateGraph<MemberRegistration>(newMemberRegistration);
         }
 
+        public MemberRegistration UpdateStatus(MemberRegistration oldMemberRegistration, MemberRegistration newMemberRegistration)
+        {
+            newMemberRegistration.Id = oldMemberRegistration.Id;
+            newMemberRegistration.Amount = oldMemberRegistration.Amount;
+            newMemberRegistration.User = oldMemberRegistration.User;
+            newMemberRegistration.UserId = oldMemberRegistration.UserId;
+            return appDbContext.UpdateGraph<MemberRegistration>(newMemberRegistration);
+        }
+
         public void Remove(List<MemberRegistration> aMemberRegistrationList)
         {
             appDbContext.MemberRegistrations.RemoveRange(aMemberRegistrationList);
@@ -69,9 +78,9 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 
         public MemberRegistration GetMemberRegistration(int userId)
         {
-            int archivedValue = 6;
             Expression<Func<MemberRegistration, bool>> predicate;
-            predicate = (x) => x.UserId == userId && x.MemberRegistrationStatusId!= archivedValue;
+            int maxValidStatus = 3;
+            predicate = (x) => x.UserId == userId && x.MemberRegistrationStatusId <= maxValidStatus;
             IQueryable<MemberRegistration> query = appDbContext.MemberRegistrations;
 
             return query.FirstOrDefault(predicate);

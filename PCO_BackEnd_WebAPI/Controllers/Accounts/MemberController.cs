@@ -4,6 +4,7 @@ using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
+using RefactorThis.GraphDiff;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -158,11 +159,23 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                     member.MemberSince = membertoUpdate.MemberSince;
                     result = await Task.Run(() => unitOfWork.Members.UpdateMember(result.Id, member));
 
-                    ApplicationUser updateMembership = await Task.Run(() => unitOfWork.Accounts.UserManager.FindByIdAsync(memberDTO.UserId));
-                    updateMembership.IsActive = member.IsActive;
-                    if (updateMembership.UserInfo.MembershipTypeId != 3) updateMembership.UserInfo.MembershipTypeId = member.IsActive?1:0; //default value for associate Member (1) Non-member (0) Student (3)
-                    await Task.Run(() => unitOfWork.Accounts.UpdateAccount(memberDTO.UserId, updateMembership));
+                    ApplicationUser updateMembership = new ApplicationUser();
+                    ApplicationUser getMember = await Task.Run(() => unitOfWork.Accounts.UserManager.FindByIdAsync(memberDTO.UserId));
 
+                    var propInfo = getMember.GetType().GetProperties();
+                    foreach (var item in propInfo)
+                    {
+                        if (item.CanWrite)
+                        {
+                            updateMembership.GetType().GetProperty(item.Name).SetValue(updateMembership, item.GetValue(getMember, null), null);
+                        }
+                    }
+                    updateMembership.Id = getMember.Id;
+                    updateMembership.IsMember = getMember != null ? true : false;
+                    updateMembership.IsActive = memberDTO.IsActive;
+                    updateMembership.UserInfo.Address = getMember.UserInfo.Address;
+
+                    _context.UpdateGraph<ApplicationUser>(updateMembership);
                     await Task.Run(() => unitOfWork.Complete());
                     return Ok(Mapper.Map<Member, ResponseMemberDTO>(result));
                 }
@@ -196,12 +209,22 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 {
                     await Task.Run(() => unitOfWork.Members.Remove(member));
 
-                    ApplicationUser updateMembership = await Task.Run(() => unitOfWork.Accounts.UserManager.FindByIdAsync(userId));
-                    updateMembership.IsActive = false;
-                    updateMembership.IsMember = false;
-                    if (updateMembership.UserInfo.MembershipTypeId != 3) updateMembership.UserInfo.MembershipTypeId = 0;
-                    await Task.Run(() => unitOfWork.Accounts.UpdateAccount(userId, updateMembership));
+                    ApplicationUser updateMembership = new ApplicationUser();
+                    ApplicationUser getMember = await Task.Run(() => unitOfWork.Accounts.UserManager.FindByIdAsync(userId));
 
+                    var propInfo = getMember.GetType().GetProperties();
+                    foreach (var item in propInfo)
+                    {
+                        if (item.CanWrite)
+                        {
+                            updateMembership.GetType().GetProperty(item.Name).SetValue(updateMembership, item.GetValue(getMember, null), null);
+                        }
+                    }
+                    updateMembership.Id = getMember.Id;
+                    updateMembership.IsMember = false;
+                    updateMembership.IsActive =false;
+                    updateMembership.UserInfo.Address = getMember.UserInfo.Address;
+                    _context.UpdateGraph<ApplicationUser>(updateMembership);
                     await Task.Run(() => unitOfWork.Complete());
                     return Ok();
                 }

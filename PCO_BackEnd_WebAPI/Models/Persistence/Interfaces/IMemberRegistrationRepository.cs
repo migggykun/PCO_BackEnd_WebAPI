@@ -13,6 +13,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Interfaces
     {
         List<MemberRegistration> Add(List<MemberRegistration> aMemberRegistrationList);
         MemberRegistration Update(MemberRegistration oldMemberRegistration, MemberRegistration aMemberRegistration);
+
+        MemberRegistration UpdateStatus(MemberRegistration oldMemberRegistration, MemberRegistration aMemberRegistration);
         void Remove(List<MemberRegistration> aMemberRegistrationList);
         MemberRegistration SetRegistrationStatus(int id, int status);
         PageResult<MemberRegistration> GetPagedMemberRegistration(int page, int size, int? aStatusId, int? userId, string akeywordFilter);

@@ -32,7 +32,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         }
 
         /// <summary>
-        /// Gets list of Registration
+        /// Gets list of Payments
         /// </summary>
         /// <param name="page">nth page of list. Default value: 1</param>
         /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
@@ -73,6 +73,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         [ResponseType(typeof(ResponsePaymentDTO))]
         public async Task<IHttpActionResult> Get(int id)
         {
+            int maxValidStatus = 3;
             UserInfo user = null;
             Conference conference = null;
 
@@ -93,9 +94,18 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                 }
                 else if(string.Compare(result.paymentType, "membership",true) ==0)
                 {
-                    var membershipRegistration = unitOfWork.MemberRegistrations.Find(x => x.Id == result.MemberRegistrationId).FirstOrDefault();
-                    if(membershipRegistration!=null)user = unitOfWork.UserInfos.Get(membershipRegistration.UserId);
-                    resultDTO = PaymentMapper.MapToResponsePaymentDTO(result, null, user, membershipRegistration != null ? (int?)membershipRegistration.MemberRegistrationStatusId : null, membershipRegistration !=null ? (int?)membershipRegistration.Id : null);
+                    MemberRegistration membershipRegistration;
+                    if (result.MemberRegistration.MemberRegistrationStatusId > maxValidStatus)
+                    {
+                        membershipRegistration = unitOfWork.MemberRegistrations.Find(x => x.Id == result.MemberRegistrationId).FirstOrDefault();
+                        
+                    }
+                    else
+                    {
+                        membershipRegistration = unitOfWork.MemberRegistrations.Find(x => x.Id == result.MemberRegistrationId && result.MemberRegistration.MemberRegistrationStatusId!=6).FirstOrDefault();
+                    }
+                    if (membershipRegistration != null) user = unitOfWork.UserInfos.Get(membershipRegistration.UserId);
+                    resultDTO = PaymentMapper.MapToResponsePaymentDTO(result, null, user, membershipRegistration != null ? (int?)result.MemberRegistration.MemberRegistrationStatusId : null, membershipRegistration != null ? (int?)membershipRegistration.Id : null);
                 }
                 else
                 {
