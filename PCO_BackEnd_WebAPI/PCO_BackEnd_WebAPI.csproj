@@ -336,6 +336,7 @@
     <Compile Include="DTOs\Registrations\ResponseMemberRegistrationStatusDTO.cs" />
     <Compile Include="DTOs\Registrations\ResponseRegistrationStatusDTO.cs" />
     <Compile Include="DTOs\Registrations\UpdatePaymentDTO.cs" />
+    <Compile Include="Models\AccountBindingModels\CustomEmailToAdminBindingModel.cs" />
     <Compile Include="Models\AccountBindingModels\CustomEmailBindingModel.cs" />
     <Compile Include="Models\AccountBindingModels\LoginViewModel.cs" />
     <Compile Include="Models\AccountBindingModels\SMSBindingModel.cs" />

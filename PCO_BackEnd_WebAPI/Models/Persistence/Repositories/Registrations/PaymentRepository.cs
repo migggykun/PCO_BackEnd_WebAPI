@@ -9,6 +9,8 @@ using RefactorThis.GraphDiff;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Helpers;
 using PCO_BackEnd_WebAPI.Models.Images.Manager;
+using PCO_BackEnd_WebAPI.Models.Images;
+
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 {
 	public class PaymentRepository : Repository<Payment> , IPaymentRepository
@@ -76,8 +78,19 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 		{
             if (!string.IsNullOrEmpty(base64Image))
             {
-                var receipt = appDbContext.Receipts.Find(oldPayment.RegistrationId);
-                receipt.Image = new ImageManager(base64Image).GetAdjustedSizeInBytes();
+				var receipt = appDbContext.Receipts.ToList().Find(x => x.Id == oldPayment.Id);
+				if(receipt!=null)
+                {
+					receipt.Image = new ImageManager(base64Image).GetAdjustedSizeInBytes();
+				}
+				else
+                {
+					ImageManager receiptManager = new ImageManager(base64Image);
+					oldPayment.Receipt = new Receipt();
+					oldPayment.Receipt.Id = newPayment.Id;
+					oldPayment.Receipt.Image = receiptManager.GetAdjustedSizeInBytes();
+				}
+                
             }
 
             oldPayment.PaymentSubmissionDate = DateTime.Now;

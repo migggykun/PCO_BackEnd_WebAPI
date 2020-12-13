@@ -88,6 +88,39 @@ namespace PCO_BackEnd_WebAPI.Controllers.Mail
             return Ok();
         }
 
+        [HttpPost]
+        [Route("SendAdminEmail")]
+        public async Task<IHttpActionResult> SendAdminEmail(CustomEmailToAdminBindingModel email)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
+            UnitOfWork unitOfWork = new UnitOfWork(_context);
+            EmailService es = new EmailService();
+            var admins = unitOfWork.Accounts.GetPagedAccounts(0, 0).Results.ToList().Where(x => x.IsAdmin == true).ToList();
+            string messageTemplate = string.Empty;
+
+
+            if (admins.Count<ApplicationUser>() == 0)
+            {
+                string errorMessage = "No Admin account found!";
+                return BadRequest(errorMessage);
+            }
+
+            foreach (var u in admins)
+            {
+                IdentityMessage im = new IdentityMessage();
+                im.Subject = email.Header;
+                im.Body = FormatBody(u.UserInfo, email.Header, email.Body);
+                im.Destination = (u.Email);
+                await es.SendAsync(im);
+                //await unitOfWork.Accounts.UserManager.SendEmailAsync(u.Id, subject, body);
+            }
+            return Ok();
+        }
+
         private string FormatBody(UserInfo u, string header, string message)
         {
             string _email= ReadEmailTemplate();
