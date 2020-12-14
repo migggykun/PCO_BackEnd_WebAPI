@@ -29,34 +29,47 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 													DateTime? aConfirmationDateTo = null)
 		{
             PageResult<Payment> pageResult;
-            int amount;
-            bool IsAmountValid = DataConverter.ConvertToInt(filter, out amount);
-	        IQueryable<Payment> queryResult = appDbContext.Payments.OrderBy(p => p.RegistrationId)
-                                                                   .Where(p => string.IsNullOrEmpty(filter) ? true : p.Registration.Conference.Title.Contains(filter) ||
-                                                                   !IsAmountValid ? true : p.AmountPaid == amount)  
-					                                               .Where(
-							                                              x =>
-								                                           (aPaymentSubmissionDateFrom != null && aPaymentSubmissionDateTo != null) ?
-										                                          (x.PaymentSubmissionDate >= aPaymentSubmissionDateFrom &&
-										                                          x.PaymentSubmissionDate <= aPaymentSubmissionDateTo) 
-										                                          : 
-										                                          true
-						                                           )
-					                                               .Where
-						                                            (
-							                                           x =>
-								                                           (aConfirmationDateFrom != null && aConfirmationDateTo != null) ?
-										                                          (x.ConfirmationDate >= aConfirmationDateFrom &&
-										                                          x.ConfirmationDate <= aConfirmationDateTo)
-										                                          :
-										                                          true
-						                                            );
+			int statusId = string.IsNullOrEmpty(filter) ? -1 : getRegistrationStatusId(filter);
+
+			IQueryable<Payment> queryResult = appDbContext.Payments
+				.Where(u=>(filter == null)?true:
+					(u.MemberRegistration.User.UserInfo.FirstName.Contains(filter)) ||
+					(u.MemberRegistration.User.UserInfo.LastName.Contains(filter)) ||
+					(u.MemberRegistration.User.UserInfo.MiddleName.Contains(filter)) ||
+					(u.Registration.User.UserInfo.FirstName.Contains(filter)) ||
+					(u.Registration.User.UserInfo.LastName.Contains(filter)) ||
+					(u.Registration.User.UserInfo.MiddleName.Contains(filter)) ||
+					(u.Registration.Conference.Title.Contains(filter)) ||
+					(u.AmountPaid.ToString().Contains(filter)) ||
+					((statusId != -1) && (u.Registration.RegistrationStatusId == statusId) || (u.MemberRegistration.MemberRegistrationStatusId == statusId)));
 
 
+			//apply Date Filters
+			queryResult = queryResult.Where(x =>
+				(aPaymentSubmissionDateFrom != null && aPaymentSubmissionDateTo != null) ?
+				(x.PaymentSubmissionDate >= aPaymentSubmissionDateFrom &&
+				x.PaymentSubmissionDate <= aPaymentSubmissionDateTo) 
+				: 
+				true)
+			.Where(x =>
+				(aConfirmationDateFrom != null && aConfirmationDateTo != null) ?
+				(x.ConfirmationDate >= aConfirmationDateFrom &&
+				x.ConfirmationDate <= aConfirmationDateTo)
+				:
+				true);
 
-            pageResult = PaginationManager<Payment>.GetPagedResult(queryResult, page, size);
+			pageResult = PaginationManager<Payment>.GetPagedResult(queryResult, page, size);
             return pageResult;
 		}
+
+		public int getRegistrationStatusId(string registrationStatus)
+        {
+			if(appDbContext.RegistrationStatus.ToList().Find(x=>x.StatusLabel == registrationStatus)!=null)
+            {
+				return appDbContext.RegistrationStatus.ToList().Find(x => x.StatusLabel == registrationStatus).Id;
+			}
+			return -1;
+        }
 
 		public PageResult<Payment> GetPagedPayments(int userId)
         {
