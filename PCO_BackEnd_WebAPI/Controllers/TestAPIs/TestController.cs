@@ -193,7 +193,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.TestAPIs
         }
 
         [HttpGet]
-        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
+        [CustomAuthFilter]
         [Route("api/TestGet")]
         public async Task<IHttpActionResult> Get()
         {

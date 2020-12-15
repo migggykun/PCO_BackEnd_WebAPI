@@ -45,9 +45,9 @@ namespace PCO_BackEnd_WebAPI.Security.Authorization
              
             using (ClientCredentialsContext clientContext = new ClientCredentialsContext())
             {
-                string command = string.Format("EXEC pc0_credentials.GetRole @client_type, @client_password");
-                SqlParameter parameter1 = new SqlParameter("@client_password", this._clientType);
-                SqlParameter parameter2 = new SqlParameter("@client_type", apiKey);
+                string command = string.Format("EXEC pc0_credentials.GetRole @client_password, @client_type");
+                SqlParameter parameter1 = new SqlParameter("@client_type", this._clientType);
+                SqlParameter parameter2 = new SqlParameter("@client_password", apiKey);
 
                 //Get Website Type
                 var type = clientContext.Database.SqlQuery<string>(command, parameter1, parameter2).ToList();
