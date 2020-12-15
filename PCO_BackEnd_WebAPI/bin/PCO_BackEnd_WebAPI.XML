@@ -262,31 +262,6 @@
             Initializes a new instance of the <see cref="T:PCO_BackEnd_WebAPI.Areas.HelpPage.HelpPageSampleGenerator"/> class.
             </summary>
         </member>
-        <member name="P:PCO_BackEnd_WebAPI.Areas.HelpPage.HelpPageSampleGenerator.ActualHttpMessageTypes">
-            <summary>
-            Gets CLR types that are used as the content of <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/>.
-            </summary>
-        </member>
-        <member name="P:PCO_BackEnd_WebAPI.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples">
-            <summary>
-            Gets the objects that are used directly as samples for certain actions.
-            </summary>
-        </member>
-        <member name="P:PCO_BackEnd_WebAPI.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects">
-            <summary>
-            Gets the objects that are serialized as samples by the supported formatters.
-            </summary>
-        </member>
-        <member name="P:PCO_BackEnd_WebAPI.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories">
-            <summary>
-            Gets factories for the objects that the supported formatters will serialize as samples. Processed in order,
-            stopping when the factory successfully returns a non-<see langref="null"/> object.
-            </summary>
-            <remarks>
-            Collection includes just <see cref="M:PCO_BackEnd_WebAPI.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)"/> initially. Use
-            <code>SampleObjectFactories.Insert(0, func)</code> to provide an override and
-            <code>SampleObjectFactories.Add(func)</code> to provide a fallback.</remarks>
-        </member>
         <member name="M:PCO_BackEnd_WebAPI.Areas.HelpPage.HelpPageSampleGenerator.GetSampleRequests(System.Web.Http.Description.ApiDescription)">
             <summary>
             Gets the request body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
@@ -359,6 +334,31 @@
             <param name="type">The type.</param>
             <param name="mediaType">Type of the media.</param>
             <returns></returns>
+        </member>
+        <member name="P:PCO_BackEnd_WebAPI.Areas.HelpPage.HelpPageSampleGenerator.ActualHttpMessageTypes">
+            <summary>
+            Gets CLR types that are used as the content of <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </summary>
+        </member>
+        <member name="P:PCO_BackEnd_WebAPI.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples">
+            <summary>
+            Gets the objects that are used directly as samples for certain actions.
+            </summary>
+        </member>
+        <member name="P:PCO_BackEnd_WebAPI.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects">
+            <summary>
+            Gets the objects that are serialized as samples by the supported formatters.
+            </summary>
+        </member>
+        <member name="P:PCO_BackEnd_WebAPI.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories">
+            <summary>
+            Gets factories for the objects that the supported formatters will serialize as samples. Processed in order,
+            stopping when the factory successfully returns a non-<see langref="null"/> object.
+            </summary>
+            <remarks>
+            Collection includes just <see cref="M:PCO_BackEnd_WebAPI.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)"/> initially. Use
+            <code>SampleObjectFactories.Insert(0, func)</code> to provide an override and
+            <code>SampleObjectFactories.Add(func)</code> to provide a fallback.</remarks>
         </member>
         <member name="T:PCO_BackEnd_WebAPI.Areas.HelpPage.HelpPageSampleKey">
             <summary>
@@ -489,150 +489,6 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
-        <member name="F:PCO_BackEnd_WebAPI.Models.Helpers.StringManipulationHelper.ADDEND">
-            <summary>
-            Use in encryption formula. To be added in UserID
-            </summary>
-        </member>
-        <member name="F:PCO_BackEnd_WebAPI.Models.Helpers.StringManipulationHelper.CUSTOM_ALPHABET">
-            <summary>
-            Cipher - Dicipher string (RN - Renz MZ - Migz GY - Gendy MC - Michelle JS- Jonas)
-            </summary>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Helpers.StringManipulationHelper.Cipher(System.Int32)">
-            <summary>
-            Convert UserId to ciphered string.
-            </summary>
-            <param name="aID"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Helpers.StringManipulationHelper.DeCipher(System.String)">
-            <summary>
-            Convert string to original userID
-            </summary>
-            <param name="aText"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Helpers.StringManipulationHelper.StringReverse(System.String)">
-            <summary>
-            Reverse string
-            </summary>
-            <param name="aText"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Helpers.StringManipulationHelper.GetString(System.Int32)">
-            <summary>
-            Convert number to string
-            </summary>
-            <param name="aIndex"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Helpers.StringManipulationHelper.GetNumber(System.String)">
-            <summary>
-            Convert string to number
-            </summary>
-            <param name="aText"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Images.Manager.ImageManager.GetAdjustedSizeInBytes">
-            <summary>
-            Resizes image if size is greater than 100kb
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Images.Manager.ReferenceImage.#ctor(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="base64String">base64string format of image</param>
-        </member>
-        <member name="P:PCO_BackEnd_WebAPI.Models.Pagination.PageResult`1.PageCount">
-            <summary> 
-            The total number of pages available. 
-            </summary> 
-        </member>
-        <member name="P:PCO_BackEnd_WebAPI.Models.Pagination.PageResult`1.RecordCount">
-            <summary> 
-            The total number of records available. 
-            </summary> 
-        </member>
-        <member name="P:PCO_BackEnd_WebAPI.Models.Pagination.PageResult`1.Results">
-            <summary> 
-            The records this page represents. 
-            </summary> 
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences.ConferenceRepository.FillInConferenceActivities(PCO_BackEnd_WebAPI.Models.Conferences.Conference)">
-            <summary>
-            helper Function for finding conference activity by id to populate activity in conferenceDTO
-            </summary>
-            <param name="ActivityId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.AccountRepository.UpdateUserInfo(PCO_BackEnd_WebAPI.Models.Accounts.UserInfo,PCO_BackEnd_WebAPI.Models.Accounts.UserInfo)">
-            <summary>
-            Updates UserInfo
-            </summary>
-            <param name="oldInfo"></param>
-            <param name="newInfo"></param>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.AccountRepository.UpdatePRCDetail(PCO_BackEnd_WebAPI.Models.Accounts.PRCDetail,PCO_BackEnd_WebAPI.Models.Accounts.PRCDetail,System.Int32)">
-            <summary>
-            Updates PRC Details
-            </summary>
-            <param name="oldPRC"></param>
-            <param name="newPRC"></param>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.Get(System.Int32)">
-            <summary>
-            Get object based on provided Id
-            </summary>
-            <param name="id">Primary Key</param>
-            <returns> Singl object</returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.GetAll">
-            <summary>
-            Get entity data.
-            </summary>
-            <returns>All data of table</returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.Find(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
-            <summary>
-            Queries list of object based on given lambda expression.
-            </summary>
-            <param name="predicate">Lambda expression</param>
-            <returns>Returns list of queried objects</returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.Add(`0)">
-            <summary>
-            
-            </summary>
-            <param name="entity"></param>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
-            <summary>
-            Add list of data in database.
-            </summary>
-            <param name="entities">Objects to be added in database</param>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.Remove(`0)">
-            <summary>
-            Remove the object in database
-            </summary>
-            <param name="entity">Object to be removed</param>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.RepositoryHelper`1.GetPrimaryKey(System.Data.Entity.DbContext,`0)">
-            <summary>
-            Gets the primary Key of specified entity
-            </summary>
-            <param name="entity"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork.UnitOfWork.Complete">
-            <summary>
-            Reflect changes to database
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AddressController.GetAll(System.Int32,System.Int32)">
             <summary>
             Gets list of user information
@@ -679,7 +535,7 @@
             <param name="responseMemberDTO">Details about the member to be added</param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.MemberController.UpdateMember(System.Int32,PCO_BackEnd_WebAPI.DTOs.Accounts.RequestMemberDTO)">
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.MemberController.UpdateMember(PCO_BackEnd_WebAPI.DTOs.Accounts.RequestMemberDTO)">
             <summary>
             Updates a member
             </summary>
@@ -692,6 +548,206 @@
             Deletes a member
             </summary>
             <param name="userId">id of the member to be deleted.</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Bank.BankDetailController.GetAll(System.Int32,System.Int32,System.String)">
+            <summary>
+            Returns all bank details
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Bank.BankDetailController.Get(System.Int32)">
+            <summary>
+            Gets bank detail based on specified id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Bank.BankDetailController.AddBankDetails(PCO_BackEnd_WebAPI.DTOs.Bank.RequestAddBankDetailDTO)">
+            <summary>
+            Adds a Bank Detail
+            </summary>
+            <param name="bankDetailDTO">Bank details to be added.</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Bank.BankDetailController.UpdateBankDetails(System.Int32,PCO_BackEnd_WebAPI.DTOs.Bank.RequestUpdateBankDetailDTO)">
+            <summary>
+            Updates BankDetails
+            </summary>
+            <param name="id">id of the bank detail to be updated</param>
+            <param name="conferenceDTO">New information about the bank to be updated</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Bank.BankDetailController.DeleteBankDetails(System.Int32)">
+            <summary>
+            Deletes a bank details based on specified id
+            </summary>
+            <param name="id">id of the bank details to be deleted</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ActivityController.GetAll(System.Int32,System.Int32)">
+            <summary>
+            Gets list of activities
+            </summary>
+            <param name="page"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ActivityController.Get(System.Int32)">
+            <summary>
+            Gets the activity information based on specified id
+            </summary>
+            <param name="id">id of activity to be fetched</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ActivityController.AddActivities(System.Collections.Generic.List{PCO_BackEnd_WebAPI.DTOs.Activities.RequestActivityDTO})">
+            <summary>
+            Get list of activities
+            </summary>
+            <param name="activityDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ActivityController.UpdateActivity(System.Int32,PCO_BackEnd_WebAPI.DTOs.Activities.RequestActivityDTO)">
+            <summary>
+            Updates a activity
+            </summary>
+            <param name="id">user id</param>
+            <param name="activityDTO">New information about the activity to be updated</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ActivityController.DeleteActivity(System.Int32)">
+            <summary>
+            Deletes a activity
+            </summary>
+            <param name="id">id of the activity to be deleted.</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Images.ImageController.GetImages(System.Int32)">
+            <summary>
+            Gets banner or receipt
+            </summary>
+            <param name="identifier">1: banner , 2: receipts</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Images.ImageController.GetImages(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id">image id</param>
+            <param name="identifier">1: banner , 2: receipts</param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:PCO_BackEnd_WebAPI.Controllers.Mail.EmailController.SendEmail(PCO_BackEnd_WebAPI.Models.AccountBindingModels.CustomEmailBindingModel)" -->
+        <!-- Badly formed XML comment ignored for member "M:PCO_BackEnd_WebAPI.Controllers.Messages.SMSController.SendSMS(PCO_BackEnd_WebAPI.Models.AccountBindingModels.SMSBindingModel)" -->
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.MemberRegistrations.MemberRegistrationController.GetAll(System.Int32,System.Int32,System.Nullable{System.Int32},System.Nullable{System.Int32},System.String)">
+            <summary>
+            Get list of registration
+            </summary>
+            <param name="page">nth page of list. Default value: 1</param>
+            <param name="size">count of item to return in a page. Returns all record if not specified</param>
+            <param name="conferenceId">filter results by conference id</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.MemberRegistrations.MemberRegistrationController.Get(System.Int32)">
+            <summary>
+            Gets registration based on specified id
+            </summary>
+            <param name="id">id of the registration to be fetched</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.MemberRegistrations.MemberRegistrationController.Add(PCO_BackEnd_WebAPI.DTOs.Registrations.RequestMemberRegistrationDTO)">
+            <summary>
+            Add a registration
+            </summary>
+            <param name="registrationDTO">Details about the registration to be added</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.MemberRegistrations.MemberRegistrationController.Update(System.Int32,PCO_BackEnd_WebAPI.DTOs.Registrations.RequestMemberRegistrationDTO)">
+            <summary>
+            Updates registration information
+            </summary>
+            <param name="id"></param>
+            <param name="registrationDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.MemberRegistrations.MemberRegistrationController.Delete(System.Int32)">
+            <summary>
+            Deletes a registration
+            </summary>
+            <param name="id">id of registration to be deleted</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.MemberRegistrations.MemberRegistrationController.SetMemberRegistrationStatus(PCO_BackEnd_WebAPI.Models.ViewModels.SetRegistrationViewModel)">
+            <summary>
+            Change registration status
+            </summary>
+            <param name="model">registration id and new registration status</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.MemberRegistrations.MemberRegistrationController.GetMemberRegistrationFee">
+             <summary>
+             Gets RegistrationFee
+             </summary>
+            
+             <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Registrations.PaymentController.GetAll(System.String,System.Int32,System.Int32,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+            <summary>
+            Gets list of Payments
+            </summary>
+            <param name="page">nth page of list. Default value: 1</param>
+            <param name="size">count of item to return in a page. Returns all record if not specified</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Registrations.PaymentController.Get(System.Int32)">
+            <summary>
+            Gets user based on specified id
+            </summary>
+            <param name="id">id of payment to be fetched</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Registrations.PaymentController.GetRegistrationPayment(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="registrationId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Registrations.PaymentController.GetMemberRegistrationPayment(System.Int32)">
+            <summary>
+            Gets list of Registration
+            </summary>
+            <param name="page">nth page of list. Default value: 1</param>
+            <param name="size">count of item to return in a page. Returns all record if not specified</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Registrations.PaymentController.AddPayment(PCO_BackEnd_WebAPI.DTOs.Registrations.AddPaymentDTO)">
+            <summary>
+            Add a payment for registration
+            </summary>
+            <param name="paymentDTO">Details about the payment to be added</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Registrations.PaymentController.UpdatePayment(System.Int32,PCO_BackEnd_WebAPI.DTOs.Registrations.UpdatePaymentDTO)">
+            <summary>
+            Updates payment details
+            </summary>
+            <param name="id">id of payment to be updated</param>
+            <param name="paymentDTO">New information of payment to be updated</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Registrations.PaymentController.DeletePayment(System.Int32)">
+            <summary>
+            Deletes a payment
+            </summary>
+            <param name="id">id of payment to be deleted</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Registrations.PaymentController.ConfirmPaymentDate(System.Int32)">
+            <summary>
+            Set the date when the payment is confirmed
+            </summary>
+            <param name="id">id of payment to be confirmed</param>
             <returns></returns>
         </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.RegistrationController.GetAll(System.Int32,System.Int32,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.String)">
@@ -854,202 +910,6 @@
             <param name="userInfoDTO">New information about the user to be updated</param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.SendEmailConfirmation(System.Int32)">
-            <summary>
-            Sends email to user to confirm registered email address.
-            </summary>
-            <param name="id">User Id</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.SendPhoneConfirmation(System.Int32)">
-            <summary>
-            Sends email to user to confirm registered email address.
-            </summary>
-            <param name="id">User Id</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.SendEmail(System.Int32,System.Int32)">
-            <summary>
-            Send Email to use using SMTP
-            </summary>
-            <param name="aEmail">email address</param>
-            <param name="emailClassification">Checker if email template for reset password or confirm email will be passed.</param>
-            <returns>Void</returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.SendSMS(System.Int32,System.Int32)">
-            <summary>
-            Send Email to use using SMTP
-            </summary>
-            <param name="aEmail">email address</param>
-            <param name="emailClassification">Checker if email template for reset password or confirm email will be passed.</param>
-            <returns>Void</returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.SendResetPasswordEmail(System.String)">
-            <summary>
-            Sends link to the specified email on how to reset password.
-            </summary>
-            <param name="email">Email of user to reset</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.ResetPassword(PCO_BackEnd_WebAPI.Models.AccountViewModels.ResetPasswordViewModel)">
-            <summary>
-            Reset users password
-            </summary>
-            <param name="model"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.ConfirmEmail(PCO_BackEnd_WebAPI.Models.AccountViewModels.ConfirmEmailViewModel)">
-            <summary>
-            Sets the user account as confirmed.
-            </summary>
-            <param name="model">userId: id of user<br/>token: Generate token to confirm email</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.ConfirmPhone(PCO_BackEnd_WebAPI.Models.ViewModels.ConfirmSmsViewModel)">
-            <summary>
-            Sets the user account as confirmed.
-            </summary>
-            <param name="model">userId: id of user<br/>token: Generate token to confirm email</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.Register(PCO_BackEnd_WebAPI.Models.AccountBindingModels.UserAccountBindingModel)">
-            <summary>
-            Creates a user account
-            </summary>
-            <param name="model">If no PRC Details to be specified, set values to empty string(""). otherwise, set its value</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.GetUserByPhoneOrEmail(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="phoneOrEmail"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.GetUserByPhone(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="phoneOrEmail"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.ChangePassword(PCO_BackEnd_WebAPI.Models.AccountBindingModels.ChangePasswordBindingModel)">
-            <summary>
-            Change user password
-            </summary>
-            <param name="model"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.GetUsers(System.String,System.Int32,System.Int32,System.String,System.String,System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
-            <summary>
-            Returns list of accounts
-            </summary>
-            <param name="page">nth page of list. Default value: 1</param>
-            <param name="size">count of item to return in a page. Returns all record if not specified</param>
-            <param name="keywordFilter">filter of returned items</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.GetUserByEmail(System.String)">
-            <summary>
-            Get user details by email
-            </summary>
-            <param name="email">Registered email of user</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.GetUser(System.Int32)">
-            <summary>
-            Gets user based on specified id
-            </summary>
-            <param name="id">id of account to be fetched</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.UpdateUser(System.Int32,PCO_BackEnd_WebAPI.DTOs.Accounts.RequestAccountDTO)">
-            <summary>
-            Updates user Account
-            </summary>
-            <param name="id">user Id</param>
-            <param name="accountDTO">Request body of user</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.DeleteUser(System.Int32)">
-            <summary>
-            Deletes a user
-            </summary>
-            <param name="id">user of id to be deleted</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Bank.BankDetailController.GetAll(System.Int32,System.Int32,System.String)">
-            <summary>
-            Returns all bank details
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Bank.BankDetailController.Get(System.Int32)">
-            <summary>
-            Gets bank detail based on specified id
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Bank.BankDetailController.AddBankDetails(PCO_BackEnd_WebAPI.DTOs.Bank.RequestAddBankDetailDTO)">
-            <summary>
-            Adds a Bank Detail
-            </summary>
-            <param name="bankDetailDTO">Bank details to be added.</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Bank.BankDetailController.UpdateBankDetails(System.Int32,PCO_BackEnd_WebAPI.DTOs.Bank.RequestUpdateBankDetailDTO)">
-            <summary>
-            Updates BankDetails
-            </summary>
-            <param name="id">id of the bank detail to be updated</param>
-            <param name="conferenceDTO">New information about the bank to be updated</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Bank.BankDetailController.DeleteBankDetails(System.Int32)">
-            <summary>
-            Deletes a bank details based on specified id
-            </summary>
-            <param name="id">id of the bank details to be deleted</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ActivityController.GetAll(System.Int32,System.Int32)">
-            <summary>
-            Gets list of activities
-            </summary>
-            <param name="page"></param>
-            <param name="size"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ActivityController.Get(System.Int32)">
-            <summary>
-            Gets the activity information based on specified id
-            </summary>
-            <param name="id">id of activity to be fetched</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ActivityController.AddActivities(System.Collections.Generic.List{PCO_BackEnd_WebAPI.DTOs.Activities.RequestActivityDTO})">
-            <summary>
-            Get list of activities
-            </summary>
-            <param name="activityDTO"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ActivityController.UpdateActivity(System.Int32,PCO_BackEnd_WebAPI.DTOs.Activities.RequestActivityDTO)">
-            <summary>
-            Updates a activity
-            </summary>
-            <param name="id">user id</param>
-            <param name="activityDTO">New information about the activity to be updated</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ActivityController.DeleteActivity(System.Int32)">
-            <summary>
-            Deletes a activity
-            </summary>
-            <param name="id">id of the activity to be deleted.</param>
-            <returns></returns>
-        </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.Conferences.ConferenceController.GetAll(PCO_BackEnd_WebAPI.Models.ParameterBindingModels.ConferenceParameterBindingModel)">
             <summary>
             Gets all list of Reference
@@ -1199,119 +1059,6 @@
             <param name="id">id of the rate to be deleted.</param>
             <returns></returns>
         </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Images.ImageController.GetImages(System.Int32)">
-            <summary>
-            Gets banner or receipt
-            </summary>
-            <param name="identifier">1: banner , 2: receipts</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Images.ImageController.GetImages(System.Int32,System.Int32)">
-            <summary>
-            
-            </summary>
-            <param name="id">image id</param>
-            <param name="identifier">1: banner , 2: receipts</param>
-            <returns></returns>
-        </member>
-        <!-- Badly formed XML comment ignored for member "M:PCO_BackEnd_WebAPI.Controllers.Mail.EmailController.SendEmail(System.Collections.Generic.List{System.Int32},System.String,System.String)" -->
-        <!-- Badly formed XML comment ignored for member "M:PCO_BackEnd_WebAPI.Controllers.Messages.SMSController.SendSMS(PCO_BackEnd_WebAPI.Models.AccountBindingModels.SMSBindingModel)" -->
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.MemberRegistrations.MemberRegistrationController.GetAll(System.Int32,System.Int32,System.Nullable{System.Int32},System.Nullable{System.Int32},System.String)">
-            <summary>
-            Get list of registration
-            </summary>
-            <param name="page">nth page of list. Default value: 1</param>
-            <param name="size">count of item to return in a page. Returns all record if not specified</param>
-            <param name="conferenceId">filter results by conference id</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.MemberRegistrations.MemberRegistrationController.Get(System.Int32)">
-            <summary>
-            Gets registration based on specified id
-            </summary>
-            <param name="id">id of the registration to be fetched</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.MemberRegistrations.MemberRegistrationController.Add(PCO_BackEnd_WebAPI.DTOs.Registrations.RequestMemberRegistrationDTO)">
-            <summary>
-            Add a registration
-            </summary>
-            <param name="registrationDTO">Details about the registration to be added</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.MemberRegistrations.MemberRegistrationController.Update(System.Int32,PCO_BackEnd_WebAPI.DTOs.Registrations.RequestMemberRegistrationDTO)">
-            <summary>
-            Updates registration information
-            </summary>
-            <param name="id"></param>
-            <param name="registrationDTO"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.MemberRegistrations.MemberRegistrationController.Delete(System.Int32)">
-            <summary>
-            Deletes a registration
-            </summary>
-            <param name="id">id of registration to be deleted</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.MemberRegistrations.MemberRegistrationController.SetMemberRegistrationStatus(PCO_BackEnd_WebAPI.Models.ViewModels.SetRegistrationViewModel)">
-            <summary>
-            Change registration status
-            </summary>
-            <param name="model">registration id and new registration status</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.MemberRegistrations.MemberRegistrationController.GetMemberRegistrationFee">
-             <summary>
-             Gets RegistrationFee
-             </summary>
-            
-             <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Registrations.PaymentController.GetAll(System.String,System.Int32,System.Int32,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
-            <summary>
-            Gets list of Registration
-            </summary>
-            <param name="page">nth page of list. Default value: 1</param>
-            <param name="size">count of item to return in a page. Returns all record if not specified</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Registrations.PaymentController.Get(System.Int32)">
-            <summary>
-            Gets user based on specified id
-            </summary>
-            <param name="id">id of payment to be fetched</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Registrations.PaymentController.AddPayment(PCO_BackEnd_WebAPI.DTOs.Registrations.AddPaymentDTO)">
-            <summary>
-            Add a payment for registration
-            </summary>
-            <param name="paymentDTO">Details about the payment to be added</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Registrations.PaymentController.UpdatePayment(System.Int32,PCO_BackEnd_WebAPI.DTOs.Registrations.UpdatePaymentDTO)">
-            <summary>
-            Updates payment details
-            </summary>
-            <param name="id">id of payment to be updated</param>
-            <param name="paymentDTO">New information of payment to be updated</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Registrations.PaymentController.DeletePayment(System.Int32)">
-            <summary>
-            Deletes a payment
-            </summary>
-            <param name="id">id of payment to be deleted</param>
-            <returns></returns>
-        </member>
-        <member name="M:PCO_BackEnd_WebAPI.Controllers.Registrations.PaymentController.ConfirmPaymentDate(System.Int32)">
-            <summary>
-            Set the date when the payment is confirmed
-            </summary>
-            <param name="id">id of payment to be confirmed</param>
-            <returns></returns>
-        </member>
         <member name="M:PCO_BackEnd_WebAPI.Controllers.ErrorManager.GetAllExceptionMessages(System.Exception)">
             <summary>
             Method that returns all exceptions and inner exceptions
@@ -1324,6 +1071,274 @@
             Method that returns innest exception message 
             </summary>
             <param name="aException"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Images.Manager.ImageManager.GetAdjustedSizeInBytes">
+            <summary>
+            Resizes image if size is greater than 100kb
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:PCO_BackEnd_WebAPI.Models.Pagination.PageResult`1.PageCount">
+            <summary> 
+            The total number of pages available. 
+            </summary> 
+        </member>
+        <member name="P:PCO_BackEnd_WebAPI.Models.Pagination.PageResult`1.RecordCount">
+            <summary> 
+            The total number of records available. 
+            </summary> 
+        </member>
+        <member name="P:PCO_BackEnd_WebAPI.Models.Pagination.PageResult`1.Results">
+            <summary> 
+            The records this page represents. 
+            </summary> 
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.Get(System.Int32)">
+            <summary>
+            Get object based on provided Id
+            </summary>
+            <param name="id">Primary Key</param>
+            <returns> Singl object</returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.GetAll">
+            <summary>
+            Get entity data.
+            </summary>
+            <returns>All data of table</returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.Find(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Queries list of object based on given lambda expression.
+            </summary>
+            <param name="predicate">Lambda expression</param>
+            <returns>Returns list of queried objects</returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.Add(`0)">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.AddRange(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Add list of data in database.
+            </summary>
+            <param name="entities">Objects to be added in database</param>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Repository`1.Remove(`0)">
+            <summary>
+            Remove the object in database
+            </summary>
+            <param name="entity">Object to be removed</param>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.SendEmailConfirmation(System.Int32)">
+            <summary>
+            Sends email to user to confirm registered email address.
+            </summary>
+            <param name="id">User Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.SendPhoneConfirmation(System.Int32)">
+            <summary>
+            Sends email to user to confirm registered email address.
+            </summary>
+            <param name="id">User Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.SendEmail(System.Int32,System.Int32)">
+            <summary>
+            Send Email to use using SMTP
+            </summary>
+            <param name="aEmail">email address</param>
+            <param name="emailClassification">Checker if email template for reset password or confirm email will be passed.</param>
+            <returns>Void</returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.SendSMS(System.Int32,System.Int32)">
+            <summary>
+            Send Email to use using SMTP
+            </summary>
+            <param name="aEmail">email address</param>
+            <param name="emailClassification">Checker if email template for reset password or confirm email will be passed.</param>
+            <returns>Void</returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.SendResetPasswordEmail(System.String)">
+            <summary>
+            Sends link to the specified email on how to reset password.
+            </summary>
+            <param name="email">Email of user to reset</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.ResetPassword(PCO_BackEnd_WebAPI.Models.AccountViewModels.ResetPasswordViewModel)">
+            <summary>
+            Reset users password
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.ConfirmEmail(PCO_BackEnd_WebAPI.Models.AccountViewModels.ConfirmEmailViewModel)">
+            <summary>
+            Sets the user account as confirmed.
+            </summary>
+            <param name="model">userId: id of user<br/>token: Generate token to confirm email</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.ConfirmPhone(PCO_BackEnd_WebAPI.Models.ViewModels.ConfirmSmsViewModel)">
+            <summary>
+            Sets the user account as confirmed.
+            </summary>
+            <param name="model">userId: id of user<br/>token: Generate token to confirm email</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.Register(PCO_BackEnd_WebAPI.Models.AccountBindingModels.UserAccountBindingModel)">
+            <summary>
+            Creates a user account
+            </summary>
+            <param name="model">If no PRC Details to be specified, set values to empty string(""). otherwise, set its value</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.GetUserByPhoneOrEmail(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="phoneOrEmail"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.GetUserByPhone(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="phoneOrEmail"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.ChangePassword(PCO_BackEnd_WebAPI.Models.AccountBindingModels.ChangePasswordBindingModel)">
+            <summary>
+            Change user password
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.GetUsers(System.String,System.Int32,System.Int32,System.String,System.String,System.String,System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
+            <summary>
+            Returns list of accounts
+            </summary>
+            <param name="page">nth page of list. Default value: 1</param>
+            <param name="size">count of item to return in a page. Returns all record if not specified</param>
+            <param name="keywordFilter">filter of returned items</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.GetUserByEmail(System.String)">
+            <summary>
+            Get user details by email
+            </summary>
+            <param name="email">Registered email of user</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.GetUser(System.Int32)">
+            <summary>
+            Gets user based on specified id
+            </summary>
+            <param name="id">id of account to be fetched</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.UpdateUser(System.Int32,PCO_BackEnd_WebAPI.DTOs.Accounts.RequestAccountDTO)">
+            <summary>
+            Updates user Account
+            </summary>
+            <param name="id">user Id</param>
+            <param name="accountDTO">Request body of user</param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Controllers.Accounts.AccountController.DeleteUser(System.Int32)">
+            <summary>
+            Deletes a user
+            </summary>
+            <param name="id">user of id to be deleted</param>
+            <returns></returns>
+        </member>
+        <member name="F:PCO_BackEnd_WebAPI.Models.Helpers.StringManipulationHelper.ADDEND">
+            <summary>
+            Use in encryption formula. To be added in UserID
+            </summary>
+        </member>
+        <member name="F:PCO_BackEnd_WebAPI.Models.Helpers.StringManipulationHelper.CUSTOM_ALPHABET">
+            <summary>
+            Cipher - Dicipher string (RN - Renz MZ - Migz GY - Gendy MC - Michelle JS- Jonas)
+            </summary>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Helpers.StringManipulationHelper.Cipher(System.Int32)">
+            <summary>
+            Convert UserId to ciphered string.
+            </summary>
+            <param name="aID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Helpers.StringManipulationHelper.DeCipher(System.String)">
+            <summary>
+            Convert string to original userID
+            </summary>
+            <param name="aText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Helpers.StringManipulationHelper.StringReverse(System.String)">
+            <summary>
+            Reverse string
+            </summary>
+            <param name="aText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Helpers.StringManipulationHelper.GetString(System.Int32)">
+            <summary>
+            Convert number to string
+            </summary>
+            <param name="aIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Helpers.StringManipulationHelper.GetNumber(System.String)">
+            <summary>
+            Convert string to number
+            </summary>
+            <param name="aText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Images.Manager.ReferenceImage.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="base64String">base64string format of image</param>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.AccountRepository.UpdateUserInfo(PCO_BackEnd_WebAPI.Models.Accounts.UserInfo,PCO_BackEnd_WebAPI.Models.Accounts.UserInfo)">
+            <summary>
+            Updates UserInfo
+            </summary>
+            <param name="oldInfo"></param>
+            <param name="newInfo"></param>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.AccountRepository.UpdatePRCDetail(PCO_BackEnd_WebAPI.Models.Accounts.PRCDetail,PCO_BackEnd_WebAPI.Models.Accounts.PRCDetail,System.Int32)">
+            <summary>
+            Updates PRC Details
+            </summary>
+            <param name="oldPRC"></param>
+            <param name="newPRC"></param>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences.ConferenceRepository.FillInConferenceActivities(PCO_BackEnd_WebAPI.Models.Conferences.Conference)">
+            <summary>
+            helper Function for finding conference activity by id to populate activity in conferenceDTO
+            </summary>
+            <param name="ActivityId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.Repositories.RepositoryHelper`1.GetPrimaryKey(System.Data.Entity.DbContext,`0)">
+            <summary>
+            Gets the primary Key of specified entity
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork.UnitOfWork.Complete">
+            <summary>
+            Reflect changes to database
+            </summary>
             <returns></returns>
         </member>
     </members>

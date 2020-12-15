@@ -353,6 +353,7 @@
     <Compile Include="Models\Conferences\ActivitySchedule.cs" />
     <Compile Include="Models\Conferences\ConferenceActivity.cs" />
     <Compile Include="Models\Conferences\ConferenceDay.cs" />
+    <Compile Include="Models\Constants\PCO_Constants.cs" />
     <Compile Include="Models\Email\ConfirmEmailService.cs" />
     <Compile Include="Models\Email\BaseEmailService.cs" />
     <Compile Include="Models\Email\ResetPasswordService.cs" />
@@ -451,7 +452,6 @@
     <Compile Include="Models\Conferences\Promos\Promo.cs" />
     <Compile Include="Models\Conferences\Promos\PromoMember.cs" />
     <Compile Include="Models\Registrations\RegistrationStatus.cs" />
-    <Compile Include="Models\Roles\RoleNames.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Models\Conferences\Rate.cs" />
@@ -459,8 +459,11 @@
     <Compile Include="Models\Registrations\Payment.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Roles\UserRoles.cs" />
+    <Compile Include="Security\Authorization\CustomAuthFilter.cs" />
     <Compile Include="Security\Authorization\CustomAuthorizationFilter.cs" />
     <Compile Include="Security\DTO\UserInformationDTO.cs" />
+    <Compile Include="Security\Entity\ClientCredentialsContext.cs" />
+    <Compile Include="Security\Models\ClientCredential.cs" />
     <Compile Include="Security\OAuth\AuthorizeAttribute.cs" />
     <Compile Include="Security\OAuth\CustomAuthorizationServiceProvider.cs" />
     <Compile Include="Security\OAuth\CustomOAuthGrantResourceOwner.cs" />

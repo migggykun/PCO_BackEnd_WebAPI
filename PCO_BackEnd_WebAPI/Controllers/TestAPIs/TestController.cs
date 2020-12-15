@@ -18,6 +18,8 @@ using PCO_BackEnd_WebAPI.Models.Helpers;
 using PCO_BackEnd_WebAPI.DTOs.Registrations;
 using PCO_BackEnd_WebAPI.Models.Registrations;
 using System.Data.Entity.Validation;
+using PCO_BackEnd_WebAPI.Security.Authorization;
+using PCO_BackEnd_WebAPI.Models.Roles;
 
 namespace PCO_BackEnd_WebAPI.Controllers.TestAPIs
 {
@@ -188,6 +190,19 @@ namespace PCO_BackEnd_WebAPI.Controllers.TestAPIs
             }
 
             return Ok();
+        }
+
+        [HttpGet]
+        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
+        [Route("api/TestGet")]
+        public async Task<IHttpActionResult> Get()
+        {
+            var result = new
+            {
+                Name = "Miguel",
+                Age = "26"
+            };
+            return Ok(result);
         }
     }
 }
