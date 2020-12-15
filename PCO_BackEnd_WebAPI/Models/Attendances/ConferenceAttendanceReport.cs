@@ -14,9 +14,5 @@ namespace PCO_BackEnd_WebAPI.Models.Attendances
         public string ActivityName { get; set; }
 
         public DateTime? ActivityDate { get; set; }
-
-        public int CpdUnits { get; set; }
-
-        public string CpdAccreditationNumber { get; set; }
     }
 }

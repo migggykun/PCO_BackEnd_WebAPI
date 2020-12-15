@@ -34,5 +34,9 @@ namespace PCO_BackEnd_WebAPI.Models.Attendances
 
         public bool isBundle { get; set; }
 
+        public int? CpdUnits { get; set; }
+
+        public string CpdAccreditationNumber { get; set; }
+
     }
 }
