@@ -63,12 +63,19 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
           conference.Rates.ToList().ForEach(x => x.conferenceId = id);
           conference.ConferenceDays.ToList().ForEach(x => x.ConferenceActivities.ToList().ForEach(y => y.ActivityRates.ToList().ForEach(z => z.conferenceId = id)));
 
-          //Update banner
-          var banner = appDbContext.Banners.Find(id);
-          if (base64Image != null)
-          {
-            banner.Image = new ImageManager(base64Image).Bytes;
-          }
+            //Update banner
+            var banner = appDbContext.Banners.Find(id);
+            if (base64Image != null)
+            {
+                if (banner == null)
+                {
+                    banner = new Banner();
+                    banner.Id = id;
+                    appDbContext.Banners.Add(banner);
+                }
+                ImageManager bannerManager = new ImageManager(base64Image);
+                banner.Image = bannerManager.Bytes;
+            }
 
             var updatedConference = appDbContext.UpdateGraph<Conference>(conference, map => map.OwnedCollection(a => a.ConferenceDays,aa=>aa.OwnedCollection(b=>b.ConferenceActivities,bb=>bb.OwnedCollection(c=>c.ActivityRates).OwnedEntity(c => c.ActivitySchedule))));
             

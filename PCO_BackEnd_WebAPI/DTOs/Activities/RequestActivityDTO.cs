@@ -11,8 +11,8 @@ namespace PCO_BackEnd_WebAPI.DTOs.Activities
 
         public string Description { get; set; }
 
-        public int? CPDUnits { get; set; }
+        public int? CpdUnits { get; set; }
 
-        public string CPDAccreditationNumber { get; set; }
+        public string CpdAccreditationNumber { get; set; }
     }
 }
