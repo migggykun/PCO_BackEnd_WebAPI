@@ -162,6 +162,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.MemberRegistrations
                 }
                 else
                 {
+                    Payment paymentToDelete = await Task.Run(() => unitOfWork.Payments.Find(x => x.MemberRegistrationId == id).FirstOrDefault());
+                    if (paymentToDelete != null) await Task.Run(() => unitOfWork.Payments.Remove(paymentToDelete));
                     await Task.Run(() => unitOfWork.MemberRegistrations.Remove(memberRegistration));
                     await Task.Run(() => unitOfWork.Complete());
                     return Ok();

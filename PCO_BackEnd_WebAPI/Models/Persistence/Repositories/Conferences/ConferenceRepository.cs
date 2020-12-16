@@ -32,9 +32,11 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
             bool isStartDateValid = DataConverter.ConvertToDateTime(fromDate, out startDate);
             bool isEndDateValid = DataConverter.ConvertToDateTime(toDate, out endDate);
 
-            IQueryable<Conference> queryResult = appDbContext.Conferences.Where(c => string.IsNullOrEmpty(filter) ? true : c.Title.Contains(filter) ||
-                                                                                                                           c.Description.Contains(filter) ||
-                                                                                                                           c.Location.Contains(filter))
+            IQueryable<Conference> queryResult = appDbContext.Conferences.OrderBy(x=>x.Start).ThenBy(y=>y.Id)
+                
+                                                         .Where(c => string.IsNullOrEmpty(filter) ? true : c.Title.Contains(filter) ||
+                                                                c.Description.Contains(filter) ||
+                                                                c.Location.Contains(filter))
                                                          .Where(c => string.IsNullOrEmpty(day) ? true : c.Start.Day.ToString().Contains(day)
                                                                 || c.End.Day.ToString().Contains(day))
                                                          .Where(c => string.IsNullOrEmpty(month) ? true : c.Start.Month.ToString().Contains(month)
@@ -45,7 +47,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
                                                          .Where(p => (string.IsNullOrEmpty(fromDate) || !isStartDateValid) ? true : DbFunctions.TruncateTime(p.Start) >= (DbFunctions.TruncateTime(startDate)));
 
             PageResult<Conference> pageResult;
-            pageResult = PaginationManager<Conference>.GetPagedResult(queryResult, page, size);
+            pageResult = PaginationManager<Conference>.GetUnorderedPageResult(queryResult, page, size);
             return pageResult;
         }
 

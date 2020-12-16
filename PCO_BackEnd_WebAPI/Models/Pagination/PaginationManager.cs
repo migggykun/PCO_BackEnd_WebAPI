@@ -42,6 +42,37 @@ namespace PCO_BackEnd_WebAPI.Models.Pagination
             return pageResult;
         }
 
+        public static PageResult<TEntity> GetUnorderedPageResult(IQueryable<TEntity> query, int page, int size)
+        {
+            int recordCount = query.Count();
+            PageResult<TEntity> pageResult = new PageResult<TEntity>();
+            int mod;
+            int totalPageCount;
+            int offset;
+            int recordToReturn;
+            if (size == 0)
+            {
+                mod = 0;
+                totalPageCount = 1;
+                offset = 0;
+                recordToReturn = recordCount;
+            }
+            else
+            {
+                mod = recordCount % size;
+                totalPageCount = (recordCount / size) + (mod == 0 ? 0 : 1);
+                offset = size * (page - 1);
+                recordToReturn = size;
+            }
+
+            pageResult.Results = query.Skip(offset)
+                                        .Take(recordToReturn)
+                                        .ToList();
+            pageResult.PageCount = totalPageCount;
+            pageResult.RecordCount = recordCount;
+            return pageResult;
+        }
+
         private static Expression<Func<TEntity, int>> GetPrimaryKeyExpression(Type classType)
         {
             // Find primary key property based on primary key attribute.
