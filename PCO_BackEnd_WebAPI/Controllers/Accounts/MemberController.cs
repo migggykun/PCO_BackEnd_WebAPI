@@ -222,7 +222,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                     }
                     updateMembership.Id = getMember.Id;
                     updateMembership.IsMember = false;
-                    updateMembership.IsActive =false;
+                    updateMembership.IsActive = false;
                     updateMembership.UserInfo.Address = getMember.UserInfo.Address;
                     _context.UpdateGraph<ApplicationUser>(updateMembership);
                     await Task.Run(() => unitOfWork.Complete());

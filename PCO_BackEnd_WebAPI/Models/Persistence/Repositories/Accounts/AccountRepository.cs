@@ -28,6 +28,13 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
             UserManager = new UserManager<ApplicationUser, int>(store);
         }
 
+        public ApplicationUser FindById(int id)
+        {
+            ApplicationUser result = UserManager.Users.ToList().Find(x => x.Id == id);
+
+            return result;
+        }
+
         public ApplicationUser GetUserByPhoneNumber(string phoneNumber)
         {
             ApplicationUser result = UserManager.Users.ToList().Find(x => x.PhoneNumber == phoneNumber);

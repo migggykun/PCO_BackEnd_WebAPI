@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace PCO_BackEnd_WebAPI.Models.Attendances
 {
@@ -9,8 +6,8 @@ namespace PCO_BackEnd_WebAPI.Models.Attendances
     {
         public ActivityAttendanceReport() 
         {
-            PRCId = null;
-            PRCExpiration = null;
+            PrcId = null;
+            PrcExpiration = null;
             TimeIn = null;
             TimeOut = null;
         }
@@ -18,9 +15,9 @@ namespace PCO_BackEnd_WebAPI.Models.Attendances
 
         public string UserName { get; set; }
 
-        public string PRCId { get; set; }
+        public string PrcId { get; set; }
 
-        public DateTime? PRCExpiration { get; set; }
+        public DateTime? PrcExpiration { get; set; }
 
         public DateTime? TimeIn { get; set; }
 
@@ -37,6 +34,21 @@ namespace PCO_BackEnd_WebAPI.Models.Attendances
         public int? CpdUnits { get; set; }
 
         public string CpdAccreditationNumber { get; set; }
-
+        
+        public string ActivityName { get; set; }
+        
+        public DateTime? ActivityDate { get; set; }
+        
+        public string Email { get; set; }
+        
+        public string PhoneNumber { get; set; }
+        
+        public string Address { get; set; }
+        
+        public string Organization { get; set; }
+        
+        public string PcoMembershipStatus { get; set; }
+        
+        public string PcoMembershipType { get; set; }
     }
 }
