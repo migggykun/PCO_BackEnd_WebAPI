@@ -6,20 +6,23 @@ using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using RefactorThis.GraphDiff;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
+    /// <summary>
+    /// Controller for PCO Member(paid)
+    /// </summary>
     public class MemberController : ApiController
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>
+        /// default constructor. initialize database.
+        /// </summary>
         public MemberController()
         {
             _context = new ApplicationDbContext();
@@ -30,7 +33,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="page">nth page of list. Default value: 1</param>
         /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
-        /// <param name="member">keyword for searching</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseMemberDTO))]
@@ -38,7 +40,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = unitOfWork.Members.GetPageMembers(page, size);
+            var result = await Task.Run(()=>unitOfWork.Members.GetPageMembers(page, size));
             var resultDTO = PaginationMapper<Member, ResponseMemberDTO>.MapResult(result);
             return Ok(result);
         }
@@ -69,7 +71,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <summary>
         /// Adds a member
         /// </summary>
-        /// <param name="responseMemberDTO">Details about the member to be added</param>
+        /// <param name="userId">Id of member to be added</param>
         /// <returns></returns>
         [HttpPost]
         [ResponseType(typeof(ResponseMemberDTO))]
@@ -131,7 +133,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <summary>
         /// Updates a member
         /// </summary>
-        /// <param name="userId">user id</param>
         /// <param name="memberDTO">New information about the member to be updated</param>
         /// <returns></returns>
         [HttpPost]

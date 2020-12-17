@@ -1,31 +1,29 @@
-﻿using AutoMapper;
-using PCO_BackEnd_WebAPI.DTOs.Conferences;
-using PCO_BackEnd_WebAPI.Models.Conferences;
-using PCO_BackEnd_WebAPI.Models.Entities;
-using PCO_BackEnd_WebAPI.Models.Pagination;
+﻿using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Cors;
-using System.Web.Http.Description;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences
 {
+    /// <summary>
+    /// Controller class for pco admin values (website password, annual fees, reset all members)
+    /// </summary>
     public class PCOAdminController : ApiController
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>
+        /// default constructor. initialize database.
+        /// </summary>
         public PCOAdminController()
         {
             _context = new ApplicationDbContext();
         }
 
-
+        /// <summary>
+        /// get annual fee for pco member
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/GetAnnualFee")]
         public async Task<IHttpActionResult> GetAnnualFee()
@@ -35,6 +33,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             return Ok(result);
         }
 
+        /// <summary>
+        /// set annual fee for pco member
+        /// </summary>
+        /// <param name="newAnnualFee"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("api/SetAnnualFee")]
         public async Task<IHttpActionResult> SetAnnualFee(double newAnnualFee)
@@ -45,7 +48,10 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             return Ok(result);
         }
 
-
+        /// <summary>
+        /// get website password (members only page)
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/GetPassword")]
         public async Task<IHttpActionResult> GetPassword()
@@ -55,6 +61,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             return Ok(result);
         }
 
+        /// <summary>
+        /// set password for (members only page)
+        /// </summary>
+        /// <param name="newPassword"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("api/SetPassword")]
         public async Task<IHttpActionResult> SetPassword(string newPassword)

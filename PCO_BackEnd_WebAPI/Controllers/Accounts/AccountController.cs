@@ -1,44 +1,38 @@
-﻿using System;
+﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using Newtonsoft.Json;
+using PCO_BackEnd_WebAPI.DTOs.Accounts;
+using PCO_BackEnd_WebAPI.Models.AccountBindingModels;
+using PCO_BackEnd_WebAPI.Models.Accounts;
+using PCO_BackEnd_WebAPI.Models.AccountViewModels;
+using PCO_BackEnd_WebAPI.Models.Email;
+using PCO_BackEnd_WebAPI.Models.Entities;
+using PCO_BackEnd_WebAPI.Models.Helpers;
+using PCO_BackEnd_WebAPI.Models.Pagination;
+using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
+using PCO_BackEnd_WebAPI.Models.ViewModels;
+using PCO_BackEnd_WebAPI.Security;
+using PCO_BackEnd_WebAPI.Security.DTO;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.ModelBinding;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.OAuth;
-using PCO_BackEnd_WebAPI.Models.AccountBindingModels;
-using PCO_BackEnd_WebAPI.Models.AccountViewModels;
-using PCO_BackEnd_WebAPI.Providers;
-using PCO_BackEnd_WebAPI.Results;
-using PCO_BackEnd_WebAPI.Models.Accounts;
-using PCO_BackEnd_WebAPI.Models.Entities;
-using System.Linq;
-using AutoMapper;
-using PCO_BackEnd_WebAPI.DTOs.Accounts;
-using PCO_BackEnd_WebAPI.Models.Roles;
 using System.Web.Http.Description;
-using System.Web.Http.Cors;
-using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
-using PCO_BackEnd_WebAPI.Models.Helpers;
-using PCO_BackEnd_WebAPI.Models.Pagination;
-using PCO_BackEnd_WebAPI.Models.Helpers;
-using PCO_BackEnd_WebAPI.Security;
-using PCO_BackEnd_WebAPI.Security.DTO;
-using Newtonsoft.Json;
-using System.Text;
-using PCO_BackEnd_WebAPI.Models.Email;
-using PCO_BackEnd_WebAPI.Models.ViewModels;
-using System.Text.RegularExpressions;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
+    /// <summary>
+    /// Controller Class for PCO Accounts
+    /// </summary>
     [AllowAnonymous]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
@@ -46,10 +40,18 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
 
+        /// <summary>
+        /// Default Constructor Class for AccountController Class. No Initializations, all default values.
+        /// </summary>
         public AccountController()
         {
         }
 
+        /// <summary>
+        /// Constuctor to initialize UserManager and accesstoken
+        /// </summary>
+        /// <param name="userManager"></param>
+        /// <param name="accessTokenFormat"></param>
         public AccountController(ApplicationUserManager userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
@@ -57,6 +59,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             AccessTokenFormat = accessTokenFormat;
         }
 
+        /// <summary>
+        /// Property to Manage ASP.NET properties (id, email, password, etc)
+        /// </summary>
         public ApplicationUserManager UserManager
         {
             get
@@ -69,9 +74,10 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
         }
 
+        /// <summary>
+        /// Property for API Access Key Format
+        /// </summary>
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
-
-        
 
         #region Use WebAPI Methods
 
@@ -114,7 +120,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <summary>
         /// Send Email to use using SMTP
         /// </summary>
-        /// <param name="aEmail">email address</param>
+        /// <param name="id">User's id</param>
         /// <param name="emailClassification">Checker if email template for reset password or confirm email will be passed.</param>
         /// <returns>Void</returns>
         private async Task SendEmail(int id, int emailClassification)
@@ -189,7 +195,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <summary>
         /// Send Email to use using SMTP
         /// </summary>
-        /// <param name="aEmail">email address</param>
+        /// <param name="id">user's id</param>
         /// <param name="emailClassification">Checker if email template for reset password or confirm email will be passed.</param>
         /// <returns>Void</returns>
         private async Task SendSMS(int id, int emailClassification)
@@ -401,7 +407,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         /// <summary>
-        /// 
+        ///  Get User by Phone or Email. Used for logging in by phone or email.
         /// </summary>
         /// <param name="phoneOrEmail"></param>
         /// <returns></returns>
@@ -440,9 +446,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         /// <summary>
-        /// 
+        /// Get User By PhoneNumber. When Logging in using phone.
         /// </summary>
-        /// <param name="phoneOrEmail"></param>
+        /// <param name="phoneNumber"></param>
         /// <returns></returns>
         [HttpGet]
         [Route("GetUserByPhone")]
@@ -486,13 +492,17 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             return Ok();
         }
 
-
         /// <summary>
         /// Returns list of accounts
         /// </summary>
         /// <param name="page">nth page of list. Default value: 1</param>
         /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <param name="keywordFilter">filter of returned items</param>
+        /// <param name="organization">Practice Name</param>
+        /// <param name="province">Province</param>
+        /// <param name="membershipType">Membership Type(non-member, student, associate, fellow)</param>
+        /// <param name="isMember">is PCO Member(paid)</param>
+        /// <param name="isActive">is active PCO Member(paid for this year)</param>
         /// <returns></returns>
         [HttpGet]
         [Route("GetAllUsers")]
@@ -628,6 +638,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             return Ok();
         }
 
+        /// <summary>
+        /// Generate Login Token to be used for log-in in Browser Session
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("Login")]
         public async Task<IHttpActionResult> Login(string email, string password)
@@ -658,6 +674,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         }
 
         #endregion
+
+        /// <summary>
+        /// Dispose Method
+        /// </summary>
+        /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && _userManager != null)

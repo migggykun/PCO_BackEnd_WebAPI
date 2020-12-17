@@ -7,18 +7,22 @@ using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using System.Web.Http.Description;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
 {
+    /// <summary>
+    /// Controller for Members applicable for promo
+    /// </summary>
     public class PromoMemberController : ApiController
     {
         private readonly ApplicationDbContext _context;
+
+        /// <summary>
+        /// Default constructor. iniitalize database.
+        /// </summary>
         public PromoMemberController()
         {
             _context = new ApplicationDbContext();
@@ -138,6 +142,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
             }
             catch (Exception ex)
             {
+                var errorMessage = ex.Message;
                 return BadRequest("Error Occured, try again");
             }
         }

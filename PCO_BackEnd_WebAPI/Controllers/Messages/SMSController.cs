@@ -2,23 +2,24 @@
 using PCO_BackEnd_WebAPI.Models.AccountBindingModels;
 using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.Models.Entities;
-using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Messages
 {
+    /// <summary>
+    /// Controller for SMS Text Message Functionalities
+    /// </summary>
     public class SMSController : ApiController
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>
+        /// Default Constructor. initialize database.
+        /// </summary>
         public SMSController()
         {
             _context = new ApplicationDbContext();
@@ -29,13 +30,13 @@ namespace PCO_BackEnd_WebAPI.Controllers.Messages
         /// </summary>
         /// <param name="sms"></param>
         /// <returns></returns>
-        ///         /// <remarks>
+        /// <remarks>
         /// take note of the following formatting
-        /// <fname> - changes to user first name
-        /// <lname> - changes to user last name
-        /// <minitial> - changes to user middle initial
-        /// <org> - changes to user organization/school
-        /// <memtype> - changes to user membership type
+        /// %lt;fname%gt; - changes to user first name
+        /// %lt;lname%gt; - changes to user last name
+        /// %lt;minitial%gt; - changes to user middle initial
+        /// %lt;org%gt; - changes to user organization/school
+        /// %lt;memtype%gt; - changes to user membership type
         /// \n - changes to end of line
         /// limit per line input by 55 char to preserve format
         /// </remarks>
@@ -82,7 +83,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Messages
                 using (var request = new HttpRequestMessage(HttpMethod.Post, url))
                 {
                     request.Content = new StringContent(json, Encoding.UTF8, "application/json");
-                    var response = client.SendAsync(request, HttpCompletionOption.ResponseContentRead).Result;
+                    var response = await Task.Run(()=>client.SendAsync(request, HttpCompletionOption.ResponseContentRead).Result);
                     
                     if(response.IsSuccessStatusCode == false)
                     {

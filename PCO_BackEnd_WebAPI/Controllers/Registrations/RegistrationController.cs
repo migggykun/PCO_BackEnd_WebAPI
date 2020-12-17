@@ -1,30 +1,31 @@
 ﻿using AutoMapper;
-using PCO_BackEnd_WebAPI.DTOs;
 using PCO_BackEnd_WebAPI.DTOs.Registrations;
+using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.Models.Entities;
+using PCO_BackEnd_WebAPI.Models.Helpers;
+using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using PCO_BackEnd_WebAPI.Models.Registrations;
 using PCO_BackEnd_WebAPI.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using System.Web.Http.Description;
-using PCO_BackEnd_WebAPI.Models.Pagination;
-using PCO_BackEnd_WebAPI.DTOs.Conferences.Promos;
-using PCO_BackEnd_WebAPI.Models.Conferences;
-using PCO_BackEnd_WebAPI.Models.Helpers;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
+    /// <summary>
+    /// controller class for event registration
+    /// </summary>
     public class RegistrationController : ApiController
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>
+        /// default constructor. initialize database.
+        /// </summary>
         public RegistrationController()
         {
             _context = new ApplicationDbContext();
@@ -36,6 +37,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="page">nth page of list. Default value: 1</param>
         /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <param name="conferenceId">filter results by conference id</param>
+        /// <param name="aStatusId">filter by registration status</param>
+        /// <param name="userId">filter by user's id</param>
+        /// <param name="akeywordFilter">filter by search keyword</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(List<ResponseRegistrationDTO>))]
@@ -200,11 +204,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
         }
 
-
         /// <summary>
         /// Get registration status
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="conferenceId">id of conference Registered to</param>
+        /// <param name="userId">id of user registered</param>
         /// <returns></returns>
         [HttpGet]
         [Route("api/GetRegistration/{conferenceId=conferenceId}/{userId=userId}")]
@@ -213,7 +217,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             try
             {
                 UnitOfWork unitOfWork = new UnitOfWork(_context);
-                var result = unitOfWork.Registrations.GetRegistration(conferenceId, userId);
+                var result = await Task.Run(()=>unitOfWork.Registrations.GetRegistration(conferenceId, userId));
 
                 var registrationDTO = Mapper.Map<Registration, ResponseRegistrationDTO>(result);
                 return Ok(registrationDTO);
@@ -224,13 +228,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
         }
 
-        
         /// <summary>
         /// Gets RegistrationFee
         /// </summary>
-        /// <param name="conferenceId"></param>
-        /// <param name="promoId"></param>
-        /// <param name="membershipTypeId"></param>
+        /// <param name="conferenceId">id of conference to get registration fee from</param>
+        /// <param name="membershipTypeId">id of member type</param>
         /// <returns></returns>
         [HttpGet]
         [Route("api/GetRegistrationFee")]
@@ -239,14 +241,14 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             RegistrationFeeDTO registrationFee;
             UnitOfWork unitOfWork = new UnitOfWork(_context);
 
-            var conference = unitOfWork.Conferences.Get(conferenceId);
+            var conference = await Task.Run(()=>unitOfWork.Conferences.Get(conferenceId));
             if(conference == null)
             {
                 return NotFound();
             }
 
-            var rate = unitOfWork.Rates.GetRate(x => x.conferenceId == conferenceId && x.membershipTypeId == membershipTypeId); 
-            var promo = conference.PromoId == null ? null : unitOfWork.Promos.Get((int)conference.PromoId);
+            var rate = await Task.Run(()=>unitOfWork.Rates.GetRate(x => x.conferenceId == conferenceId && x.membershipTypeId == membershipTypeId)); 
+            var promo = conference.PromoId == null ? null : await Task.Run(()=>unitOfWork.Promos.Get((int)conference.PromoId));
             bool IsPromoMemberExists = promo == null ? false : promo.PromoMembers.Any(x => x.MembershipTypeId == membershipTypeId);
 
             if (rate == null)

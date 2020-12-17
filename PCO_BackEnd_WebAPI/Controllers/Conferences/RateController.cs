@@ -7,19 +7,22 @@ using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using System.Web.Http.Description;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences
 {
+    /// <summary>
+    /// Controller for rates
+    /// </summary>
     public class RateController : ApiController
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>
+        /// Default Constructor. initialize database.
+        /// </summary>
         public RateController()
         {
             _context = new ApplicationDbContext();

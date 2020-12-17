@@ -3,30 +3,39 @@ using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.Models.Attendances;
 using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.Models.Entities;
+using PCO_BackEnd_WebAPI.Models.Helpers;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using PCO_BackEnd_WebAPI.Models.Registrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Description;
-using PCO_BackEnd_WebAPI.Models.Helpers;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Attendance
 {
+    /// <summary>
+    /// Controller for Activity / Conference Attendance. Attendance Reports
+    /// </summary>
     public class AttendanceController : ApiController
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>
+        /// Default Constructor. initialize database.
+        /// </summary>
         public AttendanceController()
         {
             _context = new ApplicationDbContext();
         }
 
+        /// <summary>
+        /// Time in to activity. FILO (First in last out)
+        /// </summary>
+        /// <param name="registrationId">registration Id of Conference</param>
+        /// <param name="conferenceActivityId">Id of activity to time in to</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("api/TimeIn")]
         public async Task<IHttpActionResult> TimeIn(int registrationId, int conferenceActivityId)
@@ -90,6 +99,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
             }
         }
 
+        /// <summary>
+        /// Time Out to activity. FILO (First in last out)
+        /// </summary>
+        /// <param name="registrationId">registration Id of Conference</param>
+        /// <param name="conferenceActivityId">Id of activity to time in to</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("api/TimeOut")]
         public async Task<IHttpActionResult> TimeOut(int registrationId, int conferenceActivityId)
@@ -152,6 +167,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
             }
         }
 
+        /// <summary>
+        /// Get all attendance of specific activity
+        /// </summary>
+        /// <param name="conferenceId">id of conference</param>
+        /// <param name="conferenceActivityId">id of activity of conference</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/GetActivityAttendanceReport")]
         public async Task<IHttpActionResult> GetActivityAttendanceReport(int conferenceId, int conferenceActivityId)
@@ -163,6 +184,14 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
             return Ok(Mapper.Map<List<ActivityAttendanceReport>, List<ActivityAttendanceReport>>(ActivityAttendanceReport));
         }
 
+        /// <summary>
+        /// Get all attendance of specific user
+        /// </summary>
+        /// <param name="userId">id of user</param>
+        /// <param name="page">count of pages for filter</param>
+        /// <param name="size">size/count per page of search query</param>
+        /// <param name="filter">string filter per item in query</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/GetConferenceAttendanceHistory")]
         public async Task<IHttpActionResult> GetConferenceAttendanceHistory(int userId, int page = 0, int size = 0, string filter = null)
@@ -203,6 +232,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
             return Ok(pageResult);
         }
 
+        /// <summary>
+        /// All attendance in conference
+        /// </summary>
+        /// <param name="conferenceId">id of conference.</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/GetConferenceAttendanceReport")]
         public async Task<IHttpActionResult> GetConferenceAttendanceReport(int conferenceId)

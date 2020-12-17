@@ -1,41 +1,47 @@
 ﻿using AutoMapper;
 using PCO_BackEnd_WebAPI.DTOs.Registrations;
+using PCO_BackEnd_WebAPI.Models.Accounts;
+using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.Models.Entities;
+using PCO_BackEnd_WebAPI.Models.Helpers;
+using PCO_BackEnd_WebAPI.Models.Images;
+using PCO_BackEnd_WebAPI.Models.Images.Manager;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using PCO_BackEnd_WebAPI.Models.Registrations;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using PCO_BackEnd_WebAPI.Models.Pagination;
-using PCO_BackEnd_WebAPI.Models.Accounts;
-using PCO_BackEnd_WebAPI.Models.Conferences;
-using PCO_BackEnd_WebAPI.DTOs.Accounts;
-using PCO_BackEnd_WebAPI.DTOs.Conferences;
-using PCO_BackEnd_WebAPI.Models.Helpers;
-using PCO_BackEnd_WebAPI.Models.Images.Manager;
-using PCO_BackEnd_WebAPI.Models.Images;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Registrations
 {
+    /// <summary>
+    /// Controller Class for Payments
+    /// </summary>
     public class PaymentController : ApiController
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>
+        /// default constructor. initialize database.
+        /// </summary>
         public PaymentController()
         {
             _context = new ApplicationDbContext();
         }
 
+
         /// <summary>
-        /// Gets list of Payments
+        /// 
         /// </summary>
-        /// <param name="page">nth page of list. Default value: 1</param>
-        /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
+        /// <param name="filter"></param>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        /// <param name="aPaymentSubmissionDateFrom"></param>
+        /// <param name="aPaymentSubmissionDateTo"></param>
+        /// <param name="aConfirmationDateFrom"></param>
+        /// <param name="aConfirmationDateTo"></param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponsePaymentDTO))]
@@ -140,10 +146,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         }
 
         /// <summary>
-        /// Gets list of Registration
+        /// Gets payment from member Registration Id
         /// </summary>
-        /// <param name="page">nth page of list. Default value: 1</param>
-        /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
+        /// <param name="memberRegistrationId">id of member Registration</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponsePaymentDTO))]
@@ -314,7 +319,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         public async Task<IHttpActionResult> ConfirmPaymentDate(int id)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            if (unitOfWork.Payments.Get(id) == null)
+            if (await Task.Run(()=>unitOfWork.Payments.Get(id)) == null)
             {
                 return NotFound();
             }

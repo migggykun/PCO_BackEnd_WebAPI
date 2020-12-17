@@ -1,22 +1,24 @@
 ﻿using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Helpers;
-using PCO_BackEnd_WebAPI.Models.Images.Helpers;
 using PCO_BackEnd_WebAPI.Models.Images;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Images
 {
+    /// <summary>
+    /// Controller for Images
+    /// </summary>
     public class ImageController : ApiController
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>
+        /// Default Constructor. Initialize Database.
+        /// </summary>
         public ImageController()
         {
             _context = new ApplicationDbContext();
@@ -35,11 +37,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Images
 
             if (identifier == ImageIdentifier.BANNER)
             {
-                images = unitOfWork.Banners.GetAll().OfType<PcoImage>();
+                images = await Task.Run(()=>unitOfWork.Banners.GetAll().OfType<PcoImage>());
             }
             else if (identifier == ImageIdentifier.RECEIPT)
             {
-                images = unitOfWork.Receipts.GetAll().OfType<PcoImage>();
+                images = await Task.Run(()=>unitOfWork.Receipts.GetAll().OfType<PcoImage>());
             }
             else
             {
@@ -58,7 +60,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Images
         }
 
         /// <summary>
-        /// 
+        /// Get Single Image based on ID
         /// </summary>
         /// <param name="id">image id</param>
         /// <param name="identifier">1: banner , 2: receipts</param>
@@ -72,11 +74,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Images
 
             if (identifier == ImageIdentifier.BANNER)
             {
-                image = unitOfWork.Banners.Get(id) as PcoImage;
+                image = await Task.Run(()=>unitOfWork.Banners.Get(id) as PcoImage);
             }
             else if (identifier == ImageIdentifier.RECEIPT)
             {
-                image = unitOfWork.Receipts.Get(id) as PcoImage;
+                image = await Task.Run(()=>unitOfWork.Receipts.Get(id) as PcoImage);
             }
             else
             {

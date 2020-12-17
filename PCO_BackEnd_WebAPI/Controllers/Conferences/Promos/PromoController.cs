@@ -3,24 +3,25 @@ using PCO_BackEnd_WebAPI.DTOs.Conferences;
 using PCO_BackEnd_WebAPI.DTOs.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Entities;
+using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using System.Web.Http.Description;
-using PCO_BackEnd_WebAPI.Models.Pagination;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
 {
+    /// <summary>
+    /// Controller class for promos
+    /// </summary>
     public class PromoController : ApiController
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>
+        /// default constructor. initialize database.
+        /// </summary>
         public PromoController()
         {
             _context = new ApplicationDbContext();
@@ -31,13 +32,14 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// </summary>
         /// <param name="page">nth page of list. Default value: 1</param>
         /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
+        /// <param name="filter">search string filter</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(PageResult<ResponsePromoDTO>))]
         public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0, string filter = null)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = unitOfWork.Promos.GetPagedPromos(page, size, filter);
+            var result = await Task.Run(()=>unitOfWork.Promos.GetPagedPromos(page, size, filter));
             var resultDTO = PaginationMapper<Promo, ResponsePromoDTO>.MapResult(result);
             return Ok(resultDTO);
         }

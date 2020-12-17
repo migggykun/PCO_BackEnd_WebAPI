@@ -21,10 +21,16 @@ using PCO_BackEnd_WebAPI.Models.Helpers;
 using PCO_BackEnd_WebAPI.Models.Images.Manager;
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences
 {
+    /// <summary>
+    /// Controller for Conference
+    /// </summary>
     public class ConferenceController : ApiController
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>
+        /// Default Constructor. Initialize Database.
+        /// </summary>
         public ConferenceController()
         {
             _context = new ApplicationDbContext();
@@ -33,9 +39,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <summary>
         /// Gets all list of Reference
         /// </summary>
-        /// <param name="title">filter return by conference title</param>
-        /// <param name="page">nth page of list. Default value: 1</param>
-        /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
+        /// <param name="model">details of query</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseConferenceDTO))]

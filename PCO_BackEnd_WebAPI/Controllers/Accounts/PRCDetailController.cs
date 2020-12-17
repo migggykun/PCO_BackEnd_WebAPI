@@ -1,27 +1,27 @@
-﻿using PCO_BackEnd_WebAPI.Models.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using System.Threading.Tasks;
-using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
-using PCO_BackEnd_WebAPI.Models.Accounts;
-using AutoMapper;
+﻿using AutoMapper;
 using PCO_BackEnd_WebAPI.DTOs.Accounts;
-using System.Web.Http.Description;
-using PCO_BackEnd_WebAPI.Models.Roles;
-using System.Web.Http.Cors;
+using PCO_BackEnd_WebAPI.Models.Accounts;
+using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Pagination;
+using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
+using System;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
+    /// <summary>
+    /// Controller for PRC Details
+    /// </summary>
     [RoutePrefix("api/PRCDetail")]
     public class PRCDetailController : ApiController
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>
+        /// Default Constructor. Initialize Database
+        /// </summary>
         public PRCDetailController()
         {
             _context = new ApplicationDbContext();
@@ -33,6 +33,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="page">nth page of list. Default value: 1</param>
         /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <param name="prcId">search PRC Details with the input prcId</param>
+        /// <param name="aExpirationDateFrom">Search ExpirationDate From filter</param>
+        /// <param name="aExpirationDateTo">Search ExpirationDate To Filter</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponsePRCDetailDTO))]
@@ -100,6 +102,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
             catch (Exception ex)
             {
+                var errorMessage = ex.Message;
                 return BadRequest("Error Occured, try again");
             }
 
@@ -141,6 +144,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
             catch (Exception ex)
             {
+                var errorMessage = ex.Message;
                 return BadRequest("Error Occured, try again");
             }
         }
@@ -171,6 +175,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
             catch (Exception ex)
             {
+                var errorMessage = ex.Message;
                 return BadRequest("Error Occured, try again");
             }
         }

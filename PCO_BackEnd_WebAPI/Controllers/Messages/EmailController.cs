@@ -1,22 +1,20 @@
 ﻿using Microsoft.AspNet.Identity;
 using PCO_BackEnd_WebAPI.App_Start;
+using PCO_BackEnd_WebAPI.Models.AccountBindingModels;
 using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.Models.Entities;
-using PCO_BackEnd_WebAPI.Models.Helpers;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Http;
-using PCO_BackEnd_WebAPI.Models.AccountBindingModels;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Mail
 {
+    /// <summary>
+    /// Controller for customized Emails
+    /// </summary>
     public class EmailController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -27,6 +25,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.Mail
                 "<memtype>", 
                 "<org>"};
 
+        /// <summary>
+        /// Default Constructor. Initialize Database.
+        /// </summary>
         public EmailController()
         {
             _context = new ApplicationDbContext();
@@ -35,18 +36,17 @@ namespace PCO_BackEnd_WebAPI.Controllers.Mail
         /// <summary>
         /// send email from frontend formatted body
         /// </summary>
-        /// <param name="page"></param>
-        /// <param name="size"></param>
+        /// <param name="email">email to be sent.</param>
         /// <returns></returns>
         /// <remarks>
         /// take note of the following formatting
-        /// <fname> - changes to user first name
-        /// <lname> - changes to user last name
-        /// <minitial> - changes to user middle initial
-        /// <org> - changes to user organization/school
-        /// <memtype> - changes to user membership type
+        /// %lt;fname%gt; - changes to user first name
+        /// %lt;lname%gt; - changes to user last name
+        /// %lt;minitial%gt; - changes to user middle initial
+        /// %lt;org%gt; - changes to user organization/school
+        /// %lt;memtype%gt; - changes to user membership type
         /// [link text](any valid URL) - to format hyperlinks
-        /// <br> - changes to end of line
+        /// %lt;br%gt; - changes to end of line
         /// limit per line input by 55 char to preserve format
         /// </remarks>
         [HttpPost]
@@ -88,6 +88,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.Mail
             return Ok();
         }
 
+        /// <summary>
+        /// Send Email to all PCO Admins
+        /// </summary>
+        /// <param name="email">email to be sent.</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("SendAdminEmail")]
         public async Task<IHttpActionResult> SendAdminEmail(CustomEmailToAdminBindingModel email)

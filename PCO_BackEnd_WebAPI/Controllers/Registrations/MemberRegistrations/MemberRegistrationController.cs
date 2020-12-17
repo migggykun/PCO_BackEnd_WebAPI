@@ -1,30 +1,30 @@
 ﻿using AutoMapper;
-using PCO_BackEnd_WebAPI.DTOs;
 using PCO_BackEnd_WebAPI.DTOs.Registrations;
+using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.Models.Entities;
+using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using PCO_BackEnd_WebAPI.Models.Registrations;
 using PCO_BackEnd_WebAPI.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using System.Web.Http.Description;
-using PCO_BackEnd_WebAPI.Models.Pagination;
-using PCO_BackEnd_WebAPI.DTOs.Conferences.Promos;
-using PCO_BackEnd_WebAPI.Models.Conferences;
-using PCO_BackEnd_WebAPI.Models.Accounts;
 
 namespace PCO_BackEnd_WebAPI.Controllers.MemberRegistrations
 {
+    /// <summary>
+    /// Controller for membership registrations (be a member)
+    /// </summary>
     public class MemberRegistrationController : ApiController
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>
+        /// default constructor. initialize database.
+        /// </summary>
         public MemberRegistrationController()
         {
             _context = new ApplicationDbContext();
@@ -35,7 +35,9 @@ namespace PCO_BackEnd_WebAPI.Controllers.MemberRegistrations
         /// </summary>
         /// <param name="page">nth page of list. Default value: 1</param>
         /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
-        /// <param name="conferenceId">filter results by conference id</param>
+        /// <param name="aStatusId">filter results by registration status</param>
+        /// <param name="userId">filter results by user Id</param>
+        /// <param name="akeywordFilter">filter results by search keyword</param>
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(List<ResponseMemberRegistrationDTO>))]
@@ -76,7 +78,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.MemberRegistrations
         /// <summary>
         /// Add a registration
         /// </summary>
-        /// <param name="registrationDTO">Details about the registration to be added</param>
+        /// <param name="memberRegistrationDTO">Details about the registration to be added</param>
         /// <returns></returns>
         [HttpPost]
         [ResponseType(typeof(ResponseMemberRegistrationDTO))]
@@ -108,7 +110,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.MemberRegistrations
         /// Updates registration information
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="registrationDTO"></param>
+        /// <param name="memberRegistrationDTO"></param>
         /// <returns></returns>
         [HttpPost]
         [Route("api/UpdateMemberRegistration/{id:int}")]
@@ -199,6 +201,11 @@ namespace PCO_BackEnd_WebAPI.Controllers.MemberRegistrations
             }
         }
 
+        /// <summary>
+        /// Get Member registration with the user's id
+        /// </summary>
+        /// <param name="userId">user's id</param>
+        /// <returns></returns>
         [HttpGet]      
         [Route("api/GetMemberRegistration/{userId=userId}")]
         [ResponseType(typeof(ResponseMemberRegistrationDTO))]
@@ -236,14 +243,18 @@ namespace PCO_BackEnd_WebAPI.Controllers.MemberRegistrations
             return Ok(registrationFee);
         }
 
+        /// <summary>
+        /// Reset all members to isactive false
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [Route("api/ResetMemberRegistrations")]
         public async Task<IHttpActionResult> ResetMemberRegistrations()
         {
             int archivedValue = 6;
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var memberRegistrations = unitOfWork.MemberRegistrations.GetAll().ToList();
-            var members = unitOfWork.Members.GetAll().ToList();
+            var memberRegistrations = await Task.Run(()=>unitOfWork.MemberRegistrations.GetAll().ToList());
+            var members = await Task.Run(()=>unitOfWork.Members.GetAll().ToList());
             try
             {
                 foreach(var memberRegistration in memberRegistrations)
@@ -267,6 +278,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.MemberRegistrations
             }
             catch(Exception e)
             {
+                var errorMessage = e.Message;
                 return BadRequest();
             }
             return Ok();

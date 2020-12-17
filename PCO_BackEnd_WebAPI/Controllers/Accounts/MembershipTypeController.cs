@@ -1,28 +1,26 @@
-﻿using PCO_BackEnd_WebAPI.Models.Accounts;
+﻿using AutoMapper;
+using PCO_BackEnd_WebAPI.DTOs.Accounts;
+using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.Models.Entities;
+using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using AutoMapper;
-using PCO_BackEnd_WebAPI.DTOs.Accounts;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Web.Http.Description;
-using PCO_BackEnd_WebAPI.Models.Roles;
-using System.Web.Http.Cors;
-using PCO_BackEnd_WebAPI.Models.Pagination;
-using PCO_BackEnd_WebAPI.Security.Authorization;
-using PCO_BackEnd_WebAPI.Security.OAuth;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
+    /// <summary>
+    /// Controller Class for PCO MembershipTypes (Associate, Fellow, Student, non-member)
+    /// </summary>
     public class MembershipTypeController : ApiController
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>
+        /// Default constructor. Initialize Database
+        /// </summary>
         public MembershipTypeController()
         {
             _context = new ApplicationDbContext();
@@ -40,7 +38,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0, string membershipType = null)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = unitOfWork.MembershipTypes.GetPagedMembershipTypes(page, size, membershipType);
+            var result = await Task.Run(()=>unitOfWork.MembershipTypes.GetPagedMembershipTypes(page, size, membershipType));
             var resultDTO = PaginationMapper<MembershipType, ResponseMembershipTypeDTO>.MapResult(result);
             return Ok(result);
         }

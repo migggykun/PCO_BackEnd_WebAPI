@@ -8,18 +8,22 @@ using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences
 {
+    /// <summary>
+    /// Controller for Activity
+    /// </summary>
     public class ActivityController : ApiController
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>
+        /// Default constructor. iniitalize database.
+        /// </summary>
         public ActivityController()
         {
             _context = new ApplicationDbContext();
@@ -41,6 +45,13 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
             return Ok(resultDTO);
         }
 
+        /// <summary>
+        /// Get All Conference activities from the conference
+        /// </summary>
+        /// <param name="conferenceId">id of conference </param>
+        /// <param name="page">number of pages for query</param>
+        /// <param name="size">number of items per page in query</param>
+        /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ResponseConferenceActivityDTO))]
         [Route("api/GetActivitiesWithConferenceId")]

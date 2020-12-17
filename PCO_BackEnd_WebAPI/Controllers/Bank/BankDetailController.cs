@@ -1,22 +1,26 @@
-﻿using PCO_BackEnd_WebAPI.Models.Entities;
+﻿using AutoMapper;
+using PCO_BackEnd_WebAPI.DTOs.Bank;
+using PCO_BackEnd_WebAPI.Models.Bank;
+using PCO_BackEnd_WebAPI.Models.Entities;
+using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
 using System.Threading.Tasks;
-using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
-using AutoMapper;
-using PCO_BackEnd_WebAPI.Models.Bank;
-using PCO_BackEnd_WebAPI.DTOs.Bank;
+using System.Web.Http;
 using System.Web.Http.Description;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Bank
 {
+    /// <summary>
+    /// Controller Class for Bank Details
+    /// </summary>
     public class BankDetailController : ApiController
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>
+        /// Default Constructor. Initialize Database.
+        /// </summary>
         public BankDetailController()
         {
             _context = new ApplicationDbContext();
@@ -90,7 +94,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
         /// Updates BankDetails
         /// </summary>
         /// <param name="id">id of the bank detail to be updated</param>
-        /// <param name="conferenceDTO">New information about the bank to be updated</param>
+        /// <param name="bankDetailDTO">New information about the bank to be updated</param>
         /// <returns></returns>
         [HttpPost]
         [Route("api/UpdateBankDetail/{id:int}")]

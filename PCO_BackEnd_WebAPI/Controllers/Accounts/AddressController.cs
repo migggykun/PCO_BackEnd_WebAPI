@@ -2,25 +2,25 @@
 using PCO_BackEnd_WebAPI.DTOs.Accounts;
 using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.Models.Entities;
+using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
-using PCO_BackEnd_WebAPI.Models.Roles;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using System.Web.Http.Description;
-using PCO_BackEnd_WebAPI.Models.Pagination;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
 {
+    /// <summary>
+    /// Controller Class for User Address
+    /// </summary>
     public class AddressController : ApiController
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>
+        /// Default Constructor, initialize database
+        /// </summary>
         public AddressController()
         {
             _context = new ApplicationDbContext();
@@ -99,6 +99,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
             }
             catch (Exception ex)
             {
+                var errorMessage = ex.Message;
                 return BadRequest("Error Occured, try again");
             }
         }

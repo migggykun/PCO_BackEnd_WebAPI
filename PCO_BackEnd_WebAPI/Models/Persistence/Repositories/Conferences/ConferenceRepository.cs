@@ -1,29 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using PCO_BackEnd_WebAPI.Models.Conferences;
-using System.Data.Entity;
-using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences;
+﻿using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.Models.Entities;
-using RefactorThis.GraphDiff;
-using PCO_BackEnd_WebAPI.Models.Pagination;
-using PCO_BackEnd_WebAPI.DTOs.Conferences;
-using AutoMapper;
-using System.Globalization;
-using PCO_BackEnd_WebAPI.Models.Images;
 using PCO_BackEnd_WebAPI.Models.Helpers;
+using PCO_BackEnd_WebAPI.Models.Images;
 using PCO_BackEnd_WebAPI.Models.Images.Manager;
+using PCO_BackEnd_WebAPI.Models.Pagination;
+using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Conferences;
+using RefactorThis.GraphDiff;
+using System;
+using System.Data.Entity;
+using System.Linq;
 
 namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
 {
+    /// <summary>
+    /// Database Query Interface for Conference Table
+    /// </summary>
     public class ConferenceRepository : Repository<Conference>, IConferenceRepository
     {
+        /// <summary>
+        /// default constructor
+        /// </summary>
+        /// <param name="context"></param>
         public ConferenceRepository(DbContext context) : base(context)
         {
               
         }
 
+        /// <summary>
+        /// Get Paged Results of query from all conferences using filters. all if none.
+        /// </summary>
+        /// <param name="page">number of pages</param>
+        /// <param name="size">number of items per page</param>
+        /// <param name="filter">search keyword</param>
+        /// <param name="day">filter by day</param>
+        /// <param name="month">filter by month</param>
+        /// <param name="year">filter by year</param>
+        /// <param name="fromDate">filter by from</param>
+        /// <param name="toDate">filter by to</param>
+        /// <returns></returns>
         public PageResult<Conference> GetPagedConferences(int page, int size, string filter = null, string day = null, string month = null, 
                                                          string year = null, string fromDate = null, string toDate = null)
         {
@@ -51,6 +65,11 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
             return pageResult;
         }
 
+        /// <summary>
+        /// get conference by title
+        /// </summary>
+        /// <param name="title">title of conference</param>
+        /// <returns></returns>
         public Conference GetConferenceByTitle(string title)
         {
             var conference = appDbContext.Conferences
@@ -58,7 +77,13 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
             return conference;
         }
 
-
+        /// <summary>
+        /// Update Conference Information
+        /// </summary>
+        /// <param name="id">id of conference</param>
+        /// <param name="conference">name of conference</param>
+        /// <param name="base64Image">banner image of conference</param>
+        /// <returns></returns>
         public Conference UpdateConferenceInfo(int id, Conference conference, string base64Image)
         {
           conference.Id = id;
@@ -87,10 +112,9 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
         }
 
         /// <summary>
-        /// helper Function for finding conference activity by id to populate activity in conferenceDTO
+        /// Helper Method to fillin activities after conference is added.
         /// </summary>
-        /// <param name="ActivityId"></param>
-        /// <returns></returns>
+        /// <param name="conference">conference to fill activities to</param>
         public void FillInConferenceActivities(Conference conference)
         {
             var activities = appDbContext.Activities.ToList();
