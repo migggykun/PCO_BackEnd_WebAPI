@@ -4,6 +4,8 @@ using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
+using PCO_BackEnd_WebAPI.Models.Roles;
+using PCO_BackEnd_WebAPI.Security.Authorization;
 using System;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -37,6 +39,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="aExpirationDateTo">Search ExpirationDate To Filter</param>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [ResponseType(typeof(ResponsePRCDetailDTO))]
         public async Task<IHttpActionResult> GetAll(int page = 1, 
                                                     int size = 0, 
@@ -60,6 +63,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id">id of the prc detail to be fetched</param>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter]
         [ResponseType(typeof(ResponsePRCDetailDTO))]
         public async Task<IHttpActionResult> Get(int id)
         {
@@ -82,6 +86,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="PRCDetailDTO">Details about PRC Details to be added</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter]
         [ResponseType(typeof(ResponsePRCDetailDTO))]
         public async Task<IHttpActionResult> AddPRCDetail(RequestPRCDetailDTO PRCDetailDTO)
         {
@@ -115,6 +120,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="prcDetailDTO">New information about the PRCDetails to be updated</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter]
         [Route("UpdatePRCDetail/{id:int}")]
         [ResponseType(typeof(ResponsePRCDetailDTO))]
         public async Task<IHttpActionResult> UpdatePRCDetail(int id, RequestPRCDetailDTO prcDetailDTO)
@@ -155,6 +161,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id">user id to delete</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter]
         [Route("api/DeletePRCDetail/{id:int}")]
         public async Task<IHttpActionResult> DeletePRCDetail(int id)
         {
