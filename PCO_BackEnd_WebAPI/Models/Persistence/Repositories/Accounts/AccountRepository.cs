@@ -128,6 +128,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
         private void UpdateUserInfo(UserInfo oldInfo, UserInfo newInfo)
         {
             newInfo.Id = oldInfo.Id;
+            newInfo.Address.Id = oldInfo.Address.Id;
+            _context.Entry(oldInfo.Address).CurrentValues.SetValues(newInfo.Address);
             _context.Entry(oldInfo).CurrentValues.SetValues(newInfo);
         }
 

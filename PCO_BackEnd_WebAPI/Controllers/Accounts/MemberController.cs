@@ -4,6 +4,7 @@ using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
+using PCO_BackEnd_WebAPI.Models.Registrations;
 using RefactorThis.GraphDiff;
 using System;
 using System.Linq;
@@ -115,8 +116,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 updateMembership.IsMember = true;
                 updateMembership.UserInfo.Address = getMember.UserInfo.Address;
                 if(updateMembership.UserInfo.MembershipTypeId!=3) updateMembership.UserInfo.MembershipTypeId = 1; //default value for associate Member (1). Student (3)
-                await Task.Run(()=>unitOfWork.Accounts.UpdateAccount(userId, updateMembership));
-                
+                _context.UpdateGraph<ApplicationUser>(updateMembership);
+
                 await Task.Run(() => unitOfWork.Complete());
                 var resultDTO = Mapper.Map<Member, ResponseMemberDTO>(member);
 
@@ -156,6 +157,24 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 }
                 else
                 {
+                    
+                    var memberRegistrations = await Task.Run(() => unitOfWork.MemberRegistrations.GetAll().Where(x => x.UserId == memberDTO.UserId && x.MemberRegistrationStatusId <= 3));
+                    foreach (var memberRegistration in memberRegistrations)
+                    {
+                        var memberRegistrationClone = new MemberRegistration();
+                        var memberRegistrationpropInfo = memberRegistration.GetType().GetProperties();
+                        foreach (var item in memberRegistrationpropInfo)
+                        {
+                            if (item.CanWrite)
+                            {
+                                memberRegistrationClone.GetType().GetProperty(item.Name).SetValue(memberRegistrationClone, item.GetValue(memberRegistration, null), null);
+                            }
+                        }
+
+                        memberRegistrationClone.MemberRegistrationStatusId = memberDTO.IsActive ? memberRegistrationClone.MemberRegistrationStatusId: 6;
+                        _context.UpdateGraph<MemberRegistration>(memberRegistrationClone);
+                    }
+
                     var membertoUpdate = await Task.Run(() => unitOfWork.Members.GetMemberByUserId(memberDTO.UserId));
                     member.MemberSince = membertoUpdate.MemberSince;
                     result = await Task.Run(() => unitOfWork.Members.UpdateMember(result.Id, member));
@@ -208,6 +227,23 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
                 }
                 else
                 {
+                    var memberRegistrations = await Task.Run(() => unitOfWork.MemberRegistrations.GetAll().Where(x => x.UserId == userId && x.MemberRegistrationStatusId <= 3));
+                    foreach (var memberRegistration in memberRegistrations)
+                    {
+                        var memberRegistrationClone = new MemberRegistration();
+                        var memberRegistrationpropInfo = memberRegistration.GetType().GetProperties();
+                        foreach (var item in memberRegistrationpropInfo)
+                        {
+                            if (item.CanWrite)
+                            {
+                                memberRegistrationClone.GetType().GetProperty(item.Name).SetValue(memberRegistrationClone, item.GetValue(memberRegistration, null), null);
+                            }
+                        }
+
+                        memberRegistrationClone.MemberRegistrationStatusId = 6;
+                        _context.UpdateGraph<MemberRegistration>(memberRegistrationClone);
+                    }
+
                     await Task.Run(() => unitOfWork.Members.Remove(member));
 
                     ApplicationUser updateMembership = new ApplicationUser();

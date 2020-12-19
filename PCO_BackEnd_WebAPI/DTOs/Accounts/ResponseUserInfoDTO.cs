@@ -30,7 +30,6 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
         [Required]
         public DateTime Birthday { get; set; }
 
-        [Required]
         public string School { get; set; }
 
         public string YearGraduated { get; set; }

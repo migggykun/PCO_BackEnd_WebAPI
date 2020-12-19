@@ -33,7 +33,7 @@ namespace PCO_BackEnd_WebAPI.DTOs.Accounts
 
         public bool IsActive { get; set; }
 
-        public ResponseMemberDTO MembershipInfo { get; set; }
+        //public ResponseMemberDTO MembershipInfo { get; set; }
 
         public DateTime MemberSince { get; set; }
     }

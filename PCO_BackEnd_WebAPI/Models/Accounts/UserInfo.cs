@@ -39,7 +39,6 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
         public DateTime Birthday { get; set; }
 
         [StringLength(256, ErrorMessage = "{0} length must be lesser than {1}.")]
-        [Required]
         public string School { get; set; }
 
         [StringLength(4)]
