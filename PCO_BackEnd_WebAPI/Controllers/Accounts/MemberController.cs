@@ -6,6 +6,7 @@ using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using PCO_BackEnd_WebAPI.Models.Registrations;
 using PCO_BackEnd_WebAPI.Models.Roles;
+using PCO_BackEnd_WebAPI.Security.Authorization;
 using RefactorThis.GraphDiff;
 using System;
 using System.Linq;
