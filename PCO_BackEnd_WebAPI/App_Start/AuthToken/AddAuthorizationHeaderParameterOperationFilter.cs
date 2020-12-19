@@ -21,9 +21,9 @@ namespace PCO_BackEnd_WebAPI.App_Start.AuthToken
             {
                 operation.parameters.Add(new Parameter
                 {
-                    name = "Authorization",
+                    name = "x-api-key",
                     @in = "header",
-                    description = "access token",
+                    description = "Authorization Key to access API",
                     required = false,
                     type = "string"
                 });

@@ -5,6 +5,8 @@ using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
+using PCO_BackEnd_WebAPI.Models.Roles;
+using PCO_BackEnd_WebAPI.Security.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +38,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="size"></param>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [ResponseType(typeof(ResponseActivityDTO))]
         public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0)
         {
@@ -53,6 +56,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="size">number of items per page in query</param>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter]
         [ResponseType(typeof(ResponseConferenceActivityDTO))]
         [Route("api/GetActivitiesWithConferenceId")]
         public async Task<IHttpActionResult> GetActivitiesWithConferenceId(int conferenceId, int page = 1, int size = 0)
@@ -69,6 +73,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="id">id of activity to be fetched</param>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter]
         [ResponseType(typeof(ResponseActivityDTO))]
         public async Task<IHttpActionResult> Get(int id)
         {
@@ -91,6 +96,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="activityDTO"></param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [ResponseType(typeof(List<ResponseActivityDTO>))]
         public async Task<IHttpActionResult> AddActivities(List<RequestActivityDTO> activityDTO)
         {
@@ -123,6 +129,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="activityDTO">New information about the activity to be updated</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("api/UpdateActivity/{id:int}")]
         public async Task<IHttpActionResult> UpdateActivity(int id, RequestActivityDTO activityDTO)
         {
@@ -161,6 +168,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="id">id of the activity to be deleted.</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("api/DeleteActivity/{id:int}")]
         [ResponseType(typeof(ResponseActivityDTO))]
         public async Task<IHttpActionResult> DeleteActivity(int id)

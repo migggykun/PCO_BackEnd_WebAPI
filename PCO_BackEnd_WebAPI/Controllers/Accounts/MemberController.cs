@@ -5,6 +5,7 @@ using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using PCO_BackEnd_WebAPI.Models.Registrations;
+using PCO_BackEnd_WebAPI.Models.Roles;
 using RefactorThis.GraphDiff;
 using System;
 using System.Linq;
@@ -36,6 +37,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [ResponseType(typeof(ResponseMemberDTO))]
         [Route("api/GetMembers/")]
         public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0)
@@ -52,7 +54,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="userId">id of the user to be fetched</param>
         /// <returns></returns>
         [HttpGet]
-        [Route("api/GetMember/")]
+        [CustomAuthFilter]
+        [Route("api/GetMember/{id}")]
         [ResponseType(typeof(ResponseMemberDTO))]
         public async Task<IHttpActionResult> Get(int userId)
         {
@@ -75,6 +78,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="userId">Id of member to be added</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter]
         [ResponseType(typeof(ResponseMemberDTO))]
         public async Task<IHttpActionResult> AddMember(int userId)
         {
@@ -137,6 +141,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="memberDTO">New information about the member to be updated</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter]
         [Route("api/UpdateMember/")]
         public async Task<IHttpActionResult> UpdateMember(RequestMemberDTO memberDTO)
         {
@@ -213,6 +218,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="userId">id of the member to be deleted.</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("api/DeleteMember/{userId:int}")]
         [ResponseType(typeof(ResponseMemberDTO))]
         public async Task<IHttpActionResult> DeleteMember(int userId)
