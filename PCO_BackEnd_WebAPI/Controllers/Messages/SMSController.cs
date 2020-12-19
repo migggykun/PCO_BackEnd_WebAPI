@@ -2,8 +2,6 @@
 using PCO_BackEnd_WebAPI.Models.AccountBindingModels;
 using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.Models.Entities;
-using PCO_BackEnd_WebAPI.Models.Roles;
-using PCO_BackEnd_WebAPI.Security.Authorization;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -43,7 +41,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Messages
         /// limit per line input by 55 char to preserve format
         /// </remarks>
         [HttpPost]
-        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         public async Task<IHttpActionResult> SendSMS(SMSBindingModel sms)
         {
             if (!ModelState.IsValid)

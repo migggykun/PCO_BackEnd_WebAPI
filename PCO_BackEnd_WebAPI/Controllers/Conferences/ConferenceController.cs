@@ -19,8 +19,6 @@ using PCO_BackEnd_WebAPI.Models.ParameterBindingModels;
 using PCO_BackEnd_WebAPI.Models.Images;
 using PCO_BackEnd_WebAPI.Models.Helpers;
 using PCO_BackEnd_WebAPI.Models.Images.Manager;
-using PCO_BackEnd_WebAPI.Security.Authorization;
-using PCO_BackEnd_WebAPI.Models.Roles;
 namespace PCO_BackEnd_WebAPI.Controllers.Conferences
 {
     /// <summary>
@@ -44,7 +42,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="model">details of query</param>
         /// <returns></returns>
         [HttpGet]
-        [CustomAuthFilter]
         [ResponseType(typeof(ResponseConferenceDTO))]
         public async Task<IHttpActionResult> GetAll([FromUri] ConferenceParameterBindingModel model)
         {
@@ -63,7 +60,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="id">id of the conference to be fetched</param>
         /// <returns></returns>
         [HttpGet]
-        [CustomAuthFilter]
         public async Task<IHttpActionResult> Get(int id)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -85,7 +81,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="conferenceDTO">Details about the conference to be added.</param>
         /// <returns></returns>
         [HttpPost]
-        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [ResponseType(typeof(ResponseConferenceDTO))]
         public async Task<IHttpActionResult> AddConference(AddConferenceDTO conferenceDTO)
         {
@@ -136,7 +131,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="conferenceDTO">New information about the conference to be updated</param>
         /// <returns></returns>
         [HttpPost]
-        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("api/UpdateConference/{id:int}")]
         [ResponseType(typeof(ResponseConferenceDTO))]
         public async Task<IHttpActionResult> UpdateConference(int id, UpdateConferenceDTO conferenceDTO)
@@ -184,7 +178,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="id">id of the conference to be deleted</param>
         /// <returns></returns>
         [HttpPost]
-        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("api/DeleteConference/{id:int}")]
         public async Task<IHttpActionResult> DeleteConference(int id)
         {

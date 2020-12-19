@@ -4,8 +4,6 @@ using PCO_BackEnd_WebAPI.Models.Conferences;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
-using PCO_BackEnd_WebAPI.Models.Roles;
-using PCO_BackEnd_WebAPI.Security.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +35,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <returns></returns>
         [HttpGet]
-        [CustomAuthFilter]
         [ResponseType(typeof(ResponseRateDTO))]
         public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0)
         {
@@ -53,7 +50,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="id">id of rate to be fetched</param>
         /// <returns></returns>
         [HttpGet]
-        [CustomAuthFilter]
         [ResponseType(typeof(ResponseRateDTO))]
         public async Task<IHttpActionResult> Get(int id)
         {
@@ -76,7 +72,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="rateDTO">>Details about the rate to be added.</param>
         /// <returns></returns>
         [HttpPost]
-        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [ResponseType(typeof(ResponseRateDTO))]
         public async Task<IHttpActionResult> AddRates(List<RequestRateDTO> rateDTO)
         {
@@ -117,7 +112,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="rateDTO">New information about the rate to be updated</param>
         /// <returns></returns>
         [HttpPost]
-        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("api/UpdateRate/{id:int}")]
         public async Task<IHttpActionResult> UpdateRate(int id, RequestRateDTO rateDTO)
         {
@@ -156,7 +150,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="id">id of the rate to be deleted.</param>
         /// <returns></returns>
         [HttpPost]
-        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("api/DeleteRate/{id:int}")]
         [ResponseType(typeof(ResponseConferenceDTO))]
         public async Task<IHttpActionResult> DeleteRates(int id)
