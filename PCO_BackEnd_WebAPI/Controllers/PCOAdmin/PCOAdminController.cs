@@ -1,4 +1,5 @@
 ﻿using PCO_BackEnd_WebAPI.Models.Entities;
+using PCO_BackEnd_WebAPI.Models.PCOAdmin;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -26,10 +27,10 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <returns></returns>
         [HttpGet]
         [Route("api/GetAnnualFee")]
-        public async Task<IHttpActionResult> GetAnnualFee()
+        public async Task<IHttpActionResult> GetAnnualFee(bool renew)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = await Task.Run(() => unitOfWork.PCOAdminDetail.GetAnnualFee());
+            var result = await Task.Run(() => unitOfWork.PCOAdminDetail.GetAnnualFee(renew));
             return Ok(result);
         }
 
@@ -40,10 +41,18 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <returns></returns>
         [HttpPost]
         [Route("api/SetAnnualFee")]
-        public async Task<IHttpActionResult> SetAnnualFee(double newAnnualFee)
+        public async Task<IHttpActionResult> SetAnnualFee(bool renew, double newAnnualFee)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = await Task.Run(() => unitOfWork.PCOAdminDetail.UpdatePCOAdminDetails(newAnnualFee));
+            PCOAdminDetail result = new PCOAdminDetail();
+            if(renew)
+            {
+                result = await Task.Run(() => unitOfWork.PCOAdminDetail.UpdatePCOAdminDetails(null, newAnnualFee));
+            }
+            else
+            {
+                result = await Task.Run(() => unitOfWork.PCOAdminDetail.UpdatePCOAdminDetails(newAnnualFee));
+            }
             await Task.Run(()=>unitOfWork.Complete());
             return Ok(result);
         }
@@ -71,7 +80,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         public async Task<IHttpActionResult> SetPassword(string newPassword)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = await Task.Run(() => unitOfWork.PCOAdminDetail.UpdatePCOAdminDetails(null,newPassword));
+            var result = await Task.Run(() => unitOfWork.PCOAdminDetail.UpdatePCOAdminDetails(null, null, newPassword));
             await Task.Run(() => unitOfWork.Complete());
             return Ok(result);
         }

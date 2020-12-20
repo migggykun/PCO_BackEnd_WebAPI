@@ -233,12 +233,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.MemberRegistrations
         /// <returns></returns>
         [HttpGet]
         [Route("api/GetMemberRegistrationFee")]
-        public async Task<IHttpActionResult> GetMemberRegistrationFee()
+        public async Task<IHttpActionResult> GetMemberRegistrationFee(bool isMember)
         {
             double registrationFee;
             UnitOfWork unitOfWork = new UnitOfWork(_context);
 
-            registrationFee = await Task.Run(()=>unitOfWork.PCOAdminDetail.GetAnnualFee());
+            registrationFee = await Task.Run(()=>unitOfWork.PCOAdminDetail.GetAnnualFee(isMember));
 
             return Ok(registrationFee);
         }

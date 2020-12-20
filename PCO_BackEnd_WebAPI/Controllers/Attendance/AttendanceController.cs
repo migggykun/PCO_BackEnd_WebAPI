@@ -77,7 +77,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
                     {
                         ConferenceActivityId = conferenceActivityId,
                         UserId = registration.UserId,
-                        TimeIn = attendance.TimeIn == null ? PhTime.Now() : attendance.TimeIn
+                        TimeIn = PhTime.Now() 
                     };
 
                     var result = newAttendance;
