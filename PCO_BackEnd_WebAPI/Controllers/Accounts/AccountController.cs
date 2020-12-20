@@ -508,23 +508,37 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         [Route("GetAllUsers")]
         [ResponseType(typeof(List<ResponseAccountDTO>))]
         public async Task<IHttpActionResult> GetUsers(string keywordFilter = null, 
-                                                      int page = 1, 
-                                                      int size = 0,
-                                                      string organization = null,
-                                                      string province = null,
-                                                      string membershipType = null,
-                                                      bool? isMember = null,
-                                                      bool? isActive = null)
+                                                        int page = 1, 
+                                                        int size = 0,
+                                                        string school = null,
+                                                        string yearGraduated = null,
+                                                        string organization = null,
+                                                        string address = null,
+                                                        string membershipType = null,
+                                                        string pcoMembership = null,
+                                                        DateTime? prcRegDateFrom = null,
+                                                        DateTime? prcRegDateTo = null,
+                                                        DateTime? prcExpDateFrom = null,
+                                                        DateTime? prcExpDateTo = null,
+                                                        DateTime? birthdayDateFrom = null,
+                                                        DateTime? birthdayDateTo = null)
         {
             UnitOfWork unitOfWork = new UnitOfWork(new ApplicationDbContext());
             var result = await Task.Run(() => unitOfWork.Accounts.GetPagedAccounts(page,
                                                                                    size,
                                                                                    keywordFilter,
+                                                                                   school,
+                                                                                   yearGraduated,
                                                                                    organization,
-                                                                                   province,
+                                                                                   address,
                                                                                    membershipType,
-                                                                                   isMember,
-                                                                                   isActive));
+                                                                                   pcoMembership,
+                                                                                   prcRegDateFrom,
+                                                                                   prcRegDateTo,
+                                                                                   prcExpDateFrom,
+                                                                                   prcExpDateTo,
+                                                                                   birthdayDateFrom,
+                                                                                   birthdayDateTo));
 
             var resultDTO = PaginationMapper<ApplicationUser, ResponseAccountDTO>.MapResult(result);
             return Ok(resultDTO);

@@ -59,17 +59,25 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Conferences
             //Update existing data
             foreach (var r in rates)
             {
-                var tempRate = appDbContext.Rates.Find(r.Id);
-                if (tempRate != null)
+                if(r.Id==0)
                 {
-                    //Entity already exists in db
-                    var attachedEntry = appDbContext.Entry(tempRate);
-                    attachedEntry.CurrentValues.SetValues(r);
+                    //new rate
+                    appDbContext.Rates.Add(r);
                 }
                 else
                 {
-                    //Entity not yet exists in db
-                    appDbContext.Rates.Add(r);
+                    var tempRate = appDbContext.Rates.Find(r.Id);
+                    if (tempRate != null)
+                    {
+                        //Entity already exists in db
+                        var attachedEntry = appDbContext.Entry(tempRate);
+                        attachedEntry.CurrentValues.SetValues(r);
+                    }
+                    else
+                    {
+                        //Entity not yet exists in db
+                        appDbContext.Rates.Add(r);
+                    }
                 }
             }
 
