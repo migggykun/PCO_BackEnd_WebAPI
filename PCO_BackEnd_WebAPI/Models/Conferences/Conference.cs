@@ -17,6 +17,7 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
         }
 
         [Key]
+        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         [Required]

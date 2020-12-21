@@ -216,7 +216,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
                     {
                         if (item.CanWrite)
                         {
-                        conferenceAttendanceHistoryItem.GetType().GetProperty(item.Name).SetValue(conferenceAttendanceHistoryItem, item.GetValue(report, null), null);
+                            conferenceAttendanceHistoryItem.GetType().GetProperty(item.Name).SetValue(conferenceAttendanceHistoryItem, item.GetValue(report, null), null);
                         }
                     }
 
