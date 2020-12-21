@@ -26,10 +26,11 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 													DateTime? aPaymentSubmissionDateFrom = null,
 													DateTime? aPaymentSubmissionDateTo = null,
 													DateTime? aConfirmationDateFrom = null,
-													DateTime? aConfirmationDateTo = null)
+													DateTime? aConfirmationDateTo = null,
+													string registrationStatus = null)
 		{
             PageResult<Payment> pageResult;
-			int statusId = string.IsNullOrEmpty(filter) ? -1 : getRegistrationStatusId(filter);
+			int statusId = string.IsNullOrEmpty(registrationStatus) ? -1 : getRegistrationStatusId(registrationStatus);
 
 			IQueryable<Payment> queryResult = appDbContext.Payments
 				.Where(u=>(filter == null)?true:
@@ -40,8 +41,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 					(u.Registration.User.UserInfo.LastName.Contains(filter)) ||
 					(u.Registration.User.UserInfo.MiddleName.Contains(filter)) ||
 					(u.Registration.Conference.Title.Contains(filter)) ||
-					(u.AmountPaid.ToString().Contains(filter)) ||
-					((statusId != -1) && (u.Registration.RegistrationStatusId == statusId) || (u.MemberRegistration.MemberRegistrationStatusId == statusId)));
+					(u.AmountPaid.ToString().Contains(filter)));
 
 
 			//apply Date Filters
@@ -58,15 +58,18 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Registrations
 				:
 				true);
 
+			//apply Status filter
+			queryResult = queryResult.Where(u => string.IsNullOrEmpty(registrationStatus)?true:((statusId != -1) && (u.Registration.RegistrationStatusId == statusId) || (u.MemberRegistration.MemberRegistrationStatusId == statusId)));
+
 			pageResult = PaginationManager<Payment>.GetPagedResult(queryResult, page, size);
             return pageResult;
 		}
 
 		public int getRegistrationStatusId(string registrationStatus)
         {
-			if(appDbContext.RegistrationStatus.ToList().Find(x=>x.StatusLabel == registrationStatus)!=null)
+			if(appDbContext.RegistrationStatus.ToList().Find(x=>x.StatusLabel.ToLower() == registrationStatus.ToLower()) !=null)
             {
-				return appDbContext.RegistrationStatus.ToList().Find(x => x.StatusLabel == registrationStatus).Id;
+				return appDbContext.RegistrationStatus.ToList().Find(x => x.StatusLabel.ToLower() == registrationStatus.ToLower()).Id;
 			}
 			return -1;
         }

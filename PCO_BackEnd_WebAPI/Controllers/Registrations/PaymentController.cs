@@ -51,7 +51,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                                                     DateTime? aPaymentSubmissionDateFrom = null, 
                                                     DateTime? aPaymentSubmissionDateTo = null,
                                                     DateTime? aConfirmationDateFrom = null,
-                                                    DateTime? aConfirmationDateTo = null)
+                                                    DateTime? aConfirmationDateTo = null,
+                                                    string registrationStatus=null)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
             var result = await Task.Run(() => unitOfWork.Payments.GetPagedPayments(filter,
@@ -60,7 +61,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
                                                                                    aPaymentSubmissionDateFrom,
                                                                                    aPaymentSubmissionDateTo,
                                                                                    aConfirmationDateFrom,
-                                                                                   aConfirmationDateTo));
+                                                                                   aConfirmationDateTo,
+                                                                                   registrationStatus));
 
             var users = result.Results.Select(x => unitOfWork.UserInfos.Get(String.Compare(x.paymentType.Trim().ToLower(),"registration",true) == 0? x.Registration.UserId : (int)x.MemberRegistration.UserId));
             var conferences = result.Results.Select(x => String.Compare(x.paymentType.Trim().ToLower(), "registration",true) == 0? unitOfWork.Conferences.Get(x.Registration.ConferenceId) : null);
