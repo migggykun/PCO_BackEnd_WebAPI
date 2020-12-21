@@ -7,7 +7,6 @@ namespace PCO_BackEnd_WebAPI.Models.Registrations
     public class ActivitiesToAttend
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         public int RegistrationId { get; set; }

@@ -157,9 +157,7 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                         .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<ConferenceActivity>()
-                        .HasRequired(e => e.ActivitySchedule)
-                        .WithRequiredPrincipal()
-                        .WillCascadeOnDelete(true);
+                        .HasRequired(e => e.ActivitySchedule);
 
             modelBuilder.Entity<ConferenceActivity>()
                         .HasMany(e => e.ActivitiesToAttend)
