@@ -4,6 +4,8 @@ using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
+using PCO_BackEnd_WebAPI.Models.Roles;
+using PCO_BackEnd_WebAPI.Security.Authorization;
 using System;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -34,6 +36,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="size">count of item to return in a page. Returns all record if not specified</param>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [ResponseType(typeof(ResponseUserInfoDTO))]
         public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0)
         {
@@ -49,6 +52,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id">id of the user information to be fetched</param>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter]
         [ResponseType(typeof(ResponseUserInfoDTO))]
         public async Task<IHttpActionResult> Get(int id)
         {
@@ -72,6 +76,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="userInfoDTO">New information about the user to be updated</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter]
         [Route("UpdateUserInfo/{id:int}")]
         [ResponseType(typeof(ResponseUserInfoDTO))]
         public async Task<IHttpActionResult> UpdateUserInfo(int id, RequestUserInfoDTO userInfoDTO)
