@@ -13,8 +13,6 @@ namespace PCO_BackEnd_WebAPI.Models.PCOAdmin
         [Key]
         public int Id { get; set; }
 
-        public double PcoMembershipFee { get; set; }
-
         public double AnnualMembershipFee { get; set; }
 
         public string WebsitePassword { get; set; }

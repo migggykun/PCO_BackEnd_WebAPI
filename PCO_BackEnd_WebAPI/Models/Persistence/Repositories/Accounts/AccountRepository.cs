@@ -42,24 +42,18 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
             return result;
         }
 
-        public PageResult<ApplicationUser> GetPagedAccounts(int page,
+        public PageResult<ApplicationUser> GetPagedAccounts(int page, 
                                                             int size,
                                                             string filter = null,
-                                                            string school = null,
-                                                            string yearGraduated = null,
                                                             string organization = null,
-                                                            string address = null,
+                                                            string province = null,
                                                             string membershipType = null,
-                                                            string pcoMembership = null,
-                                                            DateTime? prcRegDateFrom = null,
-                                                            DateTime? prcRegDateTo = null,
-                                                            DateTime? prcExpDateFrom = null,
-                                                            DateTime? prcExpDateTo = null,
-                                                            DateTime? birthdayDateFrom = null,
-                                                            DateTime? birthdayDateTo = null)
+                                                            bool? isMember = null,
+                                                            bool? isActive = null)
         {
             PageResult<ApplicationUser> pageResult;
-
+            DateTime PRCDate;
+            DataConverter.ConvertToDateTime(filter, out PRCDate);
             IQueryable<ApplicationUser> queryResult = UserManager.Users.Where(u => (filter == null) ?
                                                               true
                                                               :
@@ -68,6 +62,7 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
                                                                u.UserInfo.LastName.Contains(filter)) ||
                                                                u.UserInfo.Organization.Contains(filter) ||
                                                                u.UserInfo.MembershipType.Name.Contains(filter) ||
+                                                               DbFunctions.TruncateTime(u.PRCDetail.ExpirationDate) == (DbFunctions.TruncateTime(PRCDate)) ||
                                                                u.PRCDetail.IdNumber.Contains(filter) ||
                                                                u.Email.Contains(filter) ||
                                                                u.PhoneNumber.Contains(filter));
@@ -81,72 +76,25 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories
                                                   true
                                                   :
                                                   (u.UserInfo.MembershipType.Name.Contains(membershipType)));
-
-            //Filter by school
-            queryResult = queryResult.Where(u => (string.IsNullOrEmpty(school)) ?
-                                                  true
-                                                  :
-                                                  (u.UserInfo.School.Contains(school)));
-
-            //Filter by year graduated
-            queryResult = queryResult.Where(u => (string.IsNullOrEmpty(yearGraduated)) ?
-                                                  true
-                                                  :
-                                                  (u.UserInfo.YearGraduated.Contains(yearGraduated)));
-            //Filter by Address
-            queryResult = queryResult.Where(u => (address == null) ?
+            //Filter by Province
+            queryResult = queryResult.Where(u => (province == null) ?
                                        true
                                        :
-                                       (u.UserInfo.Address.StreetAddress.Contains(address)) ||
-                                       (u.UserInfo.Address.Barangay.Contains(address)) ||
-                                       (u.UserInfo.Address.City.Contains(address)) ||
-                                       (u.UserInfo.Address.Province.Contains(address)) ||
-                                       (u.UserInfo.Address.Zipcode.Contains(address)) );
+                                       (u.UserInfo.Address.Province.Contains(province)));
 
-            //apply Date Filters
-            queryResult = queryResult.Where(x =>
-                (prcRegDateFrom != null && prcRegDateTo != null) ?
-                (x.PRCDetail.RegistrationDate >= prcRegDateFrom &&
-                x.PRCDetail.RegistrationDate <= prcRegDateTo)
-                :
-                true)
-            .Where(x =>
-                (prcExpDateFrom != null && prcExpDateTo != null) ?
-                (x.PRCDetail.ExpirationDate >= prcExpDateFrom &&
-                x.PRCDetail.ExpirationDate <= prcExpDateTo)
-                :
-                true)
-            .Where(x =>
-                (birthdayDateFrom != null && birthdayDateTo != null) ?
-                (x.UserInfo.Birthday >= birthdayDateFrom &&
-                x.UserInfo.Birthday <= birthdayDateTo)
-                :
-                true);
+            /*
+            //Filter by isActive
+            queryResult = queryResult.Where(u => (isActive == null) ?
+                                       true
+                                       :
+                                       (u.UserInfo.IsActive == isActive));
 
-            if(!string.IsNullOrEmpty(pcoMembership))
-            {
-                if (pcoMembership.ToLower().Equals("active"))
-                {
-                    queryResult = queryResult.Where(u => u.IsMember == true && u.IsActive == true);
-                }
-                else if (pcoMembership.ToLower().Equals("inactive"))
-                {
-                    queryResult = queryResult.Where(u => u.IsMember == true && u.IsActive == false);
-                }
-                else if (pcoMembership.ToLower().Equals("non-member"))
-                {
-                    queryResult = queryResult.Where(u => u.IsMember == false);
-                }
-                else
-                {
-                    //do nothing
-                }
-            }
-            else
-            {
-                //do nothing
-            }
-            
+            //Filter by isMember
+            queryResult = queryResult.Where(u => (isMember == null) ?
+                                       true
+                                       :
+                                       (u.UserInfo.IsMember == isMember)); 
+            */
 
             pageResult = PaginationManager<ApplicationUser>.GetPagedResult(queryResult, page, size);
             return pageResult;

@@ -3,6 +3,8 @@ using PCO_BackEnd_WebAPI.DTOs.Bank;
 using PCO_BackEnd_WebAPI.Models.Bank;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
+using PCO_BackEnd_WebAPI.Models.Roles;
+using PCO_BackEnd_WebAPI.Security.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -31,6 +33,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter]
         [ResponseType(typeof(List<ResponseBankDetailDTO>))]
         public async Task <IHttpActionResult> GetAll(int page = 0, int size = 0, string filter = null)
         {
@@ -45,6 +48,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter]
         public async Task<IHttpActionResult> Get(int id)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -66,6 +70,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
         /// <param name="bankDetailDTO">Bank details to be added.</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [ResponseType(typeof(ResponseBankDetailDTO))]
         public async Task<IHttpActionResult> AddBankDetails(RequestAddBankDetailDTO bankDetailDTO)
         {
@@ -97,6 +102,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
         /// <param name="bankDetailDTO">New information about the bank to be updated</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("api/UpdateBankDetail/{id:int}")]
         [ResponseType(typeof(ResponseBankDetailDTO))]
         public async Task<IHttpActionResult> UpdateBankDetails(int id, RequestUpdateBankDetailDTO bankDetailDTO)
@@ -134,6 +140,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Bank
         /// <param name="id">id of the bank details to be deleted</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("api/DeleteBankDetail/{id:int}")]
         public async Task<IHttpActionResult> DeleteBankDetails(int id)
         {

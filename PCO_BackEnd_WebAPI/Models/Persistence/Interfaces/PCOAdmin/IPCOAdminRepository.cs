@@ -9,8 +9,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.PCOAdmin
 {
     public interface IPCOAdminRepository
     {
-        PCOAdminDetail UpdatePCOAdminDetails(double? reg=null, double? renew=null, string password=null);
-        double GetAnnualFee(bool renew);
+        PCOAdminDetail UpdatePCOAdminDetails(double? price=null, string password=null);
+        double GetAnnualFee();
         string GetPassword();
     }
 }

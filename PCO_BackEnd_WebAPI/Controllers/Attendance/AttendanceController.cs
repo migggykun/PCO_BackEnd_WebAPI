@@ -7,6 +7,8 @@ using PCO_BackEnd_WebAPI.Models.Helpers;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using PCO_BackEnd_WebAPI.Models.Registrations;
+using PCO_BackEnd_WebAPI.Models.Roles;
+using PCO_BackEnd_WebAPI.Security.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +39,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
         /// <param name="conferenceActivityId">Id of activity to time in to</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("api/TimeIn")]
         public async Task<IHttpActionResult> TimeIn(int registrationId, int conferenceActivityId)
         {
@@ -77,7 +80,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
                     {
                         ConferenceActivityId = conferenceActivityId,
                         UserId = registration.UserId,
-                        TimeIn = PhTime.Now() 
+                        TimeIn = attendance.TimeIn == null ? PhTime.Now() : attendance.TimeIn
                     };
 
                     var result = newAttendance;
@@ -106,6 +109,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
         /// <param name="conferenceActivityId">Id of activity to time in to</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("api/TimeOut")]
         public async Task<IHttpActionResult> TimeOut(int registrationId, int conferenceActivityId)
         {
@@ -174,6 +178,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
         /// <param name="conferenceActivityId">id of activity of conference</param>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter]
         [Route("api/GetActivityAttendanceReport")]
         public async Task<IHttpActionResult> GetActivityAttendanceReport(int conferenceId, int conferenceActivityId)
         {
@@ -193,6 +198,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
         /// <param name="filter">string filter per item in query</param>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter]
         [Route("api/GetConferenceAttendanceHistory")]
         public async Task<IHttpActionResult> GetConferenceAttendanceHistory(int userId, int page = 0, int size = 0, string filter = null)
         {
@@ -216,7 +222,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
                     {
                         if (item.CanWrite)
                         {
-                            conferenceAttendanceHistoryItem.GetType().GetProperty(item.Name).SetValue(conferenceAttendanceHistoryItem, item.GetValue(report, null), null);
+                        conferenceAttendanceHistoryItem.GetType().GetProperty(item.Name).SetValue(conferenceAttendanceHistoryItem, item.GetValue(report, null), null);
                         }
                     }
 
@@ -238,6 +244,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
         /// <param name="conferenceId">id of conference.</param>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter]
         [Route("api/GetConferenceAttendanceReport")]
         public async Task<IHttpActionResult> GetConferenceAttendanceReport(int conferenceId)
         {

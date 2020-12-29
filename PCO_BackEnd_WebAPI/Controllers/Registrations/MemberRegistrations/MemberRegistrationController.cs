@@ -6,6 +6,7 @@ using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using PCO_BackEnd_WebAPI.Models.Registrations;
 using PCO_BackEnd_WebAPI.Models.ViewModels;
+using PCO_BackEnd_WebAPI.Security.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +41,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.MemberRegistrations
         /// <param name="akeywordFilter">filter results by search keyword</param>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter]
         [ResponseType(typeof(List<ResponseMemberRegistrationDTO>))]
         public async Task<IHttpActionResult> GetAll(int page = 1, 
                                                     int size = 0, 
@@ -233,12 +235,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.MemberRegistrations
         /// <returns></returns>
         [HttpGet]
         [Route("api/GetMemberRegistrationFee")]
-        public async Task<IHttpActionResult> GetMemberRegistrationFee(bool isMember)
+        public async Task<IHttpActionResult> GetMemberRegistrationFee()
         {
             double registrationFee;
             UnitOfWork unitOfWork = new UnitOfWork(_context);
 
-            registrationFee = await Task.Run(()=>unitOfWork.PCOAdminDetail.GetAnnualFee(isMember));
+            registrationFee = await Task.Run(()=>unitOfWork.PCOAdminDetail.GetAnnualFee());
 
             return Ok(registrationFee);
         }

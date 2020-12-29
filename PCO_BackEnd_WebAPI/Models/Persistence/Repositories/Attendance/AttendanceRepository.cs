@@ -2,7 +2,6 @@
 using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.Models.Attendances;
 using PCO_BackEnd_WebAPI.Models.Entities;
-using PCO_BackEnd_WebAPI.Models.Helpers;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.Interfaces.Attendance;
 using System;
@@ -37,20 +36,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Attendance
         public ActivityAttendance TimeIn(int id)
         {
             var attendanceToUpdate = appDbContext.ActivityAttendances.Find(id);
-            ActivityAttendance timeIn = new ActivityAttendance();
-            timeIn.Id = attendanceToUpdate.Id;
-            timeIn.UserId = attendanceToUpdate.UserId;
-            timeIn.ConferenceActivityId = attendanceToUpdate.ConferenceActivityId;
-            timeIn.TimeOut = attendanceToUpdate.TimeOut;
-            if (attendanceToUpdate != null)
-            {
-                timeIn.TimeIn = attendanceToUpdate.TimeIn==null?PhTime.Now():attendanceToUpdate.TimeIn;
-            }
-            else
-            {
-                timeIn.TimeIn = attendanceToUpdate.TimeIn;
-            }
-                
+            ActivityAttendance timeIn = attendanceToUpdate;
+            timeIn.TimeIn = DateTime.Now;
             appDbContext.Entry(attendanceToUpdate).CurrentValues.SetValues(timeIn);
             return attendanceToUpdate;
         }
@@ -58,20 +45,8 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.Attendance
         public ActivityAttendance TimeOut(int id)
         {
             var attendanceToUpdate = appDbContext.ActivityAttendances.Find(id);
-            ActivityAttendance timeOut = new ActivityAttendance();
-            timeOut.Id = attendanceToUpdate.Id;
-            timeOut.UserId = attendanceToUpdate.UserId;
-            timeOut.ConferenceActivityId = attendanceToUpdate.ConferenceActivityId;
-            timeOut.TimeIn = attendanceToUpdate.TimeIn;
-            if (attendanceToUpdate != null)
-            {
-                timeOut.TimeOut = PhTime.Now();
-            }
-            else
-            {
-                timeOut.TimeOut = attendanceToUpdate.TimeOut;
-            }
-            
+            ActivityAttendance timeOut = attendanceToUpdate;
+            timeOut.TimeOut = DateTime.Now;
             appDbContext.Entry(attendanceToUpdate).CurrentValues.SetValues(timeOut);
             return attendanceToUpdate;
         }

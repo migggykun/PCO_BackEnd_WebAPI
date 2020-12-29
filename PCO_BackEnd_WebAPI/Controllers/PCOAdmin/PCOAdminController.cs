@@ -1,6 +1,7 @@
 ﻿using PCO_BackEnd_WebAPI.Models.Entities;
-using PCO_BackEnd_WebAPI.Models.PCOAdmin;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
+using PCO_BackEnd_WebAPI.Models.Roles;
+using PCO_BackEnd_WebAPI.Security.Authorization;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -26,11 +27,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter]
         [Route("api/GetAnnualFee")]
-        public async Task<IHttpActionResult> GetAnnualFee(bool renew)
+        public async Task<IHttpActionResult> GetAnnualFee()
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = await Task.Run(() => unitOfWork.PCOAdminDetail.GetAnnualFee(renew));
+            var result = await Task.Run(() => unitOfWork.PCOAdminDetail.GetAnnualFee());
             return Ok(result);
         }
 
@@ -40,19 +42,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="newAnnualFee"></param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("api/SetAnnualFee")]
-        public async Task<IHttpActionResult> SetAnnualFee(bool renew, double newAnnualFee)
+        public async Task<IHttpActionResult> SetAnnualFee(double newAnnualFee)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            PCOAdminDetail result = new PCOAdminDetail();
-            if(renew)
-            {
-                result = await Task.Run(() => unitOfWork.PCOAdminDetail.UpdatePCOAdminDetails(null, newAnnualFee));
-            }
-            else
-            {
-                result = await Task.Run(() => unitOfWork.PCOAdminDetail.UpdatePCOAdminDetails(newAnnualFee));
-            }
+            var result = await Task.Run(() => unitOfWork.PCOAdminDetail.UpdatePCOAdminDetails(newAnnualFee));
             await Task.Run(()=>unitOfWork.Complete());
             return Ok(result);
         }
@@ -62,6 +57,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter]
         [Route("api/GetPassword")]
         public async Task<IHttpActionResult> GetPassword()
         {
@@ -76,11 +72,12 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="newPassword"></param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("api/SetPassword")]
         public async Task<IHttpActionResult> SetPassword(string newPassword)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var result = await Task.Run(() => unitOfWork.PCOAdminDetail.UpdatePCOAdminDetails(null, null, newPassword));
+            var result = await Task.Run(() => unitOfWork.PCOAdminDetail.UpdatePCOAdminDetails(null,newPassword));
             await Task.Run(() => unitOfWork.Complete());
             return Ok(result);
         }
