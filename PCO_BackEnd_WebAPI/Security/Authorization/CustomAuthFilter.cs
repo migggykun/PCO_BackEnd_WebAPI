@@ -41,24 +41,30 @@ namespace PCO_BackEnd_WebAPI.Security.Authorization
                 {
                     actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
                 }
-            }
-             
-            using (ClientCredentialsContext clientContext = new ClientCredentialsContext())
-            {
-                string command = string.Format("EXEC pc0_credentials.GetRole @client_password, @client_type");
-                SqlParameter parameter1 = new SqlParameter("@client_type", this._clientType);
-                SqlParameter parameter2 = new SqlParameter("@client_password", apiKey);
-
-                //Get Website Type
-                var type = clientContext.Database.SqlQuery<string>(command, parameter1, parameter2).ToList();
-
-                if (type.Count <= 0)
+                else
                 {
-                    actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
-                }
+                    using (ClientCredentialsContext clientContext = new ClientCredentialsContext())
+                    {
+                        string command = string.Format("EXEC pc0_credentials.GetRole @client_password, @client_type");
+                        SqlParameter parameter1 = new SqlParameter("@client_type", this._clientType);
+                        SqlParameter parameter2 = new SqlParameter("@client_password", apiKey);
 
-                return base.OnAuthorizationAsync(actionContext, cancellationToken);
+                        //Get Website Type
+                        var type = clientContext.Database.SqlQuery<string>(command, parameter1, parameter2).ToList();
+
+                        if (type.Count <= 0)
+                        {
+                            actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                        }
+                    }
+                }
             }
+            else
+            {
+                actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
+            }
+
+            return base.OnAuthorizationAsync(actionContext, cancellationToken);
 
         }
     }
