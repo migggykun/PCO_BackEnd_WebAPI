@@ -16,9 +16,10 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.PCOAdmin
         {
         }
 
-        public double GetAnnualFee()
+        public double GetAnnualFee(bool renew)
         {
-            return appDbContext.PCOAdminDetails.FirstOrDefault().AnnualMembershipFee;
+            var pcoAdmin = appDbContext.PCOAdminDetails.FirstOrDefault();
+            return renew?pcoAdmin.AnnualMembershipFee:pcoAdmin.PcoMembershipFee;
         }
 
         public string GetPassword()
@@ -26,20 +27,16 @@ namespace PCO_BackEnd_WebAPI.Models.Persistence.Repositories.PCOAdmin
             return appDbContext.PCOAdminDetails.FirstOrDefault().WebsitePassword;
         }
 
-        public PCOAdminDetail UpdatePCOAdminDetails(double? price = null, string password = null)
+        public PCOAdminDetail UpdatePCOAdminDetails(double? reg = null, double? renew = null, string password = null)
         {
             PCOAdminDetail update = new PCOAdminDetail();
-            if (price == null && password == null) return null;
-            if (price != null)
-            {
-                update.AnnualMembershipFee = price.Value;
-                update.WebsitePassword = appDbContext.PCOAdminDetails.FirstOrDefault().WebsitePassword;
-            }
-            if (password != null)
-            {
-                update.WebsitePassword = password;
-                update.AnnualMembershipFee = appDbContext.PCOAdminDetails.FirstOrDefault().AnnualMembershipFee;
-            }
+            if (reg == null && renew ==null && password == null) return null;
+            var pcoAdmin = appDbContext.PCOAdminDetails.FirstOrDefault();
+           
+            update.PcoMembershipFee = reg!=null?reg.Value:pcoAdmin.PcoMembershipFee;
+            update.AnnualMembershipFee = renew!=null?renew.Value:pcoAdmin.AnnualMembershipFee;
+            update.WebsitePassword = password != null ? password: pcoAdmin.WebsitePassword;
+
             update.Id = appDbContext.PCOAdminDetails.FirstOrDefault().Id;
             return appDbContext.UpdateGraph<PCOAdminDetail>(update);
         }

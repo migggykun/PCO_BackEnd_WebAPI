@@ -4,8 +4,6 @@ using PCO_BackEnd_WebAPI.Models.AccountBindingModels;
 using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
-using PCO_BackEnd_WebAPI.Models.Roles;
-using PCO_BackEnd_WebAPI.Security.Authorization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -52,7 +50,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Mail
         /// limit per line input by 55 char to preserve format
         /// </remarks>
         [HttpPost]
-        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("SendEmail")]
         public async Task<IHttpActionResult> SendEmail(CustomEmailBindingModel email)
         {
@@ -97,7 +94,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Mail
         /// <param name="email">email to be sent.</param>
         /// <returns></returns>
         [HttpPost]
-        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("SendAdminEmail")]
         public async Task<IHttpActionResult> SendAdminEmail(CustomEmailToAdminBindingModel email)
         {

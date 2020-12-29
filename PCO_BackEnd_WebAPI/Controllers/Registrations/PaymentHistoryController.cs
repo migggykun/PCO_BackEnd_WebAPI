@@ -2,7 +2,6 @@
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using PCO_BackEnd_WebAPI.Models.Registrations;
-using PCO_BackEnd_WebAPI.Security.Authorization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,7 +30,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Attendance
         /// <param name="userId">user's id</param>
         /// <returns></returns>
         [HttpGet]
-        [CustomAuthFilter]
         [Route("api/GetPaymentHistory")]
         public async Task<IHttpActionResult> GetPaymentHistory(int userId)
         {

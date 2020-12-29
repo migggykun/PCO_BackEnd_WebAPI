@@ -83,7 +83,7 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
             modelBuilder.Entity<UserInfo>()
                         .HasRequired(u => u.MembershipType)
                         .WithMany();
-                        
+
             modelBuilder.Entity<Conference>()
                         .HasOptional(e => e.Promo);
 
@@ -146,27 +146,33 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                         .HasOptional(e => e.MemberRegistration)
                         .WithMany();
 
-            modelBuilder.Entity<ConferenceActivity>()
-                        .HasRequired(e => e.ActivitySchedule);
-
-            modelBuilder.Entity<ActivitySchedule>()
-                        .HasRequired(e => e.Activity);
+            modelBuilder.Entity<Conference>()
+                        .HasMany(e => e.ConferenceDays)
+                        .WithRequired()
+                        .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<ConferenceDay>()
                         .HasMany(e => e.ConferenceActivities)
                         .WithRequired()
                         .WillCascadeOnDelete(true);
 
-            modelBuilder.Entity<Conference>()
-                        .HasMany(e => e.ConferenceDays)
-                        .WithRequired()
+            modelBuilder.Entity<ConferenceActivity>()
+                        .HasRequired(e => e.ActivitySchedule);
+
+            modelBuilder.Entity<ConferenceActivity>()
+                        .HasMany(e => e.ActivitiesToAttend)
+                        .WithOptional()
                         .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<ActivitySchedule>()
+                        .HasRequired(e => e.Activity);
 
             modelBuilder.Entity<ActivityAttendance>();
 
             modelBuilder.Entity<ActivitiesToAttend>();
                         //.HasRequired(u=>u.ConferenceActivityId)
                         //.WithMany();
+
             modelBuilder.Entity<Member>();
 
             modelBuilder.Entity<PCOAdminDetail>();
