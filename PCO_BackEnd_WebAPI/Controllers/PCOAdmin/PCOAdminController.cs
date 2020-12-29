@@ -1,8 +1,6 @@
 ﻿using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.PCOAdmin;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
-using PCO_BackEnd_WebAPI.Models.Roles;
-using PCO_BackEnd_WebAPI.Security.Authorization;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -28,7 +26,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [CustomAuthFilter]
         [Route("api/GetAnnualFee")]
         public async Task<IHttpActionResult> GetAnnualFee(bool renew)
         {
@@ -43,7 +40,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="newAnnualFee"></param>
         /// <returns></returns>
         [HttpPost]
-        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("api/SetAnnualFee")]
         public async Task<IHttpActionResult> SetAnnualFee(bool renew, double newAnnualFee)
         {
@@ -66,7 +62,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [CustomAuthFilter]
         [Route("api/GetPassword")]
         public async Task<IHttpActionResult> GetPassword()
         {
@@ -81,7 +76,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences
         /// <param name="newPassword"></param>
         /// <returns></returns>
         [HttpPost]
-        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("api/SetPassword")]
         public async Task<IHttpActionResult> SetPassword(string newPassword)
         {

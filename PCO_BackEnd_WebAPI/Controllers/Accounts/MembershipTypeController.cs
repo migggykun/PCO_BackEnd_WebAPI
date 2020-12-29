@@ -4,8 +4,6 @@ using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
-using PCO_BackEnd_WebAPI.Models.Roles;
-using PCO_BackEnd_WebAPI.Security.Authorization;
 using System;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -36,7 +34,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="membershipType">keyword for searching</param>
         /// <returns></returns>
         [HttpGet]
-        [CustomAuthFilter]
         [ResponseType(typeof(ResponseMembershipTypeDTO))]
         public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0, string membershipType = null)
         {
@@ -52,7 +49,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id">id of the membershipType to be fetched</param>
         /// <returns></returns>
         [HttpGet]
-        [CustomAuthFilter]
         [ResponseType(typeof(ResponseMembershipTypeDTO))]
         public async Task<IHttpActionResult> Get(int id)
         {
@@ -75,7 +71,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="membershipTypeDTO">Details about the type of membershipType to be added</param>
         /// <returns></returns>
         [HttpPost]
-        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [ResponseType(typeof(ResponseMembershipTypeDTO))]
         public async Task<IHttpActionResult> AddMembershipType(RequestMembershipTypeDTO membershipTypeDTO)
         {
@@ -109,7 +104,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="membershipTypeDTO">New information about membershipType to update</param>
         /// <returns></returns>
         [HttpPost]
-        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("api/UpdateMembershipType/{id:int}")]
         [ResponseType(typeof(ResponseMembershipTypeDTO))]
         public async Task<IHttpActionResult> UpdateMembershipType(int id, RequestMembershipTypeDTO membershipTypeDTO)
@@ -150,7 +144,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id">user id of membershipType to delete</param>
         /// <returns></returns>
         [HttpPost]
-        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("api/DeleteMembershipType/{id:int}")]
         public async Task<IHttpActionResult> DeleteMembershipType(int id)
         {

@@ -8,8 +8,6 @@ using PCO_BackEnd_WebAPI.Models.Images;
 using PCO_BackEnd_WebAPI.Models.Images.Manager;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using PCO_BackEnd_WebAPI.Models.Registrations;
-using PCO_BackEnd_WebAPI.Models.Roles;
-using PCO_BackEnd_WebAPI.Security.Authorization;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,7 +44,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// <param name="aConfirmationDateTo"></param>
         /// <returns></returns>
         [HttpGet]
-        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [ResponseType(typeof(ResponsePaymentDTO))]
         public async Task<IHttpActionResult> GetAll(string filter = null,
                                                     int page = 1, 
@@ -81,7 +78,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// <param name="id">id of payment to be fetched</param>
         /// <returns></returns>
         [HttpGet]
-        [CustomAuthFilter]
         [ResponseType(typeof(ResponsePaymentDTO))]
         public async Task<IHttpActionResult> Get(int id)
         {
@@ -134,7 +130,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// <param name="registrationId"></param>
         /// <returns></returns>
         [HttpGet]
-        [CustomAuthFilter]
         [ResponseType(typeof(ResponsePaymentDTO))]
         [Route("api/GetRegistrationPayment/{registrationId}")]
         public async Task<IHttpActionResult> GetRegistrationPayment(int registrationId)
@@ -158,7 +153,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// <param name="memberRegistrationId">id of member Registration</param>
         /// <returns></returns>
         [HttpGet]
-        [CustomAuthFilter]
         [ResponseType(typeof(ResponsePaymentDTO))]
         [Route("api/GetMemberRegistrationPayment/{memberRegistrationId}")]
         public async Task<IHttpActionResult> GetMemberRegistrationPayment(int memberRegistrationId)
@@ -182,7 +176,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// <param name="paymentDTO">Details about the payment to be added</param>
         /// <returns></returns>
         [HttpPost]
-        [CustomAuthFilter]
         [ResponseType(typeof(ResponsePaymentDTO))]
         public async Task<IHttpActionResult> AddPayment(AddPaymentDTO paymentDTO)
         {
@@ -241,7 +234,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// <param name="paymentDTO">New information of payment to be updated</param>
         /// <returns></returns>
         [HttpPost]
-        [CustomAuthFilter]
         [Route("api/UpdatePayment/{id:int}")]
         public async Task<IHttpActionResult> UpdatePayment(int id, UpdatePaymentDTO paymentDTO)
         {
@@ -294,7 +286,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// <param name="id">id of payment to be deleted</param>
         /// <returns></returns>
         [HttpPost]
-        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("api/DeletePayment/{id:int}")]
         public async Task<IHttpActionResult> DeletePayment(int id)
         {
@@ -326,7 +317,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Registrations
         /// <param name="id">id of payment to be confirmed</param>
         /// <returns></returns>
         [HttpPost]
-        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("api/payment/SetConfirmationDate/{id}")]
         public async Task<IHttpActionResult> ConfirmPaymentDate(int id)
         {

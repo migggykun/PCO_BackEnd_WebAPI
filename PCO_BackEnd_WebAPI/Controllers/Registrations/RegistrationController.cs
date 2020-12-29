@@ -6,9 +6,7 @@ using PCO_BackEnd_WebAPI.Models.Helpers;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
 using PCO_BackEnd_WebAPI.Models.Registrations;
-using PCO_BackEnd_WebAPI.Models.Roles;
 using PCO_BackEnd_WebAPI.Models.ViewModels;
-using PCO_BackEnd_WebAPI.Security.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +42,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="akeywordFilter">filter by search keyword</param>
         /// <returns></returns>
         [HttpGet]
-        [CustomAuthFilter]
         [ResponseType(typeof(List<ResponseRegistrationDTO>))]
         public async Task<IHttpActionResult> GetAll(int page = 1, 
                                                     int size = 0, 
@@ -66,7 +63,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id">id of the registration to be fetched</param>
         /// <returns></returns>
         [HttpGet]
-        [CustomAuthFilter]
         public async Task<IHttpActionResult> Get(int id)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -88,7 +84,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="registrationDTO">Details about the registration to be added</param>
         /// <returns></returns>
         [HttpPost]
-        [CustomAuthFilter]
         [ResponseType(typeof(ResponseRegistrationDTO))]
         public async Task<IHttpActionResult> Add(RequestRegistrationDTO registrationDTO)
         {
@@ -121,7 +116,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="registrationDTO"></param>
         /// <returns></returns>
         [HttpPost]
-        [CustomAuthFilter]
         [Route("api/UpdateRegistration/{id:int}")]
         [ResponseType(typeof(ResponseRegistrationDTO))]
         public async Task<IHttpActionResult> Update(int id, RequestRegistrationDTO registrationDTO)
@@ -160,7 +154,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id">id of registration to be deleted</param>
         /// <returns></returns>
         [HttpPost]
-        [CustomAuthFilter]
         [Route("api/DeleteRegistration/{id:int}")]
         public async Task<IHttpActionResult> Delete(int id)
         {
@@ -194,7 +187,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="model">registration id and new registration status</param>
         /// <returns></returns>
         [HttpPost]
-        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("api/SetRegistrationStatus")]
         public async Task<IHttpActionResult> SetRegistrationStatus(SetRegistrationViewModel model)
         {
@@ -219,7 +211,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="userId">id of user registered</param>
         /// <returns></returns>
         [HttpGet]
-        [CustomAuthFilter]
         [Route("api/GetRegistration/{conferenceId=conferenceId}/{userId=userId}")]
         public async Task<IHttpActionResult> GetRegistrationStatus(int conferenceId, int userId)
         {
@@ -244,7 +235,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="membershipTypeId">id of member type</param>
         /// <returns></returns>
         [HttpGet]
-        [CustomAuthFilter]
         [Route("api/GetRegistrationFee")]
         public async Task<IHttpActionResult> Get(int conferenceId, int membershipTypeId)
         {
