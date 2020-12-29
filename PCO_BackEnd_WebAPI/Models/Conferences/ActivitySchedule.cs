@@ -7,7 +7,7 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
     [Table("pc0_Database_Staging.[dbo.ActivitySchedules]")]
     public class ActivitySchedule
     {
-    
+        [Key]
         public int Id { get; set; }
 
         public int ActivityId { get; set; }

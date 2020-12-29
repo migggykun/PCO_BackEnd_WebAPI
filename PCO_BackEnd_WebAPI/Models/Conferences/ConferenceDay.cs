@@ -15,8 +15,7 @@ namespace PCO_BackEnd_WebAPI.Models.Conferences
             ConferenceActivities = new HashSet<ConferenceActivity>();
         }
 
-        //[Key]
-        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Key]
         public int Id { get; set; }
 
         public int ConferenceId { get; set; }

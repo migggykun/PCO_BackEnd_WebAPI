@@ -2,8 +2,6 @@
 using PCO_BackEnd_WebAPI.Models.Helpers;
 using PCO_BackEnd_WebAPI.Models.Images;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
-using PCO_BackEnd_WebAPI.Models.Roles;
-using PCO_BackEnd_WebAPI.Security.Authorization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,7 +30,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Images
         /// <param name="identifier">1: banner , 2: receipts</param>
         /// <returns></returns>
         [HttpGet]
-        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         public async Task<IHttpActionResult> GetImages(int identifier)
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
@@ -69,7 +66,6 @@ namespace PCO_BackEnd_WebAPI.Controllers.Images
         /// <param name="identifier">1: banner , 2: receipts</param>
         /// <returns></returns>
         [HttpGet]
-        [CustomAuthFilter]
         [Route("api/GetSingleImage")]
         public async Task<IHttpActionResult> GetImages(int id, int identifier)
         {
