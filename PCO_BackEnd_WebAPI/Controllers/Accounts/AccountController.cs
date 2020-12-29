@@ -12,8 +12,10 @@ using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Helpers;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
+using PCO_BackEnd_WebAPI.Models.Roles;
 using PCO_BackEnd_WebAPI.Models.ViewModels;
 using PCO_BackEnd_WebAPI.Security;
+using PCO_BackEnd_WebAPI.Security.Authorization;
 using PCO_BackEnd_WebAPI.Security.DTO;
 using System;
 using System.Collections.Generic;
@@ -87,6 +89,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id">User Id</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter]
         [Route("SendEmailConfirmation/{id:int}")]
         public async Task<IHttpActionResult> SendEmailConfirmation(int id)
         {
@@ -105,6 +108,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id">User Id</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter]
         [Route("SendPhoneConfirmation/{id:int}")]
         public async Task<IHttpActionResult> SendPhoneConfirmation(int id)
         {
@@ -229,6 +233,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="email">Email of user to reset</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter]
         [Route("SendResetPasswordEmail")]
         public async Task<IHttpActionResult> SendResetPasswordEmail(string email)
         {
@@ -255,6 +260,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter]
         [Route("ResetPassword")]
         public async Task<IHttpActionResult> ResetPassword(ResetPasswordViewModel model)
         {
@@ -293,6 +299,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="model">userId: id of user<br/>token: Generate token to confirm email</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter]
         [Route("ConfirmEmail")]
         public async Task<IHttpActionResult> ConfirmEmail(ConfirmEmailViewModel model)
         {
@@ -321,6 +328,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="model">userId: id of user<br/>token: Generate token to confirm email</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter]
         [Route("ConfirmPhone")]
         public async Task<IHttpActionResult> ConfirmPhone(ConfirmSmsViewModel model)
         {
@@ -353,7 +361,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="model">If no PRC Details to be specified, set values to empty string(""). otherwise, set its value</param>
         /// <returns></returns>
-        [AllowAnonymous]
+        [HttpPost]
+        [CustomAuthFilter]
         [Route("Register")]
         [ResponseType(typeof(ResponseAccountDTO))]
         public async Task<IHttpActionResult> Register(UserAccountBindingModel model)
@@ -412,6 +421,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="phoneOrEmail"></param>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter]
         [Route("GetUserByPhoneOrEmail")]
         public async Task<IHttpActionResult> GetUserByPhoneOrEmail(string phoneOrEmail)
         {
@@ -451,6 +461,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="phoneNumber"></param>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter]
         [Route("GetUserByPhone")]
         public async Task<IHttpActionResult> GetUserByPhone(string phoneNumber)
         {
@@ -473,6 +484,8 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
+        [HttpPost]
+        [CustomAuthFilter]
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
@@ -505,6 +518,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="isActive">is active PCO Member(paid for this year)</param>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("GetAllUsers")]
         [ResponseType(typeof(List<ResponseAccountDTO>))]
         public async Task<IHttpActionResult> GetUsers(string keywordFilter = null, 
@@ -550,6 +564,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="email">Registered email of user</param>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter]
         [Route("GetUserByEmail")]
         public async Task<IHttpActionResult> GetUserByEmail(string email)
         {
@@ -571,6 +586,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id">id of account to be fetched</param>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter]
         [ResponseType(typeof(ResponseAccountDTO))]
         public async Task<IHttpActionResult> GetUser(int id)
         {
@@ -592,6 +608,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="accountDTO">Request body of user</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter]
         [Route("UpdateUser/{id:int}")]
         [ResponseType(typeof(ResponseAccountDTO))]
         public async Task<IHttpActionResult> UpdateUser(int id, RequestAccountDTO accountDTO)
@@ -637,6 +654,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="id">user of id to be deleted</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("DeleteUser/{id:int}")]
         public async Task<IHttpActionResult> DeleteUser(int id)
         {
@@ -659,6 +677,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
         /// <param name="password"></param>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter]
         [Route("Login")]
         public async Task<IHttpActionResult> Login(string email, string password)
         {

@@ -5,6 +5,8 @@ using PCO_BackEnd_WebAPI.Models.Conferences.Promos;
 using PCO_BackEnd_WebAPI.Models.Entities;
 using PCO_BackEnd_WebAPI.Models.Pagination;
 using PCO_BackEnd_WebAPI.Models.Persistence.UnitOfWork;
+using PCO_BackEnd_WebAPI.Models.Roles;
+using PCO_BackEnd_WebAPI.Security.Authorization;
 using System;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -35,6 +37,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <param name="filter">search string filter</param>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [ResponseType(typeof(PageResult<ResponsePromoDTO>))]
         public async Task<IHttpActionResult> GetAll(int page = 1, int size = 0, string filter = null)
         {
@@ -50,6 +53,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
+        [CustomAuthFilter]
         [ResponseType(typeof(ResponsePromoDTO))]
         public async Task<IHttpActionResult> Get(int id)
         {
@@ -72,6 +76,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <param name="promoDTO">Details about the Promo to be added</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [ResponseType(typeof(ResponsePromoDTO))]
         public async Task<IHttpActionResult> AddPromo(RequestPromoDTO promoDTO)
         {
@@ -104,6 +109,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <param name="promoDTO">New information about the promo to be updated</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("api/UpdatePromo/{id:int}")]
         [ResponseType(typeof(ResponsePromoDTO))]
         public async Task<IHttpActionResult> UpdatePromo(int id, RequestPromoDTO promoDTO)
@@ -143,6 +149,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Conferences.Promos
         /// <param name="id">id of the promo to be deleted.</param>
         /// <returns></returns>
         [HttpPost]
+        [CustomAuthFilter(PCO_Constants.ADMINISTRATOR_ACCESS)]
         [Route("api/DeletePromo/{id:int}")]
         public async Task<IHttpActionResult> DeletePromo(int id)
         {
