@@ -40,9 +40,11 @@ namespace PCO_BackEnd_WebAPI.Models.Comparer
                 else if ((object1Value == null && object2Value != null) || (object1Value != null && object2Value == null))
                 {
                     result = false;
+                    break;
                 }
 
                 else if(! object1Value.Equals (object2Value)) result = false;
+                break;
           }
            return result;
         }
