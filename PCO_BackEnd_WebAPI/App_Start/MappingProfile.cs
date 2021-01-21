@@ -27,12 +27,28 @@ namespace PCO_BackEnd_WebAPI.App_Start
         {
             //Accounts
             Func<PRCDetail, ResponsePRCDetailDTO> convertToPRCDTO = (x) => x == null ? new ResponsePRCDetailDTO() { Id = string.Empty, IdNumber = string.Empty, ExpirationDate = string.Empty, RegistrationDate = string.Empty } :
-                                                                             new ResponsePRCDetailDTO() { Id = x.Id.ToString(), IdNumber = x.IdNumber, ExpirationDate = x.ExpirationDate.ToString("yyyy'-'MM'-'dd"), RegistrationDate = x.RegistrationDate.ToString("yyyy'-'MM'-'dd") };
+                                                                             new ResponsePRCDetailDTO() { Id = x.Id.ToString(), IdNumber = x.IdNumber, ExpirationDate = x.ExpirationDate.Value.ToString("yyyy'-'MM'-'dd"), RegistrationDate = x.RegistrationDate.Value.ToString("yyyy'-'MM'-'dd") };
             Func <RequestPRCDetailDTO, PRCDetail> convertToPRCEntity = (x) =>
                                                                             {
                                                                                 if (x != null && (string.IsNullOrEmpty(x.IdNumber) || string.IsNullOrEmpty(x.ExpirationDate) || string.IsNullOrEmpty(x.RegistrationDate)))
                                                                                 {
-                                                                                    return null;
+                                                                                    if(string.IsNullOrEmpty(x.IdNumber))
+                                                                                    {
+                                                                                        return null;
+                                                                                    }
+                                                                                    else if (x != null && (!string.IsNullOrEmpty(x.IdNumber)))
+                                                                                    {
+                                                                                        return new PRCDetail()
+                                                                                        {
+                                                                                            IdNumber = x.IdNumber,
+                                                                                            ExpirationDate = string.IsNullOrEmpty(x.ExpirationDate)?null: (DateTime?)DateTime.Parse(x.ExpirationDate),
+                                                                                            RegistrationDate = string.IsNullOrEmpty(x.RegistrationDate) ? null : (DateTime?)DateTime.Parse(x.RegistrationDate)
+                                                                                        };
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        return null;
+                                                                                    }
                                                                                 }
                                                                                 else if (x != null && (!string.IsNullOrEmpty(x.IdNumber) || !string.IsNullOrEmpty(x.ExpirationDate) || !string.IsNullOrEmpty(x.RegistrationDate)))
                                                                                 {

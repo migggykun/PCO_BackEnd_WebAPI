@@ -17,9 +17,9 @@ namespace PCO_BackEnd_WebAPI.Models.Accounts
         public string IdNumber{ get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime ExpirationDate { get; set; }
+        public DateTime? ExpirationDate { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime RegistrationDate { get; set; }
+        public DateTime? RegistrationDate { get; set; }
     }
 }
