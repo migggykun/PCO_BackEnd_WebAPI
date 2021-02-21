@@ -8,7 +8,7 @@ using PCO_BackEnd_WebAPI.Models.Accounts;
 using PCO_BackEnd_WebAPI.Models.Conferences.Promos;
 namespace PCO_BackEnd_WebAPI.Models.Registrations
 {
-    [Table("pc0_Database_Staging.[dbo.MemberRegistration]")]
+    [Table("MemberRegistration")]
     public partial class MemberRegistration
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]

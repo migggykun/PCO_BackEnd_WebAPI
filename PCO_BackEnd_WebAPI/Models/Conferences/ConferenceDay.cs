@@ -7,7 +7,7 @@ using System.Web;
 
 namespace PCO_BackEnd_WebAPI.Models.Conferences
 {
-    [Table("pc0_Database_Staging.[dbo.ConferenceDays]")]
+    [Table("ConferenceDays")]
     public class ConferenceDay
     {
         public ConferenceDay()

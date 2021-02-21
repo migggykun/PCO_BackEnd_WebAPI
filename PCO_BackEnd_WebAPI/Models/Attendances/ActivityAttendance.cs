@@ -6,7 +6,7 @@ using System.Web;
 
 namespace PCO_BackEnd_WebAPI.Models.Attendances
 {
-    [Table("pc0_Database_Staging.[dbo.ActivityAttendance]")]
+    [Table("ActivityAttendance")]
     public class ActivityAttendance
     {
         public ActivityAttendance()

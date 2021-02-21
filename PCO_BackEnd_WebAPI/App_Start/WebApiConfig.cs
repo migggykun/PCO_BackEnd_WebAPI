@@ -14,8 +14,8 @@ namespace PCO_BackEnd_WebAPI
     {
         public static void Register(HttpConfiguration config)
         {
-            //var corsAttr = new EnableCorsAttribute("http://localhost:4200", "*", "*");
-            //config.EnableCors(corsAttr);  
+            var corsAttr = new EnableCorsAttribute("https://stgadmin.philippineoptometry.org, https://philippineoptometry.org", "*", "*");
+            config.EnableCors(corsAttr);  
 
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling
             = Newtonsoft.Json.ReferenceLoopHandling.Ignore;

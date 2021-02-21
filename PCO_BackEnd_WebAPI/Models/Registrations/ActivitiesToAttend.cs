@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PCO_BackEnd_WebAPI.Models.Registrations
 {
-    [Table("pc0_Database_Staging.[dbo.ActivitiesToAttend]")]
+    [Table("ActivitiesToAttend")]
     public class ActivitiesToAttend
     {
         [Key]

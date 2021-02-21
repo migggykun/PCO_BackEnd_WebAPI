@@ -8,7 +8,7 @@ using System.Web;
 
 namespace PCO_BackEnd_WebAPI.Models.Accounts
 {
-    [Table("pc0_Database_Staging.[dbo.Members]")]
+    [Table("Members")]
     public partial class Member
     {
         public Member()

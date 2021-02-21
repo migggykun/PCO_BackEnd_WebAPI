@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PCO_BackEnd_WebAPI.Models.Conferences
 {
-    [Table("pc0_Database_Staging.[dbo.ActivitySchedules]")]
+    [Table("ActivitySchedules")]
     public class ActivitySchedule
     {
         [Key]

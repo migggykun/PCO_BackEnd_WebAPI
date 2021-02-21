@@ -20,7 +20,7 @@ namespace PCO_BackEnd_WebAPI.Models.Entities
                                         int, CustomUserLogin, CustomUserRole, CustomUserClaim>
     {
         public ApplicationDbContext()
-            : base("PCO_Context_Staging")
+            : base("PCO_Context")
         {
             //Database.SetInitializer(new ApplicationUserSeeder());
         }

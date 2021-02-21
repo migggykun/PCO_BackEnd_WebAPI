@@ -7,7 +7,7 @@ using System.Web;
 
 namespace PCO_BackEnd_WebAPI.Models.PCOAdmin
 {
-    [Table("pc0_Database_Staging.[dbo.PCOAdmin]")]
+    [Table("PCOAdmin")]
     public class PCOAdminDetail
     {
         [Key]

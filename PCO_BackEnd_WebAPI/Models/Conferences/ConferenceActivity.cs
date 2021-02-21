@@ -10,7 +10,7 @@ using PCO_BackEnd_WebAPI.Models.Registrations;
 
 namespace PCO_BackEnd_WebAPI.Models.Conferences
 {
-    [Table("pc0_Database_Staging.[dbo.ConferenceActivities]")]
+    [Table("ConferenceActivities")]
     public class ConferenceActivity
     {
         [Key]
