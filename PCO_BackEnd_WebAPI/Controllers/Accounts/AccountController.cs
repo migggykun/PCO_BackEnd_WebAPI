@@ -26,6 +26,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 
 namespace PCO_BackEnd_WebAPI.Controllers.Accounts
@@ -35,6 +36,7 @@ namespace PCO_BackEnd_WebAPI.Controllers.Accounts
     /// </summary>
     [AllowAnonymous]
     [RoutePrefix("api/Account")]
+    //[EnableCors("*", "*", "*")]
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
