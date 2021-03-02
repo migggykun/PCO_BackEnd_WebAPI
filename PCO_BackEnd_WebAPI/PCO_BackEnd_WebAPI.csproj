@@ -261,7 +261,6 @@
     <Compile Include="Controllers\Attendance\AttendanceController.cs" />
     <Compile Include="Controllers\Bank\BankDetailController.cs" />
     <Compile Include="Controllers\Conferences\ActivityController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Images\ImageController.cs" />
     <Compile Include="Controllers\Messages\EmailController.cs" />
     <Compile Include="Controllers\Messages\SMSController.cs" />
@@ -279,7 +278,6 @@
     <Compile Include="Controllers\Conferences\RateController.cs" />
     <Compile Include="Controllers\ErrorManager.cs" />
     <Compile Include="Controllers\Registrations\RegistrationStatusController.cs" />
-    <Compile Include="Controllers\TestAPIs\TestController.cs" />
     <Compile Include="DTOs\Accounts\RequestAccountDTO.cs" />
     <Compile Include="DTOs\Accounts\RequestAddressDTO.cs" />
     <Compile Include="DTOs\Accounts\RequestMemberDTO.cs" />
